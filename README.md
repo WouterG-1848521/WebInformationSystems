@@ -8,7 +8,8 @@ Install: `pip install virtualenv`
 Activate (windows): `"./venv/Scripts/activate"`
 
 ## Flask
-Run command: `flask run`
+Run command: `flask run`  
+GraphQL View: http://localhost:5000/graphql
 
 ## PostgreSQL
 Download: https://www.enterprisedb.com/downloads/postgres-postgresql-downloads  
