@@ -5,8 +5,10 @@ https://dev.to/bredmond1019/getting-started-with-flask-7de
 
 ## Virtual Environment
 Install: `pip install virtualenv`  
-Create: `virtualenv venv'
-Activate (windows): `"./venv/Scripts/activate"`
+Create: `virtualenv venv`  
+Activate (windows): `"./venv/Scripts/activate"`  
+  
+Install requirements: `pip install -r requirements.txt`
 
 ## Flask
 Run command: `flask run`  
