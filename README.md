@@ -30,3 +30,9 @@ Downgrade DB *(to previous migration)*: `flask db downgrade`
 
 ## React
 Run command: `yarn run start`
+
+## GitHub:
+- Flask-SQLAlchemy: https://github.com/pallets-eco/flask-sqlalchemy  
+- Graphene-SQLAlchemy: https://github.com/graphql-python/graphene-sqlalchemy  
+- Flask-GraphQL: https://github.com/graphql-python/flask-graphql  
+- Flask-Migrate: https://github.com/miguelgrinberg/Flask-Migrate
