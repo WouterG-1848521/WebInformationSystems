@@ -32,6 +32,7 @@ Downgrade DB *(to previous migration)*: `flask db downgrade`
 Run command: `yarn run start`
 
 ## GitHub:
+- Flask: https://github.com/pallets/flask
 - Flask-SQLAlchemy: https://github.com/pallets-eco/flask-sqlalchemy  
 - Graphene-SQLAlchemy: https://github.com/graphql-python/graphene-sqlalchemy  
 - Flask-GraphQL: https://github.com/graphql-python/flask-graphql  
