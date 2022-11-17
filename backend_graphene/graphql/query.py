@@ -8,7 +8,7 @@ from ..graphql.objects import UserObject as User
 
 
 class Query(graphene.ObjectType):
-   node = relay.Node.Field()
+#    node = relay.Node.Field()
 
    users = graphene.List(lambda: User, email=graphene.String(), user_id=graphene.Int())
 

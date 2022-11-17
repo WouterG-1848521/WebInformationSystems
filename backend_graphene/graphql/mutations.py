@@ -1,6 +1,6 @@
 import graphene
 
-from backend import db
+from backend_graphene import db
 from ..graphql.objects import User
 from ..models import User as UserModel
 
@@ -18,3 +18,6 @@ class UserMutation(graphene.Mutation):
        db.session.commit()
 
        return UserMutation(user=user)
+
+class Mutations(graphene.ObjectType):
+    add_user = UserMutation.Field()

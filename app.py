@@ -1,17 +1,14 @@
-from backend import create_app, db
+from backend_REST import create_app, db
 from flask_migrate import Migrate
 
-# We still need to create our models
-# The following code you can comment out 
-# if you want to run the application now
-# Otherwise wait until we build these models next
-from backend.models import User
+from backend_REST.models import User
 
 
 app = create_app('development')
 migrate = Migrate(app, db)
 
 
+# Pre-import symbols into a shell context via flask shell 
 @app.shell_context_processor
 def make_shell_context():
    return dict(db=db, User = User)
