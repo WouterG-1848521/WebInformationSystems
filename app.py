@@ -8,11 +8,33 @@ from backend_REST.routes import create_routes
 
 app = create_app('development')
 
-create_routes(app)
+# Create rdf file
+
+from rdflib import Graph, Literal, RDF, URIRef
+from rdflib.namespace import FOAF
+
+g = Graph()
+g.parse("test.ttl")
+
+
+# Relations
+hasId = URIRef("http://localhost/hasId")
+
+ed = URIRef("http://localhost/people/Bob")
+g.add((ed, hasId, Literal(1)))
+
+g.serialize(destination="test.ttl")
+
 
 #
 
-#
+
+
+
+create_routes(app, g)
+
+
+
 
 migrate = Migrate(app, db)
 

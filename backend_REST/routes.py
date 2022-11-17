@@ -1,8 +1,15 @@
 from flask import jsonify
 # from markupsafe import escape
+from rdflib.plugins.sparql.results.jsonresults import *
+from pandas import DataFrame
 
-def create_routes(app):
-    users = {}
+
+
+def create_routes(app, g):
+    
+
+
+
     # Connect to database and make queries to users table
     # TO DO
 
@@ -11,7 +18,19 @@ def create_routes(app):
     ########################################
     @app.route("/users", methods=["GET"])
     def get_users():
-        return jsonify(users)
+
+        q = '''
+                PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+
+                SELECT ?p
+                WHERE {
+                    ?p rdf:type foaf:Person .
+                }
+            '''
+        
+        result = g.query(q)
+        df = DataFrame(result, columns=result.vars)
+        return df.to_json()
     
     @app.route("/users", methods=["POST"])
     def create_user():
@@ -21,7 +40,21 @@ def create_routes(app):
     
     @app.route("/users/<int:id>", methods=["GET"])
     def get_user(id):
-        return jsonify(users[id])
+        q = '''
+                PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+                SELECT ?p
+                WHERE {
+                    ?p rdf:type foaf:Person .
+                    ?p <http://localhost/hasId> %d .
+                }
+            ''' % (id)
+        # q.format(id)
+        
+        result = g.query(q)
+        df = DataFrame(result, columns=result.vars)
+        return df.to_json()
+
+
 
     @app.route("/users/<int:id>", methods=["PUT"])
     def update_user(id):
