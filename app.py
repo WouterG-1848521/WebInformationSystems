@@ -2,8 +2,8 @@ from backend_REST import create_app, db
 from flask_migrate import Migrate
 
 from backend_REST.models import User
-
 from backend_REST.routes import create_routes
+from backend_REST.login import create_login_manager
 
 
 app = create_app('development')
@@ -25,6 +25,9 @@ g.add((ed, hasId, Literal(1)))
 
 g.serialize(destination="test.ttl")
 
+create_login_manager(app)
+
+#
 
 #
 
