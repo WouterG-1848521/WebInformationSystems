@@ -25,19 +25,19 @@ def create_enterprise_routes(app):
         return jsonify(enterprises)
 
     # get enterprise by id
-    @app.route("/enterprise/get/id/<id>", methods=['GET'])
+    @app.route("/enterprise/get/id/<int:id>", methods=['GET'])
     def get_enterprises_by_ID(id):
         # TODO: get out of rdf
         return jsonify(enterprises[0])
 
     # get enterprise by name
-    @app.route("/enterprise/get/name/<name>", methods=['GET'])
+    @app.route("/enterprise/get/name/<string:name>", methods=['GET'])
     def get_enterprises_by_name(name):
         # TODO: get out of rdf 
         return jsonify(enterprises[0])
 
     # get enterprise by location
-    @app.route("/enterprise/get/location/<location>", methods=['GET'])
+    @app.route("/enterprise/get/location/<string:location>", methods=['GET'])
     def get_enterprises_by_location(location):
         # TODO: get out of rdf, mayby search on distance
         return jsonify(enterprises[0])
@@ -52,9 +52,9 @@ def create_enterprise_routes(app):
         return "create enterprise"
 
     # update enterprise
-    @app.route("/enterprise/update", methods=['PUT'])
-    def update_enterprise():
-        data = request.form     # request contains : enterpriseID, maintainerid (for security check), name, address
+    @app.route("/enterprise/update/<int:id>", methods=['PUT'])
+    def update_enterprise(id):
+        data = request.form     # request contains : maintainerid (for security check), name, address
         print(data)
         # TODO: updated in rdf 
         return "update enterprise"
