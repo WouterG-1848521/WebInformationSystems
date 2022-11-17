@@ -3,8 +3,17 @@ from flask_migrate import Migrate
 
 from backend_REST.models import User
 
+from backend_REST.routes import create_routes
+
 
 app = create_app('development')
+
+create_routes(app)
+
+#
+
+#
+
 migrate = Migrate(app, db)
 
 
