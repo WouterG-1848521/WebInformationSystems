@@ -9,10 +9,6 @@ def create_routes(app):
     ########################################
     # USER ROUTES
     ########################################
-    @app.route("/")
-    def get_users():
-        return "Hello World!"
-
     @app.route("/users", methods=["GET"])
     def get_users():
         return jsonify(users)
