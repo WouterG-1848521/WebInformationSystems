@@ -1,10 +1,13 @@
 from flask import jsonify
 # from markupsafe import escape
+from backend_REST.enterpriseRoutes import create_enterprise_routes
 
 def create_routes(app):
     users = {}
     # Connect to database and make queries to users table
     # TO DO
+
+    create_enterprise_routes(app)
 
     ########################################
     # USER ROUTES
