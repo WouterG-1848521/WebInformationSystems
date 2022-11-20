@@ -22,7 +22,6 @@ hasId = URIRef("http://localhost/hasId")
 
 ed = URIRef("http://localhost/people/Bob")
 g.add((ed, hasId, Literal(1)))
-
 g.serialize(destination="test.ttl")
 
 create_login_manager(app)

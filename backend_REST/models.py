@@ -10,8 +10,7 @@ class User(db.Model):
     """
     __tablename__ = 'user'
 
-
-    id = db.Column(db.Int, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String)
     password = db.Column(db.String)
     authenticated = db.Column(db.Boolean, default=False)

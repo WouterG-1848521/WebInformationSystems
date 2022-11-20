@@ -2,11 +2,14 @@
 @prefix ns1: <http://localhost/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<http://localhost/people/Bo> a foaf:Person .
-
-<http://localhost/people/Bob> a foaf:Person ;
-    ns1:hasId 1 .
+<http://localhost/people/Bo> a foaf:Person ;
+    ns1:hasId 2 .
 
 <http://localhost/people/Eddie> a foaf:Person ;
-    ns1:hasId 0 .
+    ns1:hasId 0 ;
+    ns1:hasSurName <http://localhost/people/Bobbetje> .
+
+<http://localhost/people/Bob> a foaf:Person ;
+    ns1:hasId 1 ;
+    ns1:hasSurName <http://localhost/people/Bob> .
 
