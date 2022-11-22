@@ -14,7 +14,8 @@ def setup_DB_DEBUG(app):
     user = User(email="email", password="password")
     db.session.add(user)
     db.session.commit()
-    
+
+
 def test_DB_DEBUG(app):
     app.logger.info("Testing DB...")
     user = User.query.filter_by(email='email').first()

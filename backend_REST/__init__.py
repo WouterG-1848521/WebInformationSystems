@@ -1,9 +1,13 @@
-from flask import Flask
+from flask import Flask, session
 from flask_sqlalchemy import SQLAlchemy
+from flask_session import Session
 from config import config 
 
 # Init DB
 db = SQLAlchemy()
+
+# Init Sessions
+sess = Session()
 
 def create_app(config_name):
     # Create Flask app
@@ -25,5 +29,8 @@ def create_app(config_name):
 
     # Connect DB to Flask App
     db.init_app(app)
+    
+    # Connect Session to Flask app
+    sess.init_app(app)
 
     return app

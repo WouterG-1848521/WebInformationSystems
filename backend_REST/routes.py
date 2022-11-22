@@ -3,6 +3,7 @@ from flask import jsonify
 from rdflib.plugins.sparql.results.jsonresults import *
 from pandas import DataFrame
 from backend_REST.enterprise_routes import create_enterprise_routes
+from backend_REST.test_routes import create_test_routes
 from flask import request
 
 def create_routes(app, g):
@@ -10,6 +11,7 @@ def create_routes(app, g):
     # Connect to database and make queries to users table
     # TO DO
 
+    create_test_routes(app)
     create_enterprise_routes(app)
 
     ########################################
