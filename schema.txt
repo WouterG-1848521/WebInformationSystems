@@ -1,0 +1,56 @@
+user (id) : 
+    id has a name
+    id has a suraname
+    id has a email
+    id has a userInfo
+
+UserInfo (id) :
+    id has graduation_date
+    id has diploma[]
+    id has workExperience[]
+    id has skills[]
+    id has languages[]
+
+Vacancy (id) :
+    id has a jobTitle
+    id has a start_date
+    id has a end_date
+    id has a string
+    id has a availability
+    id has a owner (enterprise)
+    id has VacancyInfo
+
+VacancyInfo (id) :
+    id has a jobDescription
+    id has a jobRequirements        moet diploma x hebben , moet taal y kennen , moet ervaring hebben in z
+    id has diplomaRequirement[]
+    id has a jobResponsibilities
+    id has a jobSalary
+    id has a jobLocation
+
+Enterprise (id) :
+    id has a name
+    id has maintainers[]
+    id has EnterpriseInfo
+
+EnterpriseInfo (id) :
+    id has a description
+    id has a address
+    id has a phone
+    id has a email
+    id has a website
+    id has a logo
+
+Connection (id) :
+    id has a sender
+    id has a receiver
+
+hasConnection rdf:type owl:SymmetricProperty
+sender hasConnection receiver
+
+ConnectionRequest (id) :
+    id has a sender
+    id has a receiver
+
+
+
