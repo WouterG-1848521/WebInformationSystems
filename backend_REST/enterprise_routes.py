@@ -52,14 +52,14 @@ def create_enterprise_routes(app, graph):
     @app.route("/enterprise/get/all", methods=['GET'])
     def get_all_enterprises():
         query = f'''
-            
-            SELECT ?p
+            SELECT ?p ?name
             WHERE {{
-                ?p rdf:type <http://localhost/Enterprise> .
+                ?p rdf:type <http://xmlns.com/foaf/0.1/Organization> .
             }}
         '''
         result = graph.query(query)
         df = DataFrame(result, columns=result.vars)
+        print(df)
 
         return df.to_json()
 
@@ -69,7 +69,7 @@ def create_enterprise_routes(app, graph):
         query = f'''
             SELECT ?p
             WHERE {{
-                ?p rdf:type <http://localhost/Enterprise> .
+                ?p rdf:type <http://xmlns.com/foaf/0.1/Organization> .
                 ?p <http://localhost/hasId> {id} .
             }}
         '''
@@ -85,7 +85,7 @@ def create_enterprise_routes(app, graph):
         query = f'''
             SELECT ?p
             WHERE {{
-                ?p rdf:type <http://localhost/Enterprise> .
+                ?p rdf:type <http://xmlns.com/foaf/0.1/Organization> .
                 ?p <http://localhost/hasName> "{name}" .
             }}
         '''

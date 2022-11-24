@@ -1,0 +1,180 @@
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix ns1: <http://localhost/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://localhost/Enterprise/0> a rdfs:Resource,
+        foaf:Organization ;
+    ns1:hasId 1,
+        1.0 ;
+    ns1:hasName "Aldi" ;
+    geo:lat 1.0,
+        1 ;
+    geo:location "Hasselt" ;
+    geo:long 1.0,
+        1 .
+
+<http://localhost/Enterprise/1> a rdfs:Resource,
+        foaf:Organization ;
+    ns1:hasId 0 ;
+    ns1:hasName "Colruyt" ;
+    geo:lat 1.0,
+        1 ;
+    geo:location "Leuven" ;
+    geo:long 1.0,
+        1 .
+
+<http://localhost/Enterprise/4> a rdfs:Resource,
+        foaf:Organization ;
+    ns1:hasId 4 ;
+    ns1:hasName "Lidl" ;
+    geo:lat 1.0,
+        1 ;
+    geo:location "Testelt" ;
+    geo:long 1.0,
+        1 .
+
+<http://localhost/degree/Bachelor> a rdf:class,
+        rdfs:Resource .
+
+<http://localhost/field/Bioloog> a rdfs:Resource,
+        rdfs:class .
+
+<http://localhost/field/Informatica> a rdfs:Resource,
+        rdfs:class .
+
+<http://localhost/people/Bo> a rdfs:Resource,
+        foaf:Person ;
+    ns1:hasId 2 .
+
+<http://localhost/people/Eddie> a rdfs:Resource,
+        foaf:Person ;
+    ns1:hasId 0 ;
+    ns1:hasSurName <http://localhost/people/Bobbetje> .
+
+<http://localhost/userInfo/0> a ns1:UserInfo,
+        rdfs:Resource ;
+    ns1:hasDiploma [ a rdfs:Resource ;
+            ns1:degreeField <http://localhost/field/Huisarts> ;
+            ns1:degreeType <http://localhost/degree/Master> ;
+            ns1:graduation "2018" ] .
+
+<http://localhost/userInfo/1> a ns1:UserInfo,
+        rdfs:Resource ;
+    ns1:hasDiploma [ a rdfs:Resource ;
+            ns1:degreeField <http://localhost/field/Chirurg> ;
+            ns1:degreeType <http://localhost/degree/Master> ;
+            ns1:graduation "2018" ] .
+
+<http://localhost/vacancy/0> a ns1:Vacancy,
+        rdfs:Resource ;
+    ns1:requiredDiploma [ a rdfs:Resource ;
+            ns1:degreeField <http://localhost/field/Doctor> ;
+            ns1:degreeType <http://localhost/degree/Master> ] .
+
+ns1:Vacancy a rdfs:Resource .
+
+ns1:degreeField a rdf:Property ;
+    rdfs:subPropertyOf ns1:degreeField .
+
+ns1:degreeType a rdf:Property ;
+    rdfs:subPropertyOf ns1:degreeType .
+
+<http://localhost/field/Chirurg> a rdfs:Resource,
+        rdfs:class ;
+    rdfs:subClassOf <http://localhost/field/Doctor> .
+
+<http://localhost/field/Huisarts> a rdfs:Resource,
+        rdfs:class ;
+    owl:equivalentClass <http://localhost/field/Doctor> .
+
+ns1:graduation a rdf:Property ;
+    rdfs:subPropertyOf ns1:graduation .
+
+ns1:hasDiploma a rdf:Property ;
+    rdfs:subPropertyOf ns1:hasDiploma .
+
+ns1:hasId a rdf:Property ;
+    rdfs:subPropertyOf ns1:hasId .
+
+ns1:hasName a rdf:Property ;
+    rdfs:subPropertyOf ns1:hasName .
+
+ns1:hasSurName a rdf:Property ;
+    rdfs:subPropertyOf ns1:hasSurName .
+
+<http://localhost/people/Bob> a rdfs:Resource,
+        foaf:Person ;
+    ns1:hasId 1,
+        1.0 ;
+    ns1:hasSurName <http://localhost/people/Bob> .
+
+<http://localhost/people/Bobbetje> a rdfs:Resource .
+
+ns1:requiredDiploma a rdf:Property ;
+    rdfs:subPropertyOf ns1:requiredDiploma .
+
+rdf:type a rdf:Property ;
+    rdfs:subPropertyOf rdf:type .
+
+rdfs:subClassOf a rdf:Property ;
+    rdfs:subPropertyOf rdfs:subClassOf .
+
+rdfs:subPropertyOf a rdf:Property ;
+    rdfs:subPropertyOf rdfs:subPropertyOf .
+
+owl:equivalentClass a rdf:Property ;
+    rdfs:subPropertyOf owl:equivalentClass .
+
+geo:lat a rdf:Property ;
+    rdfs:subPropertyOf geo:lat .
+
+geo:location a rdf:Property ;
+    rdfs:subPropertyOf geo:location .
+
+geo:long a rdf:Property ;
+    rdfs:subPropertyOf geo:long .
+
+2 a rdfs:Resource .
+
+4 a rdfs:Resource .
+
+"Aldi" a rdfs:Resource .
+
+"Colruyt" a rdfs:Resource .
+
+"Hasselt" a rdfs:Resource .
+
+"Leuven" a rdfs:Resource .
+
+"Lidl" a rdfs:Resource .
+
+"Testelt" a rdfs:Resource .
+
+ns1:UserInfo a rdfs:Resource .
+
+rdf:class a rdfs:Resource .
+
+0 a rdfs:Resource .
+
+"2018" a rdfs:Resource .
+
+<http://localhost/degree/Master> a rdf:class,
+        rdfs:Resource .
+
+<http://localhost/field/Doctor> a rdfs:Resource,
+        rdfs:class .
+
+foaf:Organization a rdfs:Resource .
+
+foaf:Person a rdfs:Resource .
+
+rdfs:class a rdfs:Resource .
+
+1.0 a rdfs:Resource .
+
+1 a rdfs:Resource .
+

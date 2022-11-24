@@ -6,6 +6,17 @@ from backend_REST.enterprise_routes import create_enterprise_routes
 from backend_REST.test_routes import create_test_routes
 from flask import request
 
+import owlrl
+
+"""Reasoning stuff"""
+def run_inferences( g ):
+    #print('run_inferences')
+    # expand deductive closure
+    owlrl.DeductiveClosure(owlrl.OWLRL_Semantics).expand(g)
+    owlrl.DeductiveClosure(owlrl.RDFS_Semantics).expand(g)
+    # n_triples(g)
+    return g
+
 def create_routes(app, g):
     
     # Connect to database and make queries to users table
@@ -18,11 +29,9 @@ def create_routes(app, g):
     # USER ROUTES
     ########################################
     @app.route("/users", methods=["GET"])
-    def get_users():
-        
+    def get_users(): 
         q = f'''
                 PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-
                 SELECT ?p
                 WHERE {{
                     ?p rdf:type foaf:Person .
@@ -119,6 +128,29 @@ def create_routes(app, g):
             """
         
         result = g.query(q)
+        df = DataFrame(result, columns=result.vars)
+        return df.to_json(orient="records")
+
+    @app.route("/test", methods=["GET"])
+    def test():
+
+        query = """
+            SELECT ?userInfo
+            where {
+                ?userInfo a <http://localhost/UserInfo> .
+                ?userInfo <http://localhost/hasDiploma> ?diploma .
+                ?diploma <http://localhost/degreeField> <http://localhost/field/Doctor> .
+
+            }
+        """
+
+        # owlrl.DeductiveClosure(owlrl.OWLRL_Semantics).expand(g)
+        owlrl.DeductiveClosure(owlrl.RDFS_Semantics).expand(g)
+
+        g.serialize(destination="out.ttl")
+
+        result = g.query(query)
+
         df = DataFrame(result, columns=result.vars)
         return df.to_json(orient="records")
 
