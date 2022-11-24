@@ -12,8 +12,8 @@ Install requirements: `pip install -r requirements.txt`
 
 ## Flask
 Set flaskapp: `set FLASK_APP=app.py`  
-Set debug: `set DEBUG=1`  
-Run command: `flask run`  
+Run: `flask run`  
+Run debug: `flask --debug run`   
 GraphQL View: http://localhost:5000/graphql
 
 ## PostgreSQL
