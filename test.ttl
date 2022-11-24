@@ -2,6 +2,14 @@
 @prefix ns1: <http://localhost/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
+<http://localhost/Enterprise/Aldi> a ns1:Enterprise ;
+    ns1:hasId 1 ;
+    ns1:hasName "Aldi" .
+
+<http://localhost/Enterprise/Colruyt> a ns1:Enterprise ;
+    ns1:hasId 0 ;
+    ns1:hasName "Colruyt" .
+
 <http://localhost/people/Bo> a foaf:Person ;
     ns1:hasId 2 .
 

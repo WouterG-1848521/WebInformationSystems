@@ -12,7 +12,7 @@ def create_routes(app, g):
     # TO DO
 
     create_test_routes(app)
-    create_enterprise_routes(app)
+    create_enterprise_routes(app, g)
 
     ########################################
     # USER ROUTES

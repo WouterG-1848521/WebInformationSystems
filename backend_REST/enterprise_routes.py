@@ -1,4 +1,5 @@
 from flask import jsonify, request
+from pandas import DataFrame
 
 enterprises = {}
 
@@ -14,7 +15,7 @@ def setup_DEBUG():
             "ownerid": i * 2
         }
 
-def create_vacancy_routes(app):
+def create_vacancy_routes(app, graph):
     # add a vacancy to an enterprise
     @app.route("/enterprise/vacancy/add", methods=['POST'])
     def add_vacancy():
@@ -37,27 +38,55 @@ def create_vacancy_routes(app):
     def match_vacancy():
         data = request.form    # request contains : parameters to search a vacancy for
 
-def create_enterprise_routes(app):
+def create_enterprise_routes(app, graph):
     setup_DEBUG()
 
     # getters
     # get all enterprises
     @app.route("/enterprise/get/all", methods=['GET'])
     def get_all_enterprises():
-        # TODO : get from rdf
-        return jsonify(enterprises)
+        query = f'''
+            
+            SELECT ?p
+            WHERE {{
+                ?p rdf:type <http://localhost/Enterprise> .
+            }}
+        '''
+        result = graph.query(query)
+        df = DataFrame(result, columns=result.vars)
+
+        return df.to_json()
 
     # get enterprise by id
     @app.route("/enterprise/get/id/<int:id>", methods=['GET'])
     def get_enterprises_by_ID(id):
-        # TODO: get out of rdf
-        return jsonify(enterprises[0])
+        query = f'''
+            SELECT ?p
+            WHERE {{
+                ?p rdf:type <http://localhost/Enterprise> .
+                ?p <http://localhost/hasId> {id} .
+            }}
+        '''
+        result = graph.query(query)
+        df = DataFrame(result, columns=result.vars)
+
+        return df.to_json() 
 
     # get enterprise by name
     @app.route("/enterprise/get/name/<string:name>", methods=['GET'])
     def get_enterprises_by_name(name):
-        # TODO: get out of rdf 
-        return jsonify(enterprises[0])
+        app.logger.info(name)
+        query = f'''
+            SELECT ?p
+            WHERE {{
+                ?p rdf:type <http://localhost/Enterprise> .
+                ?p <http://localhost/hasName> {name} .
+            }}
+        '''
+        result = graph.query(query)
+        df = DataFrame(result, columns=result.vars)
+
+        return df.to_json() 
 
     # get enterprise by location
     @app.route("/enterprise/get/location/<string:location>", methods=['GET'])
@@ -99,7 +128,7 @@ def create_enterprise_routes(app):
         return "transfer enterprise"
 
     # Vacancies
-    create_vacancy_routes(app)
+    create_vacancy_routes(app, graph)
 
 
     # Maintainers
