@@ -80,7 +80,7 @@ def create_enterprise_routes(app, graph):
             SELECT ?p
             WHERE {{
                 ?p rdf:type <http://localhost/Enterprise> .
-                ?p <http://localhost/hasName> {name} .
+                ?p <http://localhost/hasName> "{name}" .
             }}
         '''
         result = graph.query(query)
