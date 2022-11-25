@@ -1,0 +1,257 @@
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix local: <http://localhost/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+
+# beroepen
+
+local:profession/doctor rdf:type owl:Class ;
+    rdfs:subClassOf local:profession .
+
+local:profession/Chirurg rdf:type owl:Class ;
+    rdfs:subClassOf local:profession/doctor .
+
+local:profession/familyDoctor rdf:type owl:Class ;
+    rdfs:subClassOf local:profession/doctor .
+
+local:profession/teacher rdf:type owl:Class ;
+    rdfs:subClassOf local:profession .
+
+local:profession/programmer rdf:type owl:Class ;
+    rdfs:subClassOf local:profession .
+
+# degrees
+
+local:degree/master rdf:type owl:Class ;
+    rdfs:subClassOf local:degree .
+
+local:degree/bachelor rdf:type owl:Class ;
+    rdfs:subClassOf local:degree .
+
+# enterprise
+
+local:enterprise rdf:type owl:Class ;
+    rdfs:subClassOf foaf:Organization .
+
+# enterpriseInfo
+
+local:enterpriseInfo rdf:type owl:Class .
+
+# vacancy
+
+local:Vacancy rdf:type owl:Class .
+    owl:subClassOf [
+        rdf:type owl:Restriction;
+        owl:onProperty local:vacancyInfo;
+        owl:cardinality ”1”ˆˆxsd:nonNegativeInteger
+    ] .
+        # elke vacature heeft min en max 1 vacatureinfo
+
+# vacancyInfo
+
+local:VacancyInfo rdf:type owl:Class .
+
+# personalInfo
+
+local:personalInfo rdf:type owl:Class ;
+    owl:subClassOf [
+        rdf:type owl:Restriction;
+        owl:onProperty local:email;
+        owl:cardinality ”1”ˆˆxsd:nonNegativeInteger
+    ] ;
+    owl:subClassOf [
+        rdf:type owl:Restriction;
+        owl:onProperty local:phone;
+        owl:cardinality ”1”ˆˆxsd:nonNegativeInteger
+    ] .
+    #  elke personalInfo heeft min en max 1 email, phone
+
+# Person
+
+foaf:person owl:subClassOf [
+    rdf:type owl:Restriction;
+    owl:onProperty local:name;
+    owl:cardinality ”1”ˆˆxsd:nonNegativeInteger
+    ] ;
+    owl:subClassOf [
+        rdf:type owl:Restriction;
+        owl:onProperty local:surname;
+        owl:cardinality ”1”ˆˆxsd:nonNegativeInteger
+    ] ;
+    owl:subClassOf [
+        rdf:type owl:personalInfo;
+        owl:onProperty local:surname;
+        owl:cardinality ”1”ˆˆxsd:nonNegativeInteger
+    ] .
+
+# elke person heeft min en max 1 name, surname, personalInfo
+# TODO : elke person heeft min en max 1 connections bag, desnoods leeg
+
+# ConnectionRequests
+local:ConnectionRequest rdf:type owl:Class ;
+    owl:subClassOf [
+        rdf:type owl:Restriction;
+        owl:onProperty local:sender;
+        owl:cardinality ”1”ˆˆxsd:nonNegativeInteger 
+    ] ;
+    owl:subClassOf [
+        rdf:type owl:Restriction;
+        owl:onProperty local:receiver;
+        owl:cardinality ”1”ˆˆxsd:nonNegativeInteger 
+    ] .
+#  elke request heeft min en max 2 personen, x != y
+
+
+
+#################################################################
+# testData
+#################################################################
+
+# enterprises
+
+local:enterprise/1 rdf:type local:enterprise ;
+    foaf:name "KU Leuven" ;
+    geo:lat "50.879"^^xsd:float ;
+    geo:long "4.6997"^^xsd:float ;
+    geo:location "Leuven" ;
+    local:maintainer local:people/1 ;
+    local:maintainer local:people/2 ;
+    local:owner local:people/1 ;
+    local:enterpriseInfo local:enterpriseInfo/1 .
+
+local:enterprise/2 rdf:type local:enterprise ;
+    foaf:name "Colruyt" ;
+    geo:lat "40.879"^^xsd:float ;
+    geo:long "45.6997"^^xsd:float ;
+    geo:location "Hasselt" ;
+    local:maintainer local:people/3 ;
+    local:maintainer local:people/4 ;
+    local:owner local:people/4 ;
+    local:enterpriseInfo local:enterpriseInfo/2 .
+
+# enterpriseInfo
+
+local:enterpriseInfo/1 rdf::type: local:enterpriseInfo ;
+    local:enterpriseInfoDescription "KU Leuven is a university in Leuven, Belgium" .
+
+# vacancy
+
+local:Vacancy/1 rdf:type local:Vacancy ;
+    local:enterprise local:enterprise/1 ;
+    local:startDate "2015-01-01"^^xsd:date ;
+    local:endDate "2015-12-31"^^xsd:date ;
+    geo:lat "50.879"^^xsd:float ;
+    geo:long "4.6997"^^xsd:float ;
+    geo:location "Leuven" ;
+    local:available "true"^^xsd:boolean ;
+    local:vacancyInfo local:vacancyInfo/1 .
+
+local:Vacancy/2 rdf:type local:Vacancy ;
+    local:enterprise local:enterprise/1 ;
+    local:startDate "2015-02-01"^^xsd:date ;
+    local:endDate "2015-3-31"^^xsd:date ;
+    geo:lat "50.879"^^xsd:float ;
+    geo:long "4.6997"^^xsd:float ;
+    geo:location "Leuven" ;
+    local:available "true"^^xsd:boolean ;
+    local:vacancyInfo local:vacancyInfo/1 .
+
+# vacancyInfo
+
+local:vacancyInfo/1 rdf:type local:vacancyInfo ;
+    local:profession local:profession/doctor ;
+    local:degree local:degree/master ;
+    local:jobDescription "A doctor is a person who practices medicine, which is concerned with promoting, maintaining, or restoring health through the study, diagnosis, prognosis and treatment of disease, injury, and other physical and mental impairments." .
+
+# person
+# TODO connections gaan zo misschien niet, kunnen we zo symmetrisch aanduiden?
+local:person/1 a foaf:Person ;
+    foaf:name "John" ;
+    local:hasSurName "Doe" .
+    local:connections [
+        rdf:type rdf:bag ;
+        rdf:_1 local:person/2 ;
+        rdf:_2 local:person/3 ;
+        rdf:_3 local:person/4
+    ]
+    local:personalInfo local:personalInfo/1 .
+
+local:person/2 a foaf:Person ;
+    foaf:name "Karen" ;
+    local:hasSurName "Doe" .
+    local:connections [
+        rdf:type rdf:bag ;
+        rdf:_1 local:person/1
+    ]
+    local:personalInfo local:personalInfo/2 .
+
+local:person/3 a foaf:Person ;
+    foaf:name "Michael" ;
+    local:hasSurName "Jansen" .
+    local:connections [
+        rdf:type rdf:bag ;
+        rdf:_1 local:person/1
+    ]
+    local:personalInfo local:personalInfo/3 .
+
+local:person/3 a foaf:Person ;
+    foaf:name "Sander" ;
+    local:hasSurName "Jansen" .
+    local:connections [
+        rdf:type rdf:bag ;
+        rdf:_1 local:person/1 ;
+        rdf:_2 local:person/3
+    ]
+    local:personalInfo local:personalInfo/4 .
+
+
+# personalInfo
+
+# TODO : voor elke diploma een aparte relatie of in een bag steken
+local:personalInfo/1 rdf:type local:personalInfo ;
+    local:email "JhonDoe@email.com" ;
+    local:phone "123456789" ;
+    local:diplomas [
+        rdf:type rdf:bag ;
+        rdf:_1  [
+                    local:degree local:degree/master ;
+                    local:profession local:profession/doctor ;
+                    local:graduationDate "2010-01-01"^^xsd:date ;
+                ] ;
+    ] ;
+    local:diploma [
+        local:degree local:degree/master ;
+        local:profession local:profession/doctor ;
+        local:graduationDate "2010-01-01"^^xsd:date ;
+    ]
+
+local:personalInfo/2 rdf:type local:personalInfo ;
+    local:email "@email.com" ;
+    local:phone "123456789" ;
+    local:diploma [
+        local:degree local:degree/master ;
+        local:profession local:profession/doctor ;
+        local:graduationDate "2010-01-01"^^xsd:date ;
+    ]
+
+local:personalInfo/2 rdf:type local:personalInfo ;
+    local:email "@email.com" ;
+    local:phone "123456789" ;
+    local:diploma [
+        local:degree local:degree/master ;
+        local:profession local:profession/doctor ;
+        local:graduationDate "2010-01-01"^^xsd:date ;
+    ]
+
+local:personalInfo/2 rdf:type local:personalInfo ;
+    local:email "@email.com" ;
+    local:phone "123456789" ;
+    local:diploma [
+        local:degree local:degree/master ;
+        local:profession local:profession/doctor ;
+        local:graduationDate "2010-01-01"^^xsd:date ;
+    ]
