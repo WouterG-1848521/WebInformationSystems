@@ -1,7 +1,13 @@
 from flask import jsonify, request
 from pandas import DataFrame
 
+from rdflib import Graph, URIRef, Literal, Namespace
+from rdflib.namespace import RDF, FOAF, RDFS
+
 enterprises = {}
+
+NS1 = Namespace("http://localhost/")
+
 
 def setup_DEBUG():
     global enterprises
@@ -99,8 +105,18 @@ def create_enterprise_routes(app, graph):
     @app.route("/enterprise/create", methods=['POST'])
     def create_enterprise():
         data = request.form     # request contains : name, address, ownerID
-        print(data)
-        # TODO: add to rdf 
+        name = data["name"]
+        
+        URI = "http://localhost/Enterprise/" + str(7)
+        enterprise = URIRef(URI)
+
+        graph.bind("ns1", NS1)
+        
+        graph.add((enterprise, RDF.type, FOAF.Organization))
+        graph.add((enterprise, NS1.hasName, Literal(name)))
+        
+        graph.serialize(destination="test.ttl")
+        
         return "create enterprise"
 
     # update enterprise
