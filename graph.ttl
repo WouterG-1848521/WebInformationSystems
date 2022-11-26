@@ -236,12 +236,12 @@ personalInfo:2 rdf:type local:personalInfo ;
     local:phone "123456789" ;
     local:diploma _:dip1 .
 
-personalInfo:2 rdf:type local:personalInfo ;
+personalInfo:3 rdf:type local:personalInfo ;
     local:email "@email.com" ;
     local:phone "123456789" ;
     local:diploma _:dip1 .
 
-personalInfo:2 rdf:type local:personalInfo ;
+personalInfo:4 rdf:type local:personalInfo ;
     local:email "@email.com" ;
     local:phone "123456789" ;
     local:diploma _:dip1 .
