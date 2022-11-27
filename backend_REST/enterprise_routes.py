@@ -4,7 +4,7 @@ from pandas import DataFrame
 from rdflib import Graph, URIRef, Literal, Namespace
 from rdflib.namespace import RDF, FOAF, RDFS
 
-from .queries import query_enterpriseGetAll
+from .queries import query_enterpriseGetAll, query_enterpriseGetById, query_enterpriseGetByName, query_enterpriseGetByLocation
 
 enterprises = {}
 
@@ -59,44 +59,39 @@ def create_enterprise_routes(app, graph):
         df = DataFrame(result, columns=result.vars)
         print(df)
 
-        return df.to_json()
+        return df.to_json(orient='index', indent=2)
 
     # get enterprise by id
     @app.route("/enterprise/get/id/<int:id>", methods=['GET'])
     def get_enterprises_by_ID(id):
-        query = f'''
-            SELECT ?p
-            WHERE {{
-                ?p rdf:type <http://xmlns.com/foaf/0.1/Organization> .
-                ?p <http://localhost/hasId> {id} .
-            }}
-        '''
+        query = query_enterpriseGetById(id)
+        print(query)
         result = graph.query(query)
         df = DataFrame(result, columns=result.vars)
+        # TODO : hoe groeperen per enterprise? per maintainer is er een aparte entry
 
-        return df.to_json() 
+        return df.to_json(orient='index', indent=2) 
 
     # get enterprise by name
     @app.route("/enterprise/get/name/<string:name>", methods=['GET'])
     def get_enterprises_by_name(name):
-        app.logger.info(name)
-        query = f'''
-            SELECT ?p
-            WHERE {{
-                ?p rdf:type <http://xmlns.com/foaf/0.1/Organization> .
-                ?p <http://localhost/hasName> "{name}" .
-            }}
-        '''
+        query = query_enterpriseGetByName(name)
+        print(query)
         result = graph.query(query)
         df = DataFrame(result, columns=result.vars)
 
-        return df.to_json() 
+        return df.to_json(orient='index', indent=2)
 
     # get enterprise by location
     @app.route("/enterprise/get/location/<string:location>", methods=['GET'])
     def get_enterprises_by_location(location):
+        query = query_enterpriseGetByLocation(location)
+        print(query)
         # TODO: get out of rdf, mayby search on distance
-        return jsonify(enterprises[0])
+        result = graph.query(query)
+        df = DataFrame(result, columns=result.vars)
+
+        return df.to_json(orient='index', indent=2)
 
     # CRUD operations
     # create enterprise

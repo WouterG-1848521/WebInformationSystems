@@ -14,51 +14,89 @@ prefixes = '''
                 prefix xsd: <http://www.w3.org/2001/XMLSchema#> 
                 prefix local: <http://localhost/#> 
                 prefix profession: <http://localhost/profession/> 
-                prefix degree: <http://localhost/degree/#> 
-                prefix enterprise: <http://localhost/enterprise/#> .
-                prefix person: <http://localhost/person/#> 
+                prefix degree: <http://localhost/degree/> 
+                prefix enterprise: <http://localhost/enterprise/>
+                prefix person: <http://localhost/person/> 
                 prefix enterpriseInfo: <http://localhost/enterpriseInfo/#> 
-                prefix vacancy: <http://localhost/vacancy/#> 
-                prefix vacancyInfo: <http://localhost/vacancyInfo/#> 
-                prefix personalInfo: <http://localhost/personalInfo/#> 
+                prefix vacancy: <http://localhost/vacancy/> 
+                prefix vacancyInfo: <http://localhost/vacancyInfo/> 
+                prefix personalInfo: <http://localhost/personalInfo/> 
             '''
 
 # /enterprise/get/all
 def query_enterpriseGetAll():
-    query = prefixes + f'''
-        SELECT ?p ?name ?lat ?long ?location ?owner ?enterpriseInfo ?maintainerName ?maintainerSurName
-        WHERE {{
-            ?p rdf:type local:enterprise .
-            ?p foaf:name ?name .
-            ?p geo:lat ?lat .
-            ?p geo:long ?long  .
-            ?p geo:location ?location .
-            ?p local:owner ?owner .
-            ?p local:enterpriseInfo ?enterpriseInfo .
-            ?p local:maintainer ?maintainer .
-            ?maintainer foaf:name ?maintainerName .
-            ?maintainer local:hasSurName ?maintainerSurName .
-        }}
-    '''
+    query = prefixes + '''
+                            SELECT ?uri ?name ?lat ?long ?location ?owner ?enterpriseInfo ?maintainerName ?maintainerSurName
+                            WHERE {
+                                    ?uri rdf:type local:enterprise .
+                                    ?uri foaf:name ?name .
+                                    ?uri geo:lat ?lat .
+                                    ?uri geo:long ?long  .
+                                    ?uri geo:location ?location .
+                                    ?uri local:owner ?owner .
+                                    ?uri local:enterpriseInfo ?enterpriseInfo .
+                                    ?uri local:maintainer ?maintainer .
+                                    ?maintainer foaf:name ?maintainerName .
+                                    ?maintainer foaf:surname ?maintainerSurName .
+                                }
+                        '''
     # TODO: per maintainer wordt er nu een apart result teruggegeven, kan dit misschien samengevoegd worden?
     return query
 
 def query_enterpriseGetById(id):
     query = prefixes + f'''
-        SELECT ?name ?lat ?long ?location ?owner ?enterpriseInfo ?maintainerName ?maintainerSurName
-        WHERE {{
-            ?p rdf:label enterprise:{id}
-            ?p rdf:type local:enterprise .
-            ?p foaf:name ?name .
-            ?p geo:lat ?lat .
-            ?p geo:long ?long  .
-            ?p geo:location ?location .
-            ?p local:owner ?owner .
-            ?p local:enterpriseInfo ?enterpriseInfo .
-            ?p local:maintainer ?maintainer .
-            ?maintainer foaf:name ?maintainerName .
-            ?maintainer local:hasSurName ?maintainerSurName .
-        }}
-    '''
+                            SELECT ?uri ?name ?lat ?long ?location ?owner ?enterpriseInfo ?maintainerName ?maintainerSurName
+                            WHERE {{
+                                ?uri rdf:type local:enterprise .
+                                ?uri foaf:name ?name .
+                                ?uri geo:lat ?lat .
+                                ?uri geo:long ?long  .
+                                ?uri geo:location ?location .
+                                ?uri local:owner ?owner .
+                                ?uri local:enterpriseInfo ?enterpriseInfo .
+                                ?uri local:maintainer ?maintainer .
+                                ?maintainer foaf:name ?maintainerName .
+                                ?maintainer foaf:surname ?maintainerSurName .
+                                FILTER (?uri = enterprise:{id}) 
+                            }}
+                    '''
+    # TODO: per maintainer wordt er nu een apart result teruggegeven, kan dit misschien samengevoegd worden?
+    return query
+
+def query_enterpriseGetByName(name):
+    query = prefixes + f'''
+                        SELECT ?uri ?lat ?long ?location ?owner ?enterpriseInfo ?maintainerName ?maintainerSurName
+                        WHERE {{
+                            ?uri rdf:type local:enterprise .
+                            ?uri foaf:name "{name}" .
+                            ?uri geo:lat ?lat .
+                            ?uri geo:long ?long  .
+                            ?uri geo:location ?location .
+                            ?uri local:owner ?owner .
+                            ?uri local:enterpriseInfo ?enterpriseInfo .
+                            ?uri local:maintainer ?maintainer .
+                            ?maintainer foaf:name ?maintainerName .
+                            ?maintainer foaf:surname ?maintainerSurName
+                        }}
+                '''
+    # TODO: per maintainer wordt er nu een apart result teruggegeven, kan dit misschien samengevoegd worden?
+    return query
+
+def query_enterpriseGetByLocation(location):
+    query = prefixes + f'''
+                        SELECT ?uri ?name ?lat ?long ?location ?owner ?enterpriseInfo ?maintainerName ?maintainerSurName
+                        WHERE {{
+                            ?uri rdf:type local:enterprise .
+                            ?uri foaf:name ?name .
+                            ?uri geo:lat ?lat .
+                            ?uri geo:long ?long  .
+                            ?uri geo:location "{location}" .
+                            ?uri local:owner ?owner .
+                            ?uri local:enterpriseInfo ?enterpriseInfo .
+                            ?uri local:maintainer ?maintainer .
+                            ?maintainer foaf:name ?maintainerName .
+                            ?maintainer foaf:surname ?maintainerSurName
+                        }}
+                '''
     # TODO: per maintainer wordt er nu een apart result teruggegeven, kan dit misschien samengevoegd worden?
     return query
