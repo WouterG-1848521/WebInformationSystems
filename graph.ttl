@@ -9,7 +9,7 @@
 # local declarations
 
 @prefix local: <http://localhost/#> .
-@prefix profession: <http://localhost/profession/#> .
+@prefix profession: <http://localhost/profession/> .
 @prefix degree: <http://localhost/degree/#> .
 @prefix enterprise: <http://localhost/enterprise/#> . 
 @prefix person: <http://localhost/person/#> .
