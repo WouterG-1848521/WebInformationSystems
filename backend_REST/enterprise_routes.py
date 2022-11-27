@@ -4,6 +4,8 @@ from pandas import DataFrame
 from rdflib import Graph, URIRef, Literal, Namespace
 from rdflib.namespace import RDF, FOAF, RDFS
 
+from .queries import query_enterpriseGetAll
+
 enterprises = {}
 
 NS1 = Namespace("http://localhost/")
@@ -51,12 +53,8 @@ def create_enterprise_routes(app, graph):
     # get all enterprises
     @app.route("/enterprise/get/all", methods=['GET'])
     def get_all_enterprises():
-        query = f'''
-            SELECT ?p ?name
-            WHERE {{
-                ?p rdf:type <http://xmlns.com/foaf/0.1/Organization> .
-            }}
-        '''
+        query = query_enterpriseGetAll()
+        print(query)
         result = graph.query(query)
         df = DataFrame(result, columns=result.vars)
         print(df)

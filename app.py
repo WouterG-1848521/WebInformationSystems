@@ -13,7 +13,22 @@ app = create_app('development')
 # with app.app_context():
 #    reset_DB(app)
 
-g = create_graph("user.ttl")
+
+# Create rdf file
+from rdflib import Graph, Literal, RDF, URIRef
+from rdflib.namespace import FOAF
+
+g = Graph()
+g.parse("graph.ttl")
+
+
+# Relations
+# hasId = URIRef("http://localhost/hasId")
+
+# ed = URIRef("http://localhost/people/Bob")
+# g.add((ed, hasId, Literal(1)))
+# g.serialize(destination="test.ttl")
+
 create_login_manager(app)
 create_routes(app, g)
 
