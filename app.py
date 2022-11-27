@@ -21,15 +21,15 @@ from rdflib import Graph, Literal, RDF, URIRef
 from rdflib.namespace import FOAF
 
 g = Graph()
-g.parse("test.ttl")
+g.parse("graph.ttl")
 
 
 # Relations
-hasId = URIRef("http://localhost/hasId")
+# hasId = URIRef("http://localhost/hasId")
 
-ed = URIRef("http://localhost/people/Bob")
-g.add((ed, hasId, Literal(1)))
-g.serialize(destination="test.ttl")
+# ed = URIRef("http://localhost/people/Bob")
+# g.add((ed, hasId, Literal(1)))
+# g.serialize(destination="test.ttl")
 
 create_login_manager(app)
 create_routes(app, g)
