@@ -9,12 +9,9 @@ from backend_REST.login import create_login_manager
 
 app = create_app('development')
 
-# Run DB test
-with app.app_context():
-   reset_DB(app)
-   setup_DB_DEBUG(app)
-   test_DB_DEBUG(app)
-   remove_DB_DEBUG(app)
+# Reset DB
+# with app.app_context():
+#    reset_DB(app)
 
 g = create_graph("user.ttl")
 create_login_manager(app)

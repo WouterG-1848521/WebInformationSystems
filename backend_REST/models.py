@@ -4,6 +4,8 @@ from backend_REST.graph import LOCAL, PERSON, PERSONAL_INFO
 from rdflib import Graph, Literal, RDF, URIRef, Namespace
 from rdflib.namespace import RDF, RDFS, FOAF
 
+from pandas import DataFrame
+
 def reset_DB(app):
     app.logger.info("Resetting DB...")
     
@@ -12,30 +14,7 @@ def reset_DB(app):
     
     # Create all tables
     db.create_all()
-
-def setup_DB_DEBUG(app):
-    app.logger.info("Setting up DB debug...")
-    user = DBUser(email="email", password="password")
-    app.logger.info("User id: " + str(user.id))
-    db.session.add(user)
-    db.session.commit()
-
-
-def test_DB_DEBUG(app):
-    app.logger.info("Testing DB...")
-    user = DBUser.query.filter_by(email='email').first()
-    app.logger.info("User id: " +  str(user.id))
     
-def remove_DB_DEBUG(app):
-    app.logger.info("Removing DB debug...")
-    user = DBUser.query.filter_by(email='email').first()
-    db.session.delete(user)
-    db.session.commit()
-    
-    # To delete all: 
-    DBUser.query.delete()
-    
-
 
 class DBUser(db.Model):
     """'LinkedIn' User.
@@ -71,7 +50,13 @@ class DBUser(db.Model):
         return False
     
     
-class User():        
+class User():
+    def is_user_available(email):
+        user = DBUser.query.filter_by(email=email).first()
+        print(user)
+        return user == None
+    
+    
     # TODO: password encryption
     def create(graph, name, surname, email, password):
         
@@ -102,11 +87,70 @@ class User():
         graph.serialize(destination="user.ttl")
         
         return user_id
-
-    def is_user_available(email):
-        user = DBUser.query.filter_by(email=email).first()
-        print(user)
-        return user == None
         
         
+    def getUserById(graph, id):
+        print("Searching: " + PERSON + str(id))
+        q = f'''
+            PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+            SELECT ?p ?name ?surname
+            WHERE {{
+                ?p rdf:type foaf:Person .
+                ?p foaf:name ?name .
+                ?p foaf:surname ?surname .
+            }}
+        '''
         
+        result = graph.query(q, initBindings={'p': URIRef(PERSON + str(id))})
+        df = DataFrame(result, columns=result.vars)
+        return df.to_json()
+        
+        
+    def deleteUserById(graph, id):
+        # Delete user from DB
+        user = DBUser.query.get(id)
+        
+        # If user still in DB
+        if (user != None):
+            db.session.delete(user)
+            db.session.commit()
+        
+        print("Deleting: " + PERSON + str(id))
+        
+        # Delete user from graph
+        q = f'''
+            PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+            PREFIX local: <http://localhost/> 
+            
+            DELETE {{
+                ?p rdf:type foaf:Person .
+                ?p foaf:name ?name .
+                ?p foaf:surname ?surname .
+                ?p local:personalInfo ?i .
+            }}
+            WHERE {{
+                ?p rdf:type foaf:Person .
+                ?p foaf:name ?name .
+                ?p foaf:surname ?surname .
+                ?p local:personalInfo ?i .
+            }}
+        '''
+        graph.update(q, initBindings={'p': URIRef(PERSON + str(id))})
+        
+        print("Deleting: " + PERSONAL_INFO + str(id))
+        
+        # Delete userInfo from graph
+        q = f'''
+            PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+            PREFIX local: <http://localhost/> 
+            
+            DELETE {{
+                ?i rdf:type local:personalInfo .
+            }}
+            WHERE {{
+                ?i rdf:type local:personalInfo .
+            }}
+        '''
+        graph.update(q, initBindings={'i': URIRef(PERSONAL_INFO + str(id))})
+        
+        graph.serialize(destination="user.ttl")

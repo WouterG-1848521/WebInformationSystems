@@ -3,15 +3,15 @@ from rdflib.namespace import FOAF, RDF, RDFS
 
 local = "http://localhost/"
 
-LOCAL           = Namespace(local + "#")
-PROFESSION      = Namespace(local + "profession/#")
-DEGREE          = Namespace(local + "degree/#")
-PERSON          = Namespace(local + "person/#")
-PERSONAL_INFO   = Namespace(local + "personalInfo/#")
-ENTPERISE       = Namespace(local + "enterprise/#")
-ENTERPRISE_INFO = Namespace(local + "enterpriseInfo/#")
-VACANCY         = Namespace(local + "vacancy/#")
-VACANCY_INFO    = Namespace(local + "vacancyInfo/#")
+LOCAL           = Namespace(local + "")
+PROFESSION      = Namespace(local + "profession/")
+DEGREE          = Namespace(local + "degree/")
+PERSON          = Namespace(local + "person/")
+PERSONAL_INFO   = Namespace(local + "personalInfo/")
+ENTPERISE       = Namespace(local + "enterprise/")
+ENTERPRISE_INFO = Namespace(local + "enterpriseInfo/")
+VACANCY         = Namespace(local + "vacancy/")
+VACANCY_INFO    = Namespace(local + "vacancyInfo/")
 
 
 def create_graph(file_path):

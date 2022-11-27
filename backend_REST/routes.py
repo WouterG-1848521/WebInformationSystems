@@ -53,59 +53,29 @@ def create_routes(app, g):
         data = request.form     # request contains : name, surname, email, (encrypted) password (, type, information)
 
         if (User.is_user_available(data["email"])): 
-            user_id = User.create(g, data["name"], data["surname"], data["email"], data["password"])            
-            return "Created user " + str(user_id) + "."
+            id = User.create(g, data["name"], data["surname"], data["email"], data["password"])            
+            return f"Created user {id}."
         else:
             return "Email already in use."
         
     
     @app.route("/users/<int:id>", methods=["GET"])
     def get_user(id):
-        q = f'''
-                PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-                SELECT ?p
-                WHERE {{
-                    ?p rdf:type foaf:Person .
-                    ?p <http://localhost/hasId> {id} .
-                }}
-            '''
-        # q.format(id)
+        user_json = User.getUserById(g, id)
         
-        result = g.query(q)
-        df = DataFrame(result, columns=result.vars)
-        return df.to_json()
-
+        return user_json
 
 
     @app.route("/users/<int:id>", methods=["PUT"])
     def update_user(id):
-       
-        
-
-        return jsonify(users[id])
+        pass
+        # return jsonify(users[id])
     
     @app.route("/users/<int:id>", methods=["DELETE"])
     def delete_user(id):
+        User.deleteUserById(g, id)
 
-        q = f"""
-        PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-        DELETE {{ 
-            ?p <http://localhost/hasId> {id} .
-            ?p <http://localhost/hasSurName> ?s .
-            ?p a foaf:Person ;
-            
-        }}
-        WHERE {{ 
-            ?p <http://localhost/hasId> {id} .
-            ?p a <http://xmlns.com/foaf/0.1/Person> .
-         }}
-        
-        """
-
-        g.update(q)
-        g.serialize(destination="test.ttl")
-
-        return f"User with id {id} deleted"
+        return f"Deleted user {id}."
     
     @app.route("/users/<int:id>/profile", methods=["GET"])
     def get_user_profile(id):
