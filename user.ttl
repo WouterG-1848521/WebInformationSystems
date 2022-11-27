@@ -1,0 +1,26 @@
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix local: <http://localhost/#> .
+@prefix person: <http://localhost/person/#> .
+@prefix personalInfo: <http://localhost/personalInfo/#> .
+
+person:2 a foaf:Person ;
+    local:personalInfo personalInfo:2 ;
+    foaf:name "Bob" ;
+    foaf:surname "Evans" .
+
+person:3 a foaf:Person ;
+    local:personalInfo personalInfo:3 ;
+    foaf:name "Jan" ;
+    foaf:surname "Peters" .
+
+person:4 a foaf:Person ;
+    local:personalInfo personalInfo:4 ;
+    foaf:name "Paul" ;
+    foaf:surname "Jambers" .
+
+personalInfo:2 a local:personalInfo .
+
+personalInfo:3 a local:personalInfo .
+
+personalInfo:4 a local:personalInfo .
+

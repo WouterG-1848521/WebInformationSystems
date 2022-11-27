@@ -68,7 +68,7 @@ enterpriseInfo:1 local:enterpriseInfoDescription "KU Leuven is a university in L
     <http://www.w3.org/1999/02/22-rdf-syntax-ns#:type:> local:enterpriseInfo .
 
 personalInfo:1 a local:personalInfo ;
-    local:diploma _:n6136c08a3d944246a5f522907bed3148b11,
+    local:diploma _:n36defe96206b43879ca062a15a8b9e9db11,
         [ a local:diploma ;
             local:degree degree:bachelor ;
             local:endDate "2015-01-01"^^xsd:date ;
@@ -79,17 +79,17 @@ personalInfo:1 a local:personalInfo ;
     local:phone "123456789" .
 
 personalInfo:2 a local:personalInfo ;
-    local:diploma _:n6136c08a3d944246a5f522907bed3148b11 ;
+    local:diploma _:n36defe96206b43879ca062a15a8b9e9db11 ;
     local:email "@email.com" ;
     local:phone "123456789" .
 
 personalInfo:3 a local:personalInfo ;
-    local:diploma _:n6136c08a3d944246a5f522907bed3148b11 ;
+    local:diploma _:n36defe96206b43879ca062a15a8b9e9db11 ;
     local:email "@email.com" ;
     local:phone "123456789" .
 
 personalInfo:4 a local:personalInfo ;
-    local:diploma _:n6136c08a3d944246a5f522907bed3148b11 ;
+    local:diploma _:n36defe96206b43879ca062a15a8b9e9db11 ;
     local:email "@email.com" ;
     local:phone "123456789" .
 
@@ -128,15 +128,15 @@ person:3 a foaf:Person ;
     local:personalInfo personalInfo:3 ;
     foaf:name "Michael" .
 
-person:4 a foaf:Person ;
-    local:hasSurName "Jansen" ;
-    local:personalInfo personalInfo:4 ;
-    foaf:name "Sander" .
-
 person:1 a foaf:Person ;
     local:hasSurName "Doe" ;
     local:personalInfo personalInfo:1 ;
     foaf:name "John" .
+
+person:4 a foaf:Person ;
+    local:hasSurName "Jansen" ;
+    local:personalInfo personalInfo:4 ;
+    foaf:name "Sander" .
 
 profession:doctor a owl:Class ;
     rdfs:subClassOf local:profession .
@@ -149,8 +149,8 @@ local:personalInfo a owl:Class .
     owl2:onClass local:Vacancy .
 
 [] a rdf:bag ;
-    local:connections person:2,
-        person:3 ;
+    local:connections person:3,
+        person:4 ;
     rdf:_1 person:1 ;
     rdf:_2 person:3,
         person:4 .
@@ -195,7 +195,7 @@ local:personalInfo a owl:Class .
     local:connections person:2 ;
     rdf:_1 person:1 .
 
-_:n6136c08a3d944246a5f522907bed3148b11 a local:diploma ;
+_:n36defe96206b43879ca062a15a8b9e9db11 a local:diploma ;
     local:degree degree:master ;
     local:endDate "2015-01-01"^^xsd:date ;
     local:institution "KU Leuven" ;
