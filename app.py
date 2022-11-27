@@ -1,7 +1,7 @@
 from backend_REST import create_app, db
 from flask_migrate import Migrate
 
-from backend_REST.models import User, reset_DB, setup_DB_DEBUG, test_DB_DEBUG, remove_DB_DEBUG
+from backend_REST.models import User, reset_DB
 from backend_REST.graph import create_graph
 
 from backend_REST.routes import create_routes
@@ -13,22 +13,7 @@ app = create_app('development')
 # with app.app_context():
 #    reset_DB(app)
 
-
-# Create rdf file
-from rdflib import Graph, Literal, RDF, URIRef
-from rdflib.namespace import FOAF
-
-g = Graph()
-g.parse("graph.ttl")
-
-
-# Relations
-# hasId = URIRef("http://localhost/hasId")
-
-# ed = URIRef("http://localhost/people/Bob")
-# g.add((ed, hasId, Literal(1)))
-# g.serialize(destination="test.ttl")
-
+g = create_graph("user.ttl")
 create_login_manager(app)
 create_routes(app, g)
 

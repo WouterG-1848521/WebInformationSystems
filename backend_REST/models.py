@@ -154,3 +154,15 @@ class User():
         graph.update(q, initBindings={'i': URIRef(PERSONAL_INFO + str(id))})
         
         graph.serialize(destination="user.ttl")
+        
+        
+    def updateUserById(graph, id, json):
+        for key, value in json.items():
+            if key == "email":
+                User.updateEmail(graph, id, value[0])
+
+    def updateEmail(graph, id, email):
+        # Update DB entry
+        user = DBUser.query.get(id)
+        user.email = email
+        db.session.commit()

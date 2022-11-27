@@ -62,20 +62,20 @@ def create_routes(app, g):
     @app.route("/users/<int:id>", methods=["GET"])
     def get_user(id):
         user_json = User.getUserById(g, id)
-        
         return user_json
 
 
     @app.route("/users/<int:id>", methods=["PUT"])
     def update_user(id):
-        pass
-        # return jsonify(users[id])
+        User.updateUserById(g, id, request.form.to_dict(flat=False))
+        return f"Updated user {id}."
+
     
     @app.route("/users/<int:id>", methods=["DELETE"])
     def delete_user(id):
         User.deleteUserById(g, id)
-
         return f"Deleted user {id}."
+    
     
     @app.route("/users/<int:id>/profile", methods=["GET"])
     def get_user_profile(id):
@@ -95,6 +95,7 @@ def create_routes(app, g):
         result = g.query(q)
         df = DataFrame(result, columns=result.vars)
         return df.to_json(orient="records")
+
 
     @app.route("/test", methods=["GET"])
     def test():
