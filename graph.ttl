@@ -10,13 +10,13 @@
 
 @prefix local: <http://localhost/#> .
 @prefix profession: <http://localhost/profession/> .
-@prefix degree: <http://localhost/degree/#> .
-@prefix enterprise: <http://localhost/enterprise/#> . 
-@prefix person: <http://localhost/person/#> .
-@prefix enterpriseInfo: <http://localhost/enterpriseInfo/#> .
-@prefix vacancy: <http://localhost/vacancy/#> .
-@prefix vacancyInfo: <http://localhost/vacancyInfo/#> .
-@prefix personalInfo: <http://localhost/personalInfo/#> .
+@prefix degree: <http://localhost/degree/> .
+@prefix enterprise: <http://localhost/enterprise/> . 
+@prefix person: <http://localhost/person/> .
+@prefix enterpriseInfo: <http://localhost/enterpriseInfo/> .
+@prefix vacancy: <http://localhost/vacancy/> .
+@prefix vacancyInfo: <http://localhost/vacancyInfo/> .
+@prefix personalInfo: <http://localhost/personalInfo/> .
 
 # beroepen
 

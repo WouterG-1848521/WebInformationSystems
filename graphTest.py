@@ -15,8 +15,8 @@ prefixes = '''
                 prefix local: <http://localhost/#> 
                 prefix profession: <http://localhost/profession/> 
                 prefix degree: <http://localhost/degree/#> 
-                prefix enterprise: <http://localhost/enterprise/#>
-                prefix person: <http://localhost/person/#> 
+                prefix enterprise: <http://localhost/enterprise/>
+                prefix person: <http://localhost/person/> 
                 prefix enterpriseInfo: <http://localhost/enterpriseInfo/#> 
                 prefix vacancy: <http://localhost/vacancy/#> 
                 prefix vacancyInfo: <http://localhost/vacancyInfo/#> 
@@ -107,22 +107,54 @@ query6 = prefixes + '''
             ?p local:enterpriseInfo ?enterpriseInfo .
             ?p local:maintainer ?maintainer .
             ?maintainer foaf:name ?maintainerName .
-            ?maintainer local:hasSurName ?maintainerSurName .
+            ?maintainer foaf:surname ?maintainerSurName .
         }
     '''
 
 id = 1
 query7 = prefixes + f'''
-                        SELECT ?p
+                        SELECT ?uri ?name ?lat ?long ?location ?owner ?enterpriseInfo ?maintainerName ?maintainerSurName
                         WHERE {{
-                            ?p rdf:label enterprise:{id} .
+                            ?uri rdf:type local:enterprise .
+                            ?uri foaf:name ?name .
+                            ?uri geo:lat ?lat .
+                            ?uri geo:long ?long  .
+                            ?uri geo:location ?location .
+                            ?uri local:owner ?owner .
+                            ?uri local:enterpriseInfo ?enterpriseInfo .
+                            ?uri local:maintainer ?maintainer .
+                            ?maintainer foaf:name ?maintainerName .
+                            ?maintainer foaf:surname ?maintainerSurName .
+                            FILTER (?uri = enterprise:{id}) 
                         }}              
                     '''
+
+# select ?uri ?id { values ?uri { <http://dbpedia.org/resource/Weight_gain> } ?uri <http://dbpedia.org/ontology/wikiPageID> ?id }
+
+query8 = prefixes + '''
+                        SELECT ?uri ?name ?lat ?long ?location ?owner ?enterpriseInfo ?maintainerName ?maintainerSurName
+                        WHERE {
+                                ?uri rdf:type local:enterprise .
+                                ?uri foaf:name ?name .
+                                ?uri geo:lat ?lat .
+                                ?uri geo:long ?long  .
+                                ?uri geo:location ?location .
+                                ?uri local:owner ?owner .
+                                ?uri local:enterpriseInfo ?enterpriseInfo .
+                                ?uri local:maintainer ?maintainer .
+                                ?maintainer foaf:name ?maintainerName .
+                                ?maintainer foaf:surname ?maintainerSurName .
+                            }
+                    '''
+
+                    
+#?p rdf:label enterprise:{id} .
+
 # sparql sheetsheet : https://www.iro.umontreal.ca/~lapalme/ift6281/sparql-1_1-cheat-sheet.pdf
 print("\nexecuting query\n")
-result = graph.query(query4)
+result = graph.query(query7)
 df = DataFrame(result, columns=result.vars)
 print(df.to_json(orient='index', indent=2))
 
 
-graph.serialize(destination="outputgraph.ttl")
+# graph.serialize(destination="outputgraph.ttl")
