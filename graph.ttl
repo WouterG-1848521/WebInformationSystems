@@ -170,7 +170,7 @@ vacancyInfo:1 rdf:type local:vacancyInfo ;
 # TODO connections gaan zo misschien niet, kunnen we zo symmetrisch aanduiden?
 person:1 a foaf:Person ;
     foaf:name "John" ;
-    local:hasSurName "Doe" ;
+    foaf:surname "Doe" ;
     local:personalInfo personalInfo:1 .
     _:x8 rdf:type rdf:bag ;
         local:connections person:1 ;
@@ -180,7 +180,7 @@ person:1 a foaf:Person ;
 
 person:2 a foaf:Person ;
     foaf:name "Karen" ;
-    local:hasSurName "Doe" ;
+    foaf:surname "Doe" ;
     local:personalInfo personalInfo:2 .
     _:x9 rdf:type rdf:bag ;
         local:connections person:2 ;
@@ -189,7 +189,7 @@ person:2 a foaf:Person ;
 
 person:3 a foaf:Person ;
     foaf:name "Michael" ;
-    local:hasSurName "Jansen" ;
+    foaf:surname "Jansen" ;
     local:personalInfo personalInfo:3 .
     _:x10 rdf:type rdf:bag ;
         local:connections person:3 ;
@@ -198,10 +198,10 @@ person:3 a foaf:Person ;
 
 person:4 a foaf:Person ;
     foaf:name "Sander" ;
-    local:hasSurName "Jansen" ;
+    foaf:surname "Jansen" ;
     local:personalInfo personalInfo:4 .
     _:x10 rdf:type rdf:bag ;
-        local:connections person:2 ;
+        local: person:4 ;
         rdf:_2 person:3 ;
         rdf:_1 person:1 .
 

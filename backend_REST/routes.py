@@ -2,11 +2,15 @@ from flask import jsonify
 # from markupsafe import escape
 from rdflib.plugins.sparql.results.jsonresults import *
 from pandas import DataFrame
-from backend_REST.enterprise_routes import create_enterprise_routes
-from backend_REST.test_routes import create_test_routes
+import owlrl
+
 from flask import request
 
-import owlrl
+from backend_REST.models import User
+
+from backend_REST.enterprise_routes import create_enterprise_routes
+from backend_REST.test_routes import create_test_routes
+
 
 """Reasoning stuff"""
 def run_inferences( g ):
@@ -45,24 +49,15 @@ def create_routes(app, g):
         
    
     @app.route("/users", methods=["POST"])
-    def set_users():
-        # data contains
-        # id
-        # name
-        # email
-        # pw?
-        # type
-        # information
-        data = request.args
+    def create_users():
+        data = request.form     # request contains : name, surname, email, (encrypted) password (, type, information)
 
-        g.add(())
-        g.serialize(destination="test.ttl")
-
-        print(data)
-
-            
-
-        return "lol"
+        if (User.is_user_available(data["email"])): 
+            user_id = User.create(g, data["name"], data["surname"], data["email"], data["password"])            
+            return "Created user " + str(user_id) + "."
+        else:
+            return "Email already in use."
+        
     
     @app.route("/users/<int:id>", methods=["GET"])
     def get_user(id):

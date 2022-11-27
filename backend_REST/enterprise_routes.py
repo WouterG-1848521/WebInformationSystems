@@ -55,12 +55,6 @@ def create_enterprise_routes(app, graph):
     def get_all_enterprises():
         query = query_enterpriseGetAll()
         print(query)
-        # query = f'''
-        #     SELECT ?p ?name
-        #     WHERE {{
-        #         ?p rdf:type <http://xmlns.com/foaf/0.1/Organization> .
-        #     }}
-        # '''
         result = graph.query(query)
         df = DataFrame(result, columns=result.vars)
         print(df)

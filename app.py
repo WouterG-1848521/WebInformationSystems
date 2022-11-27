@@ -2,6 +2,7 @@ from backend_REST import create_app, db
 from flask_migrate import Migrate
 
 from backend_REST.models import User, reset_DB, setup_DB_DEBUG, test_DB_DEBUG, remove_DB_DEBUG
+from backend_REST.graph import create_graph
 
 from backend_REST.routes import create_routes
 from backend_REST.login import create_login_manager

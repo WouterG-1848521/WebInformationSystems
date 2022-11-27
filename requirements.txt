@@ -26,6 +26,7 @@ Jinja2==3.1.2
 Mako==1.2.3
 MarkupSafe==2.1.1
 numpy==1.23.5
+owlrl==6.0.2
 pandas==1.5.1
 promise==2.3
 psycopg2==2.9.5

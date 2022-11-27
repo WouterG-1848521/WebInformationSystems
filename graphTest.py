@@ -51,7 +51,7 @@ query2 = """
                 ?user foaf:name ?name .
                 ?user local:hasSurName ?surname .
                 ?connections local:connections ?user .
-                ?connections rdfs:member  ?John .
+                ?connections rdfs:member ?John .
                 ?John foaf:name "John" .
             }
         """

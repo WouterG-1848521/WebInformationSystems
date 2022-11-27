@@ -15,102 +15,102 @@
 @prefix vacancyInfo: <http://localhost/vacancyInfo/#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-_:n84b5f3c20b024abdaecc3f9d3d2750ecb1 a rdfs:Class,
+_:n707d52dcd666448fa74a995be7f6e5f1b1 a rdfs:Class,
         rdfs:Resource,
         owl:Class,
         owl:Restriction,
         owl:Thing ;
-    rdfs:subClassOf _:n84b5f3c20b024abdaecc3f9d3d2750ecb1,
+    rdfs:subClassOf _:n707d52dcd666448fa74a995be7f6e5f1b1,
         rdfs:Resource,
         owl:Thing ;
     owl:cardinality "1"^^xsd:nonNegativeInteger ;
-    owl:equivalentClass _:n84b5f3c20b024abdaecc3f9d3d2750ecb1 ;
+    owl:equivalentClass _:n707d52dcd666448fa74a995be7f6e5f1b1 ;
     owl:onProperty local:vacancyInfo ;
-    owl:sameAs _:n84b5f3c20b024abdaecc3f9d3d2750ecb1 ;
+    owl:sameAs _:n707d52dcd666448fa74a995be7f6e5f1b1 ;
     owl2:onClass local:Vacancy .
 
-_:n84b5f3c20b024abdaecc3f9d3d2750ecb2 a rdfs:Class,
+_:n707d52dcd666448fa74a995be7f6e5f1b2 a rdfs:Class,
         rdfs:Resource,
         owl:Class,
         owl:Restriction,
         owl:Thing ;
-    rdfs:subClassOf _:n84b5f3c20b024abdaecc3f9d3d2750ecb2,
+    rdfs:subClassOf _:n707d52dcd666448fa74a995be7f6e5f1b2,
         rdfs:Resource,
         owl:Thing ;
     owl:cardinality "1"^^xsd:nonNegativeInteger ;
-    owl:equivalentClass _:n84b5f3c20b024abdaecc3f9d3d2750ecb2 ;
+    owl:equivalentClass _:n707d52dcd666448fa74a995be7f6e5f1b2 ;
     owl:onProperty local:email ;
-    owl:sameAs _:n84b5f3c20b024abdaecc3f9d3d2750ecb2 ;
+    owl:sameAs _:n707d52dcd666448fa74a995be7f6e5f1b2 ;
     owl2:onClass local:personalInfo .
 
-_:n84b5f3c20b024abdaecc3f9d3d2750ecb3 a rdfs:Class,
+_:n707d52dcd666448fa74a995be7f6e5f1b3 a rdfs:Class,
         rdfs:Resource,
         owl:Class,
         owl:Restriction,
         owl:Thing ;
-    rdfs:subClassOf _:n84b5f3c20b024abdaecc3f9d3d2750ecb3,
+    rdfs:subClassOf _:n707d52dcd666448fa74a995be7f6e5f1b3,
         rdfs:Resource,
         owl:Thing ;
     owl:cardinality "1"^^xsd:nonNegativeInteger ;
-    owl:equivalentClass _:n84b5f3c20b024abdaecc3f9d3d2750ecb3 ;
+    owl:equivalentClass _:n707d52dcd666448fa74a995be7f6e5f1b3 ;
     owl:onProperty local:phone ;
-    owl:sameAs _:n84b5f3c20b024abdaecc3f9d3d2750ecb3 ;
+    owl:sameAs _:n707d52dcd666448fa74a995be7f6e5f1b3 ;
     owl2:onClass local:personalInfo .
 
-_:n84b5f3c20b024abdaecc3f9d3d2750ecb4 a rdfs:Class,
+_:n707d52dcd666448fa74a995be7f6e5f1b4 a rdfs:Class,
         rdfs:Resource,
         owl:Class,
         owl:Restriction,
         owl:Thing ;
-    rdfs:subClassOf _:n84b5f3c20b024abdaecc3f9d3d2750ecb4,
+    rdfs:subClassOf _:n707d52dcd666448fa74a995be7f6e5f1b4,
         rdfs:Resource,
         owl:Thing ;
     owl:cardinality "1"^^xsd:nonNegativeInteger ;
-    owl:equivalentClass _:n84b5f3c20b024abdaecc3f9d3d2750ecb4 ;
+    owl:equivalentClass _:n707d52dcd666448fa74a995be7f6e5f1b4 ;
     owl:onProperty local:name ;
-    owl:sameAs _:n84b5f3c20b024abdaecc3f9d3d2750ecb4 ;
+    owl:sameAs _:n707d52dcd666448fa74a995be7f6e5f1b4 ;
     owl2:onClass foaf:Person .
 
-_:n84b5f3c20b024abdaecc3f9d3d2750ecb5 a rdfs:Class,
+_:n707d52dcd666448fa74a995be7f6e5f1b5 a rdfs:Class,
         rdfs:Resource,
         owl:Class,
         owl:Restriction,
         owl:Thing ;
-    rdfs:subClassOf _:n84b5f3c20b024abdaecc3f9d3d2750ecb5,
+    rdfs:subClassOf _:n707d52dcd666448fa74a995be7f6e5f1b5,
         rdfs:Resource,
         owl:Thing ;
     owl:cardinality "1"^^xsd:nonNegativeInteger ;
-    owl:equivalentClass _:n84b5f3c20b024abdaecc3f9d3d2750ecb5 ;
+    owl:equivalentClass _:n707d52dcd666448fa74a995be7f6e5f1b5 ;
     owl:onProperty local:surname ;
-    owl:sameAs _:n84b5f3c20b024abdaecc3f9d3d2750ecb5 ;
+    owl:sameAs _:n707d52dcd666448fa74a995be7f6e5f1b5 ;
     owl2:onClass foaf:Person .
 
-_:n84b5f3c20b024abdaecc3f9d3d2750ecb6 a rdfs:Class,
+_:n707d52dcd666448fa74a995be7f6e5f1b6 a rdfs:Class,
         rdfs:Resource,
         owl:Class,
         owl:Restriction,
         owl:Thing ;
-    rdfs:subClassOf _:n84b5f3c20b024abdaecc3f9d3d2750ecb6,
+    rdfs:subClassOf _:n707d52dcd666448fa74a995be7f6e5f1b6,
         rdfs:Resource,
         owl:Thing ;
     owl:cardinality "1"^^xsd:nonNegativeInteger ;
-    owl:equivalentClass _:n84b5f3c20b024abdaecc3f9d3d2750ecb6 ;
+    owl:equivalentClass _:n707d52dcd666448fa74a995be7f6e5f1b6 ;
     owl:onProperty local:sender ;
-    owl:sameAs _:n84b5f3c20b024abdaecc3f9d3d2750ecb6 ;
+    owl:sameAs _:n707d52dcd666448fa74a995be7f6e5f1b6 ;
     owl2:onClass local:ConnectionRequest .
 
-_:n84b5f3c20b024abdaecc3f9d3d2750ecb7 a rdfs:Class,
+_:n707d52dcd666448fa74a995be7f6e5f1b7 a rdfs:Class,
         rdfs:Resource,
         owl:Class,
         owl:Restriction,
         owl:Thing ;
-    rdfs:subClassOf _:n84b5f3c20b024abdaecc3f9d3d2750ecb7,
+    rdfs:subClassOf _:n707d52dcd666448fa74a995be7f6e5f1b7,
         rdfs:Resource,
         owl:Thing ;
     owl:cardinality "1"^^xsd:nonNegativeInteger ;
-    owl:equivalentClass _:n84b5f3c20b024abdaecc3f9d3d2750ecb7 ;
+    owl:equivalentClass _:n707d52dcd666448fa74a995be7f6e5f1b7 ;
     owl:onProperty local:receiver ;
-    owl:sameAs _:n84b5f3c20b024abdaecc3f9d3d2750ecb7 ;
+    owl:sameAs _:n707d52dcd666448fa74a995be7f6e5f1b7 ;
     owl2:onClass local:ConnectionRequest .
 
 local:ConnectionRequest a rdfs:Class,
@@ -1233,13 +1233,13 @@ owl:Nothing a rdfs:Class,
         rdfs:Resource,
         owl:Class,
         owl:Thing ;
-    rdfs:subClassOf _:n84b5f3c20b024abdaecc3f9d3d2750ecb1,
-        _:n84b5f3c20b024abdaecc3f9d3d2750ecb2,
-        _:n84b5f3c20b024abdaecc3f9d3d2750ecb3,
-        _:n84b5f3c20b024abdaecc3f9d3d2750ecb4,
-        _:n84b5f3c20b024abdaecc3f9d3d2750ecb5,
-        _:n84b5f3c20b024abdaecc3f9d3d2750ecb6,
-        _:n84b5f3c20b024abdaecc3f9d3d2750ecb7,
+    rdfs:subClassOf _:n707d52dcd666448fa74a995be7f6e5f1b1,
+        _:n707d52dcd666448fa74a995be7f6e5f1b2,
+        _:n707d52dcd666448fa74a995be7f6e5f1b3,
+        _:n707d52dcd666448fa74a995be7f6e5f1b4,
+        _:n707d52dcd666448fa74a995be7f6e5f1b5,
+        _:n707d52dcd666448fa74a995be7f6e5f1b6,
+        _:n707d52dcd666448fa74a995be7f6e5f1b7,
         local:ConnectionRequest,
         local:Vacancy,
         local:VacancyInfo,
@@ -1506,8 +1506,8 @@ enterpriseInfo:2 a rdfs:Resource,
 personalInfo:1 a local:personalInfo,
         rdfs:Resource,
         owl:Thing ;
-    local:diploma _:n84b5f3c20b024abdaecc3f9d3d2750ecb11,
-        _:n84b5f3c20b024abdaecc3f9d3d2750ecb12 ;
+    local:diploma _:n707d52dcd666448fa74a995be7f6e5f1b11,
+        _:n707d52dcd666448fa74a995be7f6e5f1b12 ;
     local:email "JhonDoe@email.com" ;
     local:phone "123456789" ;
     owl:sameAs personalInfo:1 .
@@ -1515,7 +1515,7 @@ personalInfo:1 a local:personalInfo,
 personalInfo:2 a local:personalInfo,
         rdfs:Resource,
         owl:Thing ;
-    local:diploma _:n84b5f3c20b024abdaecc3f9d3d2750ecb11 ;
+    local:diploma _:n707d52dcd666448fa74a995be7f6e5f1b11 ;
     local:email "@email.com" ;
     local:phone "123456789" ;
     owl:sameAs personalInfo:2 .
@@ -1523,7 +1523,7 @@ personalInfo:2 a local:personalInfo,
 personalInfo:3 a local:personalInfo,
         rdfs:Resource,
         owl:Thing ;
-    local:diploma _:n84b5f3c20b024abdaecc3f9d3d2750ecb11 ;
+    local:diploma _:n707d52dcd666448fa74a995be7f6e5f1b11 ;
     local:email "@email.com" ;
     local:phone "123456789" ;
     owl:sameAs personalInfo:3 .
@@ -1531,7 +1531,7 @@ personalInfo:3 a local:personalInfo,
 personalInfo:4 a local:personalInfo,
         rdfs:Resource,
         owl:Thing ;
-    local:diploma _:n84b5f3c20b024abdaecc3f9d3d2750ecb11 ;
+    local:diploma _:n707d52dcd666448fa74a995be7f6e5f1b11 ;
     local:email "@email.com" ;
     local:phone "123456789" ;
     owl:sameAs personalInfo:4 .
@@ -1596,6 +1596,14 @@ personalInfo:4 a local:personalInfo,
         owl:Thing ;
     owl:sameAs "Sander" .
 
+local: a rdf:Property,
+        rdfs:Resource,
+        owl:ObjectProperty,
+        owl:Thing ;
+    rdfs:subPropertyOf local: ;
+    owl:equivalentProperty local: ;
+    owl:sameAs local: .
+
 local:available a rdf:Property,
         rdfs:Resource,
         owl:ObjectProperty,
@@ -1635,14 +1643,6 @@ local:enterpriseInfoDescription a rdf:Property,
     rdfs:subPropertyOf local:enterpriseInfoDescription ;
     owl:equivalentProperty local:enterpriseInfoDescription ;
     owl:sameAs local:enterpriseInfoDescription .
-
-local:hasSurName a rdf:Property,
-        rdfs:Resource,
-        owl:ObjectProperty,
-        owl:Thing ;
-    rdfs:subPropertyOf local:hasSurName ;
-    owl:equivalentProperty local:hasSurName ;
-    owl:sameAs local:hasSurName .
 
 local:institution a rdf:Property,
         rdfs:Resource,
@@ -2537,6 +2537,14 @@ foaf:name a rdf:Property,
     owl:equivalentProperty foaf:name ;
     owl:sameAs foaf:name .
 
+foaf:surname a rdf:Property,
+        rdfs:Resource,
+        owl:ObjectProperty,
+        owl:Thing ;
+    rdfs:subPropertyOf foaf:surname ;
+    owl:equivalentProperty foaf:surname ;
+    owl:sameAs foaf:surname .
+
 true a rdfs:Literal,
         rdfs:Resource,
         xsd:boolean,
@@ -2642,6 +2650,14 @@ rdfs:seeAlso a rdf:Property,
         owl:Thing ;
     owl:sameAs "Leuven" .
 
+person:2 a rdfs:Resource,
+        owl:Thing,
+        foaf:Person ;
+    local:personalInfo personalInfo:2 ;
+    owl:sameAs person:2 ;
+    foaf:name "Karen" ;
+    foaf:surname "Doe" .
+
 "2015-01-01"^^xsd:date a rdfs:Literal,
         rdfs:Resource,
         xsd:date,
@@ -2651,14 +2667,6 @@ rdfs:seeAlso a rdf:Property,
 "123456789" a rdfs:Resource,
         owl:Thing ;
     owl:sameAs "123456789" .
-
-person:2 a rdfs:Resource,
-        owl:Thing,
-        foaf:Person ;
-    local:hasSurName "Doe" ;
-    local:personalInfo personalInfo:2 ;
-    owl:sameAs person:2 ;
-    foaf:name "Karen" .
 
 rdfs:member a rdf:Property,
         rdfs:Resource,
@@ -2675,26 +2683,26 @@ rdfs:member a rdf:Property,
 person:3 a rdfs:Resource,
         owl:Thing,
         foaf:Person ;
-    local:hasSurName "Jansen" ;
     local:personalInfo personalInfo:3 ;
     owl:sameAs person:3 ;
-    foaf:name "Michael" .
-
-person:4 a rdfs:Resource,
-        owl:Thing,
-        foaf:Person ;
-    local:hasSurName "Jansen" ;
-    local:personalInfo personalInfo:4 ;
-    owl:sameAs person:4 ;
-    foaf:name "Sander" .
+    foaf:name "Michael" ;
+    foaf:surname "Jansen" .
 
 person:1 a rdfs:Resource,
         owl:Thing,
         foaf:Person ;
-    local:hasSurName "Doe" ;
     local:personalInfo personalInfo:1 ;
     owl:sameAs person:1 ;
-    foaf:name "John" .
+    foaf:name "John" ;
+    foaf:surname "Doe" .
+
+person:4 a rdfs:Resource,
+        owl:Thing,
+        foaf:Person ;
+    local:personalInfo personalInfo:4 ;
+    owl:sameAs person:4 ;
+    foaf:name "Sander" ;
+    foaf:surname "Jansen" .
 
 "1"^^xsd:nonNegativeInteger a rdfs:Literal,
         rdfs:Resource,
@@ -2704,20 +2712,20 @@ person:1 a rdfs:Resource,
         owl:Thing ;
     owl:sameAs "1"^^xsd:nonNegativeInteger .
 
-_:n84b5f3c20b024abdaecc3f9d3d2750ecb10 a rdf:bag,
+_:n707d52dcd666448fa74a995be7f6e5f1b10 a rdf:bag,
         rdfs:Resource,
         owl:Thing ;
-    local:connections person:2,
-        person:3 ;
+    local: person:4 ;
+    local:connections person:3 ;
     rdf:_1 person:1 ;
     rdf:_2 person:3,
         person:4 ;
     rdfs:member person:1,
         person:3,
         person:4 ;
-    owl:sameAs _:n84b5f3c20b024abdaecc3f9d3d2750ecb10 .
+    owl:sameAs _:n707d52dcd666448fa74a995be7f6e5f1b10 .
 
-_:n84b5f3c20b024abdaecc3f9d3d2750ecb8 a rdf:bag,
+_:n707d52dcd666448fa74a995be7f6e5f1b8 a rdf:bag,
         rdfs:Resource,
         owl:Thing ;
     local:connections person:1 ;
@@ -2727,17 +2735,17 @@ _:n84b5f3c20b024abdaecc3f9d3d2750ecb8 a rdf:bag,
     rdfs:member person:2,
         person:3,
         person:4 ;
-    owl:sameAs _:n84b5f3c20b024abdaecc3f9d3d2750ecb8 .
+    owl:sameAs _:n707d52dcd666448fa74a995be7f6e5f1b8 .
 
-_:n84b5f3c20b024abdaecc3f9d3d2750ecb9 a rdf:bag,
+_:n707d52dcd666448fa74a995be7f6e5f1b9 a rdf:bag,
         rdfs:Resource,
         owl:Thing ;
     local:connections person:2 ;
     rdf:_1 person:1 ;
     rdfs:member person:1 ;
-    owl:sameAs _:n84b5f3c20b024abdaecc3f9d3d2750ecb9 .
+    owl:sameAs _:n707d52dcd666448fa74a995be7f6e5f1b9 .
 
-_:n84b5f3c20b024abdaecc3f9d3d2750ecb12 a local:diploma,
+_:n707d52dcd666448fa74a995be7f6e5f1b12 a local:diploma,
         rdfs:Resource,
         owl:Thing ;
     local:degree degree:bachelor ;
@@ -2745,9 +2753,9 @@ _:n84b5f3c20b024abdaecc3f9d3d2750ecb12 a local:diploma,
     local:institution "KU Leuven" ;
     local:profession profession:doctor ;
     local:startDate "2010-01-01"^^xsd:date ;
-    owl:sameAs _:n84b5f3c20b024abdaecc3f9d3d2750ecb12 .
+    owl:sameAs _:n707d52dcd666448fa74a995be7f6e5f1b12 .
 
-_:n84b5f3c20b024abdaecc3f9d3d2750ecb11 a local:diploma,
+_:n707d52dcd666448fa74a995be7f6e5f1b11 a local:diploma,
         rdfs:Resource,
         owl:Thing ;
     local:degree degree:master ;
@@ -2755,5 +2763,5 @@ _:n84b5f3c20b024abdaecc3f9d3d2750ecb11 a local:diploma,
     local:institution "KU Leuven" ;
     local:profession profession:doctor ;
     local:startDate "2010-01-01"^^xsd:date ;
-    owl:sameAs _:n84b5f3c20b024abdaecc3f9d3d2750ecb11 .
+    owl:sameAs _:n707d52dcd666448fa74a995be7f6e5f1b11 .
 
