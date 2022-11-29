@@ -121,18 +121,20 @@ class User():
         
    
     def get_user_profile_by_id(graph, id):
+        user_URI = URIRef(PERSON + str(id))
+        user_info_URI = URIRef(PERSONAL_INFO + str(id))
+        
         q = f"""
-                
-                PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-                SELECT ?p ?surName ?email
+                SELECT ?p ?i ?surName ?email
                 WHERE {{
                     ?p rdf:type foaf:Person .
-                    OPTIONAL {{ ?p <http://localhost/hasSurName> ?surName . }}
-                    OPTIONAL {{ ?p <http://localhost/hasEmail> ?email . }}    
+                    ?i rdf:type local:personalInfo .
+                    OPTIONAL {{ ?p foaf:surname ?surName . }}
+                    OPTIONAL {{ ?i local:email ?email . }}    
                 }}
             """
         
-        result = graph.query(q, initBindings={'p': URIRef(PERSON + str(id))})
+        result = graph.query(q, initBindings={'p': user_URI, 'i': user_info_URI})
         df = DataFrame(result, columns=result.vars)
         return df.to_json(orient="records")
    
