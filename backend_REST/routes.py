@@ -33,23 +33,12 @@ def create_routes(app, g):
     # USER ROUTES
     ########################################
     @app.route("/users", methods=["GET"])
-    def get_users(): 
-        q = f'''
-                PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-                SELECT ?p
-                WHERE {{
-                    ?p rdf:type foaf:Person .
-                }}
-            '''
-        
-        result = g.query(q)
-        df = DataFrame(result, columns=result.vars)
-        return df.to_json(orient="records")
+    def get_all_users():
+        return User.get_all_users(g)
 
         
-   
     @app.route("/users", methods=["POST"])
-    def create_users():
+    def create_user():
         data = request.form     # request contains : name, surname, email, (encrypted) password (, type, information)
 
         if (User.is_user_available(data["email"])): 
@@ -61,40 +50,61 @@ def create_routes(app, g):
     
     @app.route("/users/<int:id>", methods=["GET"])
     def get_user(id):
-        user_json = User.getUserById(g, id)
-        
-        return user_json
+        return User.get_user_by_id(g, id)
 
 
-    @app.route("/users/<int:id>", methods=["PUT"])
-    def update_user(id):
-        pass
-        # return jsonify(users[id])
+    # @app.route("/users/<int:id>", methods=["PUT"])
+    # def update_user(id):
+    #     User.update_user_by_id(g, id, request.form.to_dict(flat=False))
+    #     return f"Updated user {id}."
+
     
     @app.route("/users/<int:id>", methods=["DELETE"])
     def delete_user(id):
-        User.deleteUserById(g, id)
-
+        User.delete_user_by_id(g, id)
         return f"Deleted user {id}."
+    
     
     @app.route("/users/<int:id>/profile", methods=["GET"])
     def get_user_profile(id):
+        return User.get_user_profile_by_id(g, id)
+    
+    
+    @app.route("/users/<int:id>/email", methods=["PUT"])
+    def update_user_email(id):
+        data = request.form
         
-        q = f"""
-                
-                PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-                SELECT ?p ?surName ?email
-                WHERE {{
-                    ?p rdf:type foaf:Person .
-                    ?p <http://localhost/hasId> {id} .
-                    OPTIONAL {{ ?p <http://localhost/hasSurName> ?surName . }}
-                    OPTIONAL {{ ?p <http://localhost/hasEmail> ?email . }}    
-                }}
-            """
+        User.update_email(g, id, data["email"])
+        return f"Updated email of user {id}."
+    
+    
+    @app.route("/users/<int:id>/phone", methods=["PUT"])
+    def update_user_phone(id):
+        data = request.form
+    
+        User.update_phone(g, id, data["phone"])
+        return f"Updated phone of user {id} to ."
+    
+    
+    @app.route("/users/<int:user_id>/diploma", methods=["POST"])
+    def create_user_diploma(user_id):
+        return f"Created diploma {0} of user {user_id}."
+    
+    
+    @app.route("/users/<int:user_id>/diploma/<int:diploma_id>", methods=["GET"])
+    def get_user_diploma(user_id, diploma_id):
+        return f"Get diploma {diploma_id} of user {user_id}."
+    
+    
+    @app.route("/users/<int:user_id>/diploma/<int:diploma_id>", methods=["PUT"])
+    def update_user_diploma(user_id, diploma_id):
+        return f"Updated diploma {diploma_id} of user {user_id}."
+    
+    
+    @app.route("/users/<int:user_id>/diploma/<int:diploma_id>", methods=["DELETE"])
+    def delete_user_diploma(user_id, diploma_id):
+        return f"Deleted diploma {diploma_id} of user {user_id}."
         
-        result = g.query(q)
-        df = DataFrame(result, columns=result.vars)
-        return df.to_json(orient="records")
 
     @app.route("/test", methods=["GET"])
     def test():
