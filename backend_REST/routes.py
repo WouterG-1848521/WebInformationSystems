@@ -36,7 +36,7 @@ def create_routes(app, g):
     def get_all_users():
         return User.get_all_users(g)
 
-        
+ 
     @app.route("/users", methods=["POST"])
     def create_user():
         data = request.form     # request contains : name, surname, email, (encrypted) password (, type, information)
@@ -81,28 +81,44 @@ def create_routes(app, g):
     @app.route("/users/<int:id>/phone", methods=["PUT"])
     def update_user_phone(id):
         data = request.form
-    
+        
         User.update_phone(g, id, data["phone"])
         return f"Updated phone of user {id} to ."
     
-    
-    @app.route("/users/<int:user_id>/diploma", methods=["POST"])
+
+    @app.route("/users/<int:user_id>/diplomas", methods=["POST"])
     def create_user_diploma(user_id):
-        return f"Created diploma {0} of user {user_id}."
+        data = request.form
+        
+        diploma_id = User.create_diploma(g, user_id, data["degree"], 
+                                         data["profession"], data["institution"], 
+                                         data["startDate"], data["endDate"])
+        return f"Created diploma {diploma_id } of user {user_id}."
     
     
-    @app.route("/users/<int:user_id>/diploma/<int:diploma_id>", methods=["GET"])
+    @app.route("/users/<int:user_id>/diplomas", methods=["GET"])
+    def get_user_diplomas(user_id):
+        return User.get_all_diplomas_by_user(g, user_id)
+    
+    
+    @app.route("/users/<int:user_id>/diplomas/<int:diploma_id>", methods=["GET"])
     def get_user_diploma(user_id, diploma_id):
-        return f"Get diploma {diploma_id} of user {user_id}."
+        return User.get_diploma_by_id(g, diploma_id)
     
     
-    @app.route("/users/<int:user_id>/diploma/<int:diploma_id>", methods=["PUT"])
+    @app.route("/users/<int:user_id>/diplomas/<int:diploma_id>", methods=["PUT"])
     def update_user_diploma(user_id, diploma_id):
+        data = request.form
+        
+        User.update_diploma(g, user_id, diploma_id, 
+                            data["degree"], data["profession"], 
+                            data["institution"], data["startDate"], data["endDate"])
         return f"Updated diploma {diploma_id} of user {user_id}."
     
     
-    @app.route("/users/<int:user_id>/diploma/<int:diploma_id>", methods=["DELETE"])
+    @app.route("/users/<int:user_id>/diplomas/<int:diploma_id>", methods=["DELETE"])
     def delete_user_diploma(user_id, diploma_id):
+        User.delete_diploma(g, user_id, diploma_id)
         return f"Deleted diploma {diploma_id} of user {user_id}."
         
 

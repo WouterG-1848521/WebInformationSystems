@@ -1,14 +1,32 @@
+@prefix degree: <http://localhost/degree/> .
+@prefix diploma: <http://localhost/diploma/> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix local: <http://localhost/> .
 @prefix person: <http://localhost/person/> .
 @prefix personalInfo: <http://localhost/personalInfo/> .
+@prefix profession: <http://localhost/profession/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-person:2 a foaf:Person ;
-    local:personalInfo personalInfo:2 ;
+person:1 a foaf:Person ;
+    local:personalInfo personalInfo:1 ;
     foaf:name "Paul" ;
     foaf:surname "Jambers" .
 
-personalInfo:2 a local:personalInfo ;
-    local:email "paul@gmail.com" ;
-    local:phone "123" .
+diploma:0 a local:diploma ;
+    local:degree degree:master ;
+    local:endDate "1975-06-30"^^xsd:date ;
+    local:institution "KU Leuven" ;
+    local:profession profession:Reporter ;
+    local:startDate "1973-09-01"^^xsd:date .
+
+diploma:1 a local:diploma ;
+    local:degree degree:master ;
+    local:endDate "1975-06-30"^^xsd:date ;
+    local:institution "uHasselt" ;
+    local:profession profession:Reporter ;
+    local:startDate "1973-09-01"^^xsd:date .
+
+personalInfo:1 a local:personalInfo ;
+    local:diploma diploma:0,
+        diploma:1 .
 
