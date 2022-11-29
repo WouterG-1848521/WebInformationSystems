@@ -1,0 +1,164 @@
+@prefix degree: <http://localhost/degree/> .
+@prefix enterprise: <http://localhost/enterprise/> .
+@prefix enterpriseInfo: <http://localhost/enterpriseInfo/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix local: <http://localhost/#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix owl2: <http://www.w3.org/2006/12/owl2#> .
+@prefix person: <http://localhost/person/> .
+@prefix personalInfo: <http://localhost/personalInfo/> .
+@prefix profession: <http://localhost/profession/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+local:VacancyInfo a owl:Class .
+
+local:enterpriseInfo a owl:Class .
+
+enterprise:2 a local:enterprise ;
+    local:enterpriseInfo enterpriseInfo:2 ;
+    local:maintainer person:3,
+        person:4 ;
+    local:owner person:4 ;
+    geo:lat "40.879"^^xsd:float ;
+    geo:location "Hasselt" ;
+    geo:long "45.6997"^^xsd:float ;
+    foaf:name "Colruyt" .
+
+profession:Chirurg a owl:Class ;
+    rdfs:subClassOf profession:doctor .
+
+profession:familyDoctor a owl:Class ;
+    rdfs:subClassOf profession:doctor .
+
+profession:programmer a owl:Class ;
+    rdfs:subClassOf local:profession .
+
+profession:teacher a owl:Class ;
+    rdfs:subClassOf local:profession .
+
+local:Vacancy a owl:Class .
+
+local:enterprise a owl:Class ;
+    rdfs:subClassOf foaf:Organization .
+
+degree:bachelor a owl:Class ;
+    rdfs:subClassOf local:degree .
+
+degree:master a owl:Class ;
+    rdfs:subClassOf local:degree .
+
+personalInfo:1 a local:personalInfo ;
+    local:diploma _:n318af792d07c4ac4affdca21f49b8c54b11,
+        [ a local:diploma ;
+            local:degree degree:bachelor ;
+            local:endDate "2015-01-01"^^xsd:date ;
+            local:institution "KU Leuven" ;
+            local:profession profession:doctor ;
+            local:startDate "2010-01-01"^^xsd:date ] ;
+    local:email "JhonDoe@email.com" ;
+    local:phone "123456789" .
+
+personalInfo:2 a local:personalInfo ;
+    local:diploma _:n318af792d07c4ac4affdca21f49b8c54b11 ;
+    local:email "@email.com" ;
+    local:phone "123456789" .
+
+personalInfo:3 a local:personalInfo ;
+    local:diploma _:n318af792d07c4ac4affdca21f49b8c54b11 ;
+    local:email "@email.com" ;
+    local:phone "123456789" .
+
+personalInfo:4 a local:personalInfo ;
+    local:diploma _:n318af792d07c4ac4affdca21f49b8c54b11 ;
+    local:email "@email.com" ;
+    local:phone "123456789" .
+
+local:ConnectionRequest a owl:Class .
+
+person:2 a foaf:Person ;
+    local:personalInfo personalInfo:2 ;
+    foaf:name "Karen" ;
+    foaf:surname "Doe" .
+
+person:1 a foaf:Person ;
+    local:personalInfo personalInfo:1 ;
+    foaf:name "John" ;
+    foaf:surname "Doe" .
+
+person:3 a foaf:Person ;
+    local:personalInfo personalInfo:3 ;
+    foaf:name "Michael" ;
+    foaf:surname "Jansen" .
+
+profession:doctor a owl:Class ;
+    rdfs:subClassOf local:profession .
+
+person:4 a foaf:Person ;
+    local:personalInfo personalInfo:4 ;
+    foaf:name "Sander" ;
+    foaf:surname "Jansen" .
+
+local:personalInfo a owl:Class .
+
+[] a owl:Restriction ;
+    owl:cardinality "1"^^xsd:nonNegativeInteger ;
+    owl:onProperty local:vacancyInfo ;
+    owl2:onClass local:Vacancy .
+
+[] a rdf:bag ;
+    local: person:4 ;
+    local:connections person:3 ;
+    rdf:_1 person:1 ;
+    rdf:_2 person:3,
+        person:4 .
+
+[] a owl:Restriction ;
+    owl:cardinality "1"^^xsd:nonNegativeInteger ;
+    owl:onProperty local:email ;
+    owl2:onClass local:personalInfo .
+
+[] a owl:Restriction ;
+    owl:cardinality "1"^^xsd:nonNegativeInteger ;
+    owl:onProperty local:phone ;
+    owl2:onClass local:personalInfo .
+
+[] a owl:Restriction ;
+    owl:cardinality "1"^^xsd:nonNegativeInteger ;
+    owl:onProperty local:name ;
+    owl2:onClass foaf:Person .
+
+[] a owl:Restriction ;
+    owl:cardinality "1"^^xsd:nonNegativeInteger ;
+    owl:onProperty local:surname ;
+    owl2:onClass foaf:Person .
+
+[] a owl:Restriction ;
+    owl:cardinality "1"^^xsd:nonNegativeInteger ;
+    owl:onProperty local:sender ;
+    owl2:onClass local:ConnectionRequest .
+
+[] a owl:Restriction ;
+    owl:cardinality "1"^^xsd:nonNegativeInteger ;
+    owl:onProperty local:receiver ;
+    owl2:onClass local:ConnectionRequest .
+
+[] a rdf:bag ;
+    local:connections person:1 ;
+    rdf:_1 person:2 ;
+    rdf:_2 person:3 ;
+    rdf:_3 person:4 .
+
+[] a rdf:bag ;
+    local:connections person:2 ;
+    rdf:_1 person:1 .
+
+_:n318af792d07c4ac4affdca21f49b8c54b11 a local:diploma ;
+    local:degree degree:master ;
+    local:endDate "2015-01-01"^^xsd:date ;
+    local:institution "KU Leuven" ;
+    local:profession profession:doctor ;
+    local:startDate "2010-01-01"^^xsd:date .
+

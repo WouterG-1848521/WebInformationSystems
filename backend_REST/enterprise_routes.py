@@ -2,26 +2,13 @@ from flask import jsonify, request
 from pandas import DataFrame
 
 from rdflib import Graph, URIRef, Literal, Namespace
-from rdflib.namespace import RDF, FOAF, RDFS
 
-from .queries import query_enterpriseGetAll, query_enterpriseGetById, query_enterpriseGetByName, query_enterpriseGetByLocation
+from .queries import query_enterpriseGetAll, query_enterpriseGetById, query_enterpriseGetByName, query_enterpriseGetByLocation, check_maintainer, check_owner, check_person
+from .queries import create_enterpriseInfoRDF, create_enterpriseRDF, query_update_enterpriseRDF, query_delete_enterpriseRDF, query_transfer_ownershipRDF
+from .queries import query_remove_maintainerRDF, query_add_maintainerRDF
 
-enterprises = {}
-
-NS1 = Namespace("http://localhost/")
-
-
-def setup_DEBUG():
-    global enterprises
-
-    for i in range(10):
-        enterprises[i] = {
-            "id": i,
-            "name": f"Enterprise {i}",
-            "address": f"Address of enterprise {i}",
-            "maintainerid": [i * 3, i * 3 + 1, i * 3 + 2, i * 2],
-            "ownerid": i * 2
-        }
+# TODO: security voor machtegingen, nu wordt gewoon bv ownerID meegegeven in post body.
+#       Dit is niet secure en zo via bv cookies of andere log-in moeten
 
 def create_vacancy_routes(app, graph):
     # add a vacancy to an enterprise
@@ -47,8 +34,6 @@ def create_vacancy_routes(app, graph):
         data = request.form    # request contains : parameters to search a vacancy for
 
 def create_enterprise_routes(app, graph):
-    setup_DEBUG()
-
     # getters
     # get all enterprises
     @app.route("/enterprise/get/all", methods=['GET'])
@@ -87,7 +72,7 @@ def create_enterprise_routes(app, graph):
     def get_enterprises_by_location(location):
         query = query_enterpriseGetByLocation(location)
         print(query)
-        # TODO: get out of rdf, mayby search on distance
+        # TODO: mayby search on distance
         result = graph.query(query)
         df = DataFrame(result, columns=result.vars)
 
@@ -97,71 +82,255 @@ def create_enterprise_routes(app, graph):
     # create enterprise
     @app.route("/enterprise/create", methods=['POST'])
     def create_enterprise():
-        data = request.form     # request contains : name, address, ownerID
-        name = data["name"]
-        
-        URI = "http://localhost/Enterprise/" + str(7)
-        enterprise = URIRef(URI)
+        data = request.form
 
-        graph.bind("ns1", NS1)
+        # check if data is in the request
+        if "name" not in data:
+            return "name is missing"
+        if "lat" not in data:
+            return "lat is missing"
+        if "long" not in data:
+            return "long is missing"
+        if "location" not in data:
+            return "location is missing"
+        if "owner" not in data:
+            return "owner is missing"
         
-        graph.add((enterprise, RDF.type, FOAF.Organization))
-        graph.add((enterprise, NS1.hasName, Literal(name)))
+
+        enterpriseID = 0
+
+        name = data["name"]
+        lat = data["lat"]
+        lat = float(lat)
+        long = data["long"]
+        long = float(long)
+        location = data["location"]
+        owner = data["owner"]
+        owner = int(owner)
+
+        # check if data is correct
+        if name == "" or lat == "" or long == "" or location == "" or owner == "":
+            return "Not all data is provided"
+        if type(name) != str or type(lat) != float or type(long) != float or type(location) != str or type(owner) != int:
+            print(type(name), type(lat), type(long), type(location), type(owner))
+            return "Data is not of the correct type"
+
+        # check if we get an enterpriseInfoID or if we need to create one
+        if "enterpriseInfo" in data:
+            enterpriseInfoID = data["enterpriseInfo"]
+            enterpriseInfoID = int(enterpriseInfoID)
+            if enterpriseInfoID == "" or type(enterpriseInfoID) != int:
+                return "Data is not correct"
+            enterpriseID = create_enterpriseRDF(graph, name, lat, long, location, owner, enterpriseInfoID)
+        else:
+            if "enterpriseInfoDescription" not in data:
+                return "enterpriseInfoDescription is missing"
+
+            enterpriseInfoDescription = data["enterpriseInfoDescription"]
+            if (enterpriseInfoDescription == "" or type(enterpriseInfoDescription) != str):
+                return "Data is not correct"
+            enterpriseInfoID = create_enterpriseInfoRDF(graph, enterpriseInfoDescription)
+            enterpriseID = create_enterpriseRDF(graph, name, lat, long, location, owner, enterpriseInfoID)
         
-        graph.serialize(destination="test.ttl")
-        
-        return "create enterprise"
+        return "Enterprise created with ID: " + str(enterpriseID)     
 
     # update enterprise
     @app.route("/enterprise/update/<int:id>", methods=['PUT'])
     def update_enterprise(id):
-        data = request.form     # request contains : maintainerid (for security check), name, address
-        print(data)
-        # TODO: updated in rdf 
+        data = request.form     # request contains : maintainerid (for security check)
+
+        # check if request contains enterpriseID and maintainerID
+        if "maintainerID" not in data:
+            return "maintainerID is missing"
+        maintainerID = data["maintainerID"]
+        maintainerID = int(maintainerID)
+        if "enterpriseID" not in data:
+            return "enterpriseID is missing"
+        enterpriseID = data["enterpriseID"]
+        enterpriseID = int(enterpriseID)
+
+        # check if the maintainer is allowed to update the enterprise
+        if not (check_maintainer(graph, maintainerID, enterpriseID)):
+            return "only maintainer of enterprise can update the enterprise"
+
+         # check if data is in the request
+        name = ""
+        lat = ""
+        long = ""
+        location = ""
+        enterpriseInfoID = ""
+        if "name" in data:
+            name = data["name"]
+        if "lat" in data:
+            lat = data["lat"]
+        if "long" in data:
+            long = data["long"]
+        if "location" in data:
+            location = data["location"]
+        if ("enterpriseInfo" in data):
+            enterpriseInfoID = data["enterpriseInfo"]       
+
+        query = query_update_enterpriseRDF(graph, name, lat, long, location, enterpriseInfoID, enterpriseID)
+        graph.update(query)
+        graph.serialize(destination="enterprise.ttl")   # TODO : moet dit nu al ge serialized worden naar de echte graaf, of kunnen we dit periodiek laten gebueren
+                                                        # TODO : voor testen nog niet naar echte graaf
+        # TODO : hoe controleer je of de update gelukt is?
+
         return "update enterprise"
 
     # delete enterprise
-    @app.route("/enterprise/delete", methods=['DELETE'])
+    @app.route("/enterprise/delete", methods=['DELETE'])    # TODO : werkt niet meer
     def delete_enterprise():
         data = request.form     # request contains : enterpriseID, ownerID (for security check)
-        print(data)
-        # TODO: delete in rdf 
+
+        # check if request contains enterpriseID and ownerID
+        if "ownerID" not in data:
+            return "ownerID is missing"
+        ownerID = data["ownerID"]
+        ownerID = int(ownerID)
+        if "enterpriseID" not in data:
+            return "enterpriseID is missing"
+        enterpriseID = data["enterpriseID"]
+        enterpriseID = int(enterpriseID)
+
+        # check if the owner is allowed to delete the enterprise
+        if not (check_owner(graph, ownerID, enterpriseID)):
+            return "only owner of enterprise can delete the enterprise"
+
+        query = query_delete_enterpriseRDF(graph, enterpriseID)
+        print(query)
+        graph.update(query)
+        graph.serialize(destination="enterprise.ttl")   # TODO : moet dit nu al ge serialized worden naar de echte graaf, of kunnen we dit periodiek laten gebueren
+                                                        # TODO : voor testen nog niet naar echte graaf
+        # TODO : hoe controleer je of de delete gelukt is?
+
         return "delete enterprise"
 
     # transfer ownership
     @app.route("/enterprise/transfer", methods=['PUT'])
     def transfer_enterprise():
-        data = request.form     # request contains : enterpriseID, ownerID (for security check), newOwnerID
-        print(data)
-        # TODO: delete in rdf 
+        data = request.form
+
+        # check if request contains enterpriseID and ownerID
+        if "ownerID" not in data:
+            return "ownerID is missing"
+        ownerID = data["ownerID"]
+        ownerID = int(ownerID)
+        if "enterpriseID" not in data:
+            return "enterpriseID is missing"
+        enterpriseID = data["enterpriseID"]
+        enterpriseID = int(enterpriseID)
+
+        # check if the owner is allowed to transfer the enterprise
+        if not (check_owner(graph, ownerID, enterpriseID)):
+            return "only owner of enterprise can transfer the enterprise"
+
+        # check if the newOwner is a person and a maintainer of the enterprise
+        if "newOwnerID" not in data:
+            return "newOwnerID is missing"
+        newOwnerID = data["newOwnerID"]
+        newOwnerID = int(newOwnerID)
+
+        if not (check_person(graph, newOwnerID)):
+            return "newOwner is not a person"
+
+        if not (check_maintainer(graph, enterpriseID, newOwnerID)):
+            return "new owner is not a maintainer of the enterprise"
+        
+        query = query_transfer_ownershipRDF(graph, enterpriseID, newOwnerID)
+        graph.update(query)
+        graph.serialize(destination="enterprise.ttl")   # TODO : moet dit nu al ge serialized worden naar de echte graaf, of kunnen we dit periodiek laten gebueren
+                                                        # TODO : voor testen nog niet naar echte graaf
+        # TODO : hoe controleer je of de update gelukt is?
+    
         return "transfer enterprise"
-
-    # Vacancies
-    create_vacancy_routes(app, graph)
-
 
     # Maintainers
     # add a maintainer to an enterprise
     @app.route("/enterprise/maintainer/add", methods=['POST'])
     def add_maintainer():
-        data = request.form     # request contains : enterpriseID, ownerID (for security check), newMaintainerID
-        print(data)
-        # TODO: insert in rdf 
-        return "add maintainer"
+        data = request.form
+
+        # check if request contains enterpriseID and ownerID
+        if "ownerID" not in data:
+            return "ownerID is missing"
+        ownerID = data["ownerID"]
+        ownerID = int(ownerID)
+        if "enterpriseID" not in data:
+            return "enterpriseID is missing"
+        enterpriseID = data["enterpriseID"]
+        enterpriseID = int(enterpriseID)
+
+        # check if the owner is allowed to transfer the enterprise
+        if not (check_owner(graph, ownerID, enterpriseID)):
+            return "only owner of enterprise can transfer the enterprise"
+
+
+        # check if the maintainer is a person and not already a maintainer of the enterprise
+        if "maintainerID" not in data:
+            return "maintainerID is missing"
+        maintainerID = data["maintainerID"]
+        maintainerID = int(maintainerID)
+
+        if not (check_person(graph, maintainerID)):
+            return "maintainerID is not a person"
+
+        if (check_maintainer(graph, maintainerID, enterpriseID)):
+            return "maintainerID is already a maintainer of the enterprise"
+
+        query = query_add_maintainerRDF(graph, enterpriseID, maintainerID)
+        graph.update(query)
+        graph.serialize(destination="enterprise.ttl")   # TODO : moet dit nu al ge serialized worden naar de echte graaf, of kunnen we dit periodiek laten gebueren
+                                                        # TODO : voor testen nog niet naar echte graaf
+        # TODO : hoe controleer je of de update gelukt is?
+        
+        return "added maintainer"
 
     # remove a maintainer from an enterprise
-    @app.route("/enterprise/maintainer/remove", methods=['POST'])
+    @app.route("/enterprise/maintainer/remove", methods=['PUT'])    # TODO : werkt niet meer
     def remove_maintainer():
         data = request.form     # request contains : enterpriseID, ownerID (for security check), MaintainerID
-        print(data)
-        # TODO: remove in rdf 
+        
+        # check if request contains enterpriseID and ownerID
+        if "ownerID" not in data:
+            return "ownerID is missing"
+        ownerID = data["ownerID"]
+        ownerID = int(ownerID)
+        if "enterpriseID" not in data:
+            return "enterpriseID is missing"
+        enterpriseID = data["enterpriseID"]
+        enterpriseID = int(enterpriseID)
+
+        # check if the owner is allowed to transfer the enterprise
+        if not (check_owner(graph, ownerID, enterpriseID)):
+            return "only owner of enterprise can transfer the enterprise"
+
+
+        # check if the maintainer is a person and not already a maintainer of the enterprise
+        if "maintainerID" not in data:
+            return "maintainerID is missing"
+        maintainerID = data["maintainerID"]
+        maintainerID = int(maintainerID)
+
+        if not (check_maintainer(graph, maintainerID, enterpriseID)):
+            return "maintainerID is no maintainer of the enterprise"
+
+        # check that the owner is not removing himself
+        if (ownerID == maintainerID):
+            return "owner cannot remove himself"
+
+        query = query_remove_maintainerRDF(graph, enterpriseID, maintainerID)
+        graph.update(query)
+        graph.serialize(destination="enterprise.ttl")   # TODO : moet dit nu al ge serialized worden naar de echte graaf, of kunnen we dit periodiek laten gebueren
+                                                        # TODO : voor testen nog niet naar echte graaf
+        # TODO : hoe controleer je of de update gelukt is?
         return "remove maintainer"
 
     # Enterprise page
     # get enterprise page
     @app.route("/enterprise/enterpriseInfo/get/<id>", methods=['GET'])
     def get_enterprise_page(id):
-        # TODO: get out of rdf
+        
         return "get enterprise page"
 
     # create neterprise page
@@ -179,3 +348,7 @@ def create_enterprise_routes(app, graph):
         print(data)
         # TODO: update in rdf 
         return "update enterprise page"
+
+
+    # Vacancies
+    create_vacancy_routes(app, graph)

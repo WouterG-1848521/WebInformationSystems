@@ -134,7 +134,7 @@ enterprise:2 rdf:type local:enterprise ;
 
 # enterpriseInfo
 
-enterpriseInfo:1 rdf::type: local:enterpriseInfo ;
+enterpriseInfo:1 rdf:type local:enterpriseInfo ;
     local:enterpriseInfoDescription "KU Leuven is a university in Leuven, Belgium" .
 
 # vacancy
