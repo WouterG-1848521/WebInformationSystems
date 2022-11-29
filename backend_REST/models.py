@@ -88,8 +88,22 @@ class User():
         
         return user_id
         
-        
-    def getUserById(graph, id):
+    
+    def get_all_users(graph):
+        print("Getting all users...")
+        q = f'''
+                PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+                SELECT ?p
+                WHERE {{
+                    ?p rdf:type foaf:Person .
+                }}
+            '''
+        result = graph.query(q)
+        df = DataFrame(result, columns=result.vars)
+        return df.to_json()
+             
+      
+    def get_user_by_id(graph, id):
         print("Searching: " + PERSON + str(id))
         q = f'''
             PREFIX foaf: <http://xmlns.com/foaf/0.1/>
@@ -105,8 +119,25 @@ class User():
         df = DataFrame(result, columns=result.vars)
         return df.to_json()
         
+   
+    def get_user_profile_by_id(graph, id):
+        q = f"""
+                
+                PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+                SELECT ?p ?surName ?email
+                WHERE {{
+                    ?p rdf:type foaf:Person .
+                    OPTIONAL {{ ?p <http://localhost/hasSurName> ?surName . }}
+                    OPTIONAL {{ ?p <http://localhost/hasEmail> ?email . }}    
+                }}
+            """
         
-    def deleteUserById(graph, id):
+        result = graph.query(q, initBindings={'p': URIRef(PERSON + str(id))})
+        df = DataFrame(result, columns=result.vars)
+        return df.to_json(orient="records")
+   
+        
+    def delete_user_by_id(graph, id):
         # Delete user from DB
         user = DBUser.query.get(id)
         
@@ -156,13 +187,15 @@ class User():
         graph.serialize(destination="user.ttl")
         
         
-    def updateUserById(graph, id, json):
+    def update_user_by_id(graph, id, json):
         for key, value in json.items():
             if key == "email":
                 User.updateEmail(graph, id, value[0])
 
-    def updateEmail(graph, id, email):
+
+    def update_email(graph, id, email):
         # Update DB entry
         user = DBUser.query.get(id)
         user.email = email
         db.session.commit()
+        

@@ -33,18 +33,8 @@ def create_routes(app, g):
     # USER ROUTES
     ########################################
     @app.route("/users", methods=["GET"])
-    def get_users(): 
-        q = f'''
-                PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-                SELECT ?p
-                WHERE {{
-                    ?p rdf:type foaf:Person .
-                }}
-            '''
-        
-        result = g.query(q)
-        df = DataFrame(result, columns=result.vars)
-        return df.to_json(orient="records")
+    def get_all_users():
+        return User.get_all_users(g)
 
         
    
@@ -61,41 +51,25 @@ def create_routes(app, g):
     
     @app.route("/users/<int:id>", methods=["GET"])
     def get_user(id):
-        user_json = User.getUserById(g, id)
-        return user_json
+        return User.get_user_by_id(g, id)
 
 
     @app.route("/users/<int:id>", methods=["PUT"])
     def update_user(id):
-        User.updateUserById(g, id, request.form.to_dict(flat=False))
+        User.update_user_by_id(g, id, request.form.to_dict(flat=False))
         return f"Updated user {id}."
 
     
     @app.route("/users/<int:id>", methods=["DELETE"])
     def delete_user(id):
-        User.deleteUserById(g, id)
+        User.delete_user_by_id(g, id)
         return f"Deleted user {id}."
     
     
     @app.route("/users/<int:id>/profile", methods=["GET"])
     def get_user_profile(id):
+        return User.get_user_profile_by_id(g, id)
         
-        q = f"""
-                
-                PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-                SELECT ?p ?surName ?email
-                WHERE {{
-                    ?p rdf:type foaf:Person .
-                    ?p <http://localhost/hasId> {id} .
-                    OPTIONAL {{ ?p <http://localhost/hasSurName> ?surName . }}
-                    OPTIONAL {{ ?p <http://localhost/hasEmail> ?email . }}    
-                }}
-            """
-        
-        result = g.query(q)
-        df = DataFrame(result, columns=result.vars)
-        return df.to_json(orient="records")
-
 
     @app.route("/test", methods=["GET"])
     def test():
