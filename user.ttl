@@ -8,5 +8,7 @@ person:2 a foaf:Person ;
     foaf:name "Paul" ;
     foaf:surname "Jambers" .
 
-personalInfo:2 a local:personalInfo .
+personalInfo:2 a local:personalInfo ;
+    local:email "paul@gmail.com" ;
+    local:phone "123" .
 

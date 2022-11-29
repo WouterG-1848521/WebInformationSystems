@@ -53,10 +53,10 @@ def create_routes(app, g):
         return User.get_user_by_id(g, id)
 
 
-    @app.route("/users/<int:id>", methods=["PUT"])
-    def update_user(id):
-        User.update_user_by_id(g, id, request.form.to_dict(flat=False))
-        return f"Updated user {id}."
+    # @app.route("/users/<int:id>", methods=["PUT"])
+    # def update_user(id):
+    #     User.update_user_by_id(g, id, request.form.to_dict(flat=False))
+    #     return f"Updated user {id}."
 
     
     @app.route("/users/<int:id>", methods=["DELETE"])
@@ -72,12 +72,18 @@ def create_routes(app, g):
     
     @app.route("/users/<int:id>/email", methods=["PUT"])
     def update_user_email(id):
+        data = request.form
+        
+        User.update_email(g, id, data["email"])
         return f"Updated email of user {id}."
     
     
     @app.route("/users/<int:id>/phone", methods=["PUT"])
     def update_user_phone(id):
-        return f"Updated phone of user {id}."
+        data = request.form
+    
+        User.update_phone(g, id, data["phone"])
+        return f"Updated phone of user {id} to ."
     
     
     @app.route("/users/<int:user_id>/diploma", methods=["POST"])

@@ -185,17 +185,61 @@ class User():
         graph.update(q, initBindings={'i': URIRef(PERSONAL_INFO + str(id))})
         
         graph.serialize(destination="user.ttl")
-        
-        
-    def update_user_by_id(graph, id, json):
-        for key, value in json.items():
-            if key == "email":
-                User.updateEmail(graph, id, value[0])
 
 
     def update_email(graph, id, email):
-        # Update DB entry
-        user = DBUser.query.get(id)
-        user.email = email
-        db.session.commit()
+        user_info_ref = URIRef(PERSONAL_INFO + str(id))
         
+        # Get previous email
+        q = f'''
+            PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+            SELECT ?email
+            WHERE {{
+                ?i rdf:type local:personalInfo .
+                ?i local:email ?email
+            }}
+        '''
+        
+        result = graph.query(q, initBindings={'i': user_info_ref})
+        
+        # If email exists -> update (else just create)
+        if (len(result) != 0):
+            print("Update email...")
+            prev_email = result.email
+            
+            # Delete previous email
+            graph.remove((user_info_ref, LOCAL.email, Literal(prev_email)))
+        
+        # Add new email
+        graph.add((user_info_ref, LOCAL.email, Literal(email)))
+        
+        graph.serialize(destination="user.ttl")
+        
+        
+    def update_phone(graph, id, phone):
+        user_info_ref = URIRef(PERSONAL_INFO + str(id))
+        
+        # Get previous phone
+        q = f'''
+            PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+            SELECT ?phone
+            WHERE {{
+                ?i rdf:type local:personalInfo .
+                ?i local:phone ?phone
+            }}
+        '''
+        
+        result = graph.query(q, initBindings={'i': user_info_ref})
+        
+        # If phone exists -> update (else just create)
+        if (len(result) != 0):
+            print("Update phone...")
+            prev_phone = result.phone
+            
+            # Delete previous phone
+            graph.remove((user_info_ref, LOCAL.phone, Literal(prev_phone)))
+            
+        # Add new phone
+        graph.add((user_info_ref, LOCAL.phone, Literal(phone)))
+        
+        graph.serialize(destination="user.ttl")
