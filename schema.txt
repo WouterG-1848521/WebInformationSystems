@@ -1,20 +1,13 @@
-user (id) : 
+User (id) : 
     id has a name
-    id has a suraname
+    id has a surname
     id has a email
-    id has a userInfo
-
-UserInfo (id) :
-    id has graduation_date
-    id has diploma[]
-    id has workExperience[]
-    id has skills[]
-    id has languages[]
-
-Requirements(id) :
-    id has a diploma
-    id has skills[]
-    id has languages[]
+    
+    id has graduationDate
+    id has Diploma[]
+    id has WorkExperience[]
+    id has Skills[]
+    id has Languages[]    
 
 Diploma(id) :
     id has degree
@@ -25,52 +18,55 @@ Diploma(id) :
 
 Experience(id) :
     id has a jobTitle
-    id has skills[]     # Used skills
+    id has Skills[]     # Used skills
     id has startDate
     id has endDate
 
-Skill(id) :
-    id has a name
+Skill(string) :
+    equivalentClass Skill ;
 
-Language(id) :
-    id has a name
+Language(string):
+    equivalentClass Language ;
+    
+// eg)
+// http://localhost/languages/english ;
+// http://localhost/languages/engels  ;
 
 Vacancy (id) :
     id has a jobTitle
-    id has a start_date
-    id has a end_date
-    id has a string
+    id has a startDate
+    id has a endDate
     id has a availability
     id has a owner (enterprise)
-    id has VacancyInfo
-
-VacancyInfo (id) :
+    id has a Diploma
+    id has Skills[]
+    id has Languages[]
     id has a jobDescription
-    id has a jobRequirements        # has diploma x, knows language y, has experience z
     id has a jobResponsibilities
     id has a jobSalary
     id has a jobLocation
 
 Enterprise (id) :
+    id has owner
     id has a name
-    id has maintainers[]
-    id has EnterpriseInfo
-
-EnterpriseInfo (id) :
+    id hasMaintainers User[]
+ 
     id has a description
     id has a address
     id has a phone
     id has a email
     id has a website
     id has a logo
+    id has a lat
+    id has a long
 
-Connection (id) :
-    id has a sender
-    id has a receiver
+Sender hasConnection Receiver
 
 hasConnection rdf:type owl:SymmetricProperty
 sender hasConnection receiver
 
+
+// in db?
 ConnectionRequest (id) :
     id has a sender
     id has a receiver
