@@ -2,12 +2,39 @@ from flask import jsonify, request
 from flask_login import login_user, logout_user, login_required
 from rdflib import Literal, RDF, URIRef
 
-from backend_REST import db
-from backend_REST.models import User
+from pandas import DataFrame
+import owlrl
 
+from backend_REST import db
+from backend_REST.models.user import User
 from backend_REST.graph import LOCAL, LANGUAGE
 
+
 def create_test_routes(app, g):
+    
+    @app.route("/test", methods=["GET"])
+    def test():
+
+        query = """
+            SELECT ?userInfo
+            where {
+                ?userInfo a <http://localhost/UserInfo> .
+                ?userInfo <http://localhost/hasDiploma> ?diploma .
+                ?diploma <http://localhost/degreeField> <http://localhost/field/Doctor> .
+
+            }
+        """
+
+        # owlrl.DeductiveClosure(owlrl.OWLRL_Semantics).expand(g)
+        owlrl.DeductiveClosure(owlrl.RDFS_Semantics).expand(g)
+
+        g.serialize(destination="out.ttl")
+
+        result = g.query(query)
+
+        df = DataFrame(result, columns=result.vars)
+        return df.to_json(orient="records")
+
     
     @app.route("/db/add", methods=['GET'], endpoint='func1')
     def add_user():

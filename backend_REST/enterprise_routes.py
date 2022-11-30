@@ -3,35 +3,12 @@ from pandas import DataFrame
 
 from rdflib import Graph, URIRef, Literal, Namespace
 
-from .queries import query_enterpriseGetAll, query_enterpriseGetById, query_enterpriseGetByName, query_enterpriseGetByLocation, check_maintainer, check_owner, check_person
-from .queries import create_enterpriseInfoRDF, create_enterpriseRDF, query_update_enterpriseRDF, query_delete_enterpriseRDF, query_transfer_ownershipRDF
-from .queries import query_remove_maintainerRDF, query_add_maintainerRDF, query_get_enterpriseInfoRDF, check_enterpriseHasInfo, query_add_enterpriseInfoToEnterprise
+from backend_REST.queries import query_enterpriseGetAll, query_enterpriseGetById, query_enterpriseGetByName, query_enterpriseGetByLocation, check_maintainer, check_owner, check_person
+from backend_REST.queries import create_enterpriseInfoRDF, create_enterpriseRDF, query_update_enterpriseRDF, query_delete_enterpriseRDF, query_transfer_ownershipRDF
+from backend_REST.queries import query_remove_maintainerRDF, query_add_maintainerRDF, query_get_enterpriseInfoRDF, check_enterpriseHasInfo, query_add_enterpriseInfoToEnterprise
 
 # TODO: security voor machtegingen, nu wordt gewoon bv ownerID meegegeven in post body.
 #       Dit is niet secure en zo via bv cookies of andere log-in moeten
-
-def create_vacancy_routes(app, graph):
-    # add a vacancy to an enterprise
-    @app.route("/enterprise/vacancy/add", methods=['POST'])
-    def add_vacancy():
-        data = request.form     # request contains : enterpriseID, mainterID (for security check), jobtitle, address, startdate, enddate
-            # waarschijnlijk ook nog een lijst van skills
-        print(data)
-        # TODO: insert in rdf 
-        return "add vacancy"
-
-    # remove a vacancy from an enterprise
-    @app.route("/enterprise/vacancy/remove", methods=['POST'])
-    def remove_vacancy():
-        data = request.form     # request contains : enterpriseID, vacancyID, mainterID (for security check)
-        print(data)
-        # TODO: remove in rdf 
-        return "remove vacancy"
-
-    # match a vacancy from parameters
-    @app.route("/vacancy/match", methods=['POST'])
-    def match_vacancy():
-        data = request.form    # request contains : parameters to search a vacancy for
 
 def create_enterprise_routes(app, graph):
     # getters
@@ -383,7 +360,3 @@ def create_enterprise_routes(app, graph):
         print(data)
         # TODO: update in rdf 
         return "update enterprise page"
-
-
-    # Vacancies
-    create_vacancy_routes(app, graph)

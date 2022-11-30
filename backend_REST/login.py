@@ -1,5 +1,5 @@
 from flask_login import LoginManager
-from backend_REST.models import User
+from backend_REST.models.user import User
 
 def create_login_manager(app):
     login_manager = LoginManager()

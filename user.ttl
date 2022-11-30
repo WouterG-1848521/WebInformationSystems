@@ -9,7 +9,7 @@
 
 person:1 a foaf:Person ;
     local:diploma diploma:1 ;
-    local:email "paul@gmail.com" ;
+    local:email "paul2@gmail.com" ;
     local:languages language:english ;
     local:phone "123" ;
     foaf:name "Paul" ;
