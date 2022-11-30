@@ -371,3 +371,12 @@ class Language():
         graph.serialize(destination="user.ttl")
 
         
+class Vacancy():
+    def add():
+        pass
+
+    def delete():
+        pass
+
+    def get_by_enterprise_id():
+        pass
