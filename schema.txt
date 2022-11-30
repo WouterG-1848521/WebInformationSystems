@@ -38,6 +38,7 @@ Vacancy (id) :
     id has a endDate
     id has a availability
     id has a owner (enterprise)
+    
     id has a Diploma
     id has Skills[]
     id has Languages[]
