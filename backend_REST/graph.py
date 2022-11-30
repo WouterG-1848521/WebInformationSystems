@@ -4,14 +4,16 @@ from rdflib.namespace import FOAF, RDF, RDFS
 local = "http://localhost/"
 
 LOCAL           = Namespace(local + "")
-PROFESSION      = Namespace(local + "profession/")
-DEGREE          = Namespace(local + "degree/")
 PERSON          = Namespace(local + "person/")
 PERSONAL_INFO   = Namespace(local + "personalInfo/")
+DIPLOMA         = Namespace(local + "diploma/")
+PROFESSION      = Namespace(local + "profession/")
+DEGREE          = Namespace(local + "degree/")
 ENTPERISE       = Namespace(local + "enterprise/")
 ENTERPRISE_INFO = Namespace(local + "enterpriseInfo/")
 VACANCY         = Namespace(local + "vacancy/")
 VACANCY_INFO    = Namespace(local + "vacancyInfo/")
+LANGUAGE        = Namespace(local + "language/")
 
 
 def create_graph(file_path):
@@ -35,5 +37,7 @@ def create_graph(file_path):
     g.bind("enterpriseInfo" , ENTERPRISE_INFO)
     g.bind("vacancy"        , VACANCY)
     g.bind("vacancyInfo"    , VACANCY_INFO)
+    g.bind("diploma"        , DIPLOMA)
+    g.bind("language"       , LANGUAGE)
     
     return g

@@ -1,10 +1,13 @@
 from flask import jsonify, request
 from flask_login import login_user, logout_user, login_required
+from rdflib import Literal, RDF, URIRef
 
 from backend_REST import db
 from backend_REST.models import User
 
-def create_test_routes(app):
+from backend_REST.graph import LOCAL, LANGUAGE
+
+def create_test_routes(app, g):
     
     @app.route("/db/add", methods=['GET'], endpoint='func1')
     def add_user():
@@ -54,3 +57,22 @@ def create_test_routes(app):
         User.query.delete()
         
         return "Removed user."
+    
+    
+    @app.route("/fill/languages", methods=['GET'])
+    def fill_languages():
+        # Add Nederlands
+        g.add((URIRef(LANGUAGE + str(1)), RDF.type, LOCAL.language))
+        g.add((URIRef(LANGUAGE + str(1)), LOCAL.name, Literal("Nederlands", lang="nl")))
+        
+        # Add English
+        g.add((URIRef(LANGUAGE + str(2)), RDF.type, LOCAL.language))
+        g.add((URIRef(LANGUAGE + str(2)), LOCAL.name, Literal("English", lang="en")))
+        
+        # Add Francais
+        g.add((URIRef(LANGUAGE + str(3)), RDF.type, LOCAL.language))
+        g.add((URIRef(LANGUAGE + str(3)), LOCAL.name, Literal("Francais", lang="fr")))
+        
+        g.serialize(destination="user.ttl")
+        
+        return "Filled graph with the following languages: Nederlands, English and Francais."
