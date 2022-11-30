@@ -71,18 +71,11 @@ class User():
         
         # Add user to Graph
         user_ref = URIRef(PERSON + str(user_id))
-        user_info_ref = URIRef(PERSONAL_INFO + str(user_id))
 
         # User
         graph.add((user_ref, RDF.type, FOAF.Person))
         graph.add((user_ref, FOAF.name, Literal(name)))
         graph.add((user_ref, FOAF.surname, Literal(surname)))
-        
-        # User Info
-        graph.add((user_info_ref, RDF.type, LOCAL.personalInfo))
-        
-        # Link user info to user
-        graph.add((user_ref, LOCAL.personalInfo, user_info_ref))
         
         graph.serialize(destination="user.ttl")
         
@@ -122,19 +115,17 @@ class User():
    
     def get_profile_by_id(graph, user_id):
         user_URI = URIRef(PERSON + str(user_id))
-        user_info_URI = URIRef(PERSONAL_INFO + str(user_id))
         
         q = f"""
                 SELECT ?p ?i ?surName ?email
                 WHERE {{
                     ?p rdf:type foaf:Person .
-                    ?i rdf:type local:personalInfo .
                     OPTIONAL {{ ?p foaf:surname ?surName . }}
-                    OPTIONAL {{ ?i local:email ?email . }}    
+                    OPTIONAL {{ ?p local:email ?email . }}    
                 }}
             """
         
-        result = graph.query(q, initBindings={'p': user_URI, 'i': user_info_URI})
+        result = graph.query(q, initBindings={'p': user_URI})
         df = DataFrame(result, columns=result.vars)
         return df.to_json(orient="records")
    
@@ -149,14 +140,9 @@ class User():
             db.session.commit()
         
         user_URI = URIRef(PERSON + str(user_id))
-        userInfo_URI = URIRef(PERSONAL_INFO + str(user_id))
         
         # TODO: Delete all diploma's
         User.delete_diploma(graph, user_id, 0)
-        
-        # Delete user info
-        print("Deleting: " + userInfo_URI)
-        graph.remove((userInfo_URI, None, None))
         
         # Delete user
         print("Deleting: " + user_URI)
@@ -164,53 +150,37 @@ class User():
         
         graph.serialize(destination="user.ttl")
 
+
+    # Main update function (called by all others)
+    def update(graph, user_id, term, literal, literal_type=None):
+        user_ref = URIRef(PERSON + str(user_id))
+        
+        # Remove old, add new
+        graph.remove((user_ref, term, None))
+        graph.add((user_ref, term, Literal(literal, datatype=literal_type)))
+        
+        graph.serialize(destination="user.ttl")
+    
     #----- BASIC UPDATES -----#
     def update_name(graph, user_id, name):
-        pass
-     
-        
+        User.update(graph, user_id, FOAF.name, name)
+       
     def update_surname(graph, user_id, surname):
-        pass
+        User.update(graph, user_id, FOAF.surname, surname)
         
     def update_email(graph, user_id, email):
-        user_info_ref = URIRef(PERSONAL_INFO + str(user_id))
-
-        # Delete previous email
-        graph.remove((user_info_ref, LOCAL.email, None))
-        
-        # Add new email
-        graph.add((user_info_ref, LOCAL.email, Literal(email)))
-        
-        graph.serialize(destination="user.ttl")
-        
+        User.update(graph, user_id, LOCAL.email, email)
         
     def update_phone(graph, user_id, phone):
-        user_info_ref = URIRef(PERSONAL_INFO + str(user_id))
-    
-        # Delete previous phone
-        graph.remove((user_info_ref, LOCAL.phone, None))
-            
-        # Add new phone
-        graph.add((user_info_ref, LOCAL.phone, Literal(phone)))
-        
-        graph.serialize(destination="user.ttl")
-        
+        User.update(graph, user_id, LOCAL.phone, phone)
         
     def update_graduation_date(graph, user_id, date):
-        user_info_ref = URIRef(PERSONAL_INFO + str(user_id))
-    
-        # Delete previous graduation date
-        graph.remove((user_info_ref, LOCAL.graduationDate, None))
-            
-        # Add new graduation date
-        graph.add((user_info_ref, LOCAL.graduationDate, Literal(date, XSD.date)))
-        
-        graph.serialize(destination="user.ttl")
+        User.update(graph, user_id, LOCAL.date, date, XSD.date)
     
     
 class Diploma():
     def create(graph, user_id, degree, profession, institiution, startDate, endDate):
-        user_info_ref = URIRef(PERSONAL_INFO + str(user_id))
+        user_ref = URIRef(PERSON + str(user_id))
         
         # TODO: get new diploma id
         diploma_id = 1
@@ -228,7 +198,7 @@ class Diploma():
         graph.add((diploma_URI, LOCAL.endDate, Literal(endDate, datatype=XSD.date)))
         
         # Link diploma to user info
-        graph.add((user_info_ref, LOCAL.diploma, diploma_URI))
+        graph.add((user_ref, LOCAL.diploma, diploma_URI))
         
         graph.serialize(destination="user.ttl")
         
@@ -241,7 +211,7 @@ class Diploma():
         q = f'''
             SELECT ?d ?degree ?profession ?institution ?startDate ?endDate
             WHERE {{
-                ?i rdf:type local:personalInfo .
+                ?p rdf:type foaf:Person .
                 ?i local:diploma ?d .
                 ?d rdf:type local:diploma .
                 ?d local:degree ?degree .
@@ -297,11 +267,11 @@ class Diploma():
     
     
     def delete(graph, user_id, diploma_id):
-        user_info_ref = URIRef(PERSONAL_INFO + str(user_id))
+        user_URI = URIRef(PERSON + str(user_id))
         diploma_URI = URIRef(DIPLOMA + str(diploma_id))
         
         # Unlink diploma to user info
-        graph.remove((user_info_ref, LOCAL.diploma, diploma_URI))
+        graph.remove((user_URI, LOCAL.diploma, diploma_URI))
         
         # Delete diploma
         graph.remove((diploma_URI, None, None))
@@ -338,34 +308,33 @@ class Skills():
     
     
 class Language():
-    def add(graph, user_id, language_id):
-        user_info_ref = URIRef(PERSONAL_INFO + str(user_id))
-        language_ref = URIRef(LANGUAGE + str(language_id))
+    def add(graph, user_id, language):
+        user_URI = URIRef(PERSON + str(user_id))
+        language_ref = URIRef(LANGUAGE + str(language))
+        print(language_ref)
         
-        graph.add((user_info_ref, LOCAL.languages, language_ref))
+        graph.add((user_URI, LOCAL.languages, language_ref))
         graph.serialize(destination="user.ttl")
     
     
     def get_all_by_user_id(graph, user_id):
-        userInfo_URI = URIRef(PERSONAL_INFO + str(user_id))
+        user_URI = URIRef(PERSON + str(user_id))
         
         q = f'''
-            SELECT ?languageName
+            SELECT ?language
             WHERE {{
                 ?i rdf:type local:personalInfo .
-                ?i local:languages ?l .
-                ?l rdf:type local:language .
-                ?l local:name ?languageName
+                ?i local:languages ?language
             }}
         '''
-        result = graph.query(q, initBindings={'i': userInfo_URI})
+        result = graph.query(q, initBindings={'i': user_URI})
         df = DataFrame(result, columns=result.vars)
         return df.to_json()
     
     
-    def remove(graph, user_id, language_id):
-        user_info_ref = URIRef(PERSONAL_INFO + str(user_id))
-        language_ref = URIRef(LANGUAGE + str(language_id))
+    def remove(graph, user_id, language):
+        user_URI = URIRef(PERSON + str(user_id))
+        language_ref = URIRef(LANGUAGE + str(language))
                 
-        graph.remove((user_info_ref, LOCAL.languages, language_ref))
+        graph.remove((user_URI, LOCAL.languages, language_ref))
         graph.serialize(destination="user.ttl")

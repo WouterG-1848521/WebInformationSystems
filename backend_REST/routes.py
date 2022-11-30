@@ -130,9 +130,9 @@ def create_routes(app, g):
     @app.route("/users/<int:user_id>/languages", methods=["POST"])
     def add(user_id):
         data = request.form
-        language_id = data["language_id"]
-        Language.add(g, user_id, language_id)
-        return f"Added language {language_id} to user {user_id}'s languages."
+        language = data["language"]
+        Language.add(g, user_id, language)
+        return f"Added language {language} to user {user_id}'s languages."
     
     
     @app.route("/users/<int:user_id>/languages", methods=["GET"])
@@ -140,10 +140,10 @@ def create_routes(app, g):
         return Language.get_all_by_user_id(g, user_id)
     
     
-    @app.route("/users/<int:user_id>/languages/<int:language_id>", methods=["DELETE"])
-    def remove(user_id, language_id):
-        Language.remove(g, user_id, language_id)
-        return f"Removed language {language_id} from user {user_id}'s languages."
+    @app.route("/users/<int:user_id>/languages/<string:language>", methods=["DELETE"])
+    def remove(user_id, language):
+        Language.remove(g, user_id, language)
+        return f"Removed language {language} from user {user_id}'s languages."
     
     
 

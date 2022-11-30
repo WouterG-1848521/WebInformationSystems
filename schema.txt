@@ -70,6 +70,3 @@ sender hasConnection receiver
 ConnectionRequest (id) :
     id has a sender
     id has a receiver
-
-
-
