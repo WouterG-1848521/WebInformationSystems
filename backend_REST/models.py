@@ -369,3 +369,5 @@ class Language():
                 
         graph.remove((user_info_ref, LOCAL.languages, language_ref))
         graph.serialize(destination="user.ttl")
+
+        
