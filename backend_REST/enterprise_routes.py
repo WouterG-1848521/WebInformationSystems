@@ -5,7 +5,7 @@ from rdflib import Graph, URIRef, Literal, Namespace
 
 from .queries import query_enterpriseGetAll, query_enterpriseGetById, query_enterpriseGetByName, query_enterpriseGetByLocation, check_maintainer, check_owner, check_person
 from .queries import create_enterpriseInfoRDF, create_enterpriseRDF, query_update_enterpriseRDF, query_delete_enterpriseRDF, query_transfer_ownershipRDF
-from .queries import query_remove_maintainerRDF, query_add_maintainerRDF
+from .queries import query_remove_maintainerRDF, query_add_maintainerRDF, query_get_enterpriseInfoRDF, check_enterpriseHasInfo, query_add_enterpriseInfoToEnterprise
 
 # TODO: security voor machtegingen, nu wordt gewoon bv ownerID meegegeven in post body.
 #       Dit is niet secure en zo via bv cookies of andere log-in moeten
@@ -131,6 +131,8 @@ def create_enterprise_routes(app, graph):
                 return "Data is not correct"
             enterpriseInfoID = create_enterpriseInfoRDF(graph, enterpriseInfoDescription)
             enterpriseID = create_enterpriseRDF(graph, name, lat, long, location, owner, enterpriseInfoID)
+
+        graph.serialize(destination="graph.ttl")
         
         return "Enterprise created with ID: " + str(enterpriseID)     
 
@@ -170,16 +172,15 @@ def create_enterprise_routes(app, graph):
         if ("enterpriseInfo" in data):
             enterpriseInfoID = data["enterpriseInfo"]       
 
-        query = query_update_enterpriseRDF(graph, name, lat, long, location, enterpriseInfoID, enterpriseID)
+        query = query_update_enterpriseRDF(name, lat, long, location, enterpriseInfoID, enterpriseID)
         graph.update(query)
-        graph.serialize(destination="enterprise.ttl")   # TODO : moet dit nu al ge serialized worden naar de echte graaf, of kunnen we dit periodiek laten gebueren
-                                                        # TODO : voor testen nog niet naar echte graaf
+        graph.serialize(destination="graph.ttl")   # TODO : moet dit nu al ge serialized worden naar de echte graaf, of kunnen we dit periodiek laten gebueren
         # TODO : hoe controleer je of de update gelukt is?
 
         return "update enterprise"
 
     # delete enterprise
-    @app.route("/enterprise/delete", methods=['DELETE'])    # TODO : werkt niet meer
+    @app.route("/enterprise/delete", methods=['DELETE'])
     def delete_enterprise():
         data = request.form     # request contains : enterpriseID, ownerID (for security check)
 
@@ -194,14 +195,13 @@ def create_enterprise_routes(app, graph):
         enterpriseID = int(enterpriseID)
 
         # check if the owner is allowed to delete the enterprise
-        if not (check_owner(graph, ownerID, enterpriseID)):
+        if not (check_owner(graph, enterpriseID, ownerID)):
             return "only owner of enterprise can delete the enterprise"
 
-        query = query_delete_enterpriseRDF(graph, enterpriseID)
+        query = query_delete_enterpriseRDF(enterpriseID)
         print(query)
         graph.update(query)
-        graph.serialize(destination="enterprise.ttl")   # TODO : moet dit nu al ge serialized worden naar de echte graaf, of kunnen we dit periodiek laten gebueren
-                                                        # TODO : voor testen nog niet naar echte graaf
+        graph.serialize(destination="graph.ttl")   # TODO : moet dit nu al ge serialized worden naar de echte graaf, of kunnen we dit periodiek laten gebueren
         # TODO : hoe controleer je of de delete gelukt is?
 
         return "delete enterprise"
@@ -237,10 +237,9 @@ def create_enterprise_routes(app, graph):
         if not (check_maintainer(graph, enterpriseID, newOwnerID)):
             return "new owner is not a maintainer of the enterprise"
         
-        query = query_transfer_ownershipRDF(graph, enterpriseID, newOwnerID)
+        query = query_transfer_ownershipRDF(enterpriseID, newOwnerID)
         graph.update(query)
-        graph.serialize(destination="enterprise.ttl")   # TODO : moet dit nu al ge serialized worden naar de echte graaf, of kunnen we dit periodiek laten gebueren
-                                                        # TODO : voor testen nog niet naar echte graaf
+        graph.serialize(destination="graph.ttl")   # TODO : moet dit nu al ge serialized worden naar de echte graaf, of kunnen we dit periodiek laten gebueren
         # TODO : hoe controleer je of de update gelukt is?
     
         return "transfer enterprise"
@@ -278,16 +277,15 @@ def create_enterprise_routes(app, graph):
         if (check_maintainer(graph, maintainerID, enterpriseID)):
             return "maintainerID is already a maintainer of the enterprise"
 
-        query = query_add_maintainerRDF(graph, enterpriseID, maintainerID)
+        query = query_add_maintainerRDF(enterpriseID, maintainerID)
         graph.update(query)
-        graph.serialize(destination="enterprise.ttl")   # TODO : moet dit nu al ge serialized worden naar de echte graaf, of kunnen we dit periodiek laten gebueren
-                                                        # TODO : voor testen nog niet naar echte graaf
+        graph.serialize(destination="graph.ttl")   # TODO : moet dit nu al ge serialized worden naar de echte graaf, of kunnen we dit periodiek laten gebueren
         # TODO : hoe controleer je of de update gelukt is?
         
         return "added maintainer"
 
     # remove a maintainer from an enterprise
-    @app.route("/enterprise/maintainer/remove", methods=['PUT'])    # TODO : werkt niet meer
+    @app.route("/enterprise/maintainer/remove", methods=['PUT'])
     def remove_maintainer():
         data = request.form     # request contains : enterpriseID, ownerID (for security check), MaintainerID
         
@@ -312,38 +310,75 @@ def create_enterprise_routes(app, graph):
         maintainerID = data["maintainerID"]
         maintainerID = int(maintainerID)
 
-        if not (check_maintainer(graph, maintainerID, enterpriseID)):
+        if not (check_maintainer(graph, enterpriseID, maintainerID)):
             return "maintainerID is no maintainer of the enterprise"
 
         # check that the owner is not removing himself
         if (ownerID == maintainerID):
             return "owner cannot remove himself"
 
-        query = query_remove_maintainerRDF(graph, enterpriseID, maintainerID)
+        query = query_remove_maintainerRDF(enterpriseID, maintainerID)
         graph.update(query)
-        graph.serialize(destination="enterprise.ttl")   # TODO : moet dit nu al ge serialized worden naar de echte graaf, of kunnen we dit periodiek laten gebueren
-                                                        # TODO : voor testen nog niet naar echte graaf
+        graph.serialize(destination="graph.ttl")   # TODO : moet dit nu al ge serialized worden naar de echte graaf, of kunnen we dit periodiek laten gebueren
         # TODO : hoe controleer je of de update gelukt is?
         return "remove maintainer"
 
     # Enterprise page
     # get enterprise page
     @app.route("/enterprise/enterpriseInfo/get/<id>", methods=['GET'])
-    def get_enterprise_page(id):
-        
-        return "get enterprise page"
+    def get_enterprise_info(id):
+        id = int(id)
+        query = query_get_enterpriseInfoRDF(id)
+        print(query)
+
+        result = graph.query(query)
+        df = DataFrame(result, columns=result.vars)
+
+        return df.to_json(orient='index', indent=2)
 
     # create neterprise page
     @app.route("/enterprise/enterpriseInfo/create", methods=['POST'])
     def create_enterprise_page():
         data = request.form    # request contains : enterpriseID, mainterID (for security check), description, website, ...
-        print(data)
-        # TODO: insert in rdf
+
+        # check if request contains enterpriseID and maintainerID
+        if "maintainerID" not in data:
+            return "maintainerID is missing"
+        maintainerID = data["maintainerID"]
+        maintainerID = int(maintainerID)
+        if "enterpriseID" not in data:
+            return "enterpriseID is missing"
+        enterpriseID = data["enterpriseID"]
+        enterpriseID = int(enterpriseID)
+
+        # check if the maintainer is allowed to create the enterprise page
+        if not (check_maintainer(graph, enterpriseID, maintainerID)):
+            return "only maintainer of enterprise can create enterprise page"
+
+        # check if the enterprise page already exists
+        if (check_enterpriseHasInfo(graph, enterpriseID)):
+            return "enterprise page already exists"
+
+        # check if the request contains all the required data
+        if "description" not in data:
+            return "description is missing"
+        description = data["description"]
+        
+
+        enterpriseInfoID = create_enterpriseInfoRDF(graph, description)
+
+        # Add the enterpriseInfo to the enterprise
+        query = query_add_enterpriseInfoToEnterprise(enterpriseInfoID, enterpriseID)
+        graph.update(query)
+
+        graph.serialize(destination="graph.ttl")   # TODO : moet dit nu al ge serialized worden naar de echte graaf, of kunnen we dit periodiek laten gebueren
+        # TODO : hoe controleer je of de update gelukt is?
+
         return "create enterprise page"
 
     # update enterprise page
     @app.route("/enterprise/enterpriseInfo/update", methods=['PUT'])
-    def update_enterprise_page():
+    def update_enterprise_page():   # TODO
         data = request.form     # request contains : enterpriseID, MaintainerID(for security check), description, website, ...
         print(data)
         # TODO: update in rdf 

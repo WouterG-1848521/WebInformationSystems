@@ -18,7 +18,7 @@ prefixes = '''
                 prefix degree: <http://localhost/degree/> 
                 prefix enterprise: <http://localhost/enterprise/>
                 prefix person: <http://localhost/person/> 
-                prefix enterpriseInfo: <http://localhost/enterpriseInfo/#> 
+                prefix enterpriseInfo: <http://localhost/enterpriseInfo/> 
                 prefix vacancy: <http://localhost/vacancy/> 
                 prefix vacancyInfo: <http://localhost/vacancyInfo/> 
                 prefix personalInfo: <http://localhost/personalInfo/> 
@@ -28,6 +28,7 @@ prefixes = '''
 # helper functions
 #########################################################
 def check_maintainer(graph, enterpriseID, maintainerID):
+    print("checking maintainer, enterpriseID: " + str(enterpriseID) + ", maintainerID: " + str(maintainerID))
     query = prefixes + "\n"
     query += f'''
                 SELECT ?maintainer
@@ -79,6 +80,22 @@ def check_person(graph, personID):
     else:
         return True
 
+def check_enterpriseHasInfo(graph, enterpriseID):
+    query = prefixes + "\n"
+    query += f'''
+                SELECT ?enterpriseInfo
+                WHERE {{
+                    ?enterprise rdf:type local:enterprise .
+                    ?enterprise local:enterpriseInfo ?enterpriseInfo .
+                    FILTER (?enterprise = enterprise:{enterpriseID})
+                }}
+            '''
+    result = graph.query(query)
+
+    if (len(result) == 0):
+        return False
+    else:
+        return True
 
 #########################################################
 # create functions
@@ -199,7 +216,7 @@ def query_enterpriseGetByLocation(location):
     # TODO: per maintainer wordt er nu een apart result teruggegeven, kan dit misschien samengevoegd worden?
     return query
 
-def query_update_enterpriseRDF(graph, name, lat, long, location, enterpriseInfoID, enterpriseID):
+def query_update_enterpriseRDF(name, lat, long, location, enterpriseInfoID, enterpriseID):
     query = prefixes + "\n"
     deletes = ""
     inserts = ""
@@ -238,7 +255,7 @@ def query_update_enterpriseRDF(graph, name, lat, long, location, enterpriseInfoI
     return query
 
 # deletes the enterprise, the enterpriseInfo and the connected vacancies, vacancyInfo
-def query_delete_enterpriseRDF(graph, enterpriseID):
+def query_delete_enterpriseRDF(enterpriseID):
     query = prefixes + "\n"
     query += f'''
                 DELETE {{
@@ -297,7 +314,7 @@ def query_delete_enterpriseRDF(graph, enterpriseID):
             '''
     return query
 
-def query_transfer_ownershipRDF(graph, enterpriseID, newOwnerID):
+def query_transfer_ownershipRDF(enterpriseID, newOwnerID):
     query = prefixes + "\n"
     query += f'''
                 DELETE {{
@@ -314,7 +331,7 @@ def query_transfer_ownershipRDF(graph, enterpriseID, newOwnerID):
             '''
     return query
 
-def query_add_maintainerRDF(graph, enterpriseID, newMaintainerID):
+def query_add_maintainerRDF(enterpriseID, newMaintainerID):
     query = prefixes + "\n"
     query += f'''
                 INSERT {{
@@ -327,7 +344,7 @@ def query_add_maintainerRDF(graph, enterpriseID, newMaintainerID):
             '''
     return query
 
-def query_remove_maintainerRDF(graph, enterpriseID, maintainerID):
+def query_remove_maintainerRDF(enterpriseID, maintainerID):
     query = prefixes + "\n"
     query += f'''
                 DELETE {{
@@ -343,16 +360,27 @@ def query_remove_maintainerRDF(graph, enterpriseID, maintainerID):
 #########################################################
 # enterprise page queries
 #########################################################
-def get_enterprisePageRDF(graph, enterprisePageID):
+def query_get_enterpriseInfoRDF(enterprisePageID):
     query = prefixes + "\n"
     query += f'''
                 SELECT ?description
                 WHERE {{
-                    ?enterpriseInfo local:enterpriseInfoDescription ?description .
-                    FILTER (?enterprise = enterprise:{enterprisePageID})
+                    ?uri rdf:type local:enterpriseInfo .
+                    ?uri local:enterpriseInfoDescription ?description .
+                    FILTER (?uri = enterpriseInfo:{enterprisePageID})
                 }}
             '''
-    print(query)
-    results = graph.query(query)
-    return results
+    return query
 
+def query_add_enterpriseInfoToEnterprise(enterprisePageID, enterpriseID):
+    query = prefixes + "\n"
+    query += f'''
+                INSERT {{
+                    ?enterprise local:enterpriseInfo enterpriseInfo:{enterprisePageID} .
+                }}
+                WHERE {{
+                    ?enterprise rdf:type local:enterprise .
+                    FILTER (?enterprise = enterprise:{enterpriseID})
+                }}
+            '''
+    return query
