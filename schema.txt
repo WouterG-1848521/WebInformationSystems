@@ -22,7 +22,7 @@ Vacancy (id) :
 
 VacancyInfo (id) :
     id has a jobDescription
-    id has a jobRequirements        moet diploma x hebben , moet taal y kennen , moet ervaring hebben in z
+    id has a jobRequirements        has diploma x, knows language y, has experience z
     id has diplomaRequirement[]
     id has a jobResponsibilities
     id has a jobSalary

@@ -1,5 +1,5 @@
 from backend_REST import db
-from backend_REST.graph import LOCAL, PERSON, PERSONAL_INFO, DIPLOMA, DEGREE, PROFESSION
+from backend_REST.graph import LOCAL, PERSON, PERSONAL_INFO, DIPLOMA, DEGREE, PROFESSION, LANGUAGE
 
 from rdflib import Literal, RDF, URIRef, Variable
 from rdflib.namespace import RDF, RDFS, FOAF, XSD
@@ -56,7 +56,7 @@ class User():
         print(user)
         return user == None
     
-    
+    #--------- USER --------#
     # TODO: password encryption
     def create(graph, name, surname, email, password):
         
@@ -89,7 +89,7 @@ class User():
         return user_id
         
     
-    def get_all_users(graph):
+    def get_all(graph):
         print("Getting all users...")
         q = f'''
                 SELECT ?p
@@ -102,10 +102,10 @@ class User():
         return df.to_json()
              
       
-    def get_user_by_id(graph, id):
-        user_URI = URIRef(PERSON + str(id))
+    def get_by_id(graph, user_id):
+        user_URI = URIRef(PERSON + str(user_id))
         
-        print("Searching: " + PERSON + str(id))
+        print("Searching: " + PERSON + str(user_id))
         q = f'''
             SELECT ?p ?name ?surname
             WHERE {{
@@ -120,9 +120,9 @@ class User():
         return df.to_json()
         
    
-    def get_user_profile_by_id(graph, id):
-        user_URI = URIRef(PERSON + str(id))
-        user_info_URI = URIRef(PERSONAL_INFO + str(id))
+    def get_profile_by_id(graph, user_id):
+        user_URI = URIRef(PERSON + str(user_id))
+        user_info_URI = URIRef(PERSONAL_INFO + str(user_id))
         
         q = f"""
                 SELECT ?p ?i ?surName ?email
@@ -139,20 +139,20 @@ class User():
         return df.to_json(orient="records")
    
         
-    def delete_user_by_id(graph, id):
+    def delete(graph, user_id):
         # Delete user from DB
-        user = DBUser.query.get(id)
+        user = DBUser.query.get(user_id)
         
         # If user still in DB
         if (user != None):
             db.session.delete(user)
             db.session.commit()
         
-        user_URI = URIRef(PERSON + str(id))
-        userInfo_URI = URIRef(PERSONAL_INFO + str(id))
+        user_URI = URIRef(PERSON + str(user_id))
+        userInfo_URI = URIRef(PERSONAL_INFO + str(user_id))
         
         # TODO: Delete all diploma's
-        User.delete_diploma(graph, id, 0)
+        User.delete_diploma(graph, user_id, 0)
         
         # Delete user info
         print("Deleting: " + userInfo_URI)
@@ -164,9 +164,16 @@ class User():
         
         graph.serialize(destination="user.ttl")
 
-
-    def update_email(graph, id, email):
-        user_info_ref = URIRef(PERSONAL_INFO + str(id))
+    #----- BASIC UPDATES -----#
+    def update_name(graph, user_id, name):
+        pass
+     
+        
+    def update_surname(graph, user_id, surname):
+        pass
+        
+    def update_email(graph, user_id, email):
+        user_info_ref = URIRef(PERSONAL_INFO + str(user_id))
 
         # Delete previous email
         graph.remove((user_info_ref, LOCAL.email, None))
@@ -177,8 +184,8 @@ class User():
         graph.serialize(destination="user.ttl")
         
         
-    def update_phone(graph, id, phone):
-        user_info_ref = URIRef(PERSONAL_INFO + str(id))
+    def update_phone(graph, user_id, phone):
+        user_info_ref = URIRef(PERSONAL_INFO + str(user_id))
     
         # Delete previous phone
         graph.remove((user_info_ref, LOCAL.phone, None))
@@ -189,7 +196,20 @@ class User():
         graph.serialize(destination="user.ttl")
         
         
-    def create_diploma(graph, user_id, degree, profession, institiution, startDate, endDate):
+    def update_graduation_date(graph, user_id, date):
+        user_info_ref = URIRef(PERSONAL_INFO + str(user_id))
+    
+        # Delete previous graduation date
+        graph.remove((user_info_ref, LOCAL.graduationDate, None))
+            
+        # Add new graduation date
+        graph.add((user_info_ref, LOCAL.graduationDate, Literal(date, XSD.date)))
+        
+        graph.serialize(destination="user.ttl")
+    
+    
+class Diploma():
+    def create(graph, user_id, degree, profession, institiution, startDate, endDate):
         user_info_ref = URIRef(PERSONAL_INFO + str(user_id))
         
         # TODO: get new diploma id
@@ -215,7 +235,7 @@ class User():
         return diploma_id
     
     
-    def get_all_diplomas_by_user(graph, user_id):
+    def get_all_by_user_id(graph, user_id):
         userInfo_URI = URIRef(PERSONAL_INFO + str(user_id))
         
         q = f'''
@@ -236,7 +256,7 @@ class User():
         return df.to_json()
         
 
-    def get_diploma_by_id(graph, diploma_id):
+    def get_by_id(graph, diploma_id):
         diploma_URI = URIRef(DIPLOMA + str(diploma_id))
         
         q = f'''
@@ -256,7 +276,7 @@ class User():
         return df.to_json()
     
     
-    def update_diploma(graph, user_id, diploma_id, degree, profession, institiution, startDate, endDate):
+    def update(graph, user_id, diploma_id, degree, profession, institiution, startDate, endDate):
         diploma_URI = URIRef(DIPLOMA + str(diploma_id))
         
         degree_URI = URIRef(DEGREE + degree);
@@ -276,7 +296,7 @@ class User():
         graph.serialize(destination="user.ttl")
     
     
-    def delete_diploma(graph, user_id, diploma_id):
+    def delete(graph, user_id, diploma_id):
         user_info_ref = URIRef(PERSONAL_INFO + str(user_id))
         diploma_URI = URIRef(DIPLOMA + str(diploma_id))
         
@@ -286,4 +306,66 @@ class User():
         # Delete diploma
         graph.remove((diploma_URI, None, None))
         
+        graph.serialize(destination="user.ttl")
+     
+    
+class WorkExperience():
+    def create(graph, user_id):
+        pass
+    
+    def get_by_id():
+        pass
+    
+    def update(graph, user_id):
+        pass
+    
+    def delete(graph, user_id):
+        pass
+
+
+class Skills():
+    def create(graph, user_id):
+        pass
+    
+    def get_by_id():
+        pass
+    
+    def update(graph, user_id):
+        pass
+    
+    def delete(graph, user_id):
+        pass
+    
+    
+class Language():
+    def add(graph, user_id, language_id):
+        user_info_ref = URIRef(PERSONAL_INFO + str(user_id))
+        language_ref = URIRef(LANGUAGE + str(language_id))
+        
+        graph.add((user_info_ref, LOCAL.languages, language_ref))
+        graph.serialize(destination="user.ttl")
+    
+    
+    def get_all_by_user_id(graph, user_id):
+        userInfo_URI = URIRef(PERSONAL_INFO + str(user_id))
+        
+        q = f'''
+            SELECT ?languageName
+            WHERE {{
+                ?i rdf:type local:personalInfo .
+                ?i local:languages ?l .
+                ?l rdf:type local:language .
+                ?l local:name ?languageName
+            }}
+        '''
+        result = graph.query(q, initBindings={'i': userInfo_URI})
+        df = DataFrame(result, columns=result.vars)
+        return df.to_json()
+    
+    
+    def remove(graph, user_id, language_id):
+        user_info_ref = URIRef(PERSONAL_INFO + str(user_id))
+        language_ref = URIRef(LANGUAGE + str(language_id))
+                
+        graph.remove((user_info_ref, LOCAL.languages, language_ref))
         graph.serialize(destination="user.ttl")
