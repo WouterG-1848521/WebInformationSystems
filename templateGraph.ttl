@@ -17,6 +17,9 @@
 @prefix vacancy: <http://localhost/vacancy/> .
 @prefix vacancyInfo: <http://localhost/vacancyInfo/> .
 @prefix personalInfo: <http://localhost/personalInfo/> .
+@prefix skill: <http://localhost/skill/> .
+@prefix diploma: <http://localhost/diploma/> .
+@prefix language: <http://localhost/language/> .
 
 # beroepen
 
@@ -43,6 +46,41 @@ degree:master rdf:type owl:Class ;
 degree:bachelor rdf:type owl:Class ;
     rdfs:subClassOf local:degree .
 
+# skills
+
+skill:leiderschap rdf:type owl:Class ;
+    rdfs:subClassOf local:skill .
+
+skill:leadership rdf:type owl:Class ;
+    rdfs:subClassOf skill:skill .
+
+skill:leadership owl:equivalentClass skill:leiderschap .
+
+skill:skill1 rdf:type owl:Class ;
+    rdfs:subClassOf local:skill .
+
+skill:skill2 rdf:type owl:Class ;
+    rdfs:subClassOf local:skill .
+
+# languages
+
+language:nederlands rdf:type owl:Class ;
+    rdfs:subClassOf local:language .
+
+language:engels rdf:type owl:Class ;
+    rdfs:subClassOf local:language .
+
+language:dutch rdf:type owl:Class ;
+    rdfs:subClassOf local:language .
+
+language:dutch owl:equivalentClass language:nederlands .
+
+language:english rdf:type owl:Class ;
+    rdfs:subClassOf local:language .
+
+language:english owl:equivalentClass language:engels .
+
+
 # enterprise
 
 local:enterprise rdf:type owl:Class ;
@@ -56,24 +94,48 @@ local:vacancy rdf:type owl:Class .
 
 _:x4 rdf:type owl:Restriction ;
     owl2:onClass foaf:Person ;
-    owl:onProperty local:name ;
+    owl:onProperty foaf:name ;
     owl:cardinality "1"^^xsd:nonNegativeInteger .
 _:x5 rdf:type owl:Restriction ;
     owl2:onClass foaf:Person ;
-    owl:onProperty local:surname ;
+    owl:onProperty foaf:surname ;
     owl:cardinality "1"^^xsd:nonNegativeInteger .
 _:x2 rdf:type owl:Restriction ;
-        owl2:onClass local:Person ;
-        owl:onProperty local:email ;
-        owl:cardinality "1"^^xsd:nonNegativeInteger .
-    _:x3 rdf:type owl:Restriction ;
-        owl2:onClass local:Person ;
-        owl:onProperty local:phone ;
-        owl:cardinality "1"^^xsd:nonNegativeInteger .
-# elke person heeft min en max 1 email, phone
-# elke person heeft min en max 1 name, surname
+    owl2:onClass local:Person ;
+    owl:onProperty local:email ;
+    owl:cardinality "1"^^xsd:nonNegativeInteger .
+_:x3 rdf:type owl:Restriction ;
+    owl2:onClass local:Person ;
+    owl:onProperty local:phone ;
+    owl:cardinality "1"^^xsd:nonNegativeInteger .
+_:x1 rdf:type owl:Restriction ;
+    owl2:onClass local:Person ;
+    owl:onProperty local:graduationDate ;
+    owl:cardinality "1"^^xsd:nonNegativeInteger .
+# elke person heeft min en max 1 email, phone, name, surname, graduationDate
 
-
+# diploma
+# diploma heeft min/max a degree, profession, institution, startDate and endDate
+_:x6 rdf:type owl:Restriction ;
+    owl2:onClass local:diploma ;
+    owl:onProperty local:degree ;
+    owl:cardinality "1"^^xsd:nonNegativeInteger .
+_:x7 rdf:type owl:Restriction ;
+    owl2:onClass local:diploma ;
+    owl:onProperty local:profession ;
+    owl:cardinality "1"^^xsd:nonNegativeInteger .
+_:x8 rdf:type owl:Restriction ;
+    owl2:onClass local:diploma ;
+    owl:onProperty local:institution ;
+    owl:cardinality "1"^^xsd:nonNegativeInteger .
+_:x9 rdf:type owl:Restriction ;
+    owl2:onClass local:diploma ;
+    owl:onProperty local:startDate ;
+    owl:cardinality "1"^^xsd:nonNegativeInteger .
+_:x10 rdf:type owl:Restriction ;
+    owl2:onClass local:diploma ;
+    owl:onProperty local:endDate ;
+    owl:cardinality "1"^^xsd:nonNegativeInteger .
 
 
 #################################################################
@@ -112,22 +174,75 @@ enterprise:2 rdf:type local:enterprise ;
 
 
 # person
-person:1 a foaf:Person .
-person:1 foaf:name "Jan" .
-person:1 foaf:surname "Janssens" .
+person:1 a foaf:Person ;
+    foaf:name "Jan" ;
+    foaf:surname "Janssens" ;
+    local:email "jan@email.com" ;
+    local:graduationDate "2010-01-01"^^xsd:date ;
+    local:diploma diploma:1 ;
+    local:diploma diploma:2 ;
+    local:experience experience:1 ;
+    local:experience experience:2 ;
+    local:skill skill:leiderschap ;
+    local:skill skill:skill1 ;
+    local:language language:engels ;
+    local:language language:nederlands ;
+    
+person:2 a foaf:Person ;
+    foaf:name "Piet" ;
+    foaf:surname "Pieters" ;
+    local:graduationDate "2010-01-01"^^xsd:date ;
+    local:diploma diploma:1 ;
+    local:experience experience:1 ;
+    local:skill skill:skill1 ;
+    local:language language:Dutch ;
+    
+person:3 a foaf:Person ;
+    foaf:name "Klaas" ;
+    foaf:surname "Klaassen" ;
+    local:graduationDate "2010-01-01"^^xsd:date ;
+    local:diploma diploma:1 ;
+    local:experience experience:1 ;
+    local:skill skill:skill1 ;
+    local:language language:Dutch ;
 
-person:2 a foaf:Person .
-person:2 foaf:name "Piet" .
-person:2 foaf:surname "Pieters" .
+person:4 a foaf:Person ;
+    foaf:name "Joris" ;
+    foaf:surname "Jorissen" ;
+    local:graduationDate "2010-01-01"^^xsd:date ;
+    local:diploma diploma:1 ;
+    local:experience experience:1 ;
+    local:skill skill:skill1 ;
+    local:language language:Dutch ;
 
-person:3 a foaf:Person .
-person:3 foaf:name "Klaas" .
-person:3 foaf:surname "Klaassen" .
+# diploma
+diploma:1 a local:diploma ;
+    local:degree degree:master ;
+    local:profession profession:programmer ;
+    local:startDate "2010-01-01"^^xsd:date ;
+    local:endDate "2012-01-01"^^xsd:date ;
+    local:institution enterprise:1 .
 
-person:4 a foaf:Person .
-person:4 foaf:name "Joris" .
-person:4 foaf:surname "Jorissen" .
+diploma:2 a local:diploma ;
+    local:degree degree:bachelor ;
+    local:profession profession:programmer ;
+    local:startDate "2008-01-01"^^xsd:date ;
+    local:endDate "2010-01-01"^^xsd:date ;
+    local:institution enterprise:1 .
 
+# experience
+experience:1 a local:experience ;
+    local:startDate "2010-01-01"^^xsd:date ;
+    local:endDate "2012-01-01"^^xsd:date ;
+    local:jobTitle "programmer" ;
+    local:skill skill:skill1 ;
+    local:skill skill:skill2 ;
+
+experience:1 a local:experience ;
+    local:startDate "2010-01-01"^^xsd:date ;
+    local:endDate "2012-01-01"^^xsd:date ;
+    local:jobTitle "analyst" ;
+    local:skill skill:leiderschap ;
 
 # vacancy
 # TODO : add restriction
@@ -140,7 +255,7 @@ vacancy:1 rdf:type local:vacancy ;
 
     local:diploma "dip"; ;
     local:skills "skills" ;
-    local:langauage "language" ;
+    local:language "language" ;
     local:jobDescription "jobDescription" ;
     local:jobResponsibilities "jobResponsibilities" ;
     local:jobSalary "jobSalary" ;
