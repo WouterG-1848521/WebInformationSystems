@@ -10,29 +10,6 @@ from .queries import query_remove_maintainerRDF, query_add_maintainerRDF
 # TODO: security voor machtegingen, nu wordt gewoon bv ownerID meegegeven in post body.
 #       Dit is niet secure en zo via bv cookies of andere log-in moeten
 
-def create_vacancy_routes(app, graph):
-    # add a vacancy to an enterprise
-    @app.route("/enterprise/vacancy/add", methods=['POST'])
-    def add_vacancy():
-        data = request.form     # request contains : enterpriseID, mainterID (for security check), jobtitle, address, startdate, enddate
-            # waarschijnlijk ook nog een lijst van skills
-        print(data)
-        # TODO: insert in rdf 
-        return "add vacancy"
-
-    # remove a vacancy from an enterprise
-    @app.route("/enterprise/vacancy/remove", methods=['POST'])
-    def remove_vacancy():
-        data = request.form     # request contains : enterpriseID, vacancyID, mainterID (for security check)
-        print(data)
-        # TODO: remove in rdf 
-        return "remove vacancy"
-
-    # match a vacancy from parameters
-    @app.route("/vacancy/match", methods=['POST'])
-    def match_vacancy():
-        data = request.form    # request contains : parameters to search a vacancy for
-
 def create_enterprise_routes(app, graph):
     # getters
     # get all enterprises
@@ -328,6 +305,3 @@ def create_enterprise_routes(app, graph):
         # TODO : hoe controleer je of de update gelukt is?
         return "remove maintainer"
 
-
-    # Vacancies
-    create_vacancy_routes(app, graph)

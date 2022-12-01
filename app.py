@@ -1,7 +1,8 @@
 from backend_REST import create_app, db
 from flask_migrate import Migrate
 
-from backend_REST.models import User, reset_DB
+from backend_REST.models.user import User
+from backend_REST.models.database import reset_DB
 from backend_REST.graph import create_graph
 
 from backend_REST.routes import create_routes
@@ -9,7 +10,7 @@ from backend_REST.login import create_login_manager
 
 app = create_app('development')
 
-# Reset DB
+#Reset DB
 # with app.app_context():
 #    reset_DB(app)
 

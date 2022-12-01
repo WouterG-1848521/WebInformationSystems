@@ -3,8 +3,6 @@
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
 @prefix local: <http://localhost/#> .
-@prefix local1: <http://localhost/> .
-@prefix ns1: <http://www.opengis.net/ont/geosparql#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix owl2: <http://www.w3.org/2006/12/owl2#> .
 @prefix person: <http://localhost/person/> .
@@ -31,18 +29,6 @@ enterprise:2 a local:enterprise ;
     geo:lat "40.879"^^xsd:float ;
     geo:long "45.6997"^^xsd:float ;
     foaf:name "Colruyt" .
-
-enterprise:5000 a local1:enterprise ;
-    local1:description "aldi is een leuke winkel" ;
-    local1:email "hey@mail.com" ;
-    local1:maintainer person:1 ;
-    local1:owner person:1 ;
-    local1:phone "0" ;
-    local1:website "example.com" ;
-    ns1:lat 1e+01 ;
-    ns1:location "Diepenbeek" ;
-    ns1:long 1e+01 ;
-    foaf:name "Aldi" .
 
 person:2 a foaf:Person ;
     foaf:name "Piet" ;
@@ -89,6 +75,10 @@ enterprise:1 a local:enterprise ;
     geo:long "45.6997"^^xsd:float ;
     foaf:name "KU Leuven" .
 
+person:1 a foaf:Person ;
+    foaf:name "Jan" ;
+    foaf:surname "Janssens" .
+
 person:3 a foaf:Person ;
     foaf:name "Klaas" ;
     foaf:surname "Klaassen" .
@@ -98,10 +88,6 @@ local:enterprise a owl:Class ;
 
 profession:doctor a owl:Class ;
     rdfs:subClassOf local:profession .
-
-person:1 a foaf:Person ;
-    foaf:name "Jan" ;
-    foaf:surname "Janssens" .
 
 person:4 a foaf:Person ;
     foaf:name "Joris" ;

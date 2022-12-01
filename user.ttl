@@ -4,27 +4,16 @@
 @prefix language: <http://localhost/language/> .
 @prefix local: <http://localhost/> .
 @prefix person: <http://localhost/person/> .
-@prefix personalInfo: <http://localhost/personalInfo/> .
 @prefix profession: <http://localhost/profession/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-language:2 a local:language ;
-    local:name "English"@en .
-
-language:3 a local:language ;
-    local:name "Francais"@fr .
-
 person:1 a foaf:Person ;
-    local:personalInfo personalInfo:1 ;
+    local:diploma diploma:1 ;
+    local:email "paul2@gmail.com" ;
+    local:languages language:english ;
+    local:phone "123" ;
     foaf:name "Paul" ;
     foaf:surname "Jambers" .
-
-diploma:0 a local:diploma ;
-    local:degree degree:master ;
-    local:endDate "1975-06-30"^^xsd:date ;
-    local:institution "KU Leuven" ;
-    local:profession profession:Reporter ;
-    local:startDate "1973-09-01"^^xsd:date .
 
 diploma:1 a local:diploma ;
     local:degree degree:master ;
@@ -32,13 +21,4 @@ diploma:1 a local:diploma ;
     local:institution "uHasselt" ;
     local:profession profession:Reporter ;
     local:startDate "1973-09-01"^^xsd:date .
-
-language:1 a local:language ;
-    local:name "Nederlands"@nl .
-
-personalInfo:1 a local:personalInfo ;
-    local:diploma diploma:0,
-        diploma:1 ;
-    local:email "paul@gmail.com" ;
-    local:languages language:1 .
 

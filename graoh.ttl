@@ -44,10 +44,6 @@ enterprise:5000 a local1:enterprise ;
     ns1:long 1e+01 ;
     foaf:name "Aldi" .
 
-person:2 a foaf:Person ;
-    foaf:name "Piet" ;
-    foaf:surname "Pieters" .
-
 profession:Chirurg a owl:Class ;
     rdfs:subClassOf profession:doctor .
 
@@ -80,14 +76,18 @@ enterprise:1 a local:enterprise ;
     local:description "KU Leuven is a university in Leuven, Belgium" ;
     local:email "KUL@email.com" ;
     local:maintainer person:1,
-        person:4 ;
-    local:owner person:4 ;
+        person:2 ;
+    local:owner person:1 ;
     local:phone "016/123456" ;
     local:website "www.KUL.be" ;
     geo:address "Leuven straat 7" ;
     geo:lat "40.879"^^xsd:float ;
     geo:long "45.6997"^^xsd:float ;
     foaf:name "KU Leuven" .
+
+person:2 a foaf:Person ;
+    foaf:name "Piet" ;
+    foaf:surname "Pieters" .
 
 person:3 a foaf:Person ;
     foaf:name "Klaas" ;
@@ -96,16 +96,16 @@ person:3 a foaf:Person ;
 local:enterprise a owl:Class ;
     rdfs:subClassOf foaf:Organization .
 
+person:4 a foaf:Person ;
+    foaf:name "Joris" ;
+    foaf:surname "Jorissen" .
+
 profession:doctor a owl:Class ;
     rdfs:subClassOf local:profession .
 
 person:1 a foaf:Person ;
     foaf:name "Jan" ;
     foaf:surname "Janssens" .
-
-person:4 a foaf:Person ;
-    foaf:name "Joris" ;
-    foaf:surname "Jorissen" .
 
 [] a owl:Restriction ;
     owl:cardinality "1"^^xsd:nonNegativeInteger ;
