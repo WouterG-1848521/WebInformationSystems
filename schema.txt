@@ -5,7 +5,7 @@ User (id) :
     
     id has graduationDate
     id has Diploma[]
-    id has WorkExperience[]
+    id has WorkExperience[] (Experience)
     id has Skills[]
     id has Languages[]    
 
@@ -38,7 +38,7 @@ Vacancy (id) :
     id has a endDate
     id has a availability
     id has a owner (enterprise)
-    
+
     id has a Diploma
     id has Skills[]
     id has Languages[]
@@ -57,7 +57,6 @@ Enterprise (id) :
     id has a phone
     id has a email
     id has a website
-    id has a logo
     id has a lat
     id has a long
 

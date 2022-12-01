@@ -26,12 +26,29 @@ diploma:computerScience a local:diploma,
         owl:Class,
         owl:Thing ;
     rdfs:subClassOf diploma:computerScience,
+        diploma:info2,
         diploma:informatica,
         rdfs:Resource,
         owl:Thing ;
     owl:equivalentClass diploma:computerScience,
+        diploma:info2,
         diploma:informatica ;
     owl:sameAs diploma:computerScience .
+
+diploma:info2 a local:diploma,
+        rdfs:Class,
+        rdfs:Resource,
+        owl:Class,
+        owl:Thing ;
+    rdfs:subClassOf diploma:computerScience,
+        diploma:info2,
+        diploma:informatica,
+        rdfs:Resource,
+        owl:Thing ;
+    owl:equivalentClass diploma:computerScience,
+        diploma:info2,
+        diploma:informatica ;
+    owl:sameAs diploma:info2 .
 
 diploma:informatica a local:diploma,
         rdfs:Class,
@@ -39,10 +56,12 @@ diploma:informatica a local:diploma,
         owl:Class,
         owl:Thing ;
     rdfs:subClassOf diploma:computerScience,
+        diploma:info2,
         diploma:informatica,
         rdfs:Resource,
         owl:Thing ;
     owl:equivalentClass diploma:computerScience,
+        diploma:info2,
         diploma:informatica ;
     owl:sameAs diploma:informatica .
 
@@ -964,6 +983,7 @@ owl:Nothing a rdfs:Class,
         owl:Thing ;
     rdfs:subClassOf local:diploma,
         diploma:computerScience,
+        diploma:info2,
         diploma:informatica,
         local:person,
         rdf:Alt,
@@ -1137,8 +1157,7 @@ owl:TransitiveProperty a rdfs:Class,
 person:0 a local:person,
         rdfs:Resource,
         owl:Thing ;
-    local:diploma diploma:computerScience,
-        diploma:informatica ;
+    local:diploma diploma:informatica ;
     owl:sameAs person:0 .
 
 () a rdf:List,

@@ -80,60 +80,32 @@ def check_person(graph, personID):
     else:
         return True
 
-def check_enterpriseHasInfo(graph, enterpriseID):
-    query = prefixes + "\n"
-    query += f'''
-                SELECT ?enterpriseInfo
-                WHERE {{
-                    ?enterprise rdf:type local:enterprise .
-                    ?enterprise local:enterpriseInfo ?enterpriseInfo .
-                    FILTER (?enterprise = enterprise:{enterpriseID})
-                }}
-            '''
-    result = graph.query(query)
-
-    if (len(result) == 0):
-        return False
-    else:
-        return True
-
 #########################################################
 # create functions
 #########################################################
-def create_enterpriseInfoRDF(graph, description):
-    # Get enterpriseInfoID
-    enterpriseInfoID = 5000
 
-    # Add enterpriseInfo to Graph
-    ref = URIRef(ENTERPRISE_INFO + str(enterpriseInfoID))
-    graph.add((ref, RDF.type, LOCAL.enterpriseInfo))
-
-    graph.add((ref, LOCAL.description, Literal(description)))
-
-    graph.serialize(destination="enterprise.ttl")   # TODO : moet dit nu al ge serialized worden naar de echte graaf, of kunnen we dit periodiek laten gebueren
-                                                    # TODO : voor testen nog niet naar echte graaf
-
-    return enterpriseInfoID
-
-def create_enterpriseRDF(graph, name, lat, long, location, owner, enterpriseInfoID):
+def create_enterpriseRDF(graph, name, owner, lat, long, address, phone, email, website, description):
     # Get enterpriseID
-    enterpriseID = 5000
+    enterpriseID = 5000 # TODO: get from database
     
     # Add enterprise to Graph
     ref = URIRef(ENTPERISE + str(enterpriseID))
-    enterpriseInfoRef = URIRef(ENTERPRISE_INFO + str(enterpriseInfoID))
 
     graph.add((ref, RDF.type, LOCAL.enterprise))
     graph.add((ref, FOAF.name, Literal(name)))
-    graph.add((ref, GEO.lat, Literal(lat)))
-    graph.add((ref, GEO.long, Literal(long)))
-    graph.add((ref, GEO.location, Literal(location)))
     graph.add((ref, LOCAL.owner, URIRef(PERSON + str(owner))))
     graph.add((ref, LOCAL.maintainer, URIRef(PERSON + str(owner))))
-    graph.add((ref, LOCAL.enterpriseInfo, enterpriseInfoRef))
+
+    graph.add((ref, GEO.lat, Literal(lat)))
+    graph.add((ref, GEO.long, Literal(long)))
+    graph.add((ref, GEO.location, Literal(address)))
+    graph.add((ref, LOCAL.description, Literal(description)))
+    graph.add((ref, LOCAL.phone, Literal(phone)))
+    graph.add((ref, LOCAL.email, Literal(email)))
+    graph.add((ref, LOCAL.website, Literal(website)))
     
-    graph.serialize(destination="enterprise.ttl")   # TODO : moet dit nu al ge serialized worden naar de echte graaf, of kunnen we dit periodiek laten gebueren
-                                                    # TODO : voor testen nog niet naar echte graaf
+    graph.serialize(destination="graoh.ttl")   # TODO : moet dit nu al ge serialized worden naar de echte graaf, of kunnen we dit periodiek laten gebueren
+    # TODO : hoe weten we zeker dat graph is aangepast
     return enterpriseID
 
 #########################################################
@@ -141,15 +113,18 @@ def create_enterpriseRDF(graph, name, lat, long, location, owner, enterpriseInfo
 #########################################################
 def query_enterpriseGetAll():
     query = prefixes + '''
-                            SELECT ?uri ?name ?lat ?long ?location ?owner ?enterpriseInfo ?maintainerName ?maintainerSurName
+                            SELECT ?uri ?name ?owner  ?maintainerName ?maintainerSurName ?lat ?long ?address ?description ?phone ?email ?website
                             WHERE {
                                     ?uri rdf:type local:enterprise .
                                     ?uri foaf:name ?name .
                                     ?uri geo:lat ?lat .
                                     ?uri geo:long ?long  .
-                                    ?uri geo:location ?location .
+                                    ?uri geo:address ?address .
                                     ?uri local:owner ?owner .
-                                    ?uri local:enterpriseInfo ?enterpriseInfo .
+                                    ?uri local:description ?description .
+                                    ?uri local:phone ?phone .
+                                    ?uri local:email ?email .
+                                    ?uri local:website ?website .
                                     ?uri local:maintainer ?maintainer .
                                     ?maintainer foaf:name ?maintainerName .
                                     ?maintainer foaf:surname ?maintainerSurName .
@@ -160,15 +135,18 @@ def query_enterpriseGetAll():
 
 def query_enterpriseGetById(id):
     query = prefixes + f'''
-                            SELECT ?uri ?name ?lat ?long ?location ?owner ?enterpriseInfo ?maintainerName ?maintainerSurName
+                            SELECT ?uri ?name ?lat ?long ?address ?owner ?maintainerName ?maintainerSurName
                             WHERE {{
                                 ?uri rdf:type local:enterprise .
                                 ?uri foaf:name ?name .
                                 ?uri geo:lat ?lat .
                                 ?uri geo:long ?long  .
-                                ?uri geo:location ?location .
+                                ?uri geo:address ?address .
                                 ?uri local:owner ?owner .
-                                ?uri local:enterpriseInfo ?enterpriseInfo .
+                                ?uri local:description ?description .
+                                ?uri local:phone ?phone .
+                                ?uri local:email ?email .
+                                ?uri local:website ?website .
                                 ?uri local:maintainer ?maintainer .
                                 ?maintainer foaf:name ?maintainerName .
                                 ?maintainer foaf:surname ?maintainerSurName .
@@ -180,18 +158,21 @@ def query_enterpriseGetById(id):
 
 def query_enterpriseGetByName(name):
     query = prefixes + f'''
-                        SELECT ?uri ?lat ?long ?location ?owner ?enterpriseInfo ?maintainerName ?maintainerSurName
+                        SELECT ?uri ?lat ?long ?address ?owner ?maintainerName ?maintainerSurName
                         WHERE {{
-                            ?uri rdf:type local:enterprise .
-                            ?uri foaf:name "{name}" .
-                            ?uri geo:lat ?lat .
-                            ?uri geo:long ?long  .
-                            ?uri geo:location ?location .
-                            ?uri local:owner ?owner .
-                            ?uri local:enterpriseInfo ?enterpriseInfo .
-                            ?uri local:maintainer ?maintainer .
-                            ?maintainer foaf:name ?maintainerName .
-                            ?maintainer foaf:surname ?maintainerSurName
+                                ?uri rdf:type local:enterprise .
+                                ?uri foaf:name "{name}" .
+                                ?uri geo:lat ?lat .
+                                ?uri geo:long ?long  .
+                                ?uri geo:address ?address .
+                                ?uri local:owner ?owner .
+                                ?uri local:description ?description .
+                                ?uri local:phone ?phone .
+                                ?uri local:email ?email .
+                                ?uri local:website ?website .
+                                ?uri local:maintainer ?maintainer .
+                                ?maintainer foaf:name ?maintainerName .
+                                ?maintainer foaf:surname ?maintainerSurName .
                         }}
                 '''
     # TODO: per maintainer wordt er nu een apart result teruggegeven, kan dit misschien samengevoegd worden?
@@ -199,24 +180,27 @@ def query_enterpriseGetByName(name):
 
 def query_enterpriseGetByLocation(location):
     query = prefixes + f'''
-                        SELECT ?uri ?name ?lat ?long ?location ?owner ?enterpriseInfo ?maintainerName ?maintainerSurName
+                        SELECT ?uri ?name ?lat ?long ?address ?owner ?maintainerName ?maintainerSurName
                         WHERE {{
-                            ?uri rdf:type local:enterprise .
-                            ?uri foaf:name ?name .
-                            ?uri geo:lat ?lat .
-                            ?uri geo:long ?long  .
-                            ?uri geo:location "{location}" .
-                            ?uri local:owner ?owner .
-                            ?uri local:enterpriseInfo ?enterpriseInfo .
-                            ?uri local:maintainer ?maintainer .
-                            ?maintainer foaf:name ?maintainerName .
-                            ?maintainer foaf:surname ?maintainerSurName
+                                ?uri rdf:type local:enterprise .
+                                ?uri foaf:name ?name .
+                                ?uri geo:lat ?lat .
+                                ?uri geo:long ?long  .
+                                ?uri geo:address "{location}" .
+                                ?uri local:owner ?owner .
+                                ?uri local:description ?description .
+                                ?uri local:phone ?phone .
+                                ?uri local:email ?email .
+                                ?uri local:website ?website .
+                                ?uri local:maintainer ?maintainer .
+                                ?maintainer foaf:name ?maintainerName .
+                                ?maintainer foaf:surname ?maintainerSurName .
                         }}
                 '''
     # TODO: per maintainer wordt er nu een apart result teruggegeven, kan dit misschien samengevoegd worden?
     return query
 
-def query_update_enterpriseRDF(name, lat, long, location, enterpriseInfoID, enterpriseID):
+def query_update_enterpriseRDF(name, lat, long, address, phone, email, website, description, enterpriseID):
     query = prefixes + "\n"
     deletes = ""
     inserts = ""
@@ -231,13 +215,21 @@ def query_update_enterpriseRDF(name, lat, long, location, enterpriseInfoID, ente
         long = float(long)
         deletes += "?enterprise geo:long ?long .\n"
         inserts += f"?enterprise geo:long {long} .\n"
-    if (location != ""):
-        deletes += "?enterprise geo:location ?location .\n"
-        inserts += f"?enterprise geo:location \"{location}\" .\n"
-    if (enterpriseInfoID != ""):
-        enterpriseInfoID = int(enterpriseInfoID)
-        deletes += "?enterprise local:enterpriseInfo ?enterpriseInfo .\n"
-        inserts += f"?enterprise local:enterpriseInfo enterpriseInfo:{enterpriseInfoID} .\n"
+    if (address != ""):
+        deletes += "?enterprise geo:address ?location .\n"
+        inserts += f"?enterprise geo:address \"{address}\" .\n"
+    if (phone != ""):
+        deletes += "?enterprise local:phone ?phone .\n"
+        inserts += f"?enterprise local:phone \"{phone}\" .\n"
+    if (email != ""):
+        deletes += "?enterprise local:email ?email .\n"
+        inserts += f"?enterprise local:email \"{email}\" .\n"
+    if (website != ""):
+        deletes += "?enterprise local:website ?website .\n"
+        inserts += f"?enterprise local:website \"{website}\" .\n"
+    if (description != ""):
+        deletes += "?enterprise local:description ?description .\n"
+        inserts += f"?enterprise local:description \"{description}\" .\n"
 
     query += ' DELETE { ' + "\n" + deletes + ' } ' + "\n"
     query += ' INSERT { ' + "\n" + inserts + ' } ' + "\n"
@@ -247,15 +239,18 @@ def query_update_enterpriseRDF(name, lat, long, location, enterpriseInfoID, ente
                     ?enterprise foaf:name ?name .
                     ?enterprise geo:lat ?lat .
                     ?enterprise geo:long ?long .
-                    ?enterprise geo:location ?location .
-                    ?enterprise local:enterpriseInfo ?enterpriseInfo .
+                    ?enterprise geo:address ?location .
+                    ?enterprise local:phone ?phone .
+                    ?enterprise local:email ?email .
+                    ?enterprise local:website ?website .
+                    ?enterprise local:description ?description .
                     FILTER (?enterprise = enterprise:{enterpriseID})
                 }}
             '''
     return query
 
 # deletes the enterprise, the enterpriseInfo and the connected vacancies, vacancyInfo
-def query_delete_enterpriseRDF(enterpriseID):
+def query_delete_enterpriseRDF(enterpriseID):   # TODO : vacancies willen nog niet verwijdert worden
     query = prefixes + "\n"
     query += f'''
                 DELETE {{
@@ -263,55 +258,59 @@ def query_delete_enterpriseRDF(enterpriseID):
                     ?enterprise foaf:name ?name .
                     ?enterprise geo:lat ?lat .
                     ?enterprise geo:long ?long .
-                    ?enterprise geo:location ?location .
+                    ?enterprise geo:address ?location .
                     ?enterprise local:owner ?owner .
                     ?enterprise local:maintainer ?maintainer .
-                    ?enterprise local:enterpriseInfo ?enterpriseInfo .
-                    ?enterpriseInfo rdf:type local:enterpriseInfo .
-                    ?enterpriseInfo local:enterpriseInfoDescription ?description .
+                    ?enterprise local:description ?description .
+                    ?enterprise local:phone ?phone .
+                    ?enterprise local:email ?email .
+                    ?enterprise local:website ?website .
+
                     ?vacancy rdf:type local:Vacancy .
-                    ?vacancy local:available ?available .
-                    ?vacancy local:creator ?enterprise .
+                    ?vacancy local:availability ?availability .
+                    ?vacancy local:diploma ?diploma .
                     ?vacancy local:endDate ?endDate .
+                    ?vacancy local:jobDescription ?jobDescription .
+                    ?vacancy local:jobLocation ?jobLocation .
+                    ?vacancy local:jobResponsibilities ?jobResponsibilities .
+                    ?vacancy local:jobSalary ?jobSalary .
+                    ?vacancy local:jobTitle ?jobTitle .
+                    ?vacancy local:langauage ?longauage .
+                    ?vacancy local:owner ?enterprise .
+                    ?vacancy local:skills ?skills .
                     ?vacancy local:startDate ?startDate .
-                    ?vacancy local:vacancyInfo ?vacancyInfo .
-                    ?vacancy geo:lat ?lat .
-                    ?vacancy geo:long ?long .
-                    ?vacancy geo:location ?location .
-                    ?vacancyInfo rdf:type local:vacancyInfo .
-                    ?vacancyInfo local:degree ?degree .
-                    ?vacancyInfo local:jobDescription ?jobDescription .
-                    ?vacancyInfo local:profession ?profession .
                 }}
                 WHERE {{
                     ?enterprise rdf:type local:enterprise .
                     ?enterprise foaf:name ?name .
                     ?enterprise geo:lat ?lat .
                     ?enterprise geo:long ?long .
-                    ?enterprise geo:location ?location .
+                    ?enterprise geo:address ?location .
                     ?enterprise local:owner ?owner .
                     ?enterprise local:maintainer ?maintainer .
-                    ?enterprise local:enterpriseInfo ?enterpriseInfo .
-                    ?enterpriseInfo rdf:type local:enterpriseInfo .
-                    ?enterpriseInfo local:enterpriseInfoDescription ?description .
+                    ?enterprise local:description ?description .
+                    ?enterprise local:phone ?phone .
+                    ?enterprise local:email ?email .
+                    ?enterprise local:website ?website .
                     OPTIONAL {{
                         ?vacancy rdf:type local:Vacancy .
-                        ?vacancy local:available ?available .
-                        ?vacancy local:creator ?enterprise .
+                        ?vacancy local:availability ?availability .
+                        ?vacancy local:diploma ?diploma .
                         ?vacancy local:endDate ?endDate .
+                        ?vacancy local:jobDescription ?jobDescription .
+                        ?vacancy local:jobLocation ?jobLocation .
+                        ?vacancy local:jobResponsibilities ?jobResponsibilities .
+                        ?vacancy local:jobSalary ?jobSalary .
+                        ?vacancy local:jobTitle ?jobTitle .
+                        ?vacancy local:langauage ?longauage .
+                        ?vacancy local:owner ?enterprise .
+                        ?vacancy local:skills ?skills .
                         ?vacancy local:startDate ?startDate .
-                        ?vacancy local:vacancyInfo ?vacancyInfo .
-                        ?vacancy geo:lat ?lat .
-                        ?vacancy geo:long ?long .
-                        ?vacancy geo:location ?location .
-                        ?vacancyInfo rdf:type local:vacancyInfo .
-                        ?vacancyInfo local:degree ?degree .
-                        ?vacancyInfo local:jobDescription ?jobDescription .
-                        ?vacancyInfo local:profession ?profession .
                     }}
                     FILTER (?enterprise = enterprise:{enterpriseID})
                 }}
             '''
+    print(query)
     return query
 
 def query_transfer_ownershipRDF(enterpriseID, newOwnerID):
@@ -349,34 +348,6 @@ def query_remove_maintainerRDF(enterpriseID, maintainerID):
     query += f'''
                 DELETE {{
                     ?enterprise local:maintainer person:{maintainerID} .
-                }}
-                WHERE {{
-                    ?enterprise rdf:type local:enterprise .
-                    FILTER (?enterprise = enterprise:{enterpriseID})
-                }}
-            '''
-    return query
-
-#########################################################
-# enterprise page queries
-#########################################################
-def query_get_enterpriseInfoRDF(enterprisePageID):
-    query = prefixes + "\n"
-    query += f'''
-                SELECT ?description
-                WHERE {{
-                    ?uri rdf:type local:enterpriseInfo .
-                    ?uri local:enterpriseInfoDescription ?description .
-                    FILTER (?uri = enterpriseInfo:{enterprisePageID})
-                }}
-            '''
-    return query
-
-def query_add_enterpriseInfoToEnterprise(enterprisePageID, enterpriseID):
-    query = prefixes + "\n"
-    query += f'''
-                INSERT {{
-                    ?enterprise local:enterpriseInfo enterpriseInfo:{enterprisePageID} .
                 }}
                 WHERE {{
                     ?enterprise rdf:type local:enterprise .

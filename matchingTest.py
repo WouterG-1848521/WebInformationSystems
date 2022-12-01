@@ -30,8 +30,11 @@ diploma_1_ref = URIRef(DIPLOMA + "informatica")
 graph.add((diploma_1_ref, RDF.type, URIRef(LOCAL + "diploma")))
 diploma_2_ref = URIRef(DIPLOMA + "computerScience")
 graph.add((diploma_2_ref, RDF.type, URIRef(LOCAL + "diploma")))
+diploma_3_ref = URIRef(DIPLOMA + "info2")
+graph.add((diploma_3_ref, RDF.type, URIRef(LOCAL + "diploma")))
 
 graph.add((diploma_1_ref, OWL.equivalentClass, diploma_2_ref))
+graph.add((diploma_2_ref, OWL.equivalentClass, diploma_3_ref))
 
 user_info_ref = URIRef(PERSON + str(0))
 graph.add((user_info_ref, RDF.type, URIRef(LOCAL + "person")))
@@ -44,24 +47,24 @@ graph.add((user_info_ref, URIRef(LOCAL + "diploma"), diploma_1_ref))
 
 # graph.add((vacancy_1_ref, URIRef(LOCAL + "diploma"), diploma_1_ref))
 
-query = """
-    SELECT ?diploma2
-    WHERE {
-        person:0 local:diploma ?diploma .
-        ?diploma owl:equivalentClass ?diploma2 .
-    }
-"""
+# query = """
+#     SELECT ?diploma2
+#     WHERE {
+#         person:0 local:diploma ?diploma .
+#         ?diploma owl:equivalentClass ?diploma2 .
+#     }
+# """
 
-result = graph.query(query)
+# result = graph.query(query)
 
-for row in result:
-    print(row)
-    graph.add((user_info_ref, URIRef(LOCAL + "diploma"), row[0]))
+# for row in result:
+#     print(row)
+#     graph.add((user_info_ref, URIRef(LOCAL + "diploma"), row[0]))
 
-df = DataFrame(result)
+# df = DataFrame(result)
 
-output = df.to_json(orient='index', indent=2)
-print(output)
+# output = df.to_json(orient='index', indent=2)
+# print(output)
 
 
 # owlrl.DeductiveClosure(owlrl.RDFS_OWLRL_Semantics, rdfs_closure = True, axiomatic_triples = True, datatype_axioms = True).expand(graph)
@@ -83,15 +86,22 @@ query = '''
     WHERE {
         ?person a local:person .
         ?person local:diploma ?diploma .
-        ?diploma owl:equivalentClass diploma:computerScience .
+        ?diploma owl:equivalentClass diploma:info2 .
         }
 '''
 
 query = '''
-        SELECT ?person
+        SELECT ?diploma
         WHERE {
-            ?person a local:person .
-            ?person local:diploma diploma:computerScience .
+            ?diploma owl:equivalentClass diploma:info2 .
+            }
+'''
+
+query = '''
+    SELECT ?person ?diploma
+    WHERE {
+        ?person a local:person .
+        ?person local:diploma diploma:info2 .
         }
 '''
 
@@ -104,3 +114,5 @@ df = DataFrame(result)
 output = df.to_json(orient='index', indent=2)
 print(output)
 
+
+# https://stackoverflow.com/questions/20474862/using-sparql-for-limited-rdfs-and-owl-reasoning
