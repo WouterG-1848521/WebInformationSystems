@@ -3,7 +3,7 @@ from rdflib.namespace import RDF, FOAF, RDFS, GEO
 import owlrl
 from pandas import DataFrame
 
-from backend_REST.graph import LOCAL, ENTPERISE, ENTERPRISE_INFO, PERSON
+from backend_REST.graph import LOCAL, ENTPERISE, PERSON
 
 prefixes = '''
                 prefix foaf: <http://xmlns.com/foaf/0.1/> 

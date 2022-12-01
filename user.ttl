@@ -1,17 +1,31 @@
 @prefix degree: <http://localhost/degree/> .
 @prefix diploma: <http://localhost/diploma/> .
+@prefix experience: <http://localhost/experience/> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix language: <http://localhost/language/> .
 @prefix local: <http://localhost/> .
 @prefix person: <http://localhost/person/> .
 @prefix profession: <http://localhost/profession/> .
+@prefix skill: <http://localhost/skill/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+language:dutch a local:language .
+
+language:french a local:language .
+
+language:english a local:language .
+
+skill:leadership a local:skill .
+
+skill:teamwork a local:skill .
 
 person:1 a foaf:Person ;
     local:diploma diploma:1 ;
     local:email "paul2@gmail.com" ;
-    local:languages language:english ;
+    local:experience experience:1 ;
+    local:language language:english ;
     local:phone "123" ;
+    local:skill skill:leadership ;
     foaf:name "Paul" ;
     foaf:surname "Jambers" .
 
@@ -22,3 +36,8 @@ diploma:1 a local:diploma ;
     local:profession profession:Reporter ;
     local:startDate "1973-09-01"^^xsd:date .
 
+experience:1 a local:experience ;
+    local:endDate "2000-01-20"^^xsd:date ;
+    local:jobTitle "Reporter" ;
+    local:skill skill:leadership ;
+    local:startDate "1980-01-20"^^xsd:date .

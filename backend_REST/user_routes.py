@@ -4,6 +4,7 @@ from backend_REST.models.user import User
 from backend_REST.models.skill import Skill
 from backend_REST.models.diploma import Diploma
 from backend_REST.models.language import Language
+from backend_REST.models.work_experience import WorkExperience
 
 def create_user_routes(app, g):
     ########################################
@@ -72,12 +73,6 @@ def create_user_routes(app, g):
         return f"Updated phone of user {id} to ."
     
     ########################################
-    # USER ROUTES - SKILLS
-    ########################################
-    
-    # TODO: skill routes
-    
-    ########################################
     # USER ROUTES - DIPLOMAS
     ########################################
     
@@ -85,7 +80,7 @@ def create_user_routes(app, g):
     @app.route("/users/<int:user_id>/diplomas", methods=["POST"])
     def create_user_diploma(user_id):
         data = request.form
-        
+        print(data)
         # TODO: check data
         
         diploma_id = Diploma.create_for_user(g, user_id, data["degree"], 
@@ -130,7 +125,7 @@ def create_user_routes(app, g):
     
     
     @app.route("/users/<int:user_id>/languages", methods=["POST"])
-    def add(user_id):
+    def add_language_to_user(user_id):
         data = request.form
         language = data["language"]
         Language.add_to_user(g, user_id, language)
@@ -138,11 +133,79 @@ def create_user_routes(app, g):
     
     
     @app.route("/users/<int:user_id>/languages", methods=["GET"])
-    def get_all(user_id):
+    def get_all_languages_from_user(user_id):
         return Language.get_all_by_user_id(g, user_id)
     
     
     @app.route("/users/<int:user_id>/languages/<string:language>", methods=["DELETE"])
-    def remove(user_id, language):
+    def remove_language_from_user(user_id, language):
         Language.remove_from_user(g, user_id, language)
         return f"Removed language {language} from user {user_id}'s languages."
+    
+    ########################################
+    # USER ROUTES - SKILLS
+    ########################################
+    
+    @app.route("/users/<int:user_id>/skills", methods=["POST"])
+    def add_skill_to_user(user_id):
+        data = request.form
+        skill = data["skill"]
+        Skill.add_to_user(g, user_id, skill)
+        return f"Added skill {skill} to user {user_id}'s skills."
+    
+    
+    @app.route("/users/<int:user_id>/skills", methods=["GET"])
+    def get_all_skills_from_user(user_id):
+        return Skill.get_all_by_user_id(g, user_id)
+    
+    
+    @app.route("/users/<int:user_id>/skills/<string:skill>", methods=["DELETE"])
+    def remove_skill_from_user(user_id, skill):
+        Skill.remove_from_user(g, user_id, skill)
+        return f"Removed skill {skill} from user {user_id}'s skills."
+    
+    ########################################
+    # USER ROUTES - WORK EXPERIENCE
+    ########################################
+
+    @app.route("/users/<int:user_id>/experiences", methods=["POST"])
+    def create_user_experience(user_id):
+        data = request.form  # job_title, skills, start_date, end_date
+     
+        # TODO: check data
+        
+        experience_id = WorkExperience.create_for_user(g, user_id, data["jobTitle"], 
+                                         data["skills"].split(','), data["startDate"], 
+                                         data["endDate"])
+        return f"Created experience {experience_id } for user {user_id}."
+    
+    
+    @app.route("/users/<int:user_id>/experiences", methods=["GET"])
+    def get_user_experiences(user_id):
+        return WorkExperience.get_all_by_user_id(g, user_id)
+    
+    
+    @app.route("/users/<int:user_id>/experiences/<int:experience_id>", methods=["GET"])
+    def get_user_experience(user_id, experience_id):
+        return WorkExperience.get_by_id(g, experience_id)
+    
+    
+    @app.route("/users/<int:user_id>/experiences/<int:experience_id>", methods=["PUT"])
+    def update_user_experience(user_id, experience_id):
+        data = request.form  # job_title, skills, start_date, end_date
+        
+        # TODO: check data
+        
+        WorkExperience.update(g, user_id, data["jobTitle"], 
+                                data["skills"].split(','), data["startDate"], 
+                                data["endDate"])
+        return f"Updated experience {experience_id}."
+    
+    
+    @app.route("/users/<int:user_id>/experiences/<int:experience_id>", methods=["DELETE"])
+    def delete_user_experience(user_id, experience_id):
+        
+        # TODO: check if owner
+        
+        WorkExperience.delete_from_user(g, user_id, experience_id)
+        return f"Deleted experience {experience_id} from user {user_id}."

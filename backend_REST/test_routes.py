@@ -7,7 +7,7 @@ import owlrl
 
 from backend_REST import db
 from backend_REST.models.user import User
-from backend_REST.graph import LOCAL, LANGUAGE
+from backend_REST.graph import LOCAL, LANGUAGE, SKILL
 
 
 def create_test_routes(app, g):
@@ -86,20 +86,22 @@ def create_test_routes(app, g):
         return "Removed user."
     
     
-    @app.route("/fill/languages", methods=['GET'])
-    def fill_languages():
-        # Add Nederlands
-        g.add((URIRef(LANGUAGE + str(1)), RDF.type, LOCAL.language))
-        g.add((URIRef(LANGUAGE + str(1)), LOCAL.name, Literal("Nederlands", lang="nl")))
-        
-        # Add English
-        g.add((URIRef(LANGUAGE + str(2)), RDF.type, LOCAL.language))
-        g.add((URIRef(LANGUAGE + str(2)), LOCAL.name, Literal("English", lang="en")))
-        
-        # Add Francais
-        g.add((URIRef(LANGUAGE + str(3)), RDF.type, LOCAL.language))
-        g.add((URIRef(LANGUAGE + str(3)), LOCAL.name, Literal("Francais", lang="fr")))
+    @app.route("/fill/skills", methods=['GET'])
+    def fill_skills():
+        g.add((URIRef(SKILL + "leadership"), RDF.type, LOCAL.skill))
+        g.add((URIRef(SKILL + "teamwork"), RDF.type, LOCAL.skill))
         
         g.serialize(destination="user.ttl")
         
-        return "Filled graph with the following languages: Nederlands, English and Francais."
+        return "Filled graph with the following skills: leadership, teamwork."
+    
+    
+    @app.route("/fill/languages", methods=['GET'])
+    def fill_languages():
+        g.add((URIRef(LANGUAGE + "dutch"), RDF.type, LOCAL.language))
+        g.add((URIRef(LANGUAGE + "english"), RDF.type, LOCAL.language))
+        g.add((URIRef(LANGUAGE + "french"), RDF.type, LOCAL.language))
+        
+        g.serialize(destination="user.ttl")
+        
+        return "Filled graph with the following languages: dutch, english, french."

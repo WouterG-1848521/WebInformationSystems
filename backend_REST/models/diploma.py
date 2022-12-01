@@ -6,21 +6,25 @@ from rdflib.namespace import RDF, RDFS, FOAF, XSD
 from pandas import DataFrame
 
 class Diploma():
-    def create(graph, degree, profession, institiution, startDate, endDate):
-        # TODO: insert in DB and get diploma id
-        diploma_id = 1
-        diploma_URI = URIRef(DIPLOMA + str(diploma_id))
+    def add(graph, diploma_URI, degree, profession, institiution, startDate, endDate):
+        degree_URI = URIRef(DEGREE + degree)
+        profession_URI = URIRef(PROFESSION + profession)
         
-        degree_URI = URIRef(DEGREE + degree);
-        profession_URI = URIRef(PROFESSION + profession);
-        
-        # Create diploma
         graph.add((diploma_URI, RDF.type, LOCAL.diploma))
         graph.add((diploma_URI, LOCAL.degree, degree_URI))
         graph.add((diploma_URI, LOCAL.profession, profession_URI))
         graph.add((diploma_URI, LOCAL.institution, Literal(institiution)))
         graph.add((diploma_URI, LOCAL.startDate, Literal(startDate, datatype=XSD.date)))
         graph.add((diploma_URI, LOCAL.endDate, Literal(endDate, datatype=XSD.date)))
+              
+    
+    def create(graph, degree, profession, institiution, startDate, endDate):
+        # TODO: insert in DB and get diploma id
+        diploma_id = 1
+        diploma_URI = URIRef(DIPLOMA + str(diploma_id))
+        
+        # Add diploma
+        Diploma.add(graph, diploma_URI, degree, profession, institiution, startDate, endDate)
     
         return diploma_URI
     
@@ -28,24 +32,17 @@ class Diploma():
     def update(graph, diploma_id, degree, profession, institiution, startDate, endDate):
         diploma_URI = URIRef(DIPLOMA + str(diploma_id))
         
-        degree_URI = URIRef(DEGREE + degree);
-        profession_URI = URIRef(PROFESSION + profession);
-        
         # Remove previous diploma
         graph.remove((diploma_URI, None, None))
         
         # Add new diploma
-        graph.add((diploma_URI, RDF.type, LOCAL.diploma))
-        graph.add((diploma_URI, LOCAL.degree, degree_URI))
-        graph.add((diploma_URI, LOCAL.profession, profession_URI))
-        graph.add((diploma_URI, LOCAL.institution, Literal(institiution)))
-        graph.add((diploma_URI, LOCAL.startDate, Literal(startDate, datatype=XSD.date)))
-        graph.add((diploma_URI, LOCAL.endDate, Literal(endDate, datatype=XSD.date)))
+        Diploma.add(graph, degree, profession, institiution, startDate, endDate)
         
         graph.serialize(destination="user.ttl")
 
 
     def delete(graph, diploma_id):
+        # TODO: delete from db
         diploma_URI = URIRef(DIPLOMA + str(diploma_id))
         
         # Delete diploma
@@ -92,7 +89,7 @@ class Diploma():
             SELECT ?d ?degree ?profession ?institution ?startDate ?endDate
             WHERE {{
                 ?p rdf:type foaf:Person .
-                ?i local:diploma ?d .
+                ?p local:diploma ?d .
                 ?d rdf:type local:diploma .
                 ?d local:degree ?degree .
                 ?d local:profession ?profession .
@@ -101,7 +98,7 @@ class Diploma():
                 ?d local:endDate ?endDate .
             }}
         '''
-        result = graph.query(q, initBindings={'i': user_URI})
+        result = graph.query(q, initBindings={'p': user_URI})
         df = DataFrame(result, columns=result.vars)
         return df.to_json()
         

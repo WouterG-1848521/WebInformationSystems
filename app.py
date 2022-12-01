@@ -14,7 +14,7 @@ app = create_app('development')
 # with app.app_context():
 #    reset_DB(app)
 
-g = create_graph("graph.ttl")
+g = create_graph("user.ttl")
 create_login_manager(app)
 create_routes(app, g)
 
