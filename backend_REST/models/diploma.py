@@ -110,6 +110,13 @@ class Diploma():
         
         
     def delete_from_user(graph, user_id, diploma_id):
+        # Delete from DB
+        diploma = DBDiploma.query.get(diploma_id)
+
+        if (diploma != None):
+            db.session.delete(diploma)
+            db.session.commit()
+        
         user_URI = URIRef(PERSON + str(user_id))
         diploma_URI = URIRef(DIPLOMA + str(diploma_id))
         

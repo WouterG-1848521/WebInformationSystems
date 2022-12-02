@@ -27,6 +27,7 @@ class Vacancy():
 
     # TODO : Add other parameters required according to schema
     def create(graph):
+        # Add vacancy to DB
         vacancy = DBVacancy()
         db.session.add(vacancy)
         db.session.commit()
@@ -44,6 +45,7 @@ class Vacancy():
 
 
     def delete(graph, vacancy_id):
+        # Delete from DB
         vacancy = DBVacancy.query.get(vacancy_id)
 
         if (vacancy != None):

@@ -109,6 +109,13 @@ class WorkExperience():
     
     
     def delete_from_user(graph, user_id, experience_id):
+        # Delete from DB
+        experience = DBWorkExperience.query.get(experience_id)
+
+        if (experience != None):
+            db.session.delete(experience)
+            db.session.commit()
+        
         user_URI = URIRef(PERSON + str(user_id))
         experience_URI = URIRef(EXPERIENCE + str(experience_id))
         
