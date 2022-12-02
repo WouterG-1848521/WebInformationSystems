@@ -494,6 +494,22 @@ def query_personByLanguage(language):
             '''
     return query
 
+def query_personByExperience(experience):
+    query = prefixes + "\n"
+    query += f'''
+                SELECT ?uri ?name ?surname ?email
+                WHERE {{
+                    ?uri rdf:type foaf:Person .
+                    ?uri foaf:name ?name .
+                    ?uri foaf:surname ?surname .
+                    ?uri local:email ?email .
+                    ?uri local:experience ?experience .
+                    ?experience rdf:type local:experience .
+                    FILTER (?experience = {experience})
+                }}
+            '''
+    return query
+
 def query_getDiplomasFromVacancy(vacancyID):
     query = prefixes + "\n"
     query += f'''
@@ -577,3 +593,16 @@ def query_getExperiencesFromPerson(personID):
                 }}
             '''
     return query
+
+def query_getExperienceFromVacancy(vacancyID):
+    query = prefixes + "\n"
+    query += f'''
+                SELECT ?exp
+                WHERE {{
+                    ?vacancy rdf:type local:vacancy .
+                    ?vacancy local:experience ?exp .
+                    FILTER (?vacancy = vacancy:{vacancyID})
+                }}
+            '''
+    return query
+

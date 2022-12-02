@@ -192,29 +192,32 @@ person:1 a foaf:Person ;
 person:2 a foaf:Person ;
     foaf:name "Piet" ;
     foaf:surname "Pieters" ;
+    local:email "Piet@mail.com" ;
     local:graduationDate "2010-01-01"^^xsd:date ;
     local:diploma diploma:1 ;
     local:experience experience:1 ;
     local:skill skill:skill1 ;
-    local:language language:Dutch .
+    local:language language:dutch .
     
 person:3 a foaf:Person ;
     foaf:name "Klaas" ;
     foaf:surname "Klaassen" ;
+    local:email "Klaas@mail.com" ;
     local:graduationDate "2010-01-01"^^xsd:date ;
     local:diploma diploma:1 ;
     local:experience experience:1 ;
     local:skill skill:skill1 ;
-    local:language language:Dutch .
+    local:language language:dutch .
 
 person:4 a foaf:Person ;
     foaf:name "Joris" ;
     foaf:surname "Jorissen" ;
+    local:email "Joris@mail.com" ;
     local:graduationDate "2010-01-01"^^xsd:date ;
     local:diploma diploma:1 ;
     local:experience experience:1 ;
     local:skill skill:skill1 ;
-    local:language language:Dutch .
+    local:language language:dutch .
 
 # diploma
 diploma:1 a local:diploma ;
@@ -254,9 +257,10 @@ vacancy:1 rdf:type local:vacancy ;
     local:availability "true"^^xsd:boolean ;
     local:owner enterprise:1 ;
 
-    local:diploma "dip"; ;
-    local:skills "skills" ;
-    local:language "language" ;
+    local:diploma diploma:1 ;
+    local:skills skill:skill1 ;
+    local:language language:dutch ;
+    local:experience experience:1 ;
     local:jobDescription "jobDescription" ;
     local:jobResponsibilities "jobResponsibilities" ;
     local:jobSalary "jobSalary" ;

@@ -14,14 +14,16 @@ prefixes = '''
                 prefix xsd: <http://www.w3.org/2001/XMLSchema#> 
                 prefix local: <http://localhost/#> 
                 prefix profession: <http://localhost/profession/> 
-                prefix degree: <http://localhost/degree/#> 
+                prefix degree: <http://localhost/degree/> 
                 prefix enterprise: <http://localhost/enterprise/>
                 prefix person: <http://localhost/person/> 
-                prefix enterpriseInfo: <http://localhost/enterpriseInfo/#> 
-                prefix vacancy: <http://localhost/vacancy/#> 
-                prefix vacancyInfo: <http://localhost/vacancyInfo/#> 
-                prefix personalInfo: <http://localhost/personalInfo/#> 
+                prefix vacancy: <http://localhost/vacancy/> 
+                prefix skill: <http://localhost/skill/> 
+                prefix diploma: <http://localhost/diploma/> 
+                prefix language: <http://localhost/language/> 
+                prefix experience: <http://localhost/experience/>
             '''
+
 
 graph = Graph()
 graph.parse("graph.ttl")
@@ -147,12 +149,27 @@ query8 = prefixes + '''
                             }
                     '''
 
+experience = "experience:2"
+query = prefixes + "\n"
+query += f'''
+            SELECT ?uri ?name ?surname ?email
+            WHERE {{
+                ?uri rdf:type foaf:Person .
+                ?uri foaf:name ?name .
+                ?uri foaf:surname ?surname .
+                ?uri local:email ?email .
+                ?uri local:experience ?experience .
+                ?experience rdf:type local:experience .
+                FILTER (?experience = {experience})
+            }}
+        '''                   
+print(query)
                     
 #?p rdf:label enterprise:{id} .
 
 # sparql sheetsheet : https://www.iro.umontreal.ca/~lapalme/ift6281/sparql-1_1-cheat-sheet.pdf
 print("\nexecuting query\n")
-result = graph.query(query7)
+result = graph.query(query)
 df = DataFrame(result, columns=result.vars)
 print(df.to_json(orient='index', indent=2))
 

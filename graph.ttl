@@ -197,7 +197,7 @@ person:2 a foaf:Person ;
     local:diploma diploma:1 ;
     local:experience experience:1 ;
     local:skill skill:skill1 ;
-    local:language language:Dutch .
+    local:language language:dutch .
     
 person:3 a foaf:Person ;
     foaf:name "Klaas" ;
@@ -207,7 +207,7 @@ person:3 a foaf:Person ;
     local:diploma diploma:1 ;
     local:experience experience:1 ;
     local:skill skill:skill1 ;
-    local:language language:Dutch .
+    local:language language:dutch .
 
 person:4 a foaf:Person ;
     foaf:name "Joris" ;
@@ -217,7 +217,7 @@ person:4 a foaf:Person ;
     local:diploma diploma:1 ;
     local:experience experience:1 ;
     local:skill skill:skill1 ;
-    local:language language:Dutch .
+    local:language language:dutch .
 
 # diploma
 diploma:1 a local:diploma ;
@@ -242,7 +242,7 @@ experience:1 a local:experience ;
     local:skill skill:skill1 ;
     local:skill skill:skill2 .
 
-experience:1 a local:experience ;
+experience:2 a local:experience ;
     local:startDate "2010-01-01"^^xsd:date ;
     local:endDate "2012-01-01"^^xsd:date ;
     local:jobTitle "analyst" ;
@@ -250,6 +250,7 @@ experience:1 a local:experience ;
 
 # vacancy
 # TODO : add restriction
+# matched met idereeen
 vacancy:1 rdf:type local:vacancy ;
     local:jobTitle "programmer" ;
     local:startDate "2015-01-01"^^xsd:date ;
@@ -259,7 +260,42 @@ vacancy:1 rdf:type local:vacancy ;
 
     local:diploma diploma:1 ;
     local:skills skill:skill1 ;
-    local:language language:Dutch ;
+    local:language language:dutch ;
+    local:experience experience:1 ;
+    local:jobDescription "jobDescription" ;
+    local:jobResponsibilities "jobResponsibilities" ;
+    local:jobSalary "jobSalary" ;
+    local:jobLocation "jobLocation" .
+
+# matched met niemand
+vacancy:2 rdf:type local:vacancy ;
+    local:jobTitle "test" ;
+    local:startDate "2015-01-01"^^xsd:date ;
+    local:endDate "2015-12-31"^^xsd:date ;
+    local:availability "true"^^xsd:boolean ;
+    local:owner enterprise:1 ;
+
+    local:diploma diploma:2 ;
+    local:skills skill:skill2 ;
+    local:language language:nederland ;
+    local:experience experience:2 ;
+    local:jobDescription "jobDescription" ;
+    local:jobResponsibilities "jobResponsibilities" ;
+    local:jobSalary "jobSalary" ;
+    local:jobLocation "jobLocation" .
+
+# matched met 1
+vacancy:3 rdf:type local:vacancy ;
+    local:jobTitle "test" ;
+    local:startDate "2015-01-01"^^xsd:date ;
+    local:endDate "2015-12-31"^^xsd:date ;
+    local:availability "true"^^xsd:boolean ;
+    local:owner enterprise:1 ;
+
+    local:diploma diploma:2 ;
+    local:skills skill:skill1 ;
+    local:language language:nederlands ;
+    local:experience experience:2 ;
     local:jobDescription "jobDescription" ;
     local:jobResponsibilities "jobResponsibilities" ;
     local:jobSalary "jobSalary" ;
