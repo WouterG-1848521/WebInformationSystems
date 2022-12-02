@@ -5,15 +5,14 @@ local = "http://localhost/"
 
 LOCAL           = Namespace(local + "")
 PERSON          = Namespace(local + "person/")
-PERSONAL_INFO   = Namespace(local + "personalInfo/")
 DIPLOMA         = Namespace(local + "diploma/")
 PROFESSION      = Namespace(local + "profession/")
 DEGREE          = Namespace(local + "degree/")
 ENTPERISE       = Namespace(local + "enterprise/")
-ENTERPRISE_INFO = Namespace(local + "enterpriseInfo/")
 VACANCY         = Namespace(local + "vacancy/")
-VACANCY_INFO    = Namespace(local + "vacancyInfo/")
 LANGUAGE        = Namespace(local + "language/")
+SKILL           = Namespace(local + "skill/")
+EXPERIENCE      = Namespace(local + "experience/")
 
 
 def create_graph(file_path):
@@ -32,12 +31,11 @@ def create_graph(file_path):
     g.bind("profession"     , PROFESSION)
     g.bind("degree"         , DEGREE)
     g.bind("person"         , PERSON)
-    g.bind("personalInfo"   , PERSONAL_INFO)
     g.bind("enterprise"     , ENTPERISE)
-    g.bind("enterpriseInfo" , ENTERPRISE_INFO)
     g.bind("vacancy"        , VACANCY)
-    g.bind("vacancyInfo"    , VACANCY_INFO)
     g.bind("diploma"        , DIPLOMA)
     g.bind("language"       , LANGUAGE)
+    g.bind("skill"          , SKILL)
+    g.bind("experience"     , EXPERIENCE)
     
     return g

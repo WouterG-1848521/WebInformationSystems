@@ -1923,3 +1923,4 @@ rdfs:seeAlso a rdf:Property,
     owl:equivalentProperty rdfs:seeAlso ;
     owl:sameAs rdfs:seeAlso .
 
+

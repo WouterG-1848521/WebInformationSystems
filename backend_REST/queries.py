@@ -3,7 +3,7 @@ from rdflib.namespace import RDF, FOAF, RDFS, GEO
 import owlrl
 from pandas import DataFrame
 
-from backend_REST.graph import LOCAL, ENTPERISE, ENTERPRISE_INFO, PERSON
+from backend_REST.graph import LOCAL, ENTPERISE, PERSON, EXPERIENCE, LANGUAGE, VACANCY, DIPLOMA, SKILL
 
 prefixes = '''
                 prefix foaf: <http://xmlns.com/foaf/0.1/> 
@@ -18,11 +18,14 @@ prefixes = '''
                 prefix degree: <http://localhost/degree/> 
                 prefix enterprise: <http://localhost/enterprise/>
                 prefix person: <http://localhost/person/> 
-                prefix enterpriseInfo: <http://localhost/enterpriseInfo/> 
                 prefix vacancy: <http://localhost/vacancy/> 
-                prefix vacancyInfo: <http://localhost/vacancyInfo/> 
-                prefix personalInfo: <http://localhost/personalInfo/> 
+                prefix skill: <http://localhost/skill/> 
+                prefix diploma: <http://localhost/diploma/> 
+                prefix language: <http://localhost/language/> 
+                prefix experience: <http://localhost/experience/>
             '''
+
+graphFile = "graph.ttl"
 
 #########################################################
 # helper functions
@@ -80,6 +83,38 @@ def check_person(graph, personID):
     else:
         return True
 
+def check_enterprise(graph, enterpriseID):
+    query = prefixes + "\n"
+    query += f'''
+                SELECT ?enterprise
+                WHERE {{
+                    ?enterprise rdf:type local:enterprise .
+                    FILTER (?enterprise = enterprise:{enterpriseID})
+                }}
+            '''
+    result = graph.query(query)
+
+    if (len(result) == 0):
+        return False
+    else:
+        return True
+
+def check_valid_vacancy(graph, vacancyID):
+    query = prefixes + "\n"
+    query += f'''
+                SELECT ?vacancy
+                WHERE {{
+                    ?vacancy rdf:type local:vacancy .
+                    FILTER (?vacancy = vacancy:{vacancyID})
+                }}
+            '''
+    result = graph.query(query)
+
+    if (len(result) == 0):
+        return False
+    else:
+        return True
+
 #########################################################
 # create functions
 #########################################################
@@ -98,13 +133,41 @@ def create_enterpriseRDF(graph, name, owner, lat, long, address, phone, email, w
 
     graph.add((ref, GEO.lat, Literal(lat)))
     graph.add((ref, GEO.long, Literal(long)))
-    graph.add((ref, GEO.location, Literal(address)))
+    graph.add((ref, GEO.address, Literal(address)))
     graph.add((ref, LOCAL.description, Literal(description)))
     graph.add((ref, LOCAL.phone, Literal(phone)))
     graph.add((ref, LOCAL.email, Literal(email)))
     graph.add((ref, LOCAL.website, Literal(website)))
     
-    graph.serialize(destination="graoh.ttl")   # TODO : moet dit nu al ge serialized worden naar de echte graaf, of kunnen we dit periodiek laten gebueren
+    graph.serialize(destination=graphFile)   # TODO : moet dit nu al ge serialized worden naar de echte graaf, of kunnen we dit periodiek laten gebueren
+    # TODO : hoe weten we zeker dat graph is aangepast
+    return enterpriseID
+
+def create_vacancyRDF(graph, jobTitle, startDate, endDate, enterpriseID, diplomas, skills, languages, jobDescription, jobResponsibilities, jobSalary, jobLocation):
+    # Get vacancyID
+    VacancyID = 5000 # TODO: get from database
+
+    # Add vacancy to Graph
+    ref = URIRef(VACANCY + str(VacancyID))
+
+    graph.add((ref, RDF.type, LOCAL.vacancy))
+    graph.add((ref, LOCAL.jobTitle, Literal(jobTitle)))
+    graph.add((ref, LOCAL.startDate, Literal(startDate)))
+    graph.add((ref, LOCAL.endDate, Literal(endDate)))
+    graph.add((ref, LOCAL.owner, URIRef(ENTPERISE + str(enterpriseID))))
+    graph.add((ref, LOCAL.jobDescription, Literal(jobDescription)))
+    graph.add((ref, LOCAL.jobResponsibilities, Literal(jobResponsibilities)))
+    graph.add((ref, LOCAL.jobSalary, Literal(jobSalary)))
+    graph.add((ref, LOCAL.jobLocation, Literal(jobLocation)))
+
+    for diploma in diplomas:
+        graph.add((ref, LOCAL.diploma, URIRef(DIPLOMA + str(diploma))))
+    for skill in skills:
+        graph.add((ref, LOCAL.skill, URIRef(SKILL + str(skill))))
+    for language in languages:
+        graph.add((ref, LOCAL.language, URIRef(LANGUAGE + str(language))))
+    
+    graph.serialize(destination=graphFile)   # TODO : moet dit nu al ge serialized worden naar de echte graaf, of kunnen we dit periodiek laten gebueren
     # TODO : hoe weten we zeker dat graph is aangepast
     return enterpriseID
 
@@ -352,6 +415,165 @@ def query_remove_maintainerRDF(enterpriseID, maintainerID):
                 WHERE {{
                     ?enterprise rdf:type local:enterprise .
                     FILTER (?enterprise = enterprise:{enterpriseID})
+                }}
+            '''
+    return query
+
+#########################################################
+# vacancy queries
+#########################################################
+def query_match_byVacancy(vacancyID):
+    query = prefixes + "\n"
+    query += f'''
+                SELECT ?name ?surname ?email ?phone ?skill ?diploma ?language ?experience
+                WHERE {{
+                    ?person rdf:type foaf:Person .
+                    ?person foaf:name ?name .
+                    ?person foaf:surname ?surname .
+                    ?person local:email ?email .
+                    ?vacancy rdf:type local:vacancy .
+                    OPTIONAL {{
+                        ?person local:skill ?skill .
+                        ?person local:diploma ?diploma .
+                        ?person local:languague ?languague .
+                        ?person local:experience ?experience .
+                        ?vacancy local:skills ?skill .
+                        ?vacancy local:diploma ?diploma .
+                        ?vacancy local:langauage ?languague .
+                    }}
+                    FILTER (?vacancy = vacancy:{vacancyID})
+                }}
+            '''
+    return query
+
+def query_personByDiploma(diplomas):
+    query = prefixes + "\n"
+    query += f'''
+                SELECT ?uri ?name ?surname ?email
+                WHERE {{
+                    ?uri rdf:type foaf:Person .
+                    ?uri foaf:name ?name .
+                    ?uri foaf:surname ?surname .
+                    ?uri local:email ?email .
+                    ?uri local:diploma ?diploma .
+                    ?diploma rdf:type local:diploma .
+                    FILTER (?diploma = {diplomas})
+                }}
+            '''
+    return query
+
+def query_personBySkill(skill):
+    query = prefixes + "\n"
+    query += f'''
+                SELECT ?uri ?name ?surname ?email
+                WHERE {{
+                    ?uri rdf:type foaf:Person .
+                    ?uri foaf:name ?name .
+                    ?uri foaf:surname ?surname .
+                    ?uri local:email ?email .
+                    ?uri local:skill ?skill .
+                    ?skill rdf:type local:skill .
+                    FILTER (?skill = {skill})
+                }}
+            '''
+    return query
+
+def query_personByLanguage(language):
+    query = prefixes + "\n"
+    query += f'''
+                SELECT ?uri ?name ?surname ?email
+                WHERE {{
+                    ?uri rdf:type foaf:Person .
+                    ?uri foaf:name ?name .
+                    ?uri foaf:surname ?surname .
+                    ?uri local:email ?email .
+                    ?uri local:language ?language .
+                    ?language rdf:type local:language .
+                    FILTER (?language = {language})
+                }}
+            '''
+    return query
+
+def query_getDiplomasFromVacancy(vacancyID):
+    query = prefixes + "\n"
+    query += f'''
+                SELECT ?diploma
+                WHERE {{
+                    ?vacancy rdf:type local:vacancy .
+                    ?vacancy local:diploma ?diploma .
+                    FILTER (?vacancy = vacancy:{vacancyID})
+                }}
+            '''
+    return query
+
+def query_getSkillsFromVacancy(vacancyID):
+    query = prefixes + "\n"
+    query += f'''
+                SELECT ?skill
+                WHERE {{
+                    ?vacancy rdf:type local:vacancy .
+                    ?vacancy local:skills ?skill .
+                    FILTER (?vacancy = vacancy:{vacancyID})
+                }}
+            '''
+    return query
+
+def query_getLanguagesFromVacancy(vacancyID):
+    query = prefixes + "\n"
+    query += f'''
+                SELECT ?lang
+                WHERE {{
+                    ?vacancy rdf:type local:vacancy .
+                    ?vacancy local:language ?lang .
+                    FILTER (?vacancy = vacancy:{vacancyID})
+                }}
+            '''
+    return query
+
+def query_getDiplomasFromPerson(personID):
+    query = prefixes + "\n"
+    query += f'''
+                SELECT ?diploma
+                WHERE {{
+                    ?person rdf:type foaf:Person .
+                    ?person local:diploma ?diploma .
+                    FILTER (?person = person:{personID})
+                }}
+            '''
+    return query
+
+def query_getSkillsFromPerson(personID):
+    query = prefixes + "\n"
+    query += f'''
+                SELECT ?skill
+                WHERE {{
+                    ?person rdf:type foaf:Person .
+                    ?person local:skill ?skill .
+                    FILTER (?person = person:{personID})
+                }}
+            '''
+    return query
+
+def query_getLanguagesFromPerson(personID):
+    query = prefixes + "\n"
+    query += f'''
+                SELECT ?lang
+                WHERE {{
+                    ?person rdf:type foaf:Person .
+                    ?person local:language ?lang .
+                    FILTER (?person = person:{personID})
+                }}
+            '''
+    return query
+
+def query_getExperiencesFromPerson(personID):
+    query = prefixes + "\n"
+    query += f'''
+                SELECT ?exp
+                WHERE {{
+                    ?person rdf:type foaf:Person .
+                    ?person local:experience ?exp .
+                    FILTER (?person = person:{personID})
                 }}
             '''
     return query

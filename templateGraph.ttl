@@ -20,63 +20,64 @@
 @prefix skill: <http://localhost/skill/> .
 @prefix diploma: <http://localhost/diploma/> .
 @prefix language: <http://localhost/language/> .
+@prefix experience: <http://localhost/experience/> .
 
 # beroepen
 
 profession:doctor rdf:type owl:Class ;
-    rdfs:subClassOf local:profession .
+    rdf:type local:profession .
 
 profession:Chirurg rdf:type owl:Class ;
-    rdfs:subClassOf profession:doctor .
+    rdf:type profession:doctor .
 
 profession:familyDoctor rdf:type owl:Class ;
-    rdfs:subClassOf profession:doctor .
+    rdf:type profession:doctor .
 
 profession:teacher rdf:type owl:Class ;
-    rdfs:subClassOf local:profession .
+    rdf:type local:profession .
 
 profession:programmer rdf:type owl:Class ;
-    rdfs:subClassOf local:profession .
+    rdf:type local:profession .
 
 # degrees
 
 degree:master rdf:type owl:Class ;
-    rdfs:subClassOf local:degree .
+    rdf:type local:degree .
 
 degree:bachelor rdf:type owl:Class ;
-    rdfs:subClassOf local:degree .
+    rdf:type local:degree .
 
 # skills
 
 skill:leiderschap rdf:type owl:Class ;
-    rdfs:subClassOf local:skill .
+    rdf:type local:skill .
 
 skill:leadership rdf:type owl:Class ;
-    rdfs:subClassOf skill:skill .
+    rdf:type skill:skill .
 
 skill:leadership owl:equivalentClass skill:leiderschap .
 
 skill:skill1 rdf:type owl:Class ;
-    rdfs:subClassOf local:skill .
+    rdf:type local:skill .
 
 skill:skill2 rdf:type owl:Class ;
-    rdfs:subClassOf local:skill .
+    rdf:type local:skill .
 
 # languages
 
 language:nederlands rdf:type owl:Class ;
-    rdfs:subClassOf local:language .
+    rdf:type local:language .
 
 language:engels rdf:type owl:Class ;
-    rdfs:subClassOf local:language .
+    rdf:type local:language .
 
 language:dutch rdf:type owl:Class ;
-    rdfs:subClassOf local:language .
+    rdf:type local:language .
 
 language:dutch owl:equivalentClass language:nederlands .
 
 language:english rdf:type owl:Class ;
-    rdfs:subClassOf local:language .
+    rdf:type local:language .
 
 language:english owl:equivalentClass language:engels .
 
@@ -186,7 +187,7 @@ person:1 a foaf:Person ;
     local:skill skill:leiderschap ;
     local:skill skill:skill1 ;
     local:language language:engels ;
-    local:language language:nederlands ;
+    local:language language:nederlands .
     
 person:2 a foaf:Person ;
     foaf:name "Piet" ;
@@ -195,7 +196,7 @@ person:2 a foaf:Person ;
     local:diploma diploma:1 ;
     local:experience experience:1 ;
     local:skill skill:skill1 ;
-    local:language language:Dutch ;
+    local:language language:Dutch .
     
 person:3 a foaf:Person ;
     foaf:name "Klaas" ;
@@ -204,7 +205,7 @@ person:3 a foaf:Person ;
     local:diploma diploma:1 ;
     local:experience experience:1 ;
     local:skill skill:skill1 ;
-    local:language language:Dutch ;
+    local:language language:Dutch .
 
 person:4 a foaf:Person ;
     foaf:name "Joris" ;
@@ -213,7 +214,7 @@ person:4 a foaf:Person ;
     local:diploma diploma:1 ;
     local:experience experience:1 ;
     local:skill skill:skill1 ;
-    local:language language:Dutch ;
+    local:language language:Dutch .
 
 # diploma
 diploma:1 a local:diploma ;
@@ -236,13 +237,13 @@ experience:1 a local:experience ;
     local:endDate "2012-01-01"^^xsd:date ;
     local:jobTitle "programmer" ;
     local:skill skill:skill1 ;
-    local:skill skill:skill2 ;
+    local:skill skill:skill2 .
 
 experience:1 a local:experience ;
     local:startDate "2010-01-01"^^xsd:date ;
     local:endDate "2012-01-01"^^xsd:date ;
     local:jobTitle "analyst" ;
-    local:skill skill:leiderschap ;
+    local:skill skill:leiderschap .
 
 # vacancy
 # TODO : add restriction

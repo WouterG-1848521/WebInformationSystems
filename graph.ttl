@@ -1,115 +1,266 @@
-@prefix degree: <http://localhost/degree/> .
-@prefix enterprise: <http://localhost/enterprise/> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
-@prefix local: <http://localhost/#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix owl2: <http://www.w3.org/2006/12/owl2#> .
-@prefix person: <http://localhost/person/> .
-@prefix profession: <http://localhost/profession/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix vacancy: <http://localhost/vacancy/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-degree:bachelor a owl:Class ;
-    rdfs:subClassOf local:degree .
+# local declarations
 
-degree:master a owl:Class ;
-    rdfs:subClassOf local:degree .
+@prefix local: <http://localhost/#> .
+@prefix profession: <http://localhost/profession/> .
+@prefix degree: <http://localhost/degree/> .
+@prefix enterprise: <http://localhost/enterprise/> . 
+@prefix person: <http://localhost/person/> .
+@prefix enterpriseInfo: <http://localhost/enterpriseInfo/> .
+@prefix vacancy: <http://localhost/vacancy/> .
+@prefix vacancyInfo: <http://localhost/vacancyInfo/> .
+@prefix personalInfo: <http://localhost/personalInfo/> .
+@prefix skill: <http://localhost/skill/> .
+@prefix diploma: <http://localhost/diploma/> .
+@prefix language: <http://localhost/language/> .
+@prefix experience: <http://localhost/experience/> .
 
-enterprise:2 a local:enterprise ;
-    local:description "Colruyt is a winkel" ;
-    local:email "Colruyt@email.com" ;
-    local:maintainer person:3,
-        person:4 ;
-    local:owner person:4 ;
-    local:phone "016/123456" ;
-    local:website "www.colruyt.be" ;
-    geo:address "Hasselt straat 5" ;
-    geo:lat "40.879"^^xsd:float ;
-    geo:long "45.6997"^^xsd:float ;
-    foaf:name "Colruyt" .
+# beroepen
 
-person:2 a foaf:Person ;
-    foaf:name "Piet" ;
-    foaf:surname "Pieters" .
+profession:doctor rdf:type owl:Class ;
+    rdf:type local:profession .
 
-profession:Chirurg a owl:Class ;
-    rdfs:subClassOf profession:doctor .
+profession:Chirurg rdf:type owl:Class ;
+    rdf:type profession:doctor .
 
-profession:familyDoctor a owl:Class ;
-    rdfs:subClassOf profession:doctor .
+profession:familyDoctor rdf:type owl:Class ;
+    rdf:type profession:doctor .
 
-profession:programmer a owl:Class ;
-    rdfs:subClassOf local:profession .
+profession:teacher rdf:type owl:Class ;
+    rdf:type local:profession .
 
-profession:teacher a owl:Class ;
-    rdfs:subClassOf local:profession .
+profession:programmer rdf:type owl:Class ;
+    rdf:type local:profession .
 
-vacancy:1 a local:vacancy ;
-    local:availability true ;
-    local:diploma "dip" ;
-    local:endDate "2015-12-31"^^xsd:date ;
-    local:jobDescription "jobDescription" ;
-    local:jobLocation "jobLocation" ;
-    local:jobResponsibilities "jobResponsibilities" ;
-    local:jobSalary "jobSalary" ;
-    local:jobTitle "programmer" ;
-    local:langauage "language" ;
-    local:owner enterprise:1 ;
-    local:skills "skills" ;
-    local:startDate "2015-01-01"^^xsd:date .
+# degrees
 
-local:vacancy a owl:Class .
+degree:master rdf:type owl:Class ;
+    rdf:type local:degree .
 
-enterprise:1 a local:enterprise ;
-    local:description "KU Leuven is a university in Leuven, Belgium" ;
-    local:email "KUL@email.com" ;
-    local:maintainer person:1,
-        person:4 ;
-    local:owner person:4 ;
-    local:phone "016/123456" ;
-    local:website "www.KUL.be" ;
-    geo:address "Leuven straat 7" ;
-    geo:lat "40.879"^^xsd:float ;
-    geo:long "45.6997"^^xsd:float ;
-    foaf:name "KU Leuven" .
+degree:bachelor rdf:type owl:Class ;
+    rdf:type local:degree .
 
-person:1 a foaf:Person ;
-    foaf:name "Jan" ;
-    foaf:surname "Janssens" .
+# skills
 
-person:3 a foaf:Person ;
-    foaf:name "Klaas" ;
-    foaf:surname "Klaassen" .
+skill:leiderschap rdf:type owl:Class ;
+    rdf:type local:skill .
 
-local:enterprise a owl:Class ;
+skill:leadership rdf:type owl:Class ;
+    rdf:type skill:skill .
+
+skill:leadership owl:equivalentClass skill:leiderschap .
+
+skill:skill1 rdf:type owl:Class ;
+    rdf:type local:skill .
+
+skill:skill2 rdf:type owl:Class ;
+    rdf:type local:skill .
+
+# languages
+
+language:nederlands rdf:type owl:Class ;
+    rdf:type local:language .
+
+language:engels rdf:type owl:Class ;
+    rdf:type local:language .
+
+language:dutch rdf:type owl:Class ;
+    rdf:type local:language .
+
+language:dutch owl:equivalentClass language:nederlands .
+
+language:english rdf:type owl:Class ;
+    rdf:type local:language .
+
+language:english owl:equivalentClass language:engels .
+
+
+# enterprise
+
+local:enterprise rdf:type owl:Class ;
     rdfs:subClassOf foaf:Organization .
 
-profession:doctor a owl:Class ;
-    rdfs:subClassOf local:profession .
+# vacancy
+local:vacancy rdf:type owl:Class .
+    
+
+# Person
+
+_:x4 rdf:type owl:Restriction ;
+    owl2:onClass foaf:Person ;
+    owl:onProperty foaf:name ;
+    owl:cardinality "1"^^xsd:nonNegativeInteger .
+_:x5 rdf:type owl:Restriction ;
+    owl2:onClass foaf:Person ;
+    owl:onProperty foaf:surname ;
+    owl:cardinality "1"^^xsd:nonNegativeInteger .
+_:x2 rdf:type owl:Restriction ;
+    owl2:onClass local:Person ;
+    owl:onProperty local:email ;
+    owl:cardinality "1"^^xsd:nonNegativeInteger .
+_:x3 rdf:type owl:Restriction ;
+    owl2:onClass local:Person ;
+    owl:onProperty local:phone ;
+    owl:cardinality "1"^^xsd:nonNegativeInteger .
+_:x1 rdf:type owl:Restriction ;
+    owl2:onClass local:Person ;
+    owl:onProperty local:graduationDate ;
+    owl:cardinality "1"^^xsd:nonNegativeInteger .
+# elke person heeft min en max 1 email, phone, name, surname, graduationDate
+
+# diploma
+# diploma heeft min/max a degree, profession, institution, startDate and endDate
+_:x6 rdf:type owl:Restriction ;
+    owl2:onClass local:diploma ;
+    owl:onProperty local:degree ;
+    owl:cardinality "1"^^xsd:nonNegativeInteger .
+_:x7 rdf:type owl:Restriction ;
+    owl2:onClass local:diploma ;
+    owl:onProperty local:profession ;
+    owl:cardinality "1"^^xsd:nonNegativeInteger .
+_:x8 rdf:type owl:Restriction ;
+    owl2:onClass local:diploma ;
+    owl:onProperty local:institution ;
+    owl:cardinality "1"^^xsd:nonNegativeInteger .
+_:x9 rdf:type owl:Restriction ;
+    owl2:onClass local:diploma ;
+    owl:onProperty local:startDate ;
+    owl:cardinality "1"^^xsd:nonNegativeInteger .
+_:x10 rdf:type owl:Restriction ;
+    owl2:onClass local:diploma ;
+    owl:onProperty local:endDate ;
+    owl:cardinality "1"^^xsd:nonNegativeInteger .
+
+
+#################################################################
+# testData
+#################################################################
+
+# enterprises
+
+enterprise:1 rdf:type local:enterprise ;
+    foaf:name "KU Leuven" ;
+    local:owner person:1 ;
+    local:maintainer person:1 ;
+    local:maintainer person:2 ;
+
+    local:description "KU Leuven is a university in Leuven, Belgium" ;
+    geo:lat "40.879"^^xsd:float ;
+    geo:long "45.6997"^^xsd:float ;
+    geo:address "Leuven straat 7" ;
+    local:phone "016/123456" ;
+    local:email "KUL@email.com" ;
+    local:website "www.KUL.be" .
+
+enterprise:2 rdf:type local:enterprise ;
+    foaf:name "Colruyt" ;
+    local:owner person:4 ;
+    local:maintainer person:3 ;
+    local:maintainer person:4 ;
+
+    local:description "Colruyt is a winkel" ;
+    geo:lat "40.879"^^xsd:float ;
+    geo:long "45.6997"^^xsd:float ;
+    geo:address "Hasselt straat 5" ;
+    local:phone "016/123456" ;
+    local:email "Colruyt@email.com" ;
+    local:website "www.colruyt.be" .
+
+
+# person
+person:1 a foaf:Person ;
+    foaf:name "Jan" ;
+    foaf:surname "Janssens" ;
+    local:email "jan@email.com" ;
+    local:graduationDate "2010-01-01"^^xsd:date ;
+    local:diploma diploma:1 ;
+    local:diploma diploma:2 ;
+    local:experience experience:1 ;
+    local:experience experience:2 ;
+    local:skill skill:leiderschap ;
+    local:skill skill:skill1 ;
+    local:language language:engels ;
+    local:language language:nederlands .
+    
+person:2 a foaf:Person ;
+    foaf:name "Piet" ;
+    foaf:surname "Pieters" ;
+    local:email "Piet@mail.com" ;
+    local:graduationDate "2010-01-01"^^xsd:date ;
+    local:diploma diploma:1 ;
+    local:experience experience:1 ;
+    local:skill skill:skill1 ;
+    local:language language:Dutch .
+    
+person:3 a foaf:Person ;
+    foaf:name "Klaas" ;
+    foaf:surname "Klaassen" ;
+    local:email "Klaas@mail.com" ;
+    local:graduationDate "2010-01-01"^^xsd:date ;
+    local:diploma diploma:1 ;
+    local:experience experience:1 ;
+    local:skill skill:skill1 ;
+    local:language language:Dutch .
 
 person:4 a foaf:Person ;
     foaf:name "Joris" ;
-    foaf:surname "Jorissen" .
+    foaf:surname "Jorissen" ;
+    local:email "Joris@mail.com" ;
+    local:graduationDate "2010-01-01"^^xsd:date ;
+    local:diploma diploma:1 ;
+    local:experience experience:1 ;
+    local:skill skill:skill1 ;
+    local:language language:Dutch .
 
-[] a owl:Restriction ;
-    owl:cardinality "1"^^xsd:nonNegativeInteger ;
-    owl:onProperty local:name ;
-    owl2:onClass foaf:Person .
+# diploma
+diploma:1 a local:diploma ;
+    local:degree degree:master ;
+    local:profession profession:programmer ;
+    local:startDate "2010-01-01"^^xsd:date ;
+    local:endDate "2012-01-01"^^xsd:date ;
+    local:institution enterprise:1 .
 
-[] a owl:Restriction ;
-    owl:cardinality "1"^^xsd:nonNegativeInteger ;
-    owl:onProperty local:surname ;
-    owl2:onClass foaf:Person .
+diploma:2 a local:diploma ;
+    local:degree degree:bachelor ;
+    local:profession profession:programmer ;
+    local:startDate "2008-01-01"^^xsd:date ;
+    local:endDate "2010-01-01"^^xsd:date ;
+    local:institution enterprise:1 .
 
-[] a owl:Restriction ;
-    owl:cardinality "1"^^xsd:nonNegativeInteger ;
-    owl:onProperty local:email ;
-    owl2:onClass local:Person .
+# experience
+experience:1 a local:experience ;
+    local:startDate "2010-01-01"^^xsd:date ;
+    local:endDate "2012-01-01"^^xsd:date ;
+    local:jobTitle "programmer" ;
+    local:skill skill:skill1 ;
+    local:skill skill:skill2 .
 
-[] a owl:Restriction ;
-    owl:cardinality "1"^^xsd:nonNegativeInteger ;
-    owl:onProperty local:phone ;
-    owl2:onClass local:Person .
+experience:1 a local:experience ;
+    local:startDate "2010-01-01"^^xsd:date ;
+    local:endDate "2012-01-01"^^xsd:date ;
+    local:jobTitle "analyst" ;
+    local:skill skill:leiderschap .
 
+# vacancy
+# TODO : add restriction
+vacancy:1 rdf:type local:vacancy ;
+    local:jobTitle "programmer" ;
+    local:startDate "2015-01-01"^^xsd:date ;
+    local:endDate "2015-12-31"^^xsd:date ;
+    local:availability "true"^^xsd:boolean ;
+    local:owner enterprise:1 ;
+
+    local:diploma diploma:1 ;
+    local:skills skill:skill1 ;
+    local:language language:Dutch ;
+    local:jobDescription "jobDescription" ;
+    local:jobResponsibilities "jobResponsibilities" ;
+    local:jobSalary "jobSalary" ;
+    local:jobLocation "jobLocation" .
