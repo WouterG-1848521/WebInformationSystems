@@ -1,9 +1,12 @@
+from backend_REST import db
 from backend_REST.graph import LOCAL, PERSON, DIPLOMA, DEGREE, PROFESSION
 
 from rdflib import Literal, RDF, URIRef
 from rdflib.namespace import RDF, RDFS, FOAF, XSD
 
 from pandas import DataFrame
+
+from backend_REST.models.database import DBDiploma
 
 class Diploma():
     def add(graph, diploma_URI, degree, profession, institiution, startDate, endDate):
@@ -19,8 +22,11 @@ class Diploma():
               
     
     def create(graph, degree, profession, institiution, startDate, endDate):
-        # TODO: insert in DB and get diploma id
-        diploma_id = 1
+        diploma = DBDiploma()
+        db.session.add(diploma)
+        db.session.commit()
+
+        diploma_id = diploma.id
         diploma_URI = URIRef(DIPLOMA + str(diploma_id))
         
         # Add diploma

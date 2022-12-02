@@ -1,9 +1,12 @@
+from backend_REST import db
 from backend_REST.graph import LOCAL, EXPERIENCE, SKILL, PERSON
 
 from rdflib import Literal, RDF, URIRef, Variable
 from rdflib.namespace import RDF, RDFS, FOAF, XSD
 
 from pandas import DataFrame
+
+from backend_REST.models.database import DBWorkExperience
 
 class WorkExperience():
     def add(graph, experience_URI, job_title, skills, start_date, end_date):
@@ -19,8 +22,12 @@ class WorkExperience():
     
     
     def create(graph, job_title, skills, start_date, end_date):
-        # TODO: insert into db and get id
-        experience_id = 1
+        # Add vacancy to DB
+        experience = DBWorkExperience()
+        db.session.add(experience)
+        db.session.commit()
+
+        experience_id = experience.id
         experience_URI = URIRef(EXPERIENCE + str(experience_id))
         
         # Add work experience
@@ -77,6 +84,8 @@ class WorkExperience():
         # Link experience to user
         graph.add((user_URI, LOCAL.experience, experience_URI))
         graph.serialize(destination="user.ttl")
+        
+        return experience_URI
     
     
     def get_all_by_user_id(graph, user_id):

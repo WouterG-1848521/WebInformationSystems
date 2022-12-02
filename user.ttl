@@ -17,14 +17,13 @@ language:french a local:language .
 person:1 a foaf:Person ;
     local:diploma diploma:1 ;
     local:email "paul2@gmail.com" ;
-    local:experience experience:1 ;
+    local:experience experience:1,
+        experience:2 ;
     local:language language:english ;
     local:phone "123" ;
     local:skill skill:leadership ;
     foaf:name "Paul" ;
     foaf:surname "Jambers" .
-
-skill:teamwork a local:skill .
 
 vacancy:3 a local:vacancy .
 
@@ -41,7 +40,15 @@ experience:1 a local:experience ;
     local:skill skill:leadership ;
     local:startDate "1980-01-20"^^xsd:date .
 
+experience:2 a local:experience ;
+    local:endDate "2000-01-20"^^xsd:date ;
+    local:jobTitle "Football Player" ;
+    local:skill skill:teamwork ;
+    local:startDate "1980-01-20"^^xsd:date .
+
 language:english a local:language .
+
+skill:teamwork a local:skill .
 
 skill:leadership a local:skill .
 
