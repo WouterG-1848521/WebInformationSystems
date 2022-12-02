@@ -7,17 +7,12 @@
 @prefix person: <http://localhost/person/> .
 @prefix profession: <http://localhost/profession/> .
 @prefix skill: <http://localhost/skill/> .
+@prefix vacancy: <http://localhost/vacancy/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 language:dutch a local:language .
 
 language:french a local:language .
-
-language:english a local:language .
-
-skill:leadership a local:skill .
-
-skill:teamwork a local:skill .
 
 person:1 a foaf:Person ;
     local:diploma diploma:1 ;
@@ -28,6 +23,10 @@ person:1 a foaf:Person ;
     local:skill skill:leadership ;
     foaf:name "Paul" ;
     foaf:surname "Jambers" .
+
+skill:teamwork a local:skill .
+
+vacancy:3 a local:vacancy .
 
 diploma:1 a local:diploma ;
     local:degree degree:master ;
@@ -41,3 +40,8 @@ experience:1 a local:experience ;
     local:jobTitle "Reporter" ;
     local:skill skill:leadership ;
     local:startDate "1980-01-20"^^xsd:date .
+
+language:english a local:language .
+
+skill:leadership a local:skill .
+
