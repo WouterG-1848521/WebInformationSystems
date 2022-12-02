@@ -26,7 +26,6 @@ class User():
         db.session.commit()
         
         # Get user_id
-        user = DBUser.query.filter_by(email=email).first()
         user_id = user.id
         
         # Add user to Graph

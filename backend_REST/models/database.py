@@ -53,9 +53,44 @@ class DBVacancy(db.Model):
         return '<Vacancy %r>' % self.id
 
     def get_id(self):
-        """Return the id to satisfy Flask-Login's requirements."""
         return self.id
 
+class DBEnterprise(db.Model):
+    
+    __tablename__ = 'enterprises'
+
+    id = db.Column(db.Integer, primary_key=True)
+    
+    def __repr__(self):
+        return '<Enterprise %r>' % self.id
+
+    def get_id(self):
+        return self.id
+    
+class DBDiploma(db.Model):
+    
+    __tablename__ = 'diplomas'
+
+    id = db.Column(db.Integer, primary_key=True)
+    
+    def __repr__(self):
+        return '<Diploma %r>' % self.id
+
+    def get_id(self):
+        return self.id
+
+
+class DBWorkExperience(db.Model):
+    
+    __tablename__ = 'experiences'
+
+    id = db.Column(db.Integer, primary_key=True)
+    
+    def __repr__(self):
+        return '<Experience %r>' % self.id
+
+    def get_id(self):
+        return self.id
 
 # TODO: Create connection request database model
 class DBConnectionRequest():
