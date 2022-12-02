@@ -13,7 +13,7 @@ class Language():
         user_URI = URIRef(PERSON + str(user_id))
         language_ref = URIRef(LANGUAGE + str(language))
         
-        graph.add((user_URI, LOCAL.languages, language_ref))
+        graph.add((user_URI, LOCAL.language, language_ref))
         graph.serialize(destination="user.ttl")
     
     
@@ -23,11 +23,11 @@ class Language():
         q = f'''
             SELECT ?language
             WHERE {{
-                ?i rdf:type local:personalInfo .
-                ?i local:languages ?language
+                ?p rdf:type foaf:Person .
+                ?p local:language ?language
             }}
         '''
-        result = graph.query(q, initBindings={'i': user_URI})
+        result = graph.query(q, initBindings={'p': user_URI})
         df = DataFrame(result, columns=result.vars)
         return df.to_json()
     
@@ -36,7 +36,7 @@ class Language():
         user_URI = URIRef(PERSON + str(user_id))
         language_ref = URIRef(LANGUAGE + str(language))
                 
-        graph.remove((user_URI, LOCAL.languages, language_ref))
+        graph.remove((user_URI, LOCAL.language, language_ref))
         graph.serialize(destination="user.ttl")
 
 

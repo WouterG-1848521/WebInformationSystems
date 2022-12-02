@@ -26,6 +26,8 @@ graph.bind("language"       , LANGUAGE)
 
 # graph.add((diploma_URI, RDF.type, LOCAL.diploma))
 
+# graph.add((URIRef(LOCAL + "diploma"), RDF.type, OWL.Class))
+
 diploma_1_ref = URIRef(DIPLOMA + "informatica")
 graph.add((diploma_1_ref, RDF.type, URIRef(LOCAL + "diploma")))
 diploma_2_ref = URIRef(DIPLOMA + "computerScience")
@@ -39,6 +41,22 @@ graph.add((diploma_2_ref, OWL.equivalentClass, diploma_3_ref))
 user_info_ref = URIRef(PERSON + str(0))
 graph.add((user_info_ref, RDF.type, URIRef(LOCAL + "person")))
 graph.add((user_info_ref, URIRef(LOCAL + "diploma"), diploma_1_ref))
+
+
+user_info_ref1 = URIRef(PERSON + str(1))
+graph.add((user_info_ref1, RDF.type, URIRef(LOCAL + "person")))
+graph.add((user_info_ref1, URIRef(LOCAL + "diploma"), diploma_2_ref))
+
+
+user_info_ref2 = URIRef(PERSON + str(2))
+graph.add((user_info_ref2, RDF.type, URIRef(LOCAL + "person")))
+graph.add((user_info_ref2, URIRef(LOCAL + "diploma"), diploma_3_ref))
+
+graph.add((user_info_ref, FOAF.knows, user_info_ref1))
+graph.add((user_info_ref1, FOAF.knows, user_info_ref2))
+graph.add((user_info_ref2, FOAF.knows, user_info_ref1))
+
+
 
 # vacancy_1_ref = URIRef(VACANCY + "0")
 # graph.add((vacancy_1_ref, RDF.type, URIRef(LOCAL + "Vacancy")))
@@ -81,29 +99,53 @@ graph.serialize("test.ttl")
 
 # query the graph
 
-query = '''
-    SELECT ?person ?diploma
-    WHERE {
-        ?person a local:person .
-        ?person local:diploma ?diploma .
-        ?diploma owl:equivalentClass diploma:info2 .
-        }
-'''
+# query = '''
+#     SELECT ?person ?diploma
+#     WHERE {
+#         ?person a local:person .
+#         ?person local:diploma ?diploma .
+#         ?diploma owl:equivalentClass diploma:info2 .
+#         }
+# '''
 
-query = '''
-        SELECT ?diploma
-        WHERE {
-            ?diploma owl:equivalentClass diploma:info2 .
-            }
-'''
+# query = '''
+#         SELECT ?diploma
+#         WHERE {
+#             ?diploma owl:equivalentClass diploma:info2 .
+#             }
+# '''
 
-query = '''
-    SELECT ?person ?diploma
-    WHERE {
+# diploma
+course = "informatica"
+print(diploma_1_ref)
+
+
+query = f"""
+    SELECT ?guysh
+    WHERE {{
         ?person a local:person .
-        ?person local:diploma diploma:info2 .
-        }
-'''
+        ?person local:diploma diploma:{course} .
+        ?others owl:equivalentClass diploma:{course} .
+        ?guysh local:diploma ?others .
+    }}
+"""
+
+# person who knows and has similar diploma(s)
+
+person_id = "1"
+
+query = f"""
+    SELECT ?person 
+    WHERE {{
+        person:{person_id} a local:person .
+        ?person foaf:knows person:{person_id} .
+        person:{person_id} local:diploma ?diploma .
+        ?diplomas owl:equivalentClass ?diploma .
+        ?person local:diploma ?diplomas .
+    }}
+"""
+
+
 
 print(query)
 

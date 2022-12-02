@@ -42,6 +42,21 @@ class DBUser(db.Model):
         """False, as anonymous users aren't supported."""
         return False
     
+
+class DBVacancy(db.Model):
+    
+    __tablename__ = 'vacancies'
+
+    id = db.Column(db.Integer, primary_key=True)
+    
+    def __repr__(self):
+        return '<Vacancy %r>' % self.id
+
+    def get_id(self):
+        """Return the id to satisfy Flask-Login's requirements."""
+        return self.id
+
+
 # TODO: Create connection request database model
 class DBConnectionRequest():
     pass

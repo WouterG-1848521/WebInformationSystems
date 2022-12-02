@@ -6,23 +6,32 @@ from .queries import create_vacancyRDF, check_enterprise, check_maintainer, chec
 from .queries import query_getDiplomasFromVacancy, query_getSkillsFromVacancy, query_personBySkill, query_getLanguagesFromVacancy, query_personByLanguage
 from .queries import query_getExperiencesFromPerson, query_getDiplomasFromPerson, query_getSkillsFromPerson, query_getLanguagesFromPerson
 
+from backend_REST.models.vacancy import Vacancy
+
+
 def create_vacancy_routes(app, graph):
     # add a vacancy to an enterprise
     @app.route("/enterprise/vacancy/add", methods=['POST'])
     def add_vacancy():
         data = request.form     # request contains : enterpriseID, mainterID (for security check), jobtitle, address, startdate, enddate
+            # waarschijnlijk ook nog een lijst van skills
+        id = Vacancy.create(graph)
+
+        print("Test Route")
         
-        print(data)
-        # TODO: insert in rdf 
-        return "add vacancy"
+        return f"Created vacancy {id}."
 
     # remove a vacancy from an enterprise
     @app.route("/enterprise/vacancy/remove", methods=['POST'])
     def remove_vacancy():
         data = request.form     # request contains : enterpriseID, vacancyID, mainterID (for security check)
+        
+
+       
+        
         print(data)
         # TODO: remove in rdf 
-        return "remove vacancy"
+        return ""
 
     def get_all_vacancies_of_enterprise(graph, enterpriseID):
         pass
