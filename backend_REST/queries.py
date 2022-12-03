@@ -422,6 +422,32 @@ def query_remove_maintainerRDF(enterpriseID, maintainerID):
 #########################################################
 # vacancy queries
 #########################################################
+def query_getVacancy(vacancyURI):
+    query = prefixes + "\n"
+    query += f'''
+                SELECT ?jobTitle ?startDate ?endDate ?owner ?diploma ?skills ?language ?experience ?jobDescription ?jobResponsibilities ?jobSalary ?jobLocation
+                WHERE {{
+                    ?vacancy rdf:type local:vacancy .
+                    ?vacancy local:jobTitle ?jobTitle .
+                    ?vacancy local:startDate ?startDate .
+                    ?vacancy local:endDate ?endDate .
+                    ?vacancy local:owner ?owner .
+
+                    ?vacancy local:diploma ?diploma .
+                    ?vacancy local:skills ?skills .
+                    ?vacancy local:language ?language .
+                    ?vacancy local:experience ?experience .
+
+                    ?vacancy local:jobDescription ?jobDescription .
+                    ?vacancy local:jobResponsibilities ?jobResponsibilities .
+                    ?vacancy local:jobSalary ?jobSalary .
+                    ?vacancy local:jobLocation ?jobLocation .
+
+                    FILTER (?vacancy = {vacancyURI})
+                }}
+            '''
+    return query    
+
 def query_match_byVacancy(vacancyID):
     query = prefixes + "\n"
     query += f'''
@@ -446,6 +472,109 @@ def query_match_byVacancy(vacancyID):
             '''
     return query
 
+def query_getDiplomasFromVacancy(vacancyID):
+    query = prefixes + "\n"
+    query += f'''
+                SELECT ?diploma
+                WHERE {{
+                    ?vacancy rdf:type local:vacancy .
+                    ?vacancy local:diploma ?diploma .
+                    FILTER (?vacancy = vacancy:{vacancyID})
+                }}
+            '''
+    return query
+
+def query_getSkillsFromVacancy(vacancyID):
+    query = prefixes + "\n"
+    query += f'''
+                SELECT ?skill
+                WHERE {{
+                    ?vacancy rdf:type local:vacancy .
+                    ?vacancy local:skills ?skill .
+                    FILTER (?vacancy = vacancy:{vacancyID})
+                }}
+            '''
+    return query
+
+def query_getLanguagesFromVacancy(vacancyID):
+    query = prefixes + "\n"
+    query += f'''
+                SELECT ?lang
+                WHERE {{
+                    ?vacancy rdf:type local:vacancy .
+                    ?vacancy local:language ?lang .
+                    FILTER (?vacancy = vacancy:{vacancyID})
+                }}
+            '''
+    return query
+
+def query_getExperienceFromVacancy(vacancyID):
+    query = prefixes + "\n"
+    query += f'''
+                SELECT ?exp
+                WHERE {{
+                    ?vacancy rdf:type local:vacancy .
+                    ?vacancy local:experience ?exp .
+                    FILTER (?vacancy = vacancy:{vacancyID})
+                }}
+            '''
+    return query
+
+def query_vacancyByDiploma(diplomaURI):
+    query = prefixes + "\n"
+    query += f'''
+                SELECT ?vacancy
+                WHERE {{
+                    ?vacancy rdf:type local:vacancy .
+                    ?vacancy local:diploma ?diploma .
+                    ?vacancy local:availability ?av .
+                    FILTER (?diploma = {diplomaURI} && ?av = true)
+                }}
+            '''
+    return query
+
+def query_vacancyBySkill(skillURI):
+    query = prefixes + "\n"
+    query += f'''
+                SELECT ?vacancy
+                WHERE {{
+                    ?vacancy rdf:type local:vacancy .
+                    ?vacancy local:skills ?skill .
+                    ?vacancy local:availability ?av .
+                    FILTER (?skill = {skillURI} && ?av = true)
+                }}
+            '''
+    return query
+
+def query_vacancyByLanguage(languageURI):
+    query = prefixes + "\n"
+    query += f'''
+                SELECT ?vacancy
+                WHERE {{
+                    ?vacancy rdf:type local:vacancy .
+                    ?vacancy local:language ?language .
+                    ?vacancy local:availability ?av .
+                    FILTER (?language = {languageURI} && ?av = true)
+                }}
+            '''
+    return query
+
+def query_vacancyByExperience(experienceURI):
+    query = prefixes + "\n"
+    query += f'''
+                SELECT ?vacancy
+                WHERE {{
+                    ?vacancy rdf:type local:vacancy .
+                    ?vacancy local:experience ?experience .
+                    ?vacancy local:availability ?av .
+                    FILTER (?experience = {experienceURI} && ?av = true)
+                }}
+            '''
+    return query
+
+#########################################################
+# person queries
+#########################################################
 def query_personByDiploma(diplomas):
     query = prefixes + "\n"
     query += f'''
@@ -510,42 +639,6 @@ def query_personByExperience(experience):
             '''
     return query
 
-def query_getDiplomasFromVacancy(vacancyID):
-    query = prefixes + "\n"
-    query += f'''
-                SELECT ?diploma
-                WHERE {{
-                    ?vacancy rdf:type local:vacancy .
-                    ?vacancy local:diploma ?diploma .
-                    FILTER (?vacancy = vacancy:{vacancyID})
-                }}
-            '''
-    return query
-
-def query_getSkillsFromVacancy(vacancyID):
-    query = prefixes + "\n"
-    query += f'''
-                SELECT ?skill
-                WHERE {{
-                    ?vacancy rdf:type local:vacancy .
-                    ?vacancy local:skills ?skill .
-                    FILTER (?vacancy = vacancy:{vacancyID})
-                }}
-            '''
-    return query
-
-def query_getLanguagesFromVacancy(vacancyID):
-    query = prefixes + "\n"
-    query += f'''
-                SELECT ?lang
-                WHERE {{
-                    ?vacancy rdf:type local:vacancy .
-                    ?vacancy local:language ?lang .
-                    FILTER (?vacancy = vacancy:{vacancyID})
-                }}
-            '''
-    return query
-
 def query_getDiplomasFromPerson(personID):
     query = prefixes + "\n"
     query += f'''
@@ -590,18 +683,6 @@ def query_getExperiencesFromPerson(personID):
                     ?person rdf:type foaf:Person .
                     ?person local:experience ?exp .
                     FILTER (?person = person:{personID})
-                }}
-            '''
-    return query
-
-def query_getExperienceFromVacancy(vacancyID):
-    query = prefixes + "\n"
-    query += f'''
-                SELECT ?exp
-                WHERE {{
-                    ?vacancy rdf:type local:vacancy .
-                    ?vacancy local:experience ?exp .
-                    FILTER (?vacancy = vacancy:{vacancyID})
                 }}
             '''
     return query

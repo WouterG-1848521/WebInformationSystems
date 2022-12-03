@@ -219,6 +219,13 @@ person:4 a foaf:Person ;
     local:skill skill:skill1 ;
     local:language language:dutch .
 
+person:5 a foaf:Person ;
+    foaf:name "Koen" ;
+    foaf:surname "Koens" ;
+    local:email "Koen@email.com" ;
+
+    local:diploma diploma:2 .
+
 # diploma
 diploma:1 a local:diploma ;
     local:degree degree:master ;
@@ -242,7 +249,7 @@ experience:1 a local:experience ;
     local:skill skill:skill1 ;
     local:skill skill:skill2 .
 
-experience:1 a local:experience ;
+experience:2 a local:experience ;
     local:startDate "2010-01-01"^^xsd:date ;
     local:endDate "2012-01-01"^^xsd:date ;
     local:jobTitle "analyst" ;
@@ -250,6 +257,7 @@ experience:1 a local:experience ;
 
 # vacancy
 # TODO : add restriction
+# matched met idereeen
 vacancy:1 rdf:type local:vacancy ;
     local:jobTitle "programmer" ;
     local:startDate "2015-01-01"^^xsd:date ;
@@ -261,6 +269,40 @@ vacancy:1 rdf:type local:vacancy ;
     local:skills skill:skill1 ;
     local:language language:dutch ;
     local:experience experience:1 ;
+    local:jobDescription "jobDescription" ;
+    local:jobResponsibilities "jobResponsibilities" ;
+    local:jobSalary "jobSalary" ;
+    local:jobLocation "jobLocation" .
+
+# matched met niemand
+vacancy:2 rdf:type local:vacancy ;
+    local:jobTitle "test" ;
+    local:startDate "2015-01-01"^^xsd:date ;
+    local:endDate "2015-12-31"^^xsd:date ;
+    local:availability "true"^^xsd:boolean ;
+    local:owner enterprise:1 ;
+
+    local:diploma diploma:2 ;
+    local:skills skill:skill2 ;
+    local:language language:nederland ;
+    local:experience experience:2 ;
+    local:jobDescription "jobDescription" ;
+    local:jobResponsibilities "jobResponsibilities" ;
+    local:jobSalary "jobSalary" ;
+    local:jobLocation "jobLocation" .
+
+# matched met 1
+vacancy:3 rdf:type local:vacancy ;
+    local:jobTitle "test" ;
+    local:startDate "2015-01-01"^^xsd:date ;
+    local:endDate "2015-12-31"^^xsd:date ;
+    local:availability "true"^^xsd:boolean ;
+    local:owner enterprise:1 ;
+
+    local:diploma diploma:2 ;
+    local:skills skill:skill1 ;
+    local:language language:nederlands ;
+    local:experience experience:2 ;
     local:jobDescription "jobDescription" ;
     local:jobResponsibilities "jobResponsibilities" ;
     local:jobSalary "jobSalary" ;
