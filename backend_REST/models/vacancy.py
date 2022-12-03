@@ -26,7 +26,7 @@ from pandas import DataFrame
 class Vacancy():
 
     # TODO : Add other parameters required according to schema
-    def create(graph):
+    def create(graph, enterprise_id):
         # Add vacancy to DB
         vacancy = DBVacancy()
         db.session.add(vacancy)
@@ -36,8 +36,10 @@ class Vacancy():
 
         vacancy_ref = URIRef(VACANCY + str(vacancy_id))
         
-
         graph.add((vacancy_ref, RDF.type, LOCAL.vacancy))
+
+        # TODO : add enterprise in proper manner
+        #graph.add((vacancy_ref, LOCAL.enterprise, ))
 
         graph.serialize(destination="user.ttl")
 
