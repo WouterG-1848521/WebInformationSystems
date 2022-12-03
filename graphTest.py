@@ -152,17 +152,14 @@ query8 = prefixes + '''
 experience = "experience:2"
 query = prefixes + "\n"
 query += f'''
-            SELECT ?uri ?name ?surname ?email
+            SELECT ?vacancy
             WHERE {{
-                ?uri rdf:type foaf:Person .
-                ?uri foaf:name ?name .
-                ?uri foaf:surname ?surname .
-                ?uri local:email ?email .
-                ?uri local:experience ?experience .
-                ?experience rdf:type local:experience .
-                FILTER (?experience = {experience})
+                ?vacancy rdf:type local:vacancy .
+                ?vacancy local:experience ?experience .
+                ?vacancy local:availability ?av .
+                FILTER (?experience = "{experience}" && ?av = true)
             }}
-        '''                   
+        '''                
 print(query)
                     
 #?p rdf:label enterprise:{id} .
