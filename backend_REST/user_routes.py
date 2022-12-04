@@ -131,11 +131,9 @@ def create_user_routes(app, g):
         Language.add_to_user(g, user_id, language)
         return f"Added language {language} to user {user_id}'s languages."
     
-    
     @app.route("/users/<int:user_id>/languages", methods=["GET"])
     def get_all_languages_from_user(user_id):
         return Language.get_all_by_user_id(g, user_id)
-    
     
     @app.route("/users/<int:user_id>/languages/<string:language>", methods=["DELETE"])
     def remove_language_from_user(user_id, language):
@@ -153,11 +151,9 @@ def create_user_routes(app, g):
         Skill.add_to_user(g, user_id, skill)
         return f"Added skill {skill} to user {user_id}'s skills."
     
-    
     @app.route("/users/<int:user_id>/skills", methods=["GET"])
     def get_all_skills_from_user(user_id):
         return Skill.get_all_by_user_id(g, user_id)
-    
     
     @app.route("/users/<int:user_id>/skills/<string:skill>", methods=["DELETE"])
     def remove_skill_from_user(user_id, skill):
@@ -178,7 +174,6 @@ def create_user_routes(app, g):
                                          data["skills"].split(','), data["startDate"], 
                                          data["endDate"])
         return f"Created experience {experience_id } for user {user_id}."
-    
     
     @app.route("/users/<int:user_id>/experiences", methods=["GET"])
     def get_user_experiences(user_id):
