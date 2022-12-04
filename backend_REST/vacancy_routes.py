@@ -124,8 +124,14 @@ def create_vacancy_routes(app, graph):
     def get_all_vacancies_of_enterprise(graph, enterpriseID):
         pass
 
-    # TODO : pass queries aan met equivalent skills
+    # TODO : V pass queries aan met equivalent skills
+    # TODO : experience heeft ook skills, deze ook matchen met de skills
     # TODO : groepeer returned values per person/vacancy
+    # setps:
+    #      * update the queries individually when finding vacancies for a person to include the equivalent properties (misschien ook subclass en superclasses)
+    
+    # TODO : ik check by vacancies that ze available zijn via "availability = 'true'"
+    #      Dit lijkt enkel te werken als we specifieren dat het een boolean is? via local:availability "true"^^xsd:boolean 
 
     # find persons that have minimum 1 match with the given vacancy
     # TODO : vervangen door helper functies
@@ -224,7 +230,7 @@ def create_vacancy_routes(app, graph):
         return returnString
 
 
-    
+    # TODO : als hij onderweg leeg geraakt wordt hij terug opgevuld -> mag niet
     @app.route("/vacancy/matchall", methods=['POST'])
     def match_vacancyAll():
         data = request.form
@@ -242,6 +248,7 @@ def create_vacancy_routes(app, graph):
         # TODO: equivalent dingen staan nog niet in query
 
         matches = {} # we use the uri as a key and assume that it's the first value returned
+        filled = False
 
         # find matches on diploma
         query = query_getDiplomasFromVacancy(vacancyID)
@@ -251,8 +258,9 @@ def create_vacancy_routes(app, graph):
         temp = matches.copy()
         for diploma in diplomas:
             result = getPersonsWithDiploma(graph, diploma)
-            if (len(matches) == 0): # first time we just add everything
+            if (len(matches) == 0 and not filled): # first time we just add everything
                 temp = result
+                filled = True
             else:
                 for key in matches:
                     if not (key in result):
@@ -269,8 +277,9 @@ def create_vacancy_routes(app, graph):
         temp = matches.copy()
         for skill in skills:
             result = getPersonWithSill(graph, skill)
-            if (len(matches) == 0): # first time we just add everything
+            if (len(matches) == 0 and not filled): # first time we just add everything
                 temp = result
+                filled = True
             else:
                 for key in matches:
                     if not (key in result):
@@ -286,8 +295,9 @@ def create_vacancy_routes(app, graph):
         temp = matches.copy()
         for experience in experiences:
             result = getPersonWithExperience(graph, experience)
-            if (len(matches) == 0): # first time we just add everything
+            if (len(matches) == 0 and not filled): # first time we just add everything
                 temp = result
+                filled = True
             else:
                 for key in matches:
                     if not (key in result):
@@ -304,8 +314,9 @@ def create_vacancy_routes(app, graph):
         for language in languages:
             result = getPersonWithLanguage(graph, language)
             # print("lang",result)
-            if (len(matches) == 0): # first time we just add everything
+            if (len(matches) == 0 and not filled): # first time we just add everything
                 temp = result
+                filled = True
             else:
                 for key in matches:
                     if not (key in result):

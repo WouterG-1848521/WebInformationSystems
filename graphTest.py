@@ -149,16 +149,22 @@ query8 = prefixes + '''
                             }
                     '''
 
-experience = "experience:2"
+input = "skill:skilleq100"
 query = prefixes + "\n"
 query += f'''
-            SELECT ?vacancy
-            WHERE {{
-                ?vacancy rdf:type local:vacancy .
-                ?vacancy local:experience ?experience .
-                ?vacancy local:availability ?av .
-                FILTER (?experience = "{experience}" && ?av = true)
-            }}
+        SELECT ?uri
+        WHERE {{
+                ?uri rdf:type foaf:Person .
+                ?uri foaf:name ?name .
+                ?uri foaf:surname ?surname .
+                ?uri local:email ?email .
+                ?uri local:language ?language .
+                ?language rdf:type local:language .
+                OPTIONAL {{
+                    ?language owl:equivalentClass ?input .
+                }}
+                FILTER (?input = language:langeq100 || ?language = language:langeq100)
+        }}
         '''                
 print(query)
                     
@@ -171,4 +177,4 @@ df = DataFrame(result, columns=result.vars)
 print(df.to_json(orient='index', indent=2))
 
 
-# graph.serialize(destination="outputgraph.ttl")
+graph.serialize(destination="outputgraph.ttl")

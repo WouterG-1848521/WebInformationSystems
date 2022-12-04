@@ -528,7 +528,10 @@ def query_vacancyByDiploma(diplomaURI):
                     ?vacancy rdf:type local:vacancy .
                     ?vacancy local:diploma ?diploma .
                     ?vacancy local:availability ?av .
-                    FILTER (?diploma = {diplomaURI} && ?av = true)
+                    OPTIONAL {{
+                        ?diploma owl2:equivalentClass ?input .
+                    }}
+                    FILTER ((?input = {diplomaURI} || ?diploma = {diplomaURI}) && ?av = true)
                 }}
             '''
     return query
@@ -541,7 +544,10 @@ def query_vacancyBySkill(skillURI):
                     ?vacancy rdf:type local:vacancy .
                     ?vacancy local:skills ?skill .
                     ?vacancy local:availability ?av .
-                    FILTER (?skill = {skillURI} && ?av = true)
+                    OPTIONAL {{
+                        ?skill owl2:equivalentClass ?input .
+                    }}
+                    FILTER ((?input = {skillURI} || ?skill = {skillURI}) && ?av = true)
                 }}
             '''
     return query
@@ -554,7 +560,10 @@ def query_vacancyByLanguage(languageURI):
                     ?vacancy rdf:type local:vacancy .
                     ?vacancy local:language ?language .
                     ?vacancy local:availability ?av .
-                    FILTER (?language = {languageURI} && ?av = true)
+                    OPTIONAL {{
+                        ?language owl2:equivalentClass ?input .
+                    }}
+                    FILTER ((?input = {languageURI} || ?language = {languageURI}) && ?av = true)
                 }}
             '''
     return query
@@ -567,7 +576,10 @@ def query_vacancyByExperience(experienceURI):
                     ?vacancy rdf:type local:vacancy .
                     ?vacancy local:experience ?experience .
                     ?vacancy local:availability ?av .
-                    FILTER (?experience = {experienceURI} && ?av = true)
+                    OPTIONAL {{
+                        ?experience owl2:equivalentClass ?input .
+                    }}
+                    FILTER ((?input = {experienceURI} || ?experience = {experienceURI}) && ?av = true)
                 }}
             '''
     return query
@@ -586,7 +598,10 @@ def query_personByDiploma(diplomas):
                     ?uri local:email ?email .
                     ?uri local:diploma ?diploma .
                     ?diploma rdf:type local:diploma .
-                    FILTER (?diploma = {diplomas})
+                    OPTIONAL {{
+                        ?diploma owl2:equivalentClass ?input .
+                    }}
+                    FILTER (?diploma = {diplomas} || ?input = {diplomas})
                 }}
             '''
     return query
@@ -602,7 +617,10 @@ def query_personBySkill(skill):
                     ?uri local:email ?email .
                     ?uri local:skill ?skill .
                     ?skill rdf:type local:skill .
-                    FILTER (?skill = {skill})
+                    OPTIONAL {{
+                        ?skill owl:equivalentClass ?input .
+                    }}
+                    FILTER (?skill = {skill} || ?input = {skill})
                 }}
             '''
     return query
@@ -618,7 +636,11 @@ def query_personByLanguage(language):
                     ?uri local:email ?email .
                     ?uri local:language ?language .
                     ?language rdf:type local:language .
-                    FILTER (?language = {language})
+                    OPTIONAL {{
+                        ?language owl:equivalentClass ?input .
+                        ?input owl:equivalentClass ?language .
+                    }}
+                    FILTER (?input = {language} || ?language = {language})
                 }}
             '''
     return query
@@ -634,7 +656,10 @@ def query_personByExperience(experience):
                     ?uri local:email ?email .
                     ?uri local:experience ?experience .
                     ?experience rdf:type local:experience .
-                    FILTER (?experience = {experience})
+                    OPTIONAL {{
+                        ?experience owl2:equivalentClass ?input .
+                    }}
+                    FILTER (?input = {experience} || ?experience = {experience})
                 }}
             '''
     return query

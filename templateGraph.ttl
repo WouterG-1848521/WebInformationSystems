@@ -63,6 +63,14 @@ skill:skill1 rdf:type owl:Class ;
 skill:skill2 rdf:type owl:Class ;
     rdf:type local:skill .
 
+skill:skill100 rdf:type owl:Class ;
+    rdf:type local:skill .
+
+skill:skilleq100 rdf:type owl:Class ;
+    rdf:type local:skill .
+
+skill:skilleq100 owl:equivalentClass skill:skill100 .
+
 # languages
 
 language:nederlands rdf:type owl:Class ;
@@ -80,6 +88,14 @@ language:english rdf:type owl:Class ;
     rdf:type local:language .
 
 language:english owl:equivalentClass language:engels .
+
+language:lang100 rdf:type owl:Class ;
+    rdf:type local:language .
+
+language:langeq100 rdf:type owl:Class ;
+    rdf:type local:language .
+
+language:langeq100 owl:equivalentClass language:lang100 .
 
 
 # enterprise
@@ -224,7 +240,17 @@ person:5 a foaf:Person ;
     foaf:surname "Koens" ;
     local:email "Koen@email.com" ;
 
-    local:diploma diploma:2 .
+    local:experience experience:2 .
+
+person:100 a foaf:Person ;
+    foaf:name "test" ;
+    foaf:surname "tester" ;
+    local:email "test@email.be" ;
+
+    local:experience experience:100 ;
+    local:diploma diploma:100 ;
+    local:skill skill:skill100 ;
+    local:language language:lang100 .
 
 # diploma
 diploma:1 a local:diploma ;
@@ -241,6 +267,22 @@ diploma:2 a local:diploma ;
     local:endDate "2010-01-01"^^xsd:date ;
     local:institution enterprise:1 .
 
+diploma:100 a local:diploma ;
+    local:degree degree:master ;
+    local:profession profession:programmer ;
+    local:startDate "2010-01-01"^^xsd:date ;
+    local:endDate "2012-01-01"^^xsd:date ;
+    local:institution enterprise:1 .
+
+diploma:eq100 a local:diploma ;
+    local:degree degree:master ;
+    local:profession profession:programmer ;
+    local:startDate "2010-01-01"^^xsd:date ;
+    local:endDate "2012-01-01"^^xsd:date ;
+    local:institution enterprise:1 .
+
+diploma:100 owl2:equivalentClass diploma:eq100 .
+
 # experience
 experience:1 a local:experience ;
     local:startDate "2010-01-01"^^xsd:date ;
@@ -254,6 +296,20 @@ experience:2 a local:experience ;
     local:endDate "2012-01-01"^^xsd:date ;
     local:jobTitle "analyst" ;
     local:skill skill:leiderschap .
+
+experience:100 a local:experience ;
+    local:startDate "2010-01-01"^^xsd:date ;
+    local:endDate "2012-01-01"^^xsd:date ;
+    local:jobTitle "programmer" ;
+    local:skill skill:skill1 .
+
+experience:eq100 a local:experience ;
+    local:startDate "2010-01-01"^^xsd:date ;
+    local:endDate "2012-01-01"^^xsd:date ;
+    local:jobTitle "eqprogrammer" ;
+    local:skill skill:skill1 .
+
+experience:100 owl2:equivalentClass experience:eq100 .
 
 # vacancy
 # TODO : add restriction
@@ -285,7 +341,7 @@ vacancy:2 rdf:type local:vacancy ;
     local:diploma diploma:2 ;
     local:skills skill:skill2 ;
     local:language language:nederland ;
-    local:experience experience:2 ;
+    local:experience experience:1 ;
     local:jobDescription "jobDescription" ;
     local:jobResponsibilities "jobResponsibilities" ;
     local:jobSalary "jobSalary" ;
@@ -307,3 +363,20 @@ vacancy:3 rdf:type local:vacancy ;
     local:jobResponsibilities "jobResponsibilities" ;
     local:jobSalary "jobSalary" ;
     local:jobLocation "jobLocation" .
+
+# equivalent test
+vacancy:100 rdf:type local:vacancy ;
+    local:jobTitle "equivtest" ;
+    local:startDate "2015-01-01"^^xsd:date ;
+    local:endDate "2015-12-31"^^xsd:date ;
+    local:availability "true"^^xsd:boolean ;
+    local:owner enterprise:5 ;
+
+    local:diploma diploma:100 ;
+    local:skills skill:skill100 ;
+    local:language language:lang100 ;
+    local:experience experience:100 ;
+    local:jobDescription "equivtest" ;
+    local:jobResponsibilities "equivtest" ;
+    local:jobSalary "equivtest" ;
+    local:jobLocation "equivtest" .
