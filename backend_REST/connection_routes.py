@@ -24,6 +24,6 @@ def create_connections_routes(app, graph):
     def delete_connection():
         data = request.form
 
-        Connection.remove_from_user(data["user1_id"], data["user2_id"])
+        Connection.remove_from_user(graph, data["user1_id"], data["user2_id"])
 
         return f"Removed connection between {data['user1_id']} and {data['user2_id']}."

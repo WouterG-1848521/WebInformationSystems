@@ -98,6 +98,17 @@ degree:bachelor a local:degree,
 degree:master a local:degree,
         owl:Class .
 
+person:2 a foaf:Person ;
+    local:diploma diploma:1 ;
+    local:email "Piet@mail.com" ;
+    local:experience experience:1 ;
+    local:graduationDate "2010-01-01"^^xsd:date ;
+    local:language language:dutch ;
+    local:skill skill:skill1 ;
+    foaf:knows person:3 ;
+    foaf:name "Piet" ;
+    foaf:surname "Pieters" .
+
 local:enterprise a owl:Class ;
     rdfs:subClassOf foaf:Organization .
 
@@ -115,21 +126,9 @@ person:1 a foaf:Person ;
         language:nederlands ;
     local:skill skill:leiderschap,
         skill:skill1 ;
-    foaf:knows person:2,
-        person:3 ;
+    foaf:knows person:3 ;
     foaf:name "Jan" ;
     foaf:surname "Janssens" .
-
-person:2 a foaf:Person ;
-    local:diploma diploma:1 ;
-    local:email "Piet@mail.com" ;
-    local:experience experience:1 ;
-    local:graduationDate "2010-01-01"^^xsd:date ;
-    local:language language:dutch ;
-    local:skill skill:skill1 ;
-    foaf:knows person:3 ;
-    foaf:name "Piet" ;
-    foaf:surname "Pieters" .
 
 person:4 a foaf:Person ;
     local:diploma diploma:1 ;
@@ -222,6 +221,11 @@ skill:skill1 a local:skill,
 
 [] a owl:Restriction ;
     owl:cardinality "1"^^xsd:nonNegativeInteger ;
+    owl:onProperty local:institution ;
+    owl2:onClass local:diploma .
+
+[] a owl:Restriction ;
+    owl:cardinality "1"^^xsd:nonNegativeInteger ;
     owl:onProperty local:startDate ;
     owl2:onClass local:diploma .
 
@@ -258,10 +262,5 @@ skill:skill1 a local:skill,
 [] a owl:Restriction ;
     owl:cardinality "1"^^xsd:nonNegativeInteger ;
     owl:onProperty local:profession ;
-    owl2:onClass local:diploma .
-
-[] a owl:Restriction ;
-    owl:cardinality "1"^^xsd:nonNegativeInteger ;
-    owl:onProperty local:institution ;
     owl2:onClass local:diploma .
 
