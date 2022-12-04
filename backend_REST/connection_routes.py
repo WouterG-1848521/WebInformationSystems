@@ -10,10 +10,6 @@ def create_connections_routes(app, graph):
     def add_connection():
         data = request.form    
         
-        print(data)
-        print(data["user1_id"])
-        print(data["user2_id"])
-
         Connection.add_to_user(graph, data["user1_id"], data["user2_id"])
         
         return f"Created connection between {data['user1_id']} and {data['user2_id']}."
@@ -22,3 +18,12 @@ def create_connections_routes(app, graph):
     def get_connections_by_id(user_id):
         
         return Connection.get_all_by_user_id(graph, user_id)
+
+
+    @app.route("/connection/delete", methods=['DELETE'])
+    def delete_connection():
+        data = request.form
+
+        Connection.remove_from_user(data["user1_id"], data["user2_id"])
+
+        return f"Removed connection between {data['user1_id']} and {data['user2_id']}."

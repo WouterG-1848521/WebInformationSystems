@@ -29,5 +29,11 @@ class Connection():
         print(df)
         return df.to_json()
     
-    def remove_from_user():
-        pass
+    def remove_from_user(graph, user1_id, user2_id):
+
+        user1_URI = URIRef(PERSON + str(user1_id))
+        user2_URI = URIRef(PERSON + str(user2_id))
+        
+                
+        graph.remove((user1_URI, FOAF.knows, user2_URI))
+        graph.serialize(destination="user.ttl")
