@@ -10,17 +10,17 @@ from backend_REST.login import create_login_manager
 from rdflib.namespace import FOAF, RDF, OWL
 import owlrl
 
+
 def set_initial_graph_properties(graph):
     # TODO : Add more?
     graph.add((FOAF.knows, RDF.type, OWL.SymmetricProperty))
 
 
-
 app = create_app('development')
 
-#Reset DB
+# Reset DB
 # with app.app_context():
-#    reset_DB(app)
+#     reset_DB(app)
 
 g = create_graph("user.ttl")
 set_initial_graph_properties(g)
@@ -28,6 +28,3 @@ create_login_manager(app)
 create_routes(app, g)
 
 migrate = Migrate(app, db)
-
-
-

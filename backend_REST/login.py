@@ -1,5 +1,7 @@
 from flask_login import LoginManager
-from backend_REST.models.user import User
+from backend_REST.models.database import DBUser
+from backend_REST import session
+
 
 def create_login_manager(app):
     login_manager = LoginManager()
@@ -13,7 +15,8 @@ def create_login_manager(app):
 
         :param unicode user_id: user_id (int) user to retrieve
         """
-        return User.query.get(str(user_id))
+        session['user_id'] = user_id
+        return DBUser.query.get(str(user_id))
 
     # Unauthorized callback
     @login_manager.unauthorized_handler
