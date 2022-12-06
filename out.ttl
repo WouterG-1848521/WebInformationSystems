@@ -1,0 +1,31 @@
+{
+<http://localhost/vacancy/3>: { ?vacancy : <http://localhost/vacancy/3>, ?jobTitle : "test" , ?startDate : "2015-01-01"
+	^^<http://www.w3.org/2001/XMLSchema#date>, ?endDate : "2015-12-31" ^^<http://www.w3.org/2001/XMLSchema#date>, ?owner
+	: <http://localhost/enterprise/1>, ?diploma : <http://localhost/diploma/2>, ?skills :
+	<http://localhost/skill/skill1>, ?language : <http://localhost/language/nederlands>, ?experience :
+	<http://localhost/experience/2>, ?jobDescription : "jobDescription" , ?jobResponsibilities : "jobResponsibilities" ,
+	?jobSalary : "jobSalary" , ?jobLocation : "jobLocation" , }, 
+
+<http://localhost/vacancy/1>: { 
+	?vacancy : <http://localhost/vacancy/1>, 
+	?jobTitle : "programmer" , 
+	?startDate : "2015-01-01",
+	 ?endDate : "2015-12-31", 
+	 ?owner	: <http://localhost/enterprise/1>, 
+	 ?diploma : <http://localhost/diploma/1>, <http://localhost/diploma/2>, 
+	 ?skills : <http://localhost/skill/skill1>, 
+	?language : <http://localhost/language/dutch>, 
+	?experience : <http://localhost/experience/1>, 
+	?jobDescription : "jobDescription" , 
+	?jobResponsibilities : "jobResponsibilities" ,
+	?jobSalary : "jobSalary" , 
+	?jobLocation : "jobLocation" , 
+	}, 
+	
+	<http://localhost/vacancy/2>: { ?vacancy :
+	<http://localhost/vacancy/2>, ?jobTitle : "test" , ?startDate : "2015-01-01"
+	^^<http://www.w3.org/2001/XMLSchema#date>, ?endDate : "2015-12-31" ^^<http://www.w3.org/2001/XMLSchema#date>, ?owner
+	: <http://localhost/enterprise/1>, ?diploma : <http://localhost/diploma/2>, ?skills :
+	<http://localhost/skill/skill2>, ?language : <http://localhost/language/nederland>, ?experience :
+	<http://localhost/experience/1>, ?jobDescription : "jobDescription" , ?jobResponsibilities : "jobResponsibilities" ,
+	?jobSalary : "jobSalary" , ?jobLocation : "jobLocation" , }, }

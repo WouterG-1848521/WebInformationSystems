@@ -57,7 +57,6 @@ def getPersonWithExperience(graph, experience):
 def getVacanciesForDiploma(graph, diploma):
     out = []
     query = query_vacancyByDiploma(diploma)
-    print(query)
     result = graph.query(query)
     df = DataFrame(result, columns=result.vars)
     for row in df.values:
@@ -68,7 +67,6 @@ def getVacanciesForDiploma(graph, diploma):
 def getVacanciesForSkill(graph, skill):
     out = []
     query = query_vacancyBySkill(skill)
-    print(query)
     result = graph.query(query)
     df = DataFrame(result, columns=result.vars)
     for row in df.values:
@@ -79,7 +77,6 @@ def getVacanciesForSkill(graph, skill):
 def getVacanciesForLanguage(graph, language):
     out = []
     query = query_vacancyByLanguage(language)
-    print(query)
     result = graph.query(query)
     df = DataFrame(result, columns=result.vars)
     for row in df.values:
@@ -95,6 +92,16 @@ def getVacanciesForExperience(graph, experience):
     for row in df.values:
         if not (row[0] == None):
             out.append(row[0].n3())
+    return out
+
+def groupByVacancy(data):   # TODO
+    out = {}
+    for key in data.keys():
+        cur = data[key]
+        if key in out:
+            out[key].append(key)
+        else:
+            out[key] = cur
     return out
 
 def create_vacancy_routes(app, graph):
@@ -124,14 +131,14 @@ def create_vacancy_routes(app, graph):
     def get_all_vacancies_of_enterprise(graph, enterpriseID):
         pass
 
-    # TODO : V pass queries aan met equivalent skills
-    # TODO : experience heeft ook skills, deze ook matchen met de skills
-    # TODO : groepeer returned values per person/vacancy
-    # setps:
-    #      * update the queries individually when finding vacancies for a person to include the equivalent properties (misschien ook subclass en superclasses)
+    # DONE : pass queries aan met equivalent skills
+    # TODO : experience heeft ook skills, deze ook matchen met de skills? of gewoon op experience matchen
+    # DONE : groepeer returned values per person/vacancy
+    # DONE : add column names
     
-    # TODO : ik check by vacancies that ze available zijn via "availability = 'true'"
+    # DONE : ik check by vacancies that ze available zijn via "availability = 'true'"
     #      Dit lijkt enkel te werken als we specifieren dat het een boolean is? via local:availability "true"^^xsd:boolean 
+    #  -> ofwel schrijven we "true"^^xsd:boolean ofwel gewoon true (zonder quotes) en dan wordt het automatisch een boolean
 
     # find persons that have minimum 1 match with the given vacancy
     # TODO : vervangen door helper functies
@@ -365,7 +372,7 @@ def create_vacancy_routes(app, graph):
             result = getVacanciesForDiploma(graph, diploma)
             for el in result:
                 vacancies.append(el)
-        print("after diploma: ", vacancies)
+        # print("after diploma: ", vacancies)
 
         # find on experience
         query = query_getExperiencesFromPerson(personID)
@@ -375,7 +382,7 @@ def create_vacancy_routes(app, graph):
             result = getVacanciesForExperience(graph, experience)
             for el in result:
                 vacancies.append(el)
-        print("after experience: ", vacancies)
+        # print("after experience: ", vacancies)
 
         # find on skills
         query = query_getSkillsFromPerson(personID)
@@ -385,7 +392,7 @@ def create_vacancy_routes(app, graph):
             result = getVacanciesForSkill(graph, skill)
             for el in result:
                 vacancies.append(el)
-        print("after skills: ", vacancies)
+        # print("after skills: ", vacancies)
 
         # find on languages
         query = query_getLanguagesFromPerson(personID)
@@ -395,25 +402,44 @@ def create_vacancy_routes(app, graph):
             result = getVacanciesForLanguage(graph, language)
             for el in result:
                 vacancies.append(el)
-        print("after languages: ", vacancies)
+        # print("after languages: ", vacancies)
 
         # for every vacancy get all the information
         vacancies = list(set(vacancies))
         for vacancy in vacancies:
             query = query_getVacancy(vacancy)
             result = graph.query(query)
-            for row in result:
-                matches[vacancy] = row
-        
-        print("matches: ", matches.keys())
+            df = DataFrame(result, columns=result.vars)
+            for i in range(len(df)):
+                row = df.iloc[i]
+                if not (vacancy in matches):
+                    matches[vacancy] = {}
+                    for j in range(len(row)):
+                        key = row.keys()[j].n3()
+                        matches[vacancy][key] = row.iloc[j].n3()
+                else:
+                    for j in range(len(row)):
+                        key = df.keys()[j].n3()
+                        val = row.iloc[j].n3()
+                        if not (key in matches[vacancy]):
+                            matches[vacancy][key] = val
+                        else:
+                            # check if its already in the list
+                            if (not (val in matches[vacancy][key])):
+                                matches[vacancy][key] += ", " + val
 
+        
+        # print("matches: ", matches)
+
+        # matches = groupByVacancy(matches)
         # convert to json
-        returnString = "{"
+        returnString = "{\n"
         for key in matches:
-            returnString += key + ": {"
-            for val in matches[key]:
-                returnString += val.n3() + ", "
-            returnString += "}, "
+            returnString += key + ": {\n"
+            for skey in matches[key]:
+                val = matches[key][skey]
+                returnString += skey + " : " + val + ",\n"
+            returnString += "},\n"
         returnString += "}"
 
         return returnString

@@ -425,7 +425,7 @@ def query_remove_maintainerRDF(enterpriseID, maintainerID):
 def query_getVacancy(vacancyURI):
     query = prefixes + "\n"
     query += f'''
-                SELECT ?jobTitle ?startDate ?endDate ?owner ?diploma ?skills ?language ?experience ?jobDescription ?jobResponsibilities ?jobSalary ?jobLocation
+                SELECT ?vacancy ?jobTitle ?startDate ?endDate ?owner ?diploma ?skills ?language ?experience ?jobDescription ?jobResponsibilities ?jobSalary ?jobLocation
                 WHERE {{
                     ?vacancy rdf:type local:vacancy .
                     ?vacancy local:jobTitle ?jobTitle .
@@ -444,7 +444,7 @@ def query_getVacancy(vacancyURI):
                     ?vacancy local:jobLocation ?jobLocation .
 
                     FILTER (?vacancy = {vacancyURI})
-                }}
+                }} 
             '''
     return query    
 

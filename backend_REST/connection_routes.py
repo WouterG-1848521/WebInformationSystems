@@ -11,6 +11,7 @@ def create_connections_routes(app, graph):
         data = request.form    
         
         Connection.add_to_user(graph, data["user1_id"], data["user2_id"])
+
         
         return f"Created connection between {data['user1_id']} and {data['user2_id']}."
 

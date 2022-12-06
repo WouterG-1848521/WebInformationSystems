@@ -221,6 +221,21 @@ skill:skill1 a local:skill,
 
 [] a owl:Restriction ;
     owl:cardinality "1"^^xsd:nonNegativeInteger ;
+    owl:onProperty local:graduationDate ;
+    owl2:onClass local:Person .
+
+[] a owl:Restriction ;
+    owl:cardinality "1"^^xsd:nonNegativeInteger ;
+    owl:onProperty local:degree ;
+    owl2:onClass local:diploma .
+
+[] a owl:Restriction ;
+    owl:cardinality "1"^^xsd:nonNegativeInteger ;
+    owl:onProperty local:profession ;
+    owl2:onClass local:diploma .
+
+[] a owl:Restriction ;
+    owl:cardinality "1"^^xsd:nonNegativeInteger ;
     owl:onProperty local:institution ;
     owl2:onClass local:diploma .
 
@@ -248,19 +263,4 @@ skill:skill1 a local:skill,
     owl:cardinality "1"^^xsd:nonNegativeInteger ;
     owl:onProperty local:phone ;
     owl2:onClass local:Person .
-
-[] a owl:Restriction ;
-    owl:cardinality "1"^^xsd:nonNegativeInteger ;
-    owl:onProperty local:graduationDate ;
-    owl2:onClass local:Person .
-
-[] a owl:Restriction ;
-    owl:cardinality "1"^^xsd:nonNegativeInteger ;
-    owl:onProperty local:degree ;
-    owl2:onClass local:diploma .
-
-[] a owl:Restriction ;
-    owl:cardinality "1"^^xsd:nonNegativeInteger ;
-    owl:onProperty local:profession ;
-    owl2:onClass local:diploma .
 

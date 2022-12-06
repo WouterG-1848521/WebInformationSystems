@@ -322,6 +322,7 @@ vacancy:1 rdf:type local:vacancy ;
     local:owner enterprise:1 ;
 
     local:diploma diploma:1 ;
+    local:diploma diploma:2 ;
     local:skills skill:skill1 ;
     local:language language:dutch ;
     local:experience experience:1 ;
