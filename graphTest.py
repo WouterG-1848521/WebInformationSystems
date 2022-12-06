@@ -154,16 +154,14 @@ query = prefixes + "\n"
 query += f'''
         SELECT ?uri
         WHERE {{
-                ?uri rdf:type foaf:Person .
-                ?uri foaf:name ?name .
-                ?uri foaf:surname ?surname .
-                ?uri local:email ?email .
-                ?uri local:language ?language .
-                ?language rdf:type local:language .
-                OPTIONAL {{
-                    ?language owl:equivalentClass ?input .
-                }}
-                FILTER (?input = language:langeq100 || ?language = language:langeq100)
+            ?uri rdf:type foaf:Person .
+            ?uri local:language ?language .
+            ?language rdf:type local:language .
+            OPTIONAL {{
+                ?language owl:equivalentClass ?input .
+                ?input owl:equivalentClass ?language .
+            }}
+            FILTER (?input = <http://localhost/language/dutch> || ?language = <http://localhost/language/dutch>)
         }}
         '''                
 print(query)

@@ -22,7 +22,8 @@ app = create_app('development')
 # with app.app_context():
 #     reset_DB(app)
 
-g = create_graph("user.ttl")
+g = create_graph("graph.ttl")
+owlrl.DeductiveClosure(owlrl.RDFS_OWLRL_Semantics, rdfs_closure = True, axiomatic_triples = True, datatype_axioms = True).expand(g)
 set_initial_graph_properties(g)
 create_login_manager(app)
 create_routes(app, g)
