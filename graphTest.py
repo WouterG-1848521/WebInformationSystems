@@ -152,15 +152,17 @@ query8 = prefixes + '''
 input = "skill:skilleq100"
 query = prefixes + "\n"
 query += f'''
-        SELECT ?vacancy ?diploma
+        SELECT ?uri
         WHERE {{
-
-
-            ?vacancy local:diploma ?diploma .
-
-
-            FILTER (?vacancy = vacancy:1)
-        }} GROUP BY ?vacancy
+            ?uri rdf:type foaf:Person .
+            ?uri local:language ?language .
+            ?language rdf:type local:language .
+            OPTIONAL {{
+                ?language owl:equivalentClass ?input .
+                ?input owl:equivalentClass ?language .
+            }}
+            FILTER (?input = <http://localhost/language/dutch> || ?language = <http://localhost/language/dutch>)
+        }}
         '''                
 print(query)
                     

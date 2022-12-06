@@ -94,16 +94,6 @@ def getVacanciesForExperience(graph, experience):
             out.append(row[0].n3())
     return out
 
-def groupByVacancy(data):   # TODO
-    out = {}
-    for key in data.keys():
-        cur = data[key]
-        if key in out:
-            out[key].append(key)
-        else:
-            out[key] = cur
-    return out
-
 def create_vacancy_routes(app, graph):
     # add a vacancy to an enterprise
     @app.route("/enterprise/vacancy/add", methods=['POST'])
@@ -274,7 +264,7 @@ def create_vacancy_routes(app, graph):
                         del temp[key]
             matches = temp.copy()
                 
-        print("after diploma: ", matches)
+        # print("after diploma: ", matches)
 
         # find matches on skills
         query = query_getSkillsFromVacancy(vacancyID)
@@ -292,7 +282,7 @@ def create_vacancy_routes(app, graph):
                     if not (key in result):
                         del temp[key]
             matches = temp.copy()
-        print("after skills: ", matches)
+        # print("after skills: ", matches)
 
         # find matches on experience
         query = query_getExperienceFromVacancy(vacancyID)
@@ -310,7 +300,7 @@ def create_vacancy_routes(app, graph):
                     if not (key in result):
                         del temp[key]
             matches = temp.copy()
-        print("after experiences: ", matches)
+        # print("after experiences: ", matches)
 
         # find matches on languages
         query = query_getLanguagesFromVacancy(vacancyID)
@@ -320,7 +310,7 @@ def create_vacancy_routes(app, graph):
         temp = matches.copy()
         for language in languages:
             result = getPersonWithLanguage(graph, language)
-            # print("lang",result)
+            print("lang",result)
             if (len(matches) == 0 and not filled): # first time we just add everything
                 temp = result
                 filled = True
@@ -329,10 +319,10 @@ def create_vacancy_routes(app, graph):
                     if not (key in result):
                         del temp[key]
             matches = temp.copy()
-        print("after languages: ", matches)
+        # print("after languages: ", matches)
 
 
-        print("matches: ", matches)
+        # print("matches: ", matches)
 
         returnString = "{"
         for key in matches:
