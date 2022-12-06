@@ -19,3 +19,6 @@ class Response():
 
     def email_not_available():
         return f"Email already in use."
+
+    def degree_not_valid():
+        return f"Degree not valid."

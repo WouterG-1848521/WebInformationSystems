@@ -118,9 +118,11 @@ def create_user_routes(app, g):
         if not Validator.valid_date(data["endDate"]):
             return Response.end_date_not_valid()
 
-        diploma_id = Diploma.create_for_user(g, user_id, data["degree"],
-                                             data["profession"], data["institution"],
-                                             data["startDate"], data["endDate"])
+        if not Validator.valid_degree(data["degree"]):
+            return Response.degree_not_valid()
+
+        diploma_id = Diploma.create_for_user(g, user_id, data["degree"], data["profession"],
+                                             data["institution"], data["startDate"], data["endDate"])
         return f"Created diploma {diploma_id } for user {user_id}."
 
     @app.route("/users/<int:user_id>/diplomas", methods=["GET"])
@@ -146,8 +148,11 @@ def create_user_routes(app, g):
         if not Validator.valid_date(data["endDate"]):
             return Response.end_date_not_valid()
 
-        Diploma.update(g, diploma_id, data["degree"], data["profession"], data["institution"],
-                       data["startDate"], data["endDate"])
+        if not Validator.valid_degree(data["degree"]):
+            return Response.degree_not_valid()
+
+        Diploma.update(g, diploma_id, data["degree"], data["profession"],
+                       data["institution"], data["startDate"], data["endDate"])
         return f"Updated diploma {diploma_id}."
 
     @app.route("/users/<int:user_id>/diplomas/<int:diploma_id>", methods=["DELETE"])

@@ -21,3 +21,9 @@ class Validator():
             except ValueError:
                 pass
         return False
+
+    def valid_degree(degree):
+        if degree == 'bachelor' or degree == 'master':
+            return True
+        else:
+            return False
