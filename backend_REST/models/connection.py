@@ -27,6 +27,10 @@ class Connection():
         
         return request.id
         
+    def get_by_id(request_id):
+        request = DBConnectionRequest.query.get(request_id)
+        
+        return request
     
     def cancel_request(request_id):
         # Delete from DB

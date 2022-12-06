@@ -22,4 +22,4 @@ def create_login_manager(app):
     @login_manager.unauthorized_handler
     def unauthorized():
         # do stuff
-        return "unautherized access"
+        return "unauthorized access"
