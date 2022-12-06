@@ -10,7 +10,7 @@ from backend_REST.models.database import DBUser
 
 
 class User():
-    def is_user_available(email):
+    def is_available(email):
         user = DBUser.query.filter_by(email=email).first()
         return user == None
 
@@ -93,7 +93,10 @@ class User():
     # UPDATE
     ########################################
 
+    # def update_main_data(graph, user_id, name, surname, email, password):
+
     # Main update function (called by all others)
+
     def update(graph, user_id, term, literal, literal_type=None):
         user_ref = URIRef(PERSON + str(user_id))
 

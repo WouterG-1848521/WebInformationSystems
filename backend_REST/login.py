@@ -1,6 +1,8 @@
 from flask_login import LoginManager
-from backend_REST.models.database import DBUser
+
 from backend_REST import session
+from backend_REST.models.database import DBUser
+from backend_REST.models.response import Response
 
 
 def create_login_manager(app):
@@ -21,4 +23,4 @@ def create_login_manager(app):
     @login_manager.unauthorized_handler
     def unauthorized():
         # do stuff
-        return "unauthorized access"
+        return Response.unauthorized_access_not_logged_in()

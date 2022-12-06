@@ -2,11 +2,15 @@ from flask import request
 from flask_login import login_required, logout_user
 
 from backend_REST import session
+
 from backend_REST.models.user import User
 from backend_REST.models.skill import Skill
 from backend_REST.models.diploma import Diploma
 from backend_REST.models.language import Language
 from backend_REST.models.work_experience import WorkExperience
+
+from backend_REST.models.validator import Validator
+from backend_REST.models.response import Response
 
 
 def create_user_routes(app, g):
@@ -19,24 +23,26 @@ def create_user_routes(app, g):
 
     @app.route("/users", methods=["POST"])
     def create_user():
-        # TODO: encrypt password in POST request
-        # request contains : name, surname, email, (encrypted!) password
         data = request.form
 
-        # TODO: check data
-        # TODO: encrypt password with PBKDF2 (https://cryptobook.nakov.com/mac-and-key-derivation/pbkdf2)
+        # TODO: encrypt password (front-end must encrypt in POST request)
+        # lib: hashlib
 
-        if (User.is_user_available(data["email"])):
-            user_id = User.create(
-                g, data["name"], data["surname"], data["email"], data["password"])
-            return f"Created user {user_id}."
-        else:
-            return "Email already in use."
+        if not Validator.valid_email(data["email"]):
+            return Response.email_not_valid()
+
+        if not User.is_available(data["email"]):
+            return Response.email_not_available()
+
+        user_id = User.create(g, data["name"], data["surname"],
+                              data["email"], data["password"])
+        return f"Created user {user_id}."
 
     @app.route("/users/<int:user_id>", methods=["GET"])
     def get_user(user_id):
         return User.get_by_id(g, user_id)
 
+    # TODO: change name, surname, email and password form
     # @app.route("/users/<int:user_id>", methods=["PUT"])
     # def update_user(user_id):
     #     User.update_user_by_id(g, user_id, request.form.to_dict(flat=False))
@@ -49,7 +55,7 @@ def create_user_routes(app, g):
 
         # Check if logged-in user is correct
         if session['_user_id'] != user_id:
-            return f"No permission to delete user."
+            return Response.unauthorized_access_wrong_user()
 
         # Auto logout
         logout_user()
@@ -66,11 +72,15 @@ def create_user_routes(app, g):
     def update_user_email(user_id):
         data = request.form
 
-        # TODO: check data
-
         # Check if logged-in user is correct
         if session['_user_id'] != user_id:
-            return f"No permission to change email."
+            return Response.unauthorized_access_wrong_user()
+
+        if not User.valid_email(data["email"]):
+            return Response.email_not_valid()
+
+        if not User.is_available(data["email"]):
+            return Response.email_not_available()
 
         User.update_email(g, user_id, data["email"])
         return f"Updated email of user {user_id}."
@@ -80,11 +90,11 @@ def create_user_routes(app, g):
     def update_user_phone(user_id):
         data = request.form
 
-        # TODO: check data
-
         # Check if logged-in user is correct
         if session['_user_id'] != user_id:
             return f"No permission to change phone."
+
+        # TODO: check phone number (hard do to)
 
         User.update_phone(g, user_id, data["phone"])
         return f"Updated phone of user {user_id} to ."
@@ -98,11 +108,15 @@ def create_user_routes(app, g):
     def create_user_diploma(user_id):
         data = request.form
 
-        # TODO: check data
-
         # Check if logged-in user is correct
         if session['_user_id'] != user_id:
-            return f"No permission to create diploma."
+            return Response.unauthorized_access_wrong_user()
+
+        if not Validator.valid_date(data["startDate"]):
+            return Response.start_date_not_valid()
+
+        if not Validator.valid_date(data["endDate"]):
+            return Response.end_date_not_valid()
 
         diploma_id = Diploma.create_for_user(g, user_id, data["degree"],
                                              data["profession"], data["institution"],
@@ -122,11 +136,15 @@ def create_user_routes(app, g):
     def update_user_diploma(user_id, diploma_id):
         data = request.form
 
-        # TODO: check data
-
         # Check if logged-in user is correct
         if session['_user_id'] != user_id:
-            return f"No permission to change diploma."
+            return Response.unauthorized_access_wrong_user()
+
+        if not Validator.valid_date(data["startDate"]):
+            return Response.start_date_not_valid()
+
+        if not Validator.valid_date(data["endDate"]):
+            return Response.end_date_not_valid()
 
         Diploma.update(g, diploma_id, data["degree"], data["profession"], data["institution"],
                        data["startDate"], data["endDate"])
@@ -138,7 +156,7 @@ def create_user_routes(app, g):
 
         # Check if logged-in user is correct
         if session['_user_id'] != user_id:
-            return f"No permission to delete diploma."
+            return Response.unauthorized_access_wrong_user()
 
         Diploma.delete_from_user(g, user_id, diploma_id)
         return f"Deleted diploma {diploma_id} from user {user_id}."
@@ -152,11 +170,11 @@ def create_user_routes(app, g):
     def add_language_to_user(user_id):
         data = request.form
 
-        # TODO: check data
-
         # Check if logged-in user is correct
         if session['_user_id'] != user_id:
-            return f"No permission to add language."
+            return Response.unauthorized_access_wrong_user()
+
+        # TODO: check data (check language list)
 
         Language.add_to_user(g, user_id, data["language"])
         return f"Added language {data['language']} to user {user_id}'s languages."
@@ -171,7 +189,7 @@ def create_user_routes(app, g):
 
         # Check if logged-in user is correct
         if session['_user_id'] != user_id:
-            return f"No permission to remove language."
+            return Response.unauthorized_access_wrong_user()
 
         Language.remove_from_user(g, user_id, language)
         return f"Removed language {language} from user {user_id}'s languages."
@@ -185,11 +203,11 @@ def create_user_routes(app, g):
     def add_skill_to_user(user_id):
         data = request.form
 
-        # TODO: check data
-
         # Check if logged-in user is correct
         if session['_user_id'] != user_id:
-            return f"No permission to add skill."
+            return Response.unauthorized_access_wrong_user()
+
+        # TODO: check data (check skill list)
 
         Skill.add_to_user(g, user_id, data["skill"])
         return f"Added skill {data['skill']} to user {user_id}'s skills."
@@ -204,7 +222,7 @@ def create_user_routes(app, g):
 
         # Check if logged-in user is correct
         if session['_user_id'] != user_id:
-            return f"No permission to remove skill."
+            return Response.unauthorized_access_wrong_user()
 
         Skill.remove_from_user(g, user_id, skill)
         return f"Removed skill {skill} from user {user_id}'s skills."
@@ -216,18 +234,22 @@ def create_user_routes(app, g):
     @app.route("/users/<int:user_id>/experiences", methods=["POST"])
     @login_required
     def create_user_experience(user_id):
-        data = request.form  # job_title, skills, start_date, end_date
-
-        # TODO: check data
+        data = request.form
 
         # Check if logged-in user is correct
         if session['_user_id'] != user_id:
-            return f"No permission to create work experience."
+            return Response.unauthorized_access_wrong_user()
 
-        experience_id = WorkExperience.create_for_user(g, user_id, data["jobTitle"],
-                                                       data["skills"].split(
-                                                           ','), data["startDate"],
-                                                       data["endDate"])
+        if not Validator.valid_date(data["startDate"]):
+            return Response.start_date_not_valid()
+
+        if not Validator.valid_date(data["endDate"]):
+            return Response.end_date_not_valid()
+
+        # TODO: check data (check skill list)
+
+        experience_id = WorkExperience.create_for_user(g, user_id, data["jobTitle"], data["skills"].split(','),
+                                                       data["startDate"], data["endDate"])
         return f"Created experience {experience_id } for user {user_id}."
 
     @app.route("/users/<int:user_id>/experiences", methods=["GET"])
@@ -241,13 +263,17 @@ def create_user_routes(app, g):
     @app.route("/users/<int:user_id>/experiences/<int:experience_id>", methods=["PUT"])
     @login_required
     def update_user_experience(user_id, experience_id):
-        data = request.form  # job_title, skills, start_date, end_date
-
-        # TODO: check data
+        data = request.form
 
         # Check if logged-in user is correct
         if session['_user_id'] != user_id:
-            return f"No permission to update work experience."
+            return Response.unauthorized_access_wrong_user()
+
+        if not Validator.valid_date(data["startDate"]):
+            return Response.start_date_not_valid()
+
+        if not Validator.valid_date(data["endDate"]):
+            return Response.end_date_not_valid()
 
         WorkExperience.update(g, user_id, data["jobTitle"],
                               data["skills"].split(','), data["startDate"],
@@ -260,7 +286,7 @@ def create_user_routes(app, g):
 
         # Check if logged-in user is correct
         if session['_user_id'] != user_id:
-            return f"No permission to remove work experience."
+            return Response.unauthorized_access_wrong_user()
 
         WorkExperience.delete_from_user(g, user_id, experience_id)
         return f"Deleted experience {experience_id} from user {user_id}."
