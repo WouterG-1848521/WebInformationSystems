@@ -48,7 +48,13 @@ class Diploma():
 
 
     def delete(graph, diploma_id):
-        # TODO: delete from db
+         # Delete from DB
+        diploma = DBDiploma.query.get(diploma_id)
+
+        if (diploma != None):
+            db.session.delete(diploma)
+            db.session.commit()
+            
         diploma_URI = URIRef(DIPLOMA + str(diploma_id))
         
         # Delete diploma

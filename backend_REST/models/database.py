@@ -92,6 +92,16 @@ class DBWorkExperience(db.Model):
     def get_id(self):
         return self.id
 
-# TODO: Create connection request database model
-class DBConnectionRequest():
-    pass
+class DBConnectionRequest(db.Model):
+    
+    __tablename__ = 'connection_requests'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    fromUser = db.Column(db.Integer)
+    toUser = db.Column(db.Integer)
+     
+    def __repr__(self):
+        return '<Connection Request %r>' % self.id
+
+    def get_id(self):
+        return self.id
