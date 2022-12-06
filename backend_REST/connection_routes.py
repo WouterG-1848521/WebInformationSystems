@@ -11,13 +11,13 @@ from backend_REST.models.connection import Connection
 def create_connections_routes(app, graph):
 
     @app.route("/connections/send", methods=['POST'])
-    # @login_required
+    @login_required
     def send_connection_request():
 
         data = request.form    
 
-        # if session['_user_id'] != data["fromUserId"]:
-        #     return f"Permission Denied"
+        if session['_user_id'] != data["fromUserId"]:
+            return f"Permission Denied"
 
         request_id = Connection.send_request(data["fromUserId"], data["toUserId"])
         
@@ -47,6 +47,14 @@ def create_connections_routes(app, graph):
     def accept_connection_request():
         data = request.form
 
+        request = Connection.get_by_id(data['request_id'])
+
+        if not request:
+            return f"Permission Denied"
+
+        if(request.toUser != session['_user_id']):
+            return f"Permission Denied"
+
         Connection.accept_request(data["request_id"])
 
         return f"Connection request {data['request_id']} accepted."
@@ -56,6 +64,14 @@ def create_connections_routes(app, graph):
     def deny_connection_request():
         data = request.form
 
+        request = Connection.get_by_id(data['request_id'])
+
+        if not request:
+            return f"Permission Denied"
+
+        if(request.toUser != session['_user_id']):
+            return f"Permission Denied"
+
         Connection.deny_request(data['request_id'])
 
         return f"Connection request {data['request_id']} denied."
@@ -63,12 +79,18 @@ def create_connections_routes(app, graph):
     @app.route("/connections/pending/<int:user_id>", methods=['GET'])
     @login_required
     def get_pending_connection_requests(user_id):
+
+        if(user_id != session['_user_id']):
+            return f"Permission Denied"
+
         return Connection.get_pending_requests_by_user(user_id)
 
     @app.route("/connections/add", methods=['POST'])
     @login_required
     def add_connection():
         data = request.form
+
+        # TODO : Check if user is admin
 
         Connection.add_to_user(graph, data["user1_id"], data["user2_id"])
 
@@ -83,6 +105,9 @@ def create_connections_routes(app, graph):
     @login_required
     def delete_connection():
         data = request.form
+
+        if(data["user1_id"] != session['_user_id']):
+            return f"Permission Denied"
 
         Connection.remove_from_user(graph, data["user1_id"], data["user2_id"])
 

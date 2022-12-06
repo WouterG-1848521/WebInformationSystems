@@ -8,6 +8,10 @@ from .queries import query_getExperiencesFromPerson, query_getDiplomasFromPerson
 from .queries import query_personByExperience, query_vacancyByDiploma, query_vacancyBySkill, query_vacancyByLanguage, query_vacancyByExperience
 
 from backend_REST.models.vacancy import Vacancy
+from backend_REST.models.enterprise import Enterprise
+
+from flask_login import login_required, logout_user
+from backend_REST import session
 
 
 def getPersonsWithDiploma(graph, diploma):
@@ -97,9 +101,16 @@ def getVacanciesForExperience(graph, experience):
 def create_vacancy_routes(app, graph):
     # add a vacancy to an enterprise
     @app.route("/enterprise/vacancy/add", methods=['POST'])
+    @login_required
     def add_vacancy():
         data = request.form     # request contains : enterpriseID, mainterID (for security check), jobtitle, address, startdate, enddate
             # waarschijnlijk ook nog een lijst van skills
+        
+        enterprise_id = data["enterprise_id"]
+
+        Ente
+
+
         id = Vacancy.create(graph)
 
         print("Test Route")
