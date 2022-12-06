@@ -44,30 +44,6 @@ def create_test_routes(app, g):
 
         return "Added user."
 
-    @app.route("/db/login", methods=['POST'])
-    def db_login():
-        data = request.form
-
-        app.logger.info("Logging in...")
-        user = DBUser.query.filter_by(
-            email=data['email'], password=data['password']).first()
-
-        # TODO: check email and password
-        if (user == None):
-            return "Email and/or password are wrong."
-
-        login_user(user)
-
-        return "Logged in."
-
-    @app.route("/db/logout", methods=['GET'])
-    @login_required
-    def db_logout():
-        app.logger.info("Logging out...")
-        logout_user()
-
-        return "Logged out."
-
     @app.route("/db/get", methods=['GET'])
     @login_required
     def db_get_user():
