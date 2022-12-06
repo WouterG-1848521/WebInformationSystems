@@ -45,10 +45,10 @@ def create_user_routes(app, g):
     @app.route("/users/<int:user_id>", methods=["DELETE"])
     @login_required
     def delete_user(user_id):
-        print(f"Trying to delete: {session['user_id']}")
+        print(f"Trying to delete: {session['_user_id']}")
 
         # Check if logged-in user is correct
-        if session['user_id'] != user_id:
+        if session['_user_id'] != user_id:
             return f"No permission to delete user."
 
         # Auto logout
@@ -69,7 +69,7 @@ def create_user_routes(app, g):
         # TODO: check data
 
         # Check if logged-in user is correct
-        if session['user_id'] != user_id:
+        if session['_user_id'] != user_id:
             return f"No permission to change email."
 
         User.update_email(g, user_id, data["email"])
@@ -83,7 +83,7 @@ def create_user_routes(app, g):
         # TODO: check data
 
         # Check if logged-in user is correct
-        if session['user_id'] != user_id:
+        if session['_user_id'] != user_id:
             return f"No permission to change phone."
 
         User.update_phone(g, user_id, data["phone"])
@@ -101,7 +101,7 @@ def create_user_routes(app, g):
         # TODO: check data
 
         # Check if logged-in user is correct
-        if session['user_id'] != user_id:
+        if session['_user_id'] != user_id:
             return f"No permission to create diploma."
 
         diploma_id = Diploma.create_for_user(g, user_id, data["degree"],
@@ -125,7 +125,7 @@ def create_user_routes(app, g):
         # TODO: check data
 
         # Check if logged-in user is correct
-        if session['user_id'] != user_id:
+        if session['_user_id'] != user_id:
             return f"No permission to change diploma."
 
         Diploma.update(g, diploma_id, data["degree"], data["profession"], data["institution"],
@@ -137,7 +137,7 @@ def create_user_routes(app, g):
     def delete_user_diploma(user_id, diploma_id):
 
         # Check if logged-in user is correct
-        if session['user_id'] != user_id:
+        if session['_user_id'] != user_id:
             return f"No permission to delete diploma."
 
         Diploma.delete_from_user(g, user_id, diploma_id)
@@ -155,7 +155,7 @@ def create_user_routes(app, g):
         # TODO: check data
 
         # Check if logged-in user is correct
-        if session['user_id'] != user_id:
+        if session['_user_id'] != user_id:
             return f"No permission to add language."
 
         Language.add_to_user(g, user_id, data["language"])
@@ -170,7 +170,7 @@ def create_user_routes(app, g):
     def remove_language_from_user(user_id, language):
 
         # Check if logged-in user is correct
-        if session['user_id'] != user_id:
+        if session['_user_id'] != user_id:
             return f"No permission to remove language."
 
         Language.remove_from_user(g, user_id, language)
@@ -188,7 +188,7 @@ def create_user_routes(app, g):
         # TODO: check data
 
         # Check if logged-in user is correct
-        if session['user_id'] != user_id:
+        if session['_user_id'] != user_id:
             return f"No permission to add skill."
 
         Skill.add_to_user(g, user_id, data["skill"])
@@ -203,7 +203,7 @@ def create_user_routes(app, g):
     def remove_skill_from_user(user_id, skill):
 
         # Check if logged-in user is correct
-        if session['user_id'] != user_id:
+        if session['_user_id'] != user_id:
             return f"No permission to remove skill."
 
         Skill.remove_from_user(g, user_id, skill)
@@ -221,7 +221,7 @@ def create_user_routes(app, g):
         # TODO: check data
 
         # Check if logged-in user is correct
-        if session['user_id'] != user_id:
+        if session['_user_id'] != user_id:
             return f"No permission to create work experience."
 
         experience_id = WorkExperience.create_for_user(g, user_id, data["jobTitle"],
@@ -246,7 +246,7 @@ def create_user_routes(app, g):
         # TODO: check data
 
         # Check if logged-in user is correct
-        if session['user_id'] != user_id:
+        if session['_user_id'] != user_id:
             return f"No permission to update work experience."
 
         WorkExperience.update(g, user_id, data["jobTitle"],
@@ -259,7 +259,7 @@ def create_user_routes(app, g):
     def delete_user_experience(user_id, experience_id):
 
         # Check if logged-in user is correct
-        if session['user_id'] != user_id:
+        if session['_user_id'] != user_id:
             return f"No permission to remove work experience."
 
         WorkExperience.delete_from_user(g, user_id, experience_id)

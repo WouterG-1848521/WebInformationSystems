@@ -15,7 +15,6 @@ def create_login_manager(app):
 
         :param unicode user_id: user_id (int) user to retrieve
         """
-        session['user_id'] = user_id
         return DBUser.query.get(str(user_id))
 
     # Unauthorized callback
