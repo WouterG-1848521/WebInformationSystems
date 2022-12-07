@@ -1,5 +1,6 @@
 from flask import request
 from flask_login import login_user, logout_user, login_required
+import hashlib
 
 from backend_REST import db, session
 from backend_REST.models.database import DBUser
@@ -11,9 +12,13 @@ def create_login_routes(app):
     def db_login():
         data = request.form
 
+        # Encryption must be done before send with HTTP POST, but currently no front-end
+        encrypted_password = hashlib.sha256(
+            data["password"].encode('utf-8')).hexdigest()
+
         app.logger.info("Logging in...")
         user = DBUser.query.filter_by(
-            email=data['email'], password=data['password']).first()
+            email=data['email'], password=encrypted_password).first()
 
         # TODO: check email and password
         if (user == None):

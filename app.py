@@ -23,9 +23,10 @@ app = create_app('development')
 #     reset_DB(app)
 
 g = create_graph("graph.ttl")
-owlrl.DeductiveClosure(owlrl.RDFS_OWLRL_Semantics, rdfs_closure = True, axiomatic_triples = True, datatype_axioms = True).expand(g)
+owlrl.DeductiveClosure(owlrl.RDFS_OWLRL_Semantics, rdfs_closure=True,
+                       axiomatic_triples=True, datatype_axioms=True).expand(g)
 set_initial_graph_properties(g)
 create_login_manager(app)
 create_routes(app, g)
 
-migrate = Migrate(app, db)
+migrate = Migrate(app, db, compare_type=True)

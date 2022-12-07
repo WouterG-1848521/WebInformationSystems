@@ -1,5 +1,6 @@
 from flask import request
 from flask_login import login_required, logout_user
+import hashlib
 
 from backend_REST import session
 
@@ -25,8 +26,9 @@ def create_user_routes(app, g):
     def create_user():
         data = request.form
 
-        # TODO: encrypt password (front-end must encrypt in POST request)
-        # lib: hashlib
+        # Encryption must be done before send with HTTP POST, but currently no front-end
+        encrypted_password = hashlib.sha256(
+            data["password"].encode('utf-8')).hexdigest()
 
         if not Validator.valid_email(data["email"]):
             return Response.email_not_valid()
@@ -35,7 +37,7 @@ def create_user_routes(app, g):
             return Response.email_not_available()
 
         user_id = User.create(g, data["name"], data["surname"],
-                              data["email"], data["password"])
+                              data["email"], encrypted_password)
         return f"Created user {user_id}."
 
     @app.route("/users/<int:user_id>", methods=["GET"])
