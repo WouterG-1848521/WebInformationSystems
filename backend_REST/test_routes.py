@@ -114,7 +114,7 @@ def create_test_routes(app, g):
         if not User.is_admin(session['_user_id']):
             return f"Permission Denied"
 
-            
+
         g.add((URIRef(LANGUAGE + "dutch"), RDF.type, LOCAL.language))
         g.add((URIRef(LANGUAGE + "english"), RDF.type, LOCAL.language))
         g.add((URIRef(LANGUAGE + "french"), RDF.type, LOCAL.language))
@@ -122,3 +122,24 @@ def create_test_routes(app, g):
         g.serialize(destination="user.ttl")
 
         return "Filled graph with the following languages: dutch, english, french."
+
+    @app.route("/fill/admin", methods=['GET'])
+    @login_required
+    def fill_admin():
+
+        if not User.is_admin(session['_user_id']):
+            return f"Permission Denied"
+
+        user_id = User.create(g, "Zoomies", "Zoomling",
+                              "zoom.zoomling@uhasselt.be", "test123", True)
+
+        user_id = User.create(g, "Zoomies", "Zoomling",
+                              "zoo.zoom@uhasselt.be", "test12", False)
+
+
+        return f"Created user {user_id}."
+       
+
+
+
+        
