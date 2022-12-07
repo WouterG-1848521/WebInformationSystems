@@ -8,12 +8,20 @@ import owlrl
 from backend_REST import db, session
 from backend_REST.models.database import DBUser
 from backend_REST.graph import LOCAL, LANGUAGE, SKILL
+from backend_REST.models.user import User
+
+from flask_login import login_required, logout_user
+from backend_REST import session
 
 
 def create_test_routes(app, g):
 
     @app.route("/test", methods=["GET"])
+    @login_required
     def test():
+
+        if not User.is_admin(session['_user_id']):
+            return f"Permission Denied"
 
         query = """
             SELECT ?userInfo
@@ -36,7 +44,13 @@ def create_test_routes(app, g):
         return df.to_json(orient="records")
 
     @app.route("/db/add", methods=['GET'])
+    @login_required
     def db_add_user():
+
+        if not User.is_admin(session['_user_id']):
+            return f"Permission Denied"
+
+
         app.logger.info("Add user to DB...")
         user = DBUser(email="email", password="password")
         db.session.add(user)
@@ -47,6 +61,11 @@ def create_test_routes(app, g):
     @app.route("/db/get", methods=['GET'])
     @login_required
     def db_get_user():
+
+        if not User.is_admin(session['_user_id']):
+            return f"Permission Denied"
+
+
         app.logger.info(
             f"User {session['user_id']} trying to GET something...")
         user = DBUser.query.filter_by(email='email').first()
@@ -55,7 +74,14 @@ def create_test_routes(app, g):
         return str(user.id)
 
     @app.route("/db/remove", methods=['GET'])
+    @login_required
     def db_remove_user():
+
+        if not User.is_admin(session['_user_id']):
+            return f"Permission Denied"
+
+
+
         app.logger.info("Removing user from DB...")
         user = DBUser.query.filter_by(email='email').first()
         db.session.delete(user)
@@ -67,7 +93,13 @@ def create_test_routes(app, g):
         return "Removed user."
 
     @app.route("/fill/skills", methods=['GET'])
+    @login_required
     def fill_skills():
+
+        if not User.is_admin(session['_user_id']):
+            return f"Permission Denied"
+
+
         g.add((URIRef(SKILL + "leadership"), RDF.type, LOCAL.skill))
         g.add((URIRef(SKILL + "teamwork"), RDF.type, LOCAL.skill))
 
@@ -76,7 +108,13 @@ def create_test_routes(app, g):
         return "Filled graph with the following skills: leadership, teamwork."
 
     @app.route("/fill/languages", methods=['GET'])
+    @login_required
     def fill_languages():
+
+        if not User.is_admin(session['_user_id']):
+            return f"Permission Denied"
+
+
         g.add((URIRef(LANGUAGE + "dutch"), RDF.type, LOCAL.language))
         g.add((URIRef(LANGUAGE + "english"), RDF.type, LOCAL.language))
         g.add((URIRef(LANGUAGE + "french"), RDF.type, LOCAL.language))
@@ -84,3 +122,24 @@ def create_test_routes(app, g):
         g.serialize(destination="user.ttl")
 
         return "Filled graph with the following languages: dutch, english, french."
+
+    @app.route("/fill/admin", methods=['GET'])
+    @login_required
+    def fill_admin():
+
+        if not User.is_admin(session['_user_id']):
+            return f"Permission Denied"
+
+        user_id = User.create(g, "Zoomies", "Zoomling",
+                              "zoom.zoomling@uhasselt.be", "test123", True)
+
+        user_id = User.create(g, "Zoomies", "Zoomling",
+                              "zoo.zoom@uhasselt.be", "test12", False)
+
+
+        return f"Created user {user_id}."
+       
+
+
+
+        

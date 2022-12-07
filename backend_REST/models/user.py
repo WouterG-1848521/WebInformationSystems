@@ -18,13 +18,13 @@ class User():
     # CREATE
     ########################################
     # TODO: password encryption
-    def create(graph, name, surname, email, password):
+    def create(graph, name, surname, email, password, is_admin=False):
 
         # Add user to DB
-        user = DBUser(email=email, password=password)
+        user = DBUser(email=email, password=password, isAdmin=is_admin)
         db.session.add(user)
         db.session.commit()
-
+        
         # Get user_id
         user_id = user.id
 
@@ -145,3 +145,9 @@ class User():
         graph.remove((user_URI, None, None))
 
         graph.serialize(destination="user.ttl")
+
+
+    def is_admin(user_id):
+        user = DBUser.query.get(user_id)
+
+        return user.isAdmin

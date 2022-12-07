@@ -6,7 +6,7 @@ from backend_REST import session
 
 
 from backend_REST.models.connection import Connection
-
+from backend_REST.models.user import User
 
 def create_connections_routes(app, graph):
 
@@ -90,7 +90,8 @@ def create_connections_routes(app, graph):
     def add_connection():
         data = request.form
 
-        # TODO : Check if user is admin
+        if not User.is_admin(session['_user_id']):
+            return f"Permission Denied"
 
         Connection.add_to_user(graph, data["user1_id"], data["user2_id"])
 
