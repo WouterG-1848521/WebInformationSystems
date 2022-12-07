@@ -145,3 +145,9 @@ class User():
         graph.remove((user_URI, None, None))
 
         graph.serialize(destination="user.ttl")
+
+
+    def is_admin(user_id):
+        user = DBUser.query.get(user_id)
+
+        return user.isAdmin
