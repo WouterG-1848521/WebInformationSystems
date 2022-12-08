@@ -121,10 +121,7 @@ def create_vacancy_routes(app, graph):
     def add_vacancy(enterprise_id):
         data = request.form
 
-        maintainerID = data["maintainerID"]
-        maintainerID = int(maintainerID)
-
-        if not (check_maintainer(graph, maintainerID, enterprise_id)):
+        if not (check_maintainer(graph, session['_user_id'], enterprise_id)):
             return "only maintainer of enterprise can add vacancies"
 
         if not Validator.valid_date(data["startDate"]):
@@ -141,10 +138,7 @@ def create_vacancy_routes(app, graph):
     def update_vacancy(enterprise_id, vacancy_id):
         data = request.form
 
-        maintainerID = data["maintainerID"]
-        maintainerID = int(maintainerID)
-
-        if not (check_maintainer(graph, maintainerID, enterprise_id)):
+        if not (check_maintainer(graph, session['_user_id'], enterprise_id)):
             return "only maintainer of enterprise can update vacancies"
 
         if not Validator.valid_date(data["startDate"]):
@@ -163,10 +157,7 @@ def create_vacancy_routes(app, graph):
     def remove_vacancy(enterprise_id, vacancy_id):
         data = request.form
 
-        maintainerID = data["maintainerID"]
-        maintainerID = int(maintainerID)
-
-        if not (check_maintainer(graph, maintainerID, enterprise_id)):
+        if not (check_maintainer(graph, session['_user_id'], enterprise_id)):
             return "only maintainer of enterprise can delete vacancies"
 
         Vacancy.delete(graph, vacancy_id)
@@ -185,10 +176,7 @@ def create_vacancy_routes(app, graph):
     def create_vacancy_diploma(enterprise_id, vacancy_id):
         data = request.form
 
-        maintainerID = data["maintainerID"]
-        maintainerID = int(maintainerID)
-
-        if not (check_maintainer(graph, maintainerID, enterprise_id)):
+        if not (check_maintainer(graph, session['_user_id'], enterprise_id)):
             return "only maintainer of enterprise can create vacancy diploma"
 
         if not Validator.valid_degree(data["degree"]):
@@ -217,10 +205,7 @@ def create_vacancy_routes(app, graph):
     def update_vacancy_diploma(enterprise_id, vacancy_id, diploma_id):
         data = request.form
 
-        maintainerID = data["maintainerID"]
-        maintainerID = int(maintainerID)
-
-        if not (check_maintainer(graph, maintainerID, enterprise_id)):
+        if not (check_maintainer(graph, session['_user_id'], enterprise_id)):
             return "only maintainer of enterprise can update vacancy diploma"
 
         if not Validator.valid_degree(data["degree"]):
@@ -241,15 +226,15 @@ def create_vacancy_routes(app, graph):
     @login_required
     def delete_vacancy_diploma(enterprise_id, vacancy_id, diploma_id):
 
-        # TODO : How are we going to do user_id here?
+        
         # if session['_user_id'] != user_id:
         #     return Response.unauthorized_access_wrong_user()
 
         # maintainerID = data["maintainerID"]
         # maintainerID = int(maintainerID)
 
-        # if not (check_maintainer(graph, maintainerID, enterprise_id)):
-        #     return "only maintainer of enterprise can delete vacancy diploma"
+        if not (check_maintainer(graph, session['_user_id'], enterprise_id)):
+            return "only maintainer of enterprise can delete vacancy diploma"
 
         Diploma.delete_from_vacany(graph, vacancy_id, diploma_id)
         return f"Deleted diploma {diploma_id} from vacancy {vacancy_id}."
@@ -262,13 +247,10 @@ def create_vacancy_routes(app, graph):
     def add_skill_to_vacancy(enterprise_id, vacancy_id):
         data = request.form
 
-        maintainerID = data["maintainerID"]
-        maintainerID = int(maintainerID)
-
-        if not (check_maintainer(graph, maintainerID, enterprise_id)):
+        if not (check_maintainer(graph, session['_user_id'], enterprise_id)):
             return "only maintainer of enterprise can add skill to vacancy"
 
-        # TODO: check if logged-in user is maintainer of enterprise
+        
         # TODO: check if skill in list
 
         Skill.add_to_vacancy(graph, vacancy_id, data["skill"])
@@ -283,11 +265,8 @@ def create_vacancy_routes(app, graph):
     @app.route("/enterprises/<int:enterprise_id>/vacancies/<int:vacancy_id>/skills/<string:skill>", methods=['DELETE'])
     def remove_skill_from_vacancy(enterprise_id, vacancy_id, skill):
 
-        # maintainerID = data["maintainerID"]
-        # maintainerID = int(maintainerID)
-
-        # if not (check_maintainer(graph, maintainerID, enterprise_id)):
-        #     return "only maintainer of enterprise can delete vacancy diploma"
+        if not (check_maintainer(graph, session['_user_id'], enterprise_id)):
+            return "only maintainer of enterprise can delete skill from vacancy"
 
         Skill.remove_from_vacancy(graph, vacancy_id, skill)
 
@@ -301,10 +280,7 @@ def create_vacancy_routes(app, graph):
     def add_language_to_vacancy(enterprise_id, vacancy_id):
         data = request.form
 
-        maintainerID = data["maintainerID"]
-        maintainerID = int(maintainerID)
-
-        if not (check_maintainer(graph, maintainerID, enterprise_id)):
+        if not (check_maintainer(graph, session['_user_id'], enterprise_id)):
             return "only maintainer of enterprise can delete vacancy diploma"
         # TODO: check if language in list
 
@@ -320,8 +296,8 @@ def create_vacancy_routes(app, graph):
     @app.route("/enterprises/<int:enterprise_id>/vacancies/<int:vacancy_id>/languages/<string:language>", methods=['DELETE'])
     def remove_language_from_vacancy(enterprise_id, vacancy_id, language):
 
-        # TODO: How?
-        # TODO: check if logged-in user is maintainer of enterprise
+        if not (check_maintainer(graph, session['_user_id'], enterprise_id)):
+            return f'only maintainer of enterprise can delete language from vacancy'
 
         Language.remove_from_vacancy(graph, vacancy_id, language)
 
