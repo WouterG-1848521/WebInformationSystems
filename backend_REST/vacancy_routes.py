@@ -1,3 +1,4 @@
+from flask_login import login_required
 from flask import request
 from pandas import DataFrame
 import json
@@ -7,6 +8,8 @@ from .queries import query_getDiplomasFromVacancy, query_getSkillsFromVacancy, q
 from .queries import query_getExperiencesFromPerson, query_getDiplomasFromPerson, query_getSkillsFromPerson, query_getLanguagesFromPerson, query_getExperienceFromVacancy
 from .queries import query_personByExperience, query_vacancyByDiploma, query_vacancyBySkill, query_vacancyByLanguage, query_vacancyByExperience
 
+from backend_REST import session
+
 from backend_REST.models.vacancy import Vacancy
 from backend_REST.models.enterprise import Enterprise
 
@@ -14,8 +17,8 @@ from backend_REST.models.skill import Skill
 from backend_REST.models.language import Language
 from backend_REST.models.diploma import Diploma
 
-from flask_login import login_required
-from backend_REST import session
+from backend_REST.models.validator import Validator
+from backend_REST.models.response import Response
 
 
 def getPersonsWithDiploma(graph, diploma):
@@ -120,6 +123,11 @@ def create_vacancy_routes(app, graph):
 
         # TODO: check if logged-in user is maintainer of enterprise
 
+        if not Validator.valid_date(data["startDate"]):
+            return Response.start_date_not_valid()
+        if not Validator.valid_date(data["endDate"]):
+            return Response.end_date_not_valid()
+
         vacancy_id = Vacancy.create(graph, enterprise_id, session["_user_id"],
                                     data["jobTitle"], data["startDate"], data["endDate"])
 
@@ -130,6 +138,11 @@ def create_vacancy_routes(app, graph):
         data = request.form
 
         # TODO: check if logged-in user is maintainer of enterprise
+
+        if not Validator.valid_date(data["startDate"]):
+            return Response.start_date_not_valid()
+        if not Validator.valid_date(data["endDate"]):
+            return Response.end_date_not_valid()
 
         Vacancy.update_posted_by(graph, vacancy_id, session["_user_id"])
         Vacancy.update_job_title(graph, vacancy_id, data["jobTitle"])
@@ -162,6 +175,11 @@ def create_vacancy_routes(app, graph):
 
         # TODO: check if logged-in user is maintainer of enterprise
 
+        if not Validator.valid_date(data["startDate"]):
+            return Response.start_date_not_valid()
+        if not Validator.valid_date(data["endDate"]):
+            return Response.end_date_not_valid()
+
         diploma_id = Diploma.create_for_vacancy(graph, vacancy_id, data["degree"], data["profession"],
                                                 data["institution"], data["startDate"], data["endDate"])
         return f"Created diploma {diploma_id } for vacancy {vacancy_id}."
@@ -179,6 +197,11 @@ def create_vacancy_routes(app, graph):
         data = request.form
 
         # TODO: check if logged-in user is maintainer of enterprise
+
+        if not Validator.valid_date(data["startDate"]):
+            return Response.start_date_not_valid()
+        if not Validator.valid_date(data["endDate"]):
+            return Response.end_date_not_valid()
 
         Diploma.update(graph, diploma_id, data["degree"], data["profession"],
                        data["institution"], data["startDate"], data["endDate"])
@@ -201,6 +224,7 @@ def create_vacancy_routes(app, graph):
         data = request.form
 
         # TODO: check if logged-in user is maintainer of enterprise
+        # TODO: check if skill in list
 
         Skill.add_to_vacancy(graph, vacancy_id, data["skill"])
 
@@ -229,6 +253,7 @@ def create_vacancy_routes(app, graph):
         data = request.form
 
         # TODO: check if logged-in user is maintainer of enterprise
+        # TODO: check if language in list
 
         Language.add_to_vacancy(graph, vacancy_id, data["language"])
 
