@@ -2,6 +2,7 @@ from flask import Flask, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_session import Session
 from config import config 
+import os
 
 # Init DB
 db = SQLAlchemy()
@@ -11,7 +12,7 @@ sess = Session()
 
 def create_app(config_name):
     # Create Flask app
-    app = Flask(__name__)
+    app = Flask(__name__, template_folder='../frontend_simple/templates', static_folder='../frontend_simple/static')
 
     # Configure Flask app from Config Object
     app.config.from_object(config[config_name])

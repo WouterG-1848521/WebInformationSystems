@@ -1,4 +1,4 @@
-from flask import jsonify, request
+from flask import jsonify, request, render_template, redirect
 from flask_login import login_user, logout_user, login_required
 from rdflib import Literal, RDF, URIRef
 
@@ -12,9 +12,33 @@ from backend_REST.models.user import User
 
 from flask_login import login_required, logout_user
 from backend_REST import session
+import hashlib
 
+import json
 
 def create_test_routes(app, g):
+
+    @app.route("/test/sign-up", methods=["GET"])
+    def test_sign_up():
+        app.logger.info("Add user to DB...")
+        # Encryption must be done before send with HTTP POST, but currently no front-end
+        encrypted_password = hashlib.sha256(
+            "password".encode('utf-8')).hexdigest()
+
+        user = DBUser(email="admin@linkrec.com", password=encrypted_password)
+        db.session.add(user)
+        db.session.commit()
+
+        # messages = {
+        #     "message": "Added user.",
+        #     "status": "success",
+        #     "user": user.__repr__
+        # }
+
+        # return redirect("index.html", message=json.loads(messages))
+        login_user(user)
+
+        return render_template("index.html", message="Added user.", status="success", user=user)
 
     @app.route("/test", methods=["GET"])
     @login_required
