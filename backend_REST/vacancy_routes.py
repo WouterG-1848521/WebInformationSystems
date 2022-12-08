@@ -237,8 +237,6 @@ def create_vacancy_routes(app, graph):
         # return json.dumps(matches, indent = 4) 
         return returnString
 
-
-    # TODO : als hij onderweg leeg geraakt wordt hij terug opgevuld -> mag niet
     @app.route("/vacancy/matchall", methods=['POST'])
     def match_vacancyAll():
         data = request.form

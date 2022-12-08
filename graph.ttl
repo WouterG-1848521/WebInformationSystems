@@ -154,6 +154,9 @@ _:x10 rdf:type owl:Restriction ;
     owl:onProperty local:endDate ;
     owl:cardinality "1"^^xsd:nonNegativeInteger .
 
+# connections
+foaf:knows a owl:SymmetricProperty .
+
 
 #################################################################
 # testData
@@ -203,7 +206,8 @@ person:1 a foaf:Person ;
     local:skill skill:leiderschap ;
     local:skill skill:skill1 ;
     local:language language:engels ;
-    local:language language:nederlands .
+    local:language language:nederlands ;
+    foaf:knows person:3 .
     
 person:2 a foaf:Person ;
     foaf:name "Piet" ;
