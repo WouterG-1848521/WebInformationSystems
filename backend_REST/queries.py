@@ -3,7 +3,7 @@ from rdflib.namespace import RDF, FOAF, RDFS, GEO
 import owlrl
 from pandas import DataFrame
 
-from backend_REST.graph import LOCAL, ENTPERISE, PERSON, EXPERIENCE, LANGUAGE, VACANCY, DIPLOMA, SKILL
+from backend_REST.graph import LOCAL, ENTERPRISE, PERSON, EXPERIENCE, LANGUAGE, VACANCY, DIPLOMA, SKILL
 
 prefixes = '''
                 prefix foaf: <http://xmlns.com/foaf/0.1/> 
@@ -30,8 +30,11 @@ graphFile = "graph.ttl"
 #########################################################
 # helper functions
 #########################################################
+
+
 def check_maintainer(graph, enterpriseID, maintainerID):
-    print("checking maintainer, enterpriseID: " + str(enterpriseID) + ", maintainerID: " + str(maintainerID))
+    print("checking maintainer, enterpriseID: " +
+          str(enterpriseID) + ", maintainerID: " + str(maintainerID))
     query = prefixes + "\n"
     query += f'''
                 SELECT ?maintainer
@@ -48,6 +51,7 @@ def check_maintainer(graph, enterpriseID, maintainerID):
         return False
     else:
         return True
+
 
 def check_owner(graph, enterpriseID, ownerID):
     query = prefixes + "\n"
@@ -67,6 +71,7 @@ def check_owner(graph, enterpriseID, ownerID):
     else:
         return True
 
+
 def check_person(graph, personID):
     query = prefixes + "\n"
     query += f'''
@@ -83,6 +88,7 @@ def check_person(graph, personID):
     else:
         return True
 
+
 def check_enterprise(graph, enterpriseID):
     query = prefixes + "\n"
     query += f'''
@@ -98,6 +104,7 @@ def check_enterprise(graph, enterpriseID):
         return False
     else:
         return True
+
 
 def check_valid_vacancy(graph, vacancyID):
     query = prefixes + "\n"
@@ -119,12 +126,13 @@ def check_valid_vacancy(graph, vacancyID):
 # create functions
 #########################################################
 
+
 def create_enterpriseRDF(graph, name, owner, lat, long, address, phone, email, website, description):
     # Get enterpriseID
-    enterpriseID = 5000 # TODO: get from database
-    
+    enterpriseID = 5000  # TODO: get from database
+
     # Add enterprise to Graph
-    ref = URIRef(ENTPERISE + str(enterpriseID))
+    ref = URIRef(ENTERPRISE + str(enterpriseID))
 
     graph.add((ref, RDF.type, LOCAL.enterprise))
     graph.add((ref, FOAF.name, Literal(name)))
@@ -138,14 +146,16 @@ def create_enterpriseRDF(graph, name, owner, lat, long, address, phone, email, w
     graph.add((ref, LOCAL.phone, Literal(phone)))
     graph.add((ref, LOCAL.email, Literal(email)))
     graph.add((ref, LOCAL.website, Literal(website)))
-    
-    graph.serialize(destination=graphFile)   # TODO : moet dit nu al ge serialized worden naar de echte graaf, of kunnen we dit periodiek laten gebueren
+
+    # TODO : moet dit nu al ge serialized worden naar de echte graaf, of kunnen we dit periodiek laten gebueren
+    graph.serialize(destination=graphFile)
     # TODO : hoe weten we zeker dat graph is aangepast
     return enterpriseID
 
+
 def create_vacancyRDF(graph, jobTitle, startDate, endDate, enterpriseID, diplomas, skills, languages, jobDescription, jobResponsibilities, jobSalary, jobLocation):
     # Get vacancyID
-    VacancyID = 5000 # TODO: get from database
+    VacancyID = 5000  # TODO: get from database
 
     # Add vacancy to Graph
     ref = URIRef(VACANCY + str(VacancyID))
@@ -154,7 +164,7 @@ def create_vacancyRDF(graph, jobTitle, startDate, endDate, enterpriseID, diploma
     graph.add((ref, LOCAL.jobTitle, Literal(jobTitle)))
     graph.add((ref, LOCAL.startDate, Literal(startDate)))
     graph.add((ref, LOCAL.endDate, Literal(endDate)))
-    graph.add((ref, LOCAL.owner, URIRef(ENTPERISE + str(enterpriseID))))
+    graph.add((ref, LOCAL.owner, URIRef(ENTERPRISE + str(enterpriseID))))
     graph.add((ref, LOCAL.jobDescription, Literal(jobDescription)))
     graph.add((ref, LOCAL.jobResponsibilities, Literal(jobResponsibilities)))
     graph.add((ref, LOCAL.jobSalary, Literal(jobSalary)))
@@ -166,14 +176,17 @@ def create_vacancyRDF(graph, jobTitle, startDate, endDate, enterpriseID, diploma
         graph.add((ref, LOCAL.skill, URIRef(SKILL + str(skill))))
     for language in languages:
         graph.add((ref, LOCAL.language, URIRef(LANGUAGE + str(language))))
-    
-    graph.serialize(destination=graphFile)   # TODO : moet dit nu al ge serialized worden naar de echte graaf, of kunnen we dit periodiek laten gebueren
+
+    # TODO : moet dit nu al ge serialized worden naar de echte graaf, of kunnen we dit periodiek laten gebueren
+    graph.serialize(destination=graphFile)
     # TODO : hoe weten we zeker dat graph is aangepast
     return enterpriseID
 
 #########################################################
 # enterprise queries
 #########################################################
+
+
 def query_enterpriseGetAll():
     query = prefixes + '''
                             SELECT ?uri ?name ?owner  ?maintainerName ?maintainerSurName ?lat ?long ?address ?description ?phone ?email ?website
@@ -195,6 +208,7 @@ def query_enterpriseGetAll():
                         '''
     # TODO: per maintainer wordt er nu een apart result teruggegeven, kan dit misschien samengevoegd worden?
     return query
+
 
 def query_enterpriseGetById(id):
     query = prefixes + f'''
@@ -219,6 +233,7 @@ def query_enterpriseGetById(id):
     # TODO: per maintainer wordt er nu een apart result teruggegeven, kan dit misschien samengevoegd worden?
     return query
 
+
 def query_enterpriseGetByName(name):
     query = prefixes + f'''
                         SELECT ?uri ?lat ?long ?address ?owner ?maintainerName ?maintainerSurName
@@ -241,6 +256,7 @@ def query_enterpriseGetByName(name):
     # TODO: per maintainer wordt er nu een apart result teruggegeven, kan dit misschien samengevoegd worden?
     return query
 
+
 def query_enterpriseGetByLocation(location):
     query = prefixes + f'''
                         SELECT ?uri ?name ?lat ?long ?address ?owner ?maintainerName ?maintainerSurName
@@ -262,6 +278,7 @@ def query_enterpriseGetByLocation(location):
                 '''
     # TODO: per maintainer wordt er nu een apart result teruggegeven, kan dit misschien samengevoegd worden?
     return query
+
 
 def query_update_enterpriseRDF(name, lat, long, address, phone, email, website, description, enterpriseID):
     query = prefixes + "\n"
@@ -313,7 +330,10 @@ def query_update_enterpriseRDF(name, lat, long, address, phone, email, website, 
     return query
 
 # deletes the enterprise, the enterpriseInfo and the connected vacancies, vacancyInfo
-def query_delete_enterpriseRDF(enterpriseID):   # TODO : vacancies willen nog niet verwijdert worden
+
+
+# TODO : vacancies willen nog niet verwijdert worden
+def query_delete_enterpriseRDF(enterpriseID):
     query = prefixes + "\n"
     query += f'''
                 DELETE {{
@@ -376,6 +396,7 @@ def query_delete_enterpriseRDF(enterpriseID):   # TODO : vacancies willen nog ni
     print(query)
     return query
 
+
 def query_transfer_ownershipRDF(enterpriseID, newOwnerID):
     query = prefixes + "\n"
     query += f'''
@@ -393,6 +414,7 @@ def query_transfer_ownershipRDF(enterpriseID, newOwnerID):
             '''
     return query
 
+
 def query_add_maintainerRDF(enterpriseID, newMaintainerID):
     query = prefixes + "\n"
     query += f'''
@@ -405,6 +427,7 @@ def query_add_maintainerRDF(enterpriseID, newMaintainerID):
                 }}
             '''
     return query
+
 
 def query_remove_maintainerRDF(enterpriseID, maintainerID):
     query = prefixes + "\n"
@@ -422,6 +445,8 @@ def query_remove_maintainerRDF(enterpriseID, maintainerID):
 #########################################################
 # vacancy queries
 #########################################################
+
+
 def query_getVacancy(vacancyURI):
     query = prefixes + "\n"
     query += f'''
@@ -446,7 +471,8 @@ def query_getVacancy(vacancyURI):
                     FILTER (?vacancy = {vacancyURI})
                 }} 
             '''
-    return query    
+    return query
+
 
 def query_match_byVacancy(vacancyID):
     query = prefixes + "\n"
@@ -472,6 +498,7 @@ def query_match_byVacancy(vacancyID):
             '''
     return query
 
+
 def query_getDiplomasFromVacancy(vacancyID):
     query = prefixes + "\n"
     query += f'''
@@ -483,6 +510,7 @@ def query_getDiplomasFromVacancy(vacancyID):
                 }}
             '''
     return query
+
 
 def query_getSkillsFromVacancy(vacancyID):
     query = prefixes + "\n"
@@ -496,6 +524,7 @@ def query_getSkillsFromVacancy(vacancyID):
             '''
     return query
 
+
 def query_getLanguagesFromVacancy(vacancyID):
     query = prefixes + "\n"
     query += f'''
@@ -508,6 +537,7 @@ def query_getLanguagesFromVacancy(vacancyID):
             '''
     return query
 
+
 def query_getExperienceFromVacancy(vacancyID):
     query = prefixes + "\n"
     query += f'''
@@ -519,6 +549,7 @@ def query_getExperienceFromVacancy(vacancyID):
                 }}
             '''
     return query
+
 
 def query_vacancyByDiploma(diplomaURI):
     query = prefixes + "\n"
@@ -536,6 +567,7 @@ def query_vacancyByDiploma(diplomaURI):
             '''
     return query
 
+
 def query_vacancyBySkill(skillURI):
     query = prefixes + "\n"
     query += f'''
@@ -552,6 +584,7 @@ def query_vacancyBySkill(skillURI):
             '''
     return query
 
+
 def query_vacancyByLanguage(languageURI):
     query = prefixes + "\n"
     query += f'''
@@ -567,6 +600,7 @@ def query_vacancyByLanguage(languageURI):
                 }}
             '''
     return query
+
 
 def query_vacancyByExperience(experienceURI):
     query = prefixes + "\n"
@@ -587,6 +621,8 @@ def query_vacancyByExperience(experienceURI):
 #########################################################
 # person queries
 #########################################################
+
+
 def query_personByDiploma(diplomas):
     query = prefixes + "\n"
     query += f'''
@@ -606,6 +642,7 @@ def query_personByDiploma(diplomas):
             '''
     return query
 
+
 def query_personBySkill(skill):
     query = prefixes + "\n"
     query += f'''
@@ -624,6 +661,7 @@ def query_personBySkill(skill):
                 }}
             '''
     return query
+
 
 def query_personByLanguage(language):
     query = prefixes + "\n"
@@ -645,6 +683,7 @@ def query_personByLanguage(language):
             '''
     return query
 
+
 def query_personByExperience(experience):
     query = prefixes + "\n"
     query += f'''
@@ -664,6 +703,7 @@ def query_personByExperience(experience):
             '''
     return query
 
+
 def query_getDiplomasFromPerson(personID):
     query = prefixes + "\n"
     query += f'''
@@ -675,6 +715,7 @@ def query_getDiplomasFromPerson(personID):
                 }}
             '''
     return query
+
 
 def query_getSkillsFromPerson(personID):
     query = prefixes + "\n"
@@ -688,6 +729,7 @@ def query_getSkillsFromPerson(personID):
             '''
     return query
 
+
 def query_getLanguagesFromPerson(personID):
     query = prefixes + "\n"
     query += f'''
@@ -700,6 +742,7 @@ def query_getLanguagesFromPerson(personID):
             '''
     return query
 
+
 def query_getExperiencesFromPerson(personID):
     query = prefixes + "\n"
     query += f'''
@@ -711,4 +754,3 @@ def query_getExperiencesFromPerson(personID):
                 }}
             '''
     return query
-

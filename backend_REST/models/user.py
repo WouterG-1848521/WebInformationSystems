@@ -24,7 +24,7 @@ class User():
         user = DBUser(email=email, password=password, isAdmin=is_admin)
         db.session.add(user)
         db.session.commit()
-        
+
         # Get user_id
         user_id = user.id
 
@@ -98,11 +98,11 @@ class User():
     # Main update function (called by all others)
 
     def update(graph, user_id, term, literal, literal_type=None):
-        user_ref = URIRef(PERSON + str(user_id))
+        user_URI = URIRef(PERSON + str(user_id))
 
         # Remove old, add new
-        graph.remove((user_ref, term, None))
-        graph.add((user_ref, term, Literal(literal, datatype=literal_type)))
+        graph.remove((user_URI, term, None))
+        graph.add((user_URI, term, Literal(literal, datatype=literal_type)))
 
         graph.serialize(destination="user.ttl")
 
@@ -145,7 +145,6 @@ class User():
         graph.remove((user_URI, None, None))
 
         graph.serialize(destination="user.ttl")
-
 
     def is_admin(user_id):
         user = DBUser.query.get(user_id)

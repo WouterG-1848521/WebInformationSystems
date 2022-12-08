@@ -1,26 +1,26 @@
 from rdflib import Graph, URIRef
 from rdflib.namespace import RDF, RDFS, FOAF, XSD, OWL
-from backend_REST.graph import LOCAL, PERSON, PERSONAL_INFO, DIPLOMA, DEGREE, PROFESSION, LANGUAGE, VACANCY, ENTPERISE
+from backend_REST.graph import LOCAL, PERSON, PERSONAL_INFO, DIPLOMA, DEGREE, PROFESSION, LANGUAGE, VACANCY, ENTERPRISE
 import owlrl
 from pandas import DataFrame
 
 graph = Graph()
 
 # Global prefix
-graph.bind("foaf"   , FOAF)
-graph.bind("rdf"    , RDF)
-graph.bind("rdfs"   , RDFS)
+graph.bind("foaf", FOAF)
+graph.bind("rdf", RDF)
+graph.bind("rdfs", RDFS)
 
 # Local prefix
-graph.bind("local"          , LOCAL)
-graph.bind("profession"     , PROFESSION)
-graph.bind("degree"         , DEGREE)
-graph.bind("person"         , PERSON)
-graph.bind("personalInfo"   , PERSONAL_INFO)
-graph.bind("enterprise"     , ENTPERISE)
-graph.bind("vacancy"        , VACANCY)
-graph.bind("diploma"        , DIPLOMA)
-graph.bind("language"       , LANGUAGE)
+graph.bind("local", LOCAL)
+graph.bind("profession", PROFESSION)
+graph.bind("degree", DEGREE)
+graph.bind("person", PERSON)
+graph.bind("personalInfo", PERSONAL_INFO)
+graph.bind("enterprise", ENTERPRISE)
+graph.bind("vacancy", VACANCY)
+graph.bind("diploma", DIPLOMA)
+graph.bind("language", LANGUAGE)
 
 # add the test data
 
@@ -57,7 +57,6 @@ graph.add((user_info_ref1, FOAF.knows, user_info_ref2))
 graph.add((user_info_ref2, FOAF.knows, user_info_ref1))
 
 
-
 # vacancy_1_ref = URIRef(VACANCY + "0")
 # graph.add((vacancy_1_ref, RDF.type, URIRef(LOCAL + "Vacancy")))
 # vacancy_2_ref = URIRef(VACANCY + "1")
@@ -87,7 +86,8 @@ graph.add((user_info_ref2, FOAF.knows, user_info_ref1))
 
 # owlrl.DeductiveClosure(owlrl.RDFS_OWLRL_Semantics, rdfs_closure = True, axiomatic_triples = True, datatype_axioms = True).expand(graph)
 # owlrl.DeductiveClosure(owlrl.OWLRL_Semantics, rdfs_closure = True, axiomatic_triples = True, datatype_axioms = True).expand(graph)
-owlrl.CombinedClosure.RDFS_OWLRL_Semantics(graph, axioms=True, daxioms=True).closure()
+owlrl.CombinedClosure.RDFS_OWLRL_Semantics(
+    graph, axioms=True, daxioms=True).closure()
 # owlrl.CombinedClosure.RDFS_OWLRL_Semantics(graph, axioms=True, daxioms=True).add_axioms()
 
 
@@ -144,7 +144,6 @@ query = f"""
         ?person local:diploma ?diplomas .
     }}
 """
-
 
 
 print(query)
