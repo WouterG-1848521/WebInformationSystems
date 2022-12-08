@@ -21,11 +21,11 @@ def create_matching_routes(app, graph):
         pass
 
     @app.route("/users/<int:user_id>/matches/diplomas", methods=['GET'])
-    def get_all_vacancy_matches_for_user_by_skills(vacancy_id):
+    def get_all_vacancy_matches_for_user_by_diplomas(vacancy_id):
         pass
 
     @app.route("/users/<int:user_id>/matches/languages", methods=['GET'])
-    def get_all_vacancy_matches_for_user_by_skills(vacancy_id):
+    def get_all_vacancy_matches_for_user_by_languages(vacancy_id):
         pass
 
     ########################################
