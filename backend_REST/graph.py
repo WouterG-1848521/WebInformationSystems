@@ -1,8 +1,11 @@
 from rdflib import Graph, Namespace
 from rdflib.namespace import FOAF, RDF, RDFS
 
+geonames = "https://sws.geonames.org/"
 local = "http://localhost/"
 
+
+GEONAMES        = Namespace(geonames + "")
 LOCAL           = Namespace(local + "")
 PERSON          = Namespace(local + "person/")
 DIPLOMA         = Namespace(local + "diploma/")
@@ -25,6 +28,7 @@ def create_graph(file_path):
     g.bind("foaf"   , FOAF)
     g.bind("rdf"    , RDF)
     g.bind("rdfs"   , RDFS)
+    g.bind("gn"     , GEONAMES)
     
     # Local prefix
     g.bind("local"          , LOCAL)

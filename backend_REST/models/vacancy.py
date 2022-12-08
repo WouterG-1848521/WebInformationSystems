@@ -1,5 +1,5 @@
 from backend_REST import db
-from backend_REST.graph import LOCAL, VACANCY, ENTERPRISE, PERSON
+from backend_REST.graph import LOCAL, VACANCY, ENTERPRISE, PERSON, GEONAMES
 
 from rdflib import Literal, RDF, URIRef
 from rdflib.namespace import RDF, RDFS, FOAF, XSD
@@ -26,7 +26,7 @@ from pandas import DataFrame
 
 class Vacancy():
 
-    def create(graph, enterprise_id, maintainer_id, job_title, start_date, end_date):
+    def create(graph, enterprise_id, maintainer_id, job_title, start_date, end_date, location_id):
         # Add vacancy to DB
         vacancy = DBVacancy()
         db.session.add(vacancy)
@@ -37,6 +37,7 @@ class Vacancy():
         vacancy_URI = URIRef(VACANCY + str(vacancy_id))
         enterprise_URI = URIRef(ENTERPRISE + str(enterprise_id))
         maintainer_URI = URIRef(PERSON + str(maintainer_id))
+        location_URI = URIRef(GEONAMES + str(location_id))
 
         graph.add((vacancy_URI, RDF.type, LOCAL.vacancy))
         graph.add((vacancy_URI, LOCAL.enterprise, enterprise_URI))
@@ -46,13 +47,13 @@ class Vacancy():
                   Literal(start_date, datatype=XSD.date)))
         graph.add((vacancy_URI, LOCAL.endDate,
                   Literal(end_date,  datatype=XSD.date)))
+        graph.add((vacancy_URI, LOCAL.location, location_URI))
 
         graph.serialize(destination="user.ttl")
 
         return vacancy_id
 
-    # Main update function (called by others)
-    def update(graph, vacancy_id, term, literal, literal_type=None):
+    def update_literal(graph, vacancy_id, term, literal, literal_type=None):
         vacancy_URI = URIRef(VACANCY + str(vacancy_id))
 
         # Remove old, add new
@@ -61,17 +62,33 @@ class Vacancy():
 
         graph.serialize(destination="user.ttl")
 
+    def update_URI(graph, vacancy_id, term, URI):
+        vacancy_URI = URIRef(VACANCY + str(vacancy_id))
+
+        # Remove old, add new
+        graph.remove((vacancy_URI, term, None))
+        graph.add((vacancy_URI, term, URI))
+
+        graph.serialize(destination="user.ttl")
+
     def update_posted_by(graph, vacancy_id, maintainer_id):
-        Vacancy.update(graph, vacancy_id, LOCAL.postedBy, maintainer_id)
+        maintainer_URI = URIRef(PERSON + str(maintainer_id))
+        Vacancy.update_URI(graph, vacancy_id, LOCAL.postedBy, maintainer_URI)
 
     def update_job_title(graph, vacancy_id, job_title):
-        Vacancy.update(graph, vacancy_id, LOCAL.jobTitle, job_title)
+        Vacancy.update_literal(graph, vacancy_id, LOCAL.jobTitle, job_title)
 
     def update_start_date(graph, vacancy_id, start_date):
-        Vacancy.update(graph, vacancy_id, LOCAL.startDate, start_date)
+        Vacancy.update_literal(graph, vacancy_id, LOCAL.startDate,
+                               start_date, XSD.date)
 
     def update_end_date(graph, vacancy_id, end_date):
-        Vacancy.update(graph, vacancy_id, LOCAL.endDate, end_date)
+        Vacancy.update_literal(graph, vacancy_id, LOCAL.endDate,
+                               end_date, XSD.date)
+
+    def update_location(graph, vacancy_id, location_id):
+        location_URI = URIRef(GEONAMES + str(location_id))
+        Vacancy.update_URI(graph, vacancy_id, LOCAL.location, location_URI)
 
     def delete(graph, vacancy_id):
         # Delete from DB
@@ -90,7 +107,7 @@ class Vacancy():
 
         print("Searching: " + ENTERPRISE + str(enterprise_id))
         q = f'''
-            SELECT ?v ?maintainerId ?jobTitle ?startDate ?endDate
+            SELECT ?v ?maintainerId ?jobTitle ?startDate ?endDate ?location
             WHERE {{
                 ?v  rdf:type local:vacancy .
                 ?v local:enterprise ?e .
@@ -98,6 +115,7 @@ class Vacancy():
                 ?v local:jobTitle ?jobTitle .
                 ?v local:startDate ?startDate .
                 ?v local:endDate ?endDate .
+                ?v local:location ?location .
             }}
         '''
 

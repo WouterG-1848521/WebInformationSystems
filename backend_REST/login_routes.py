@@ -26,7 +26,7 @@ def create_login_routes(app):
 
         login_user(user)
 
-        return "Logged in."
+        return f"Logged in as user {user.id}."
 
     @app.route("/logout", methods=['GET'])
     @login_required
@@ -34,4 +34,4 @@ def create_login_routes(app):
         app.logger.info("Logging out...")
         logout_user()
 
-        return "Logged out."
+        return f"Logged out."

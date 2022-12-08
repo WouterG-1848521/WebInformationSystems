@@ -129,7 +129,7 @@ def create_vacancy_routes(app, graph):
             return Response.end_date_not_valid()
 
         vacancy_id = Vacancy.create(graph, enterprise_id, session["_user_id"],
-                                    data["jobTitle"], data["startDate"], data["endDate"])
+                                    data["jobTitle"], data["startDate"], data["endDate"], data["location_id"])
 
         return f"Created vacancy {vacancy_id}."
 
@@ -175,13 +175,18 @@ def create_vacancy_routes(app, graph):
 
         # TODO: check if logged-in user is maintainer of enterprise
 
+        if not Validator.valid_degree(data["degree"]):
+            return Response.degree_not_valid()
+
         if not Validator.valid_date(data["startDate"]):
             return Response.start_date_not_valid()
         if not Validator.valid_date(data["endDate"]):
             return Response.end_date_not_valid()
 
+        # TODO: check if profession in list
+
         diploma_id = Diploma.create_for_vacancy(graph, vacancy_id, data["degree"], data["profession"],
-                                                data["institution"], data["startDate"], data["endDate"])
+                                                data["institution"], data["startDate"], data["endDate"], data["location_id"])
         return f"Created diploma {diploma_id } for vacancy {vacancy_id}."
 
     @app.route("/enterprises/<int:enterprise_id>/vacancies/<int:vacancy_id>/diplomas", methods=["GET"])
@@ -198,10 +203,15 @@ def create_vacancy_routes(app, graph):
 
         # TODO: check if logged-in user is maintainer of enterprise
 
+        if not Validator.valid_degree(data["degree"]):
+            return Response.degree_not_valid()
+
         if not Validator.valid_date(data["startDate"]):
             return Response.start_date_not_valid()
         if not Validator.valid_date(data["endDate"]):
             return Response.end_date_not_valid()
+
+        # TODO: check if profession in list
 
         Diploma.update(graph, diploma_id, data["degree"], data["profession"],
                        data["institution"], data["startDate"], data["endDate"])
