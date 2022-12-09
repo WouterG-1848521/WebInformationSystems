@@ -8,10 +8,10 @@ def get_professions():
     query = """
     SELECT ?profession ?professionLabel
     WHERE {
-        ?profession wdt:P31 wd:Q28640 .
+        ?profession wdt:P31 wd:Q28640 . # instance of profession
         ?profession wikibase:sitelinks ?linkcount .
         SERVICE wikibase:label { bd:serviceParam wikibase:language "en" }
-        FILTER (?linkcount >= 60 )
+        FILTER (?linkcount >= 60)
     } 
     GROUP BY ?profession ?professionLabel ?linkcount
     ORDER BY DESC(?linkcount)
@@ -37,10 +37,10 @@ def get_skills():
     query = """
     SELECT ?skill ?skillLabel
     WHERE {
-        ?skill wdt:P31 ?Q205961 .
+        ?skill wdt:P279 ?class . # subclass(wdt:p279) of skill(wd:Q205961) or self-managment(wd:Q2267710)
         ?skill wikibase:sitelinks ?linkcount .
         SERVICE wikibase:label { bd:serviceParam wikibase:language "en" }
-        FILTER (?linkcount >= 1)
+        FILTER (?class IN (wd:Q205961, wd:Q2267710) && ?linkcount >= 1)
     } 
     GROUP BY ?skill ?skillLabel ?linkcount
     ORDER BY DESC(?linkcount)
@@ -66,7 +66,7 @@ def get_languages():
     query = """
     SELECT ?language ?languageLabel
     WHERE {
-        ?language wdt:P31 wd:Q34770 .
+        ?language wdt:P31 wd:Q34770 . # instance of language
         ?language wikibase:sitelinks ?linkcount .
         SERVICE wikibase:label { bd:serviceParam wikibase:language "en" }
         FILTER (?linkcount >= 100) .
