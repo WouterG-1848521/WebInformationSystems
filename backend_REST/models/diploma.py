@@ -1,10 +1,10 @@
-from backend_REST import db
-from backend_REST.graph import LOCAL, PERSON, VACANCY, DIPLOMA, DEGREE, PROFESSION
-
+from pandas import DataFrame
 from rdflib import Literal, RDF, URIRef
 from rdflib.namespace import RDF, RDFS, FOAF, XSD
+from backend_REST.graph import LOCAL, PERSON, VACANCY, DIPLOMA, DEGREE, PROFESSION
 
-from pandas import DataFrame
+from backend_REST import db
+from config import GRAPH_FILE
 
 from backend_REST.models.database import DBDiploma
 
@@ -47,7 +47,7 @@ class Diploma():
         Diploma.add(graph, diploma_URI, degree, profession,
                     institiution, startDate, endDate)
 
-        graph.serialize(destination="user.ttl")
+        graph.serialize(destination=GRAPH_FILE)
 
     def delete(graph, diploma_id):
         # Delete from DB
@@ -92,7 +92,7 @@ class Diploma():
 
         # Link diploma to user
         graph.add((user_URI, LOCAL.diploma, diploma_URI))
-        graph.serialize(destination="user.ttl")
+        graph.serialize(destination=GRAPH_FILE)
 
         return diploma_URI
 
@@ -132,7 +132,7 @@ class Diploma():
 
         Diploma.delete(graph, diploma_id)
 
-        graph.serialize(destination="user.ttl")
+        graph.serialize(destination=GRAPH_FILE)
 
     ########################################
     # VACANCY SECTION
@@ -144,7 +144,7 @@ class Diploma():
 
         # Link diploma to vacancy
         graph.add((vacancy_URI, LOCAL.diploma, diploma_URI))
-        graph.serialize(destination="user.ttl")
+        graph.serialize(destination=GRAPH_FILE)
 
         return diploma_URI
 
@@ -184,4 +184,4 @@ class Diploma():
 
         Diploma.delete(graph, diploma_id)
 
-        graph.serialize(destination="user.ttl")
+        graph.serialize(destination=GRAPH_FILE)

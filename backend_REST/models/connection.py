@@ -1,14 +1,13 @@
-from backend_REST import db
-from backend_REST.graph import LOCAL
-
+from pandas import DataFrame
 from rdflib import Literal, RDF, URIRef
 from rdflib.namespace import RDF, RDFS, FOAF, XSD
-
 from backend_REST.graph import LOCAL, PERSON
+
+from backend_REST import db
+from config import GRAPH_FILE
 
 from backend_REST.models.database import DBConnectionRequest
 
-from pandas import DataFrame
 
 class Connection():
     def send_request(from_user_id, to_user_id):
@@ -66,7 +65,7 @@ class Connection():
         # TODO : Check if users exist
 
         graph.add((URIRef(PERSON + str(user1_id)), FOAF.knows, URIRef(PERSON + str(user2_id))))
-        graph.serialize(destination="user.ttl")
+        graph.serialize(destination=GRAPH_FILE)
     
     def get_all_by_user_id(graph, user_id):
         
@@ -89,4 +88,4 @@ class Connection():
         
                 
         graph.remove((user1_URI, FOAF.knows, user2_URI))
-        graph.serialize(destination="user.ttl")
+        graph.serialize(destination=GRAPH_FILE)

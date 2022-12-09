@@ -1,10 +1,10 @@
-from backend_REST import db
-from backend_REST.graph import LOCAL, PERSON, GEONAMES
-
+from pandas import DataFrame
 from rdflib import Literal, RDF, URIRef
 from rdflib.namespace import RDF, RDFS, FOAF, XSD
+from backend_REST.graph import LOCAL, PERSON, GEONAMES
 
-from pandas import DataFrame
+from backend_REST import db
+from config import GRAPH_FILE
 
 from backend_REST.models.database import DBUser
 
@@ -40,7 +40,7 @@ class User():
         graph.add((user_ref, FOAF.name, Literal(name)))
         graph.add((user_ref, FOAF.surname, Literal(surname)))
 
-        graph.serialize(destination="user.ttl")
+        graph.serialize(destination=GRAPH_FILE)
 
         return user_id
 
@@ -106,7 +106,7 @@ class User():
         graph.remove((user_URI, term, None))
         graph.add((user_URI, term, Literal(literal, datatype=literal_type)))
 
-        graph.serialize(destination="user.ttl")
+        graph.serialize(destination=GRAPH_FILE)
 
     def update_URI(graph, user_id, term, URI):
         user_URI = URIRef(PERSON + str(user_id))
@@ -115,7 +115,7 @@ class User():
         graph.remove((user_URI, term, None))
         graph.add((user_URI, term, URI))
 
-        graph.serialize(destination="user.ttl")
+        graph.serialize(destination=GRAPH_FILE)
 
     # ----- BASIC UPDATES -----#
     def update_name(graph, user_id, name):
@@ -160,7 +160,7 @@ class User():
         print("Deleting: " + user_URI)
         graph.remove((user_URI, None, None))
 
-        graph.serialize(destination="user.ttl")
+        graph.serialize(destination=GRAPH_FILE)
 
     def is_admin(user_id):
         user = DBUser.query.get(user_id)

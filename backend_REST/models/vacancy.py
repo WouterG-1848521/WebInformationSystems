@@ -1,12 +1,13 @@
-from backend_REST import db
-from backend_REST.graph import LOCAL, VACANCY, ENTERPRISE, PERSON, GEONAMES
-
+from pandas import DataFrame
 from rdflib import Literal, RDF, URIRef
 from rdflib.namespace import RDF, RDFS, FOAF, XSD
+from backend_REST.graph import LOCAL, VACANCY, ENTERPRISE, PERSON, GEONAMES
+
+from backend_REST import db
+from config import GRAPH_FILE
 
 from backend_REST.models.database import DBVacancy
 
-from pandas import DataFrame
 
 # Vacancy (id) :
 #     id has a jobTitle
@@ -49,7 +50,7 @@ class Vacancy():
                   Literal(end_date,  datatype=XSD.date)))
         graph.add((vacancy_URI, LOCAL.location, location_URI))
 
-        graph.serialize(destination="user.ttl")
+        graph.serialize(destination=GRAPH_FILE)
 
         return vacancy_id
 
@@ -60,7 +61,7 @@ class Vacancy():
         graph.remove((vacancy_URI, term, None))
         graph.add((vacancy_URI, term, Literal(literal, datatype=literal_type)))
 
-        graph.serialize(destination="user.ttl")
+        graph.serialize(destination=GRAPH_FILE)
 
     def update_URI(graph, vacancy_id, term, URI):
         vacancy_URI = URIRef(VACANCY + str(vacancy_id))
@@ -69,7 +70,7 @@ class Vacancy():
         graph.remove((vacancy_URI, term, None))
         graph.add((vacancy_URI, term, URI))
 
-        graph.serialize(destination="user.ttl")
+        graph.serialize(destination=GRAPH_FILE)
 
     def update_posted_by(graph, vacancy_id, maintainer_id):
         maintainer_URI = URIRef(PERSON + str(maintainer_id))
@@ -100,7 +101,7 @@ class Vacancy():
 
         vacancy_URI = URIRef(VACANCY + str(vacancy_id))
         graph.remove((vacancy_URI, None, None))
-        graph.serialize(destination="user.ttl")
+        graph.serialize(destination=GRAPH_FILE)
 
     def get_by_enterprise_id(graph, enterprise_id):
         enterprise_URI = URIRef(ENTERPRISE + str(enterprise_id))
