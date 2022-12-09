@@ -15,14 +15,16 @@ from backend_REST.queries import query_remove_maintainerRDF, query_add_maintaine
 gFile = "graph.ttl"
 
 # TODO : delete omzetten naar rdflib vorm
-# TODO : update omzetten
-# TODO : create omzetten
-# TODO : log in testen
+# DONE : update omzetten
+# DONE : create omzetten
+# DONE : log in testen
+# DONE : ID by create uit db halen
+# TODO : location bij enterprise insteken via gn, nog bij delete
+# TODO : matchen on lacation
 
 class Enterprise:
 
     def get_maintainers_by_id(graph, enterprise_id):
-        
         q = f'''
                 SELECT ?p
                 WHERE {{
@@ -33,6 +35,14 @@ class Enterprise:
         result = graph.query(q)
         df = DataFrame(result, columns=result.vars)
         return df.to_json()
+
+    def get_by_id(graph, enterprise_id):
+        query = query_enterpriseGetById(enterprise_id)
+        result = graph.query(query)
+
+        df = DataFrame(result, columns=result.vars)
+
+        return df.to_json(orient='index', indent=2)
 
     def get_all_enterprises(graph):
         query = query_enterpriseGetAll()
@@ -58,17 +68,23 @@ class Enterprise:
 
         return df.to_json(orient='index', indent=2)
 
-    def create_enterprise(graph, name, lat, long, location, phone, email, website, owner, description):
-        enterpriseID = 0
+    def create(graph, name, lat, long, address, phone, email, website, owner, description, location):
+        # Add enterprise to DB
+        enterprise = DBEnterprise()
+        db.session.add(enterprise)
+        db.session.commit()
+        
+        # Get user_id
+        enterpriseID = enterprise.id
+        print(enterpriseID)
 
-        enterpriseID = create_enterpriseRDF(graph, name, owner, lat, long, location, phone, email, website, description)
+        create_enterpriseRDF(graph, name, owner, lat, long, address, phone, email, website, description, enterpriseID, location)
 
         graph.serialize(destination=gFile)
         
         return "Enterprise created with ID: " + str(enterpriseID)    
 
-    def update_enterprise(graph, enterpriseID, maintainerID, name, lat, long, location, phone, email, website, description):
-
+    def update_enterprise(graph, enterpriseID, maintainerID, name, lat, long, address, phone, email, website, description, location):
         # check if enterprise exists
         if not check_enterprise(graph, enterpriseID):
             return "Enterprise does not exist"
@@ -77,7 +93,7 @@ class Enterprise:
         if not (check_maintainer(graph, maintainerID, enterpriseID)):
             return "only maintainer of enterprise can update the enterprise"
 
-        query = query_update_enterpriseRDF(name, lat, long, location, phone, email, website, description, enterpriseID)
+        query = query_update_enterpriseRDF(name, lat, long, address, phone, email, website, description, enterpriseID, location)
         graph.update(query)
         graph.serialize(destination=gFile)
         # TODO : hoe controleer je of de update gelukt is?

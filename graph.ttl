@@ -8,7 +8,7 @@
 
 # local declarations
 
-@prefix local: <http://localhost/#> .
+@prefix local: <http://localhost/> .
 @prefix profession: <http://localhost/profession/> .
 @prefix degree: <http://localhost/degree/> .
 @prefix enterprise: <http://localhost/enterprise/> . 
@@ -154,9 +154,6 @@ _:x10 rdf:type owl:Restriction ;
     owl:onProperty local:endDate ;
     owl:cardinality "1"^^xsd:nonNegativeInteger .
 
-# connections
-foaf:knows a owl:SymmetricProperty .
-
 
 #################################################################
 # testData
@@ -174,6 +171,7 @@ enterprise:1 rdf:type local:enterprise ;
     geo:lat "40.879"^^xsd:float ;
     geo:long "45.6997"^^xsd:float ;
     geo:address "Leuven straat 7" ;
+    local:location "gn:2796491" ;
     local:phone "016/123456" ;
     local:email "KUL@email.com" ;
     local:website "www.KUL.be" .
@@ -188,6 +186,7 @@ enterprise:2 rdf:type local:enterprise ;
     geo:lat "40.879"^^xsd:float ;
     geo:long "45.6997"^^xsd:float ;
     geo:address "Hasselt straat 5" ;
+    local:location "gn:2796491" ;
     local:phone "016/123456" ;
     local:email "Colruyt@email.com" ;
     local:website "www.colruyt.be" .
@@ -206,8 +205,7 @@ person:1 a foaf:Person ;
     local:skill skill:leiderschap ;
     local:skill skill:skill1 ;
     local:language language:engels ;
-    local:language language:nederlands ;
-    foaf:knows person:3 .
+    local:language language:nederlands .
     
 person:2 a foaf:Person ;
     foaf:name "Piet" ;
@@ -326,7 +324,6 @@ vacancy:1 rdf:type local:vacancy ;
     local:owner enterprise:1 ;
 
     local:diploma diploma:1 ;
-    local:diploma diploma:2 ;
     local:skills skill:skill1 ;
     local:language language:dutch ;
     local:experience experience:1 ;

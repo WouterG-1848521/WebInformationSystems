@@ -151,18 +151,26 @@ query8 = prefixes + '''
 
 input = "skill:skilleq100"
 query = prefixes + "\n"
+deletes = ""
+inserts = ""
+deletes += "?enterprise local:location ?location .\n"   # TODO delete werkt niet
+inserts += f"?enterprise local:location \"gn:456\" .\n"
+query += ' DELETE { ' + "\n" + deletes + ' } ' + "\n"
+query += ' INSERT { ' + "\n" + inserts + ' } ' + "\n"
 query += f'''
-        SELECT ?uri
-        WHERE {{
-            ?uri rdf:type foaf:Person .
-            ?uri local:language ?language .
-            ?language rdf:type local:language .
-            OPTIONAL {{
-                ?language owl:equivalentClass ?input .
-                ?input owl:equivalentClass ?language .
-            }}
-            FILTER (?input = <http://localhost/language/dutch> || ?language = <http://localhost/language/dutch>)
-        }}
+                WHERE {{
+                    ?enterprise rdf:type local:enterprise .
+                    ?enterprise foaf:name ?name .
+                    ?enterprise geo:lat ?lat .
+                    ?enterprise geo:long ?long .
+                    ?enterprise geo:address ?location .
+                    ?enterprise local:phone ?phone .
+                    ?enterprise local:email ?email .
+                    ?enterprise local:website ?website .
+                    ?enterprise local:description ?description .
+                    ?enterprise local:location ?location .
+                    FILTER (?enterprise = enterprise:1)
+                }}
         '''                
 print(query)
                     
@@ -170,7 +178,7 @@ print(query)
 
 # sparql sheetsheet : https://www.iro.umontreal.ca/~lapalme/ift6281/sparql-1_1-cheat-sheet.pdf
 print("\nexecuting query\n")
-result = graph.query(query)
+result = graph.query(query, initBindings={'class': rdflib.URIRef(node)})
 df = DataFrame(result, columns=result.vars)
 print(df.to_json(orient='index', indent=2))
 

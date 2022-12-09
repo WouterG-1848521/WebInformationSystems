@@ -10,7 +10,7 @@ from .queries import query_enterpriseGetAll, query_enterpriseGetById, query_ente
 from .queries import create_enterpriseRDF, query_update_enterpriseRDF, query_delete_enterpriseRDF, query_transfer_ownershipRDF
 from .queries import query_remove_maintainerRDF, query_add_maintainerRDF, check_enterprise
 
-from models.enterprise import Enterprise
+from .models.enterprise import Enterprise
 
 # TODO: security voor machtegingen, nu wordt gewoon bv ownerID meegegeven in post body.
 #       Dit is niet secure en zo via bv cookies of andere log-in moeten
@@ -27,7 +27,7 @@ def create_enterprise_routes(app, graph):
     # get enterprise by id
     @app.route("/enterprise/get/id/<int:id>", methods=['GET'])
     def get_enterprises_by_ID(id):
-        return Enterprise.get_enterprises_by_id(graph, id)
+        return Enterprise.get_by_id(graph, id)
 
     # get enterprise by name
     @app.route("/enterprise/get/name/<string:name>", methods=['GET'])
@@ -65,9 +65,11 @@ def create_enterprise_routes(app, graph):
             return "website is missing"
         if "description" not in data:
             return "description is missing"
+        if "location" not in data:
+            return "location is missing"
 
         # get the logged in user as the owner
-        user_id = session['user_id']
+        user_id = session['_user_id']
         owner = user_id
 
         name = data["name"]
@@ -75,13 +77,14 @@ def create_enterprise_routes(app, graph):
         lat = float(lat)
         long = data["long"]
         long = float(long)
-        location = data["location"]
+        address = data["address"]
         owner = data["owner"]
         owner = int(owner)
         phone = data["phone"]
         email = data["email"]
         website = data["website"]
         description = data["description"]
+        location = data["location"]
 
         # check if data is correct
         if name == "" or lat == "" or long == "" or location == "" or owner == "" or phone == "" or email == "" or website == "" or description == "":
@@ -89,8 +92,7 @@ def create_enterprise_routes(app, graph):
         if type(name) != str or type(lat) != float or type(long) != float or type(location) != str or type(owner) != int:
             print(type(name), type(lat), type(long), type(location), type(owner))
             return "Data is not of the correct type"
-
-        return Enterprise.create_enterprise(graph, name, lat, long, location, phone, email, website, owner, description)    
+        return Enterprise.create(graph, name, lat, long, address, phone, email, website, owner, description, location)    
 
     # update enterprise
     @app.route("/enterprise/update/<int:id>", methods=['PUT'])
@@ -98,7 +100,7 @@ def create_enterprise_routes(app, graph):
     def update_enterprise(id):
         data = request.form     # request contains : maintainerid (for security check)
 
-        user_id = session['user_id']
+        user_id = session['_user_id']
         maintainerID = user_id  # TODO: is this also the rdf id?
 
         if "enterpriseID" not in data:
@@ -115,6 +117,7 @@ def create_enterprise_routes(app, graph):
         phone = ""
         website = ""
         description = ""
+        address = ""
         if "name" in data:
             name = data["name"]
         if "lat" in data:
@@ -130,16 +133,19 @@ def create_enterprise_routes(app, graph):
         if ("website" in data):
             website = data["website"] 
         if ("description" in data):
-            description = data["description"]   
+            description = data["description"]  
+        if ("address" in data):
+            address = data["address"] 
 
-        return Enterprise.update_enterprise(graph, enterpriseID, maintainerID, name, lat, long, location, phone, email, website, description)
+        return Enterprise.update_enterprise(graph, enterpriseID, maintainerID, name, lat, long, address, phone, email, website, description, location)
 
     # delete enterprise
     @app.route("/enterprise/delete", methods=['DELETE'])
+    @login_required
     def delete_enterprise():
         data = request.form     # request contains : enterpriseID, ownerID (for security check)
 
-        user_id = session['user_id']
+        user_id = session['_user_id']
         ownerID = user_id  # TODO: is this also the rdf id?
         if "enterpriseID" not in data:
             return "enterpriseID is missing"
@@ -150,10 +156,11 @@ def create_enterprise_routes(app, graph):
 
     # transfer ownership
     @app.route("/enterprise/transfer", methods=['PUT'])
+    @login_required
     def transfer_enterprise():
         data = request.form
 
-        user_id = session['user_id']
+        user_id = session['_user_id']
         ownerID = user_id
         if "enterpriseID" not in data:
             return "enterpriseID is missing"
@@ -171,10 +178,11 @@ def create_enterprise_routes(app, graph):
     # Maintainers
     # add a maintainer to an enterprise
     @app.route("/enterprise/maintainer/add", methods=['POST'])
+    @login_required
     def add_maintainer():
         data = request.form
 
-        user_id = session['user_id']
+        user_id = session['_user_id']
         ownerID = user_id  # TODO: is this also the rdf id?
         if "enterpriseID" not in data:
             return "enterpriseID is missing"
@@ -191,10 +199,11 @@ def create_enterprise_routes(app, graph):
 
     # remove a maintainer from an enterprise
     @app.route("/enterprise/maintainer/remove", methods=['PUT'])
+    @login_required
     def remove_maintainer():
         data = request.form     # request contains : enterpriseID, ownerID (for security check), MaintainerID
         
-        user_id = session['user_id']
+        user_id = session['_user_id']
         ownerID = user_id  # TODO: is this also the rdf id?
         if "enterpriseID" not in data:
             return "enterpriseID is missing"
