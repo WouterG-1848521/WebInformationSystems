@@ -15,16 +15,19 @@
 
 person:2 a foaf:Person ;
     local:diploma diploma:2 ;
+    local:getVacancies true ;
     foaf:name "Brent" ;
     foaf:surname "Zoomers" .
 
 person:3 a foaf:Person ;
     local:diploma diploma:3 ;
+    local:getVacancies true ;
     foaf:name "Wouter" ;
     foaf:surname "Grootjans" .
 
 person:4 a foaf:Person ;
     local:diploma diploma:4 ;
+    local:getVacancies true ;
     foaf:name "Gwendoline" ;
     foaf:surname "Nijssen" .
 
@@ -136,6 +139,7 @@ experience:1 a local:experience ;
 person:1 a foaf:Person ;
     local:diploma diploma:1 ;
     local:experience experience:1 ;
+    local:getVacancies false ;
     local:language language:dutch,
         language:english ;
     local:skill skill:leadership,

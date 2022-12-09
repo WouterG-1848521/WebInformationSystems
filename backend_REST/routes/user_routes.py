@@ -309,3 +309,16 @@ def create_user_routes(app, g):
 
         WorkExperience.delete_from_user(g, user_id, experience_id)
         return f"Deleted experience {experience_id} from user {user_id}."
+
+    ########################################
+    # USER ROUTES - VACANCIES TOGGLE
+    ########################################
+
+    @app.route("/users/<int:user_id>/vacancies/toggle", methods=['PUT'])
+    def toggle_user_vacancies(user_id):
+        get_vacancies = User.toggle_get_vacancies(g, user_id)
+
+        if (get_vacancies):
+            return f"User {user_id} vacancies: enabled"
+        else:
+            return f"User {user_id} vacancies: disabled"

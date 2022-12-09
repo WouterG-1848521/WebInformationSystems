@@ -30,15 +30,6 @@ def create_matching_routes(app, graph):
     def get_all_vacancy_matches_for_user_by_languages(user_id):
         pass
 
-    @app.route("/users/<int:user_id>/matches/toggle", methods=['PUT'])
-    def toggle_user_vacancies(user_id):
-        get_vacancies = User.toggle_get_vacancies(user_id)
-
-        if (get_vacancies):
-            return f"User {user_id} vacancies: enabled"
-        else:
-            return f"User {user_id} vacancies: disabled"
-
     ########################################
     # MATCHING ROUTES - VACANCY -> USERS
     ########################################
