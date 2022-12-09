@@ -139,7 +139,12 @@ def create_test_routes(app, g):
 
         return f"Created user {user_id}."
        
+    @app.route("/fill/user", methods=['GET'])
+    def fill_user():
+        user_id = User.create(g, "Wouter", "Grootjans",
+                        "wouter.grootjans@student.uhasselt.be", "123", False)
 
 
+        return f"Created user {user_id}."
 
         

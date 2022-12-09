@@ -94,12 +94,24 @@ def create_user_routes(app, g):
 
         # Check if logged-in user is correct
         if session['_user_id'] != user_id:
-            return f"No permission to change phone."
+            return Response.unauthorized_access_wrong_user()
 
         # TODO: check phone number (hard do to)
 
         User.update_phone(g, user_id, data["phone"])
-        return f"Updated phone of user {user_id} to ."
+        return f"Updated phone of user {user_id}."
+
+    @app.route("/users/<int:user_id>/location", methods=["PUT"])
+    @login_required
+    def update_user_location(user_id):
+        data = request.form
+
+        # Check if logged-in user is correct
+        if session['_user_id'] != user_id:
+            return Response.unauthorized_access_wrong_user()
+
+        User.update_location(g, user_id, data["location_id"])
+        return f"Updated location of user {user_id}."
 
     ########################################
     # USER ROUTES - DIPLOMAS

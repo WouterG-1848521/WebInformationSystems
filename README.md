@@ -42,3 +42,9 @@ Run command: `yarn run start`
 
 ## bijkomende installs:
 - pip install owlrl
+
+
+## Front-end setup
+Install tainwindcss: `npm install -D tailwindcss`
+
+Compile and watch for changes in Tailwind CSS files: `npx tailwindcss -i ./static/src/input.css -o ./static/dist/css/output.css --watch`

@@ -22,3 +22,6 @@ class Response():
 
     def degree_not_valid():
         return f"Degree not valid."
+    
+    def user_not_exist():
+        return f"This user does not exists."

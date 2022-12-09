@@ -6,16 +6,17 @@ from backend_REST import session
 
 from rdflib import Graph, URIRef, Literal, Namespace
 
-from .queries import query_enterpriseGetAll, query_enterpriseGetById, query_enterpriseGetByName, query_enterpriseGetByLocation, check_maintainer, check_owner, check_person
-from .queries import create_enterpriseRDF, query_update_enterpriseRDF, query_delete_enterpriseRDF, query_transfer_ownershipRDF
-from .queries import query_remove_maintainerRDF, query_add_maintainerRDF, check_enterprise
+from backend_REST.queries import query_enterpriseGetAll, query_enterpriseGetById, query_enterpriseGetByName, query_enterpriseGetByLocation, check_maintainer, check_owner, check_person
+from backend_REST.queries import create_enterpriseRDF, query_update_enterpriseRDF, query_delete_enterpriseRDF, query_transfer_ownershipRDF
+from backend_REST.queries import query_remove_maintainerRDF, query_add_maintainerRDF, check_enterprise
 
-from .models.enterprise import Enterprise
+from backend_REST.models.enterprise import Enterprise
 
 # TODO: security voor machtegingen, nu wordt gewoon bv ownerID meegegeven in post body.
 #       Dit is niet secure en zo via bv cookies of andere log-in moeten
 
 graphFile = "graph.ttl"
+
 
 def create_enterprise_routes(app, graph):
     # getters
@@ -90,7 +91,8 @@ def create_enterprise_routes(app, graph):
         if name == "" or lat == "" or long == "" or location == "" or owner == "" or phone == "" or email == "" or website == "" or description == "":
             return "Not all data is provided"
         if type(name) != str or type(lat) != float or type(long) != float or type(location) != str or type(owner) != int:
-            print(type(name), type(lat), type(long), type(location), type(owner))
+            print(type(name), type(lat), type(
+                long), type(location), type(owner))
             return "Data is not of the correct type"
         return Enterprise.create(graph, name, lat, long, address, phone, email, website, owner, description, location)    
 
@@ -98,7 +100,8 @@ def create_enterprise_routes(app, graph):
     @app.route("/enterprise/update/<int:id>", methods=['PUT'])
     @login_required
     def update_enterprise(id):
-        data = request.form     # request contains : maintainerid (for security check)
+        # request contains : maintainerid (for security check)
+        data = request.form
 
         user_id = session['_user_id']
         maintainerID = user_id  # TODO: is this also the rdf id?
@@ -131,7 +134,7 @@ def create_enterprise_routes(app, graph):
         if ("phone" in data):
             phone = data["phone"]
         if ("website" in data):
-            website = data["website"] 
+            website = data["website"]
         if ("description" in data):
             description = data["description"]  
         if ("address" in data):
@@ -143,7 +146,8 @@ def create_enterprise_routes(app, graph):
     @app.route("/enterprise/delete", methods=['DELETE'])
     @login_required
     def delete_enterprise():
-        data = request.form     # request contains : enterpriseID, ownerID (for security check)
+        # request contains : enterpriseID, ownerID (for security check)
+        data = request.form
 
         user_id = session['_user_id']
         ownerID = user_id  # TODO: is this also the rdf id?
@@ -204,7 +208,7 @@ def create_enterprise_routes(app, graph):
         data = request.form     # request contains : enterpriseID, ownerID (for security check), MaintainerID
         
         user_id = session['_user_id']
-        ownerID = user_id  # TODO: is this also the rdf id?
+        ownerID = user_id
         if "enterpriseID" not in data:
             return "enterpriseID is missing"
         enterpriseID = data["enterpriseID"]

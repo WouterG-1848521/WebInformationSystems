@@ -1,10 +1,10 @@
-from backend_REST import db
-from backend_REST.graph import LOCAL, EXPERIENCE, SKILL, PERSON
-
 from rdflib import Literal, RDF, URIRef, Variable
 from rdflib.namespace import RDF, RDFS, FOAF, XSD
-
 from pandas import DataFrame
+from backend_REST.graph import LOCAL, EXPERIENCE, SKILL, PERSON
+
+from backend_REST import db
+from config import GRAPH_FILE
 
 from backend_REST.models.database import DBWorkExperience
 
@@ -45,7 +45,7 @@ class WorkExperience():
         # Add new work experience
         WorkExperience.add(graph, experience_URI, job_title, skills, start_date, end_date)
         
-        graph.serialize(destination="user.ttl")
+        graph.serialize(destination=GRAPH_FILE)
     
     
     def delete(graph, experience_id):
@@ -83,7 +83,7 @@ class WorkExperience():
         
         # Link experience to user
         graph.add((user_URI, LOCAL.experience, experience_URI))
-        graph.serialize(destination="user.ttl")
+        graph.serialize(destination=GRAPH_FILE)
         
         return experience_URI
     
@@ -123,7 +123,7 @@ class WorkExperience():
         graph.remove((user_URI, LOCAL.experience, experience_URI))
         
         WorkExperience.delete(graph, experience_id)
-        graph.serialize(destination="user.ttl")
+        graph.serialize(destination=GRAPH_FILE)
         
 
     ########################################

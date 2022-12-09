@@ -1,6 +1,6 @@
 from flask import request
 from pandas import DataFrame
-import json 
+import json
 from flask_login import login_required, logout_user
 from backend_REST import session
 
@@ -8,19 +8,27 @@ from backend_REST import session
 from backend_REST.models.connection import Connection
 from backend_REST.models.user import User
 
+from backend_REST.models.validator import Validator
+from backend_REST.models.response import Response
+
+
 def create_connections_routes(app, graph):
 
     @app.route("/connections/send", methods=['POST'])
     @login_required
     def send_connection_request():
 
-        data = request.form    
+        data = request.form
 
         if session['_user_id'] != data["fromUserId"]:
-            return f"Permission Denied"
+            return Response.unauthorized_access_wrong_user()
 
-        request_id = Connection.send_request(data["fromUserId"], data["toUserId"])
-        
+        if not User.exists(data["toUserId"]):
+            return Response.user_not_exist()
+
+        request_id = Connection.send_request(
+            data["fromUserId"], data["toUserId"])
+
         if (request_id != -1):
             return f"Connection request {request_id} send. ({data['fromUserId']} -> {data['toUserId']})"
         else:
@@ -29,14 +37,14 @@ def create_connections_routes(app, graph):
     @app.route("/connections/cancel/<int:request_id>", methods=['DELETE'])
     @login_required
     def cancel_connection_request(request_id):
-        
+
         request = Connection.get_by_id(request_id)
 
         if not request:
-            return f"Permission Denied"
+            return Response.unauthorized_access_wrong_user()
 
-        if(request.fromUser != session['_user_id']):
-            return f"Permission Denied"
+        if (request.fromUser != session['_user_id']):
+            return Response.unauthorized_access_wrong_user()
 
         Connection.cancel_request(request_id)
 
@@ -50,10 +58,10 @@ def create_connections_routes(app, graph):
         request = Connection.get_by_id(data['request_id'])
 
         if not request:
-            return f"Permission Denied"
+            return Response.unauthorized_access_wrong_user()
 
-        if(request.toUser != session['_user_id']):
-            return f"Permission Denied"
+        if (request.toUser != session['_user_id']):
+            return Response.unauthorized_access_wrong_user()
 
         Connection.accept_request(data["request_id"])
 
@@ -67,10 +75,10 @@ def create_connections_routes(app, graph):
         request = Connection.get_by_id(data['request_id'])
 
         if not request:
-            return f"Permission Denied"
+            return Response.unauthorized_access_wrong_user()
 
-        if(request.toUser != session['_user_id']):
-            return f"Permission Denied"
+        if (request.toUser != session['_user_id']):
+            return Response.unauthorized_access_wrong_user()
 
         Connection.deny_request(data['request_id'])
 
@@ -80,8 +88,8 @@ def create_connections_routes(app, graph):
     @login_required
     def get_pending_connection_requests(user_id):
 
-        if(user_id != session['_user_id']):
-            return f"Permission Denied"
+        if (user_id != session['_user_id']):
+            return Response.unauthorized_access_wrong_user()
 
         return Connection.get_pending_requests_by_user(user_id)
 
@@ -91,7 +99,7 @@ def create_connections_routes(app, graph):
         data = request.form
 
         if not User.is_admin(session['_user_id']):
-            return f"Permission Denied"
+            return Response.unauthorized_access_wrong_user()
 
         Connection.add_to_user(graph, data["user1_id"], data["user2_id"])
 
@@ -107,8 +115,8 @@ def create_connections_routes(app, graph):
     def delete_connection():
         data = request.form
 
-        if(data["user1_id"] != session['_user_id']):
-            return f"Permission Denied"
+        if (data["user1_id"] != session['_user_id']):
+            return Response.unauthorized_access_wrong_user()
 
         Connection.remove_from_user(graph, data["user1_id"], data["user2_id"])
 
