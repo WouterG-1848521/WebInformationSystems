@@ -6,6 +6,8 @@ from backend_REST import session
 
 from rdflib import Graph, URIRef, Literal, Namespace
 
+from backend_REST.models.user import User
+
 
 def create_matching_routes(app, graph):
     ########################################
@@ -17,16 +19,25 @@ def create_matching_routes(app, graph):
         pass
 
     @app.route("/users/<int:user_id>/matches/skills", methods=['GET'])
-    def get_all_vacancy_matches_for_user_by_skills(vacancy_id):
+    def get_all_vacancy_matches_for_user_by_skills(user_id):
         pass
 
     @app.route("/users/<int:user_id>/matches/diplomas", methods=['GET'])
-    def get_all_vacancy_matches_for_user_by_diplomas(vacancy_id):
+    def get_all_vacancy_matches_for_user_by_diplomas(user_id):
         pass
 
     @app.route("/users/<int:user_id>/matches/languages", methods=['GET'])
-    def get_all_vacancy_matches_for_user_by_languages(vacancy_id):
+    def get_all_vacancy_matches_for_user_by_languages(user_id):
         pass
+
+    @app.route("/users/<int:user_id>/matches/toggle", methods=['PUT'])
+    def toggle_user_vacancies(user_id):
+        get_vacancies = User.toggle_get_vacancies(user_id)
+
+        if (get_vacancies):
+            return f"User {user_id} vacancies: enabled"
+        else:
+            return f"User {user_id} vacancies: disabled"
 
     ########################################
     # MATCHING ROUTES - VACANCY -> USERS

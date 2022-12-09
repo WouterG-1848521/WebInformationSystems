@@ -12,8 +12,8 @@ from backend_REST.models.database import DBUser
 class User():
     def exists(user_id):
         user = DBUser.query.get(user_id)
-        return user != None 
-    
+        return user != None
+
     def is_available(email):
         user = DBUser.query.filter_by(email=email).first()
         return user == None
@@ -166,3 +166,10 @@ class User():
         user = DBUser.query.get(user_id)
 
         return user.isAdmin
+
+    def toggle_get_vacancies(user_id):
+        user = DBUser.query.get(user_id)
+        user.getVacancies = not user.getVacancies
+        db.session.commit()
+
+        return user.getVacancies

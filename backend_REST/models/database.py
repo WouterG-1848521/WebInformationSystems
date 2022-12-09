@@ -24,6 +24,7 @@ class DBUser(db.Model):
     password = db.Column(db.String(128))
     authenticated = db.Column(db.Boolean, default=False)
     isAdmin = db.Column(db.Boolean, default=False)
+    getVacancies = db.Column(db.Boolean, default=True)
 
     def __repr__(self):
         return '<User %r>' % self.email
