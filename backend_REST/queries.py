@@ -3,7 +3,7 @@ from rdflib.namespace import RDF, FOAF, RDFS
 import owlrl
 from pandas import DataFrame
 
-from backend_REST.graph import LOCAL, ENTPERISE, PERSON, EXPERIENCE, LANGUAGE, VACANCY, DIPLOMA, SKILL, GEO
+from backend_REST.graph import LOCAL, PERSON, EXPERIENCE, LANGUAGE, VACANCY, DIPLOMA, SKILL, GEO, ENTERPRISE
 
 prefixes = '''
                 prefix foaf: <http://xmlns.com/foaf/0.1/> 
@@ -52,7 +52,6 @@ def check_maintainer(graph, enterpriseID, maintainerID):
     else:
         return True
 
-
 def check_owner(graph, enterpriseID, ownerID):
     query = prefixes + "\n"
     query += f'''
@@ -71,7 +70,6 @@ def check_owner(graph, enterpriseID, ownerID):
     else:
         return True
 
-
 def check_person(graph, personID):
     query = prefixes + "\n"
     query += f'''
@@ -88,7 +86,6 @@ def check_person(graph, personID):
     else:
         return True
 
-
 def check_enterprise(graph, enterpriseID):
     query = prefixes + "\n"
     query += f'''
@@ -104,7 +101,6 @@ def check_enterprise(graph, enterpriseID):
         return False
     else:
         return True
-
 
 def check_valid_vacancy(graph, vacancyID):
     query = prefixes + "\n"
@@ -211,38 +207,9 @@ def create_enterpriseRDF(graph, name, owner, lat, long, address, phone, email, w
     graph.serialize(destination=graphFile)
     return enterpriseID
 
-
-def create_vacancyRDF(graph, jobTitle, startDate, endDate, enterpriseID, diplomas, skills, languages, jobDescription, jobResponsibilities, jobSalary, jobLocation):
-    # Get vacancyID
-    VacancyID = 5000  # TODO: get from database
-
-    # Add vacancy to Graph
-    ref = URIRef(VACANCY + str(VacancyID))
-
-    graph.add((ref, RDF.type, LOCAL.vacancy))
-    graph.add((ref, LOCAL.jobTitle, Literal(jobTitle)))
-    graph.add((ref, LOCAL.startDate, Literal(startDate)))
-    graph.add((ref, LOCAL.endDate, Literal(endDate)))
-    graph.add((ref, LOCAL.owner, URIRef(ENTERPRISE + str(enterpriseID))))
-    graph.add((ref, LOCAL.jobDescription, Literal(jobDescription)))
-    graph.add((ref, LOCAL.jobResponsibilities, Literal(jobResponsibilities)))
-    graph.add((ref, LOCAL.jobSalary, Literal(jobSalary)))
-    graph.add((ref, LOCAL.jobLocation, Literal(jobLocation)))
-
-    for diploma in diplomas:
-        graph.add((ref, LOCAL.diploma, URIRef(DIPLOMA + str(diploma))))
-    for skill in skills:
-        graph.add((ref, LOCAL.skill, URIRef(SKILL + str(skill))))
-    for language in languages:
-        graph.add((ref, LOCAL.language, URIRef(LANGUAGE + str(language))))
-    
-    graph.serialize(destination=graphFile)
-    return enterpriseID
-
 #########################################################
 # enterprise queries
 #########################################################
-
 
 def query_enterpriseGetAll():
     query = prefixes + '''
@@ -266,7 +233,6 @@ def query_enterpriseGetAll():
                         '''
     # TODO: per maintainer wordt er nu een apart result teruggegeven, kan dit misschien samengevoegd worden?
     return query
-
 
 def query_enterpriseGetById(id):
     query = prefixes + f'''
@@ -292,7 +258,6 @@ def query_enterpriseGetById(id):
     # TODO: per maintainer wordt er nu een apart result teruggegeven, kan dit misschien samengevoegd worden?
     return query
 
-
 def query_enterpriseGetByName(name):
     query = prefixes + f'''
                         SELECT ?uri ?lat ?long ?address ?owner ?maintainerName ?maintainerSurName ?description ?phone ?email ?website
@@ -315,7 +280,6 @@ def query_enterpriseGetByName(name):
                 '''
     # TODO: per maintainer wordt er nu een apart result teruggegeven, kan dit misschien samengevoegd worden?
     return query
-
 
 def query_enterpriseGetByLocation(location):
     query = prefixes + f'''
@@ -394,8 +358,6 @@ def query_update_enterpriseRDF(name, lat, long, address, phone, email, website, 
     return query
 
 # deletes the enterprise, the enterpriseInfo and the connected vacancies, vacancyInfo
-
-
 # TODO : vacancies willen nog niet verwijdert worden
 def query_delete_enterpriseRDF(enterpriseID):
     query = prefixes + "\n"
@@ -414,17 +376,16 @@ def query_delete_enterpriseRDF(enterpriseID):
                     ?enterprise local:website ?website .
 
                     ?vacancy rdf:type local:Vacancy .
-                    ?vacancy local:availability ?availability .
                     ?vacancy local:diploma ?diploma .
                     ?vacancy local:endDate ?endDate .
                     ?vacancy local:jobDescription ?jobDescription .
-                    ?vacancy local:jobLocation ?jobLocation .
+                    ?vacancy local:location ?jobLocation .
                     ?vacancy local:jobResponsibilities ?jobResponsibilities .
                     ?vacancy local:jobSalary ?jobSalary .
                     ?vacancy local:jobTitle ?jobTitle .
                     ?vacancy local:langauage ?longauage .
                     ?vacancy local:owner ?enterprise .
-                    ?vacancy local:skills ?skills .
+                    ?vacancy local:skill ?skills .
                     ?vacancy local:startDate ?startDate .
                 }}
                 WHERE {{
@@ -441,17 +402,16 @@ def query_delete_enterpriseRDF(enterpriseID):
                     ?enterprise local:website ?website .
                     OPTIONAL {{
                         ?vacancy rdf:type local:Vacancy .
-                        ?vacancy local:availability ?availability .
                         ?vacancy local:diploma ?diploma .
                         ?vacancy local:endDate ?endDate .
                         ?vacancy local:jobDescription ?jobDescription .
-                        ?vacancy local:jobLocation ?jobLocation .
+                        ?vacancy local:location ?jobLocation .
                         ?vacancy local:jobResponsibilities ?jobResponsibilities .
                         ?vacancy local:jobSalary ?jobSalary .
                         ?vacancy local:jobTitle ?jobTitle .
                         ?vacancy local:langauage ?longauage .
                         ?vacancy local:owner ?enterprise .
-                        ?vacancy local:skills ?skills .
+                        ?vacancy local:skill ?skills .
                         ?vacancy local:startDate ?startDate .
                     }}
                     FILTER (?enterprise = enterprise:{enterpriseID})
@@ -459,7 +419,6 @@ def query_delete_enterpriseRDF(enterpriseID):
             '''
     print(query)
     return query
-
 
 def query_transfer_ownershipRDF(enterpriseID, newOwnerID):
     query = prefixes + "\n"
@@ -478,7 +437,6 @@ def query_transfer_ownershipRDF(enterpriseID, newOwnerID):
             '''
     return query
 
-
 def query_add_maintainerRDF(enterpriseID, newMaintainerID):
     query = prefixes + "\n"
     query += f'''
@@ -491,7 +449,6 @@ def query_add_maintainerRDF(enterpriseID, newMaintainerID):
                 }}
             '''
     return query
-
 
 def query_remove_maintainerRDF(enterpriseID, maintainerID):
     query = prefixes + "\n"
@@ -509,8 +466,6 @@ def query_remove_maintainerRDF(enterpriseID, maintainerID):
 #########################################################
 # vacancy queries
 #########################################################
-
-
 def query_getVacancy(vacancyURI):
     query = prefixes + "\n"
     query += f'''
@@ -520,23 +475,30 @@ def query_getVacancy(vacancyURI):
                     ?vacancy local:jobTitle ?jobTitle .
                     ?vacancy local:startDate ?startDate .
                     ?vacancy local:endDate ?endDate .
-                    ?vacancy local:owner ?owner .
-
-                    ?vacancy local:diploma ?diploma .
-                    ?vacancy local:skills ?skills .
-                    ?vacancy local:language ?language .
-                    ?vacancy local:experience ?experience .
+                    ?vacancy local:enterprise ?owner .
 
                     ?vacancy local:jobDescription ?jobDescription .
                     ?vacancy local:jobResponsibilities ?jobResponsibilities .
                     ?vacancy local:jobSalary ?jobSalary .
-                    ?vacancy local:jobLocation ?jobLocation .
+                    ?vacancy local:location ?jobLocation .
+
+                    OPTIONAL {{
+                        ?vacancy local:diploma ?diploma .
+                    }}
+                    OPTIONAL {{
+                        ?vacancy local:skill ?skills .
+                    }}
+                    OPTIONAL {{
+                        ?vacancy local:language ?language .
+                    }}
+                    OPTIONAL {{
+                        ?vacancy local:experience ?experience .
+                    }}
 
                     FILTER (?vacancy = {vacancyURI})
                 }} 
             '''
     return query
-
 
 def query_match_byVacancy(vacancyID):
     query = prefixes + "\n"
@@ -553,7 +515,7 @@ def query_match_byVacancy(vacancyID):
                         ?person local:diploma ?diploma .
                         ?person local:languague ?languague .
                         ?person local:experience ?experience .
-                        ?vacancy local:skills ?skill .
+                        ?vacancy local:skill ?skill .
                         ?vacancy local:diploma ?diploma .
                         ?vacancy local:langauage ?languague .
                     }}
@@ -561,7 +523,6 @@ def query_match_byVacancy(vacancyID):
                 }}
             '''
     return query
-
 
 def query_getDiplomasFromVacancy(vacancyID):
     query = prefixes + "\n"
@@ -575,19 +536,17 @@ def query_getDiplomasFromVacancy(vacancyID):
             '''
     return query
 
-
 def query_getSkillsFromVacancy(vacancyID):
     query = prefixes + "\n"
     query += f'''
                 SELECT ?skill
                 WHERE {{
                     ?vacancy rdf:type local:vacancy .
-                    ?vacancy local:skills ?skill .
+                    ?vacancy local:skill ?skill .
                     FILTER (?vacancy = vacancy:{vacancyID})
                 }}
             '''
     return query
-
 
 def query_getLanguagesFromVacancy(vacancyID):
     query = prefixes + "\n"
@@ -601,7 +560,6 @@ def query_getLanguagesFromVacancy(vacancyID):
             '''
     return query
 
-
 def query_getExperienceFromVacancy(vacancyID):
     query = prefixes + "\n"
     query += f'''
@@ -614,7 +572,6 @@ def query_getExperienceFromVacancy(vacancyID):
             '''
     return query
 
-
 def query_vacancyByDiploma(diplomaURI):
     query = prefixes + "\n"
     query += f'''
@@ -622,15 +579,13 @@ def query_vacancyByDiploma(diplomaURI):
                 WHERE {{
                     ?vacancy rdf:type local:vacancy .
                     ?vacancy local:diploma ?diploma .
-                    ?vacancy local:availability ?av .
                     OPTIONAL {{
                         ?diploma owl2:equivalentClass ?input .
                     }}
-                    FILTER ((?input = {diplomaURI} || ?diploma = {diplomaURI}) && ?av = true)
+                    FILTER ((?input = {diplomaURI} || ?diploma = {diplomaURI}))
                 }}
             '''
     return query
-
 
 def query_vacancyBySkill(skillURI):
     query = prefixes + "\n"
@@ -638,16 +593,14 @@ def query_vacancyBySkill(skillURI):
                 SELECT ?vacancy
                 WHERE {{
                     ?vacancy rdf:type local:vacancy .
-                    ?vacancy local:skills ?skill .
-                    ?vacancy local:availability ?av .
+                    ?vacancy local:skill ?skill .
                     OPTIONAL {{
                         ?skill owl2:equivalentClass ?input .
                     }}
-                    FILTER ((?input = {skillURI} || ?skill = {skillURI}) && ?av = true)
+                    FILTER ((?input = {skillURI} || ?skill = {skillURI}))
                 }}
             '''
     return query
-
 
 def query_vacancyByLanguage(languageURI):
     query = prefixes + "\n"
@@ -656,15 +609,13 @@ def query_vacancyByLanguage(languageURI):
                 WHERE {{
                     ?vacancy rdf:type local:vacancy .
                     ?vacancy local:language ?language .
-                    ?vacancy local:availability ?av .
                     OPTIONAL {{
                         ?language owl2:equivalentClass ?input .
                     }}
-                    FILTER ((?input = {languageURI} || ?language = {languageURI}) && ?av = true)
+                    FILTER ((?input = {languageURI} || ?language = {languageURI}))
                 }}
             '''
     return query
-
 
 def query_vacancyByExperience(experienceURI):
     query = prefixes + "\n"
@@ -673,11 +624,10 @@ def query_vacancyByExperience(experienceURI):
                 WHERE {{
                     ?vacancy rdf:type local:vacancy .
                     ?vacancy local:experience ?experience .
-                    ?vacancy local:availability ?av .
                     OPTIONAL {{
                         ?experience owl2:equivalentClass ?input .
                     }}
-                    FILTER ((?input = {experienceURI} || ?experience = {experienceURI}) && ?av = true)
+                    FILTER ((?input = {experienceURI} || ?experience = {experienceURI}))
                 }}
             '''
     return query
@@ -685,8 +635,6 @@ def query_vacancyByExperience(experienceURI):
 #########################################################
 # person queries
 #########################################################
-
-
 def query_personByDiploma(diplomas):
     query = prefixes + "\n"
     query += f'''
@@ -706,7 +654,6 @@ def query_personByDiploma(diplomas):
             '''
     return query
 
-
 def query_personBySkill(skill):
     query = prefixes + "\n"
     query += f'''
@@ -725,7 +672,6 @@ def query_personBySkill(skill):
                 }}
             '''
     return query
-
 
 def query_personByLanguage(language):
     query = prefixes + "\n"
@@ -747,7 +693,6 @@ def query_personByLanguage(language):
             '''
     return query
 
-
 def query_personByExperience(experience):
     query = prefixes + "\n"
     query += f'''
@@ -767,7 +712,6 @@ def query_personByExperience(experience):
             '''
     return query
 
-
 def query_getDiplomasFromPerson(personID):
     query = prefixes + "\n"
     query += f'''
@@ -779,7 +723,6 @@ def query_getDiplomasFromPerson(personID):
                 }}
             '''
     return query
-
 
 def query_getSkillsFromPerson(personID):
     query = prefixes + "\n"
@@ -793,7 +736,6 @@ def query_getSkillsFromPerson(personID):
             '''
     return query
 
-
 def query_getLanguagesFromPerson(personID):
     query = prefixes + "\n"
     query += f'''
@@ -806,7 +748,6 @@ def query_getLanguagesFromPerson(personID):
             '''
     return query
 
-
 def query_getExperiencesFromPerson(personID):
     query = prefixes + "\n"
     query += f'''
@@ -818,3 +759,5 @@ def query_getExperiencesFromPerson(personID):
                 }}
             '''
     return query
+
+

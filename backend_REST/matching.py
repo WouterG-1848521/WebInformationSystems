@@ -1,9 +1,7 @@
 from flask import request
 from pandas import DataFrame    
 
-from backend_REST.models.vacancy import Vacancy
-
-from .queries import query_getVacancy, check_diploma, check_experience, check_valid_vacancy, check_person, query_personByDiploma
+from .queries import query_getVacancy, check_experience, check_valid_vacancy, check_person, query_personByDiploma
 from .queries import query_getDiplomasFromVacancy, query_getSkillsFromVacancy, query_personBySkill, query_getLanguagesFromVacancy, query_personByLanguage
 from .queries import query_getExperiencesFromPerson, query_getDiplomasFromPerson, query_getSkillsFromPerson, query_getLanguagesFromPerson, query_getExperienceFromVacancy
 from .queries import query_personByExperience, query_vacancyByDiploma, query_vacancyBySkill, query_vacancyByLanguage, query_vacancyByExperience
@@ -21,7 +19,7 @@ def getPersonsWithDiploma(graph, diploma):
             out[personID] = row
     return out
 
-def getPersonWithSill(graph, skill):
+def getPersonWithSkill(graph, skill):
     out = {}
     query = query_personBySkill(skill)
     result = graph.query(query)
@@ -109,7 +107,8 @@ def getVacanciesByIDs(graph, vacancyIDs):
                 matches[vacancy] = {}
                 for j in range(len(row)):
                     key = row.keys()[j].n3()
-                    matches[vacancy][key] = row.iloc[j].n3()
+                    if (row.iloc[j] != None):
+                        matches[vacancy][key] = row.iloc[j].n3()
             else:
                 for j in range(len(row)):
                     key = df.keys()[j].n3()
@@ -134,10 +133,10 @@ def getVacanciesByIDs(graph, vacancyIDs):
 
 ##################################################################
 # public functions
-# TODO: kijken met updates waar deze allemaal opgeroepen moeten worden
 ##################################################################
 
 # TODO : testen
+# DONE : individuele matching aanpassen aan ander stramien, eerst data van user/vacancy opvragen en deze gebruiken om andere te queryen
 
 # DONE : pass queries aan met equivalent skills
 # TODO : experience heeft ook skills, deze ook matchen met de skills? of gewoon op experience matchen
@@ -149,13 +148,10 @@ def getVacanciesByIDs(graph, vacancyIDs):
 #      Dit lijkt enkel te werken als we specifieren dat het een boolean is? via local:availability "true"^^xsd:boolean 
 #  -> ofwel schrijven we "true"^^xsd:boolean ofwel gewoon true (zonder quotes) en dan wordt het automatisch een boolean
 
-# TODO : vervangen door helper functies
 def matchOnVacancy_anyParameters(graph, vacancyID):
         # check if the vacancy exists
         if not check_valid_vacancy(graph, vacancyID):
             return "Vacancy not found", 404
-
-        # TODO: equivalent dingen staan nog niet in query
 
         matches = {} # we use the uri as a key and assume that it's the first value returned
         # find matches on diploma
@@ -164,11 +160,11 @@ def matchOnVacancy_anyParameters(graph, vacancyID):
         diplomas = [row.diploma.n3() for row in result]
         # print("diplomas: ", diplomas)
         for diploma in diplomas:
-            query = query_personByDiploma(diploma)
-            result = graph.query(query)
-            df = DataFrame(result, columns=result.vars)
-            for row in df.values:
-                if not (row[0] == None):
+            result = getPersonsWithDiploma(graph, diploma)
+            print("result: ", result)
+            for key in result:
+                if not (result[key].all() == None):
+                    row = result[key]
                     personID = row[0].n3()
                     matches[personID] = row
         # print("after diploma: ", matches)
@@ -179,11 +175,10 @@ def matchOnVacancy_anyParameters(graph, vacancyID):
         skills = [row.skill.n3() for row in result]
         # print("skills: ", skills)
         for skill in skills:
-            query = query_personBySkill(skill)
-            result = graph.query(query)
-            df = DataFrame(result, columns=result.vars)
-            for row in df.values:
-                if not (row[0] == None):
+            result = getPersonWithSkill(graph, skill)
+            for key in result:
+                if not (result[key].all() == None):
+                    row = result[key]
                     personID = row[0].n3()
                     matches[personID] = row
         # print("after skills: ", matches)
@@ -194,11 +189,10 @@ def matchOnVacancy_anyParameters(graph, vacancyID):
         experiences = [row.exp.n3() for row in result]
         # print("experiences: ", experiences)
         for experience in experiences:
-            query = query_personByExperience(experience)
-            result = graph.query(query)
-            df = DataFrame(result, columns=result.vars)
-            for row in df.values:
-                if not (row[0] == None):
+            result = getPersonWithExperience(graph, experience)
+            for key in result:
+                if not (result[key].all() == None):
+                    row = result[key]
                     personID = row[0].n3()
                     matches[personID] = row
         # print("after experiences: ", matches)
@@ -209,11 +203,10 @@ def matchOnVacancy_anyParameters(graph, vacancyID):
         languages = [row.lang.n3() for row in result]
         # print("languages: ", languages)
         for language in languages:
-            query = query_personByLanguage(language)
-            result = graph.query(query)
-            df = DataFrame(result, columns=result.vars)
-            for row in df.values:
-                if not (row[0] == None):
+            result = getPersonWithLanguage(graph, language)
+            for key in result:
+                if not (result[key].all() == None):
+                    row = result[key]
                     personID = row[0].n3()
                     matches[personID] = row
         # print("after languages: ", matches)
@@ -229,10 +222,6 @@ def matchOnVacancy_anyParameters(graph, vacancyID):
             returnString += "}, "
         returnString += "}"
 
-        # df = DataFrame.from_dict(matches, orient='index', columns=matches.keys())
-
-        # return df.to_json(orient='index', indent=2)
-        # return json.dumps(matches, indent = 4) 
         return returnString
 
 def matchOnVacancy_allParameters(graph, vacancyID):
@@ -269,7 +258,7 @@ def matchOnVacancy_allParameters(graph, vacancyID):
     # print("skills: ", skills)
     temp = matches.copy()
     for skill in skills:
-        result = getPersonWithSill(graph, skill)
+        result = getPersonWithSkill(graph, skill)
         if (len(matches) == 0 and not filled): # first time we just add everything
             temp = result
             filled = True
@@ -306,7 +295,6 @@ def matchOnVacancy_allParameters(graph, vacancyID):
     temp = matches.copy()
     for language in languages:
         result = getPersonWithLanguage(graph, language)
-        print("lang",result)
         if (len(matches) == 0 and not filled): # first time we just add everything
             temp = result
             filled = True
@@ -328,10 +316,6 @@ def matchOnVacancy_allParameters(graph, vacancyID):
         returnString += "}, "
     returnString += "}"
 
-    # df = DataFrame.from_dict(matches, orient='index', columns=matches.keys())
-
-    # return df.to_json(orient='index', indent=2)
-    # return json.dumps(matches, indent = 4) 
     return returnString
 
 def matchOnPerson(graph, personID):
@@ -421,86 +405,203 @@ def matchOnPerson(graph, personID):
 
         return returnString
 
-# get all the vacancies that match the given diploma
-def matchVacancy_diploma(graph, diplomaID):
-    # check the diploma exists
-    if not (check_diploma(graph, diplomaID)):
-        return "Diploma not found", 404
+# get all the persons that match the diplomas of the vacancy
+def matchVacancy_diploma(graph, vacancyID):
+    # check the vacancy exists
+    if not (check_valid_vacancy(graph, vacancyID)):
+        return "vacancy not found", 404
+
+
+    # get all the diploma of the vacnacy
+    query = query_getDiplomasFromVacancy(vacancyID)
+    result = graph.query(query)
+    diplomas = [row.diploma.n3() for row in result]
+
+    if (len(diplomas) == 0):
+        return "vacancy has no diplomas", 404
 
     # get all the vacancies that require this diploma
-    result = getVacanciesForDiploma(graph, diplomaID)
+    persons = []
+    for i in range(len(diplomas)):
+        result = getPersonsWithDiploma(graph, diplomas[i])
+        for el in result:
+            persons.append(el)
 
-    return getVacanciesByIDs(graph, result)
+    df = DataFrame(persons, columns=['person'])
+    df = df.drop_duplicates()
+
+    return df.to_json(orient='index', indent=2)
     
-# get all the vacancies that match the given skill
-def matchVacancy_skill(graph, skillID):
-    # check the skill exists
-    if not (check_skill(graph, skillID)):
-        return "skill not found", 404
+# get all the persons that match the skills of the vacancy
+def matchVacancy_skill(graph, vacancyID):
+    # check the vacancy exists
+    if not (check_valid_vacancy(graph, vacancyID)):
+        return "vacancy not found", 404
 
-    # get all the vacancies that require this skill
-    result = getVacanciesForSkill(graph, skillID)
-    
-    return getVacanciesByIDs(graph, result)
 
-# get all the vacancies that match the given language
-def matchVacancy_language(graph, languageID):
-    # check the language exists
-    if not (check_language(graph, languageID)):
-        return "skill not found", 404
+    # get all the diploma of the vacnacy
+    query = query_getSkillsFromVacancy(vacancyID)
+    result = graph.query(query)
+    skills = [row.skill.n3() for row in result]
 
-    # get all the vacancies that require this language
-    result = getVacanciesForLanguage(graph, languageID)
-    
-    return getVacanciesByIDs(graph, result)
-
-# get all the vacancies that match the given experience
-def matchVacancy_experience(graph, experienceID):
-    # check the experience exists
-    if not (check_experience(graph, experienceID)):
-        return "skill not found", 404
-
-    # get all the vacancies that require this experience
-    result = getVacanciesForExperience(graph, experienceID)
-    
-    return getVacanciesByIDs(graph, result)
-
-def matchPerson_diploma(graph, diplomaID):
-    # check the diploma exists
-    if not (check_diploma(graph, diplomaID)):
-        return "skill not found", 404
+    if (len(skills) == 0):
+        return "vacancy has no skills", 404
 
     # get all the vacancies that require this diploma
-    result = getPersonsWithDiploma(graph, diplomaID)
-    
-    return getVacanciesByIDs(graph, result)
+    persons = []
+    for i in range(len(skills)):
+        result = getPersonWithSkill(graph, skills[i])
+        for el in result:
+            persons.append(el)
 
-def matchPerson_skill(graph, skillID):
+    df = DataFrame(persons, columns=['person'])
+    df = df.drop_duplicates()
+
+    return df.to_json(orient='index', indent=2)
+
+# get all the persons that match the languages of the vacancy
+def matchVacancy_language(graph, vacancyID):
+    # check the vacancy exists
+    if not (check_valid_vacancy(graph, vacancyID)):
+        return "vacancy not found", 404
+
+
+    # get all the langauges of the vacnacy
+    query = query_getLanguagesFromVacancy(vacancyID)
+    result = graph.query(query)
+    languages = [row.lang.n3() for row in result]
+
+    if (len(languages) == 0):
+        return "vacancy has no languages", 404
+
+    # get all the vacancies that require this diploma
+    persons = []
+    for i in range(len(languages)):
+        result = getPersonWithLanguage(graph, languages[i])
+        for el in result:
+            persons.append(el)
+
+    df = DataFrame(persons, columns=['person'])
+    df = df.drop_duplicates()
+
+    return df.to_json(orient='index', indent=2)
+
+# get all the persons that match the experience of the vacancy
+def matchVacancy_experience(graph, vacancyID):
+    # check the vacancy exists
+    if not (check_valid_vacancy(graph, vacancyID)):
+        return "vacancy not found", 404
+
+
+    # get all the experience of the vacnacy
+    query = query_getExperienceFromVacancy(vacancyID)
+    result = graph.query(query)
+    exp = [row.exp.n3() for row in result]
+
+    if (len(exp) == 0):
+        return "vacancy has no experiences", 404
+
+    # get all the vacancies that require this diploma
+    persons = []
+    for i in range(len(exp)):
+        result = getPersonWithExperience(graph, exp[i])
+        for el in result:
+            persons.append(el)
+
+    df = DataFrame(persons, columns=['person'])
+    df = df.drop_duplicates()
+
+    return df.to_json(orient='index', indent=2)
+
+# get all the vacanies that match the diplomas of the person
+def matchPerson_diploma(graph, personID):
+    # check the person exists
+    if not (check_person(graph, personID)):
+        return "person not found", 404
+
+    # get all the diploma of the person
+    query = query_getDiplomasFromPerson(personID)
+    result = graph.query(query)
+    diplomas = [row.diploma.n3() for row in result]
+    print(diplomas)
+
+    if (len(diplomas) == 0):
+        return "person has no diplomas", 404
+
+    # get all the vacancies that require this diploma
+    vacancies = []
+    for i in range(len(diplomas)):
+        result = getVacanciesForDiploma(graph, diplomas[i])
+        for el in result:
+            vacancies.append(el)
+
+    return getVacanciesByIDs(graph, vacancies)
+
+# get all the vacanies that match the skills of the person
+def matchPerson_skill(graph, personID):
     # check the skill exists
-    if not (check_skill(graph, skillID)):
-        return "skill not found", 404
+    if not (check_person(graph, personID)):
+        return "person not found", 404
 
-    # get all the vacancies that require this skill
-    result = getPersonWithSill(graph, skillID)
+    # get all the skills of the person
+    query = query_getSkillsFromPerson(personID)
+    result = graph.query(query)
+    skills = [row.skill.n3() for row in result]
+
+    if (len(skills) == 0):
+        return "person has no skills", 404
+
+    # get all the vacancies that require these skills
+    vacancies = []
+    for i in range(len(skills)):
+        result = getVacanciesForSkill(graph, skills[i])
+        for el in result:
+            vacancies.append(el)
     
     return getVacanciesByIDs(graph, result)
 
-def matchPerson_language(graph, languageID):
+# get all the vacanies that match the langauages of the person
+def matchPerson_language(graph, personID):
     # check the language exists
-    if not (check_language(graph, languageID)):
-        return "skill not found", 404
+    if not (check_person(graph, personID)):
+        return "person not found", 404
+
+     # get all the lang of the person
+    query = query_getLanguagesFromPerson(personID)
+    result = graph.query(query)
+    langs = [row.lang.n3() for row in result]
+
+    if (len(langs) == 0):
+        return "person has no languages", 404
 
     # get all the vacancies that require this language
-    result = getPersonWithLanguage(graph, languageID)
+    vacancies = []
+    for i in range(len(langs)):
+        result = getVacanciesForLanguage(graph, langs[i])
+        for el in result:
+            vacancies.append(el)
     
     return getVacanciesByIDs(graph, result)
 
-def matchPerson_experience(graph, experienceID):
+# get all the vacanies that match the experience of the person
+def matchPerson_experience(graph, personID):
     # check the experience exists
-    if not (check_experience(graph, experienceID)):
-        return "skill not found", 404
+    if not (check_person(graph, personID)):
+        return "person not found", 404
 
-    # get all the vacancies that require this experience
-    result = getPersonWithExperience(graph, experienceID)
-    
-    return getVacanciesByIDs(graph, result)
+    # get all the diploma of the person
+    query = query_getExperiencesFromPerson(personID)
+    result = graph.query(query)
+    experiences = [row.exp.n3() for row in result]
+
+    if (len(experiences) == 0):
+        return "person has no experiences", 404
+
+    # get all the vacancies that require this diploma
+    vacancies = []
+    for i in range(len(experiences)):
+        result = getVacanciesForExperience(graph, experiences[i])
+        for el in result:
+            vacancies.append(el)
+
+    return getVacanciesByIDs(graph, vacancies)

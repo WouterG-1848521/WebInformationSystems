@@ -14,7 +14,7 @@ from backend_REST.queries import query_remove_maintainerRDF, query_add_maintaine
 
 gFile = "graph.ttl"
 
-# TODO : delete omzetten naar rdflib vorm
+# TODO : delete omzetten naar rdflib vorm en extra controleren
 # DONE : update omzetten
 # DONE : create omzetten
 # DONE : log in testen

@@ -12,11 +12,7 @@ from backend_REST.queries import query_remove_maintainerRDF, query_add_maintaine
 
 from backend_REST.models.enterprise import Enterprise
 
-# TODO: security voor machtegingen, nu wordt gewoon bv ownerID meegegeven in post body.
-#       Dit is niet secure en zo via bv cookies of andere log-in moeten
-
 graphFile = "graph.ttl"
-
 
 def create_enterprise_routes(app, graph):
     # getters

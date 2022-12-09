@@ -3,10 +3,7 @@ from flask import request
 from pandas import DataFrame
 import json
 
-from backend_REST.queries import query_getVacancy, check_enterprise, check_maintainer, check_valid_vacancy, check_person, query_personByDiploma
-from backend_REST.queries import query_getDiplomasFromVacancy, query_getSkillsFromVacancy, query_personBySkill, query_getLanguagesFromVacancy, query_personByLanguage
-from backend_REST.queries import query_getExperiencesFromPerson, query_getDiplomasFromPerson, query_getSkillsFromPerson, query_getLanguagesFromPerson, query_getExperienceFromVacancy
-from backend_REST.queries import query_personByExperience, query_vacancyByDiploma, query_vacancyBySkill, query_vacancyByLanguage, query_vacancyByExperience
+from backend_REST.queries import check_maintainer
 
 from backend_REST import session
 
@@ -20,7 +17,6 @@ from backend_REST.models.diploma import Diploma
 from backend_REST.models.validator import Validator
 from backend_REST.models.response import Response
 
-from backend_REST.matching import matchOnVacancy_allParameters, matchOnVacancy_anyParameters, matchOnPerson
 
 def create_vacancy_routes(app, graph):
     ########################################
@@ -209,41 +205,3 @@ def create_vacancy_routes(app, graph):
         Language.remove_from_vacancy(graph, vacancy_id, language)
 
         return f"Removed language {language} from vacancy {vacancy_id}."
-
-
-    # find persons that have minimum 1 match with the given vacancy
-    @app.route("/vacancy/match1", methods=['POST'])
-    def match_vacancy():
-        data = request.form
-
-        if not ("vacancyID" in data):   # search people that match the given vacancy
-            return "Missing vacancyID parameter", 400
-
-        vacancyID = data["vacancyID"]
-        vacancyID = int(vacancyID)
-
-        return matchOnVacancy_anyParameters(graph, vacancyID)
-
-    @app.route("/vacancy/matchall", methods=['POST'])
-    def match_vacancyAll():
-        data = request.form
-
-        if not ("vacancyID" in data):   # search people that match the given vacancy
-            return "Missing vacancyID parameter", 400
-
-        vacancyID = data["vacancyID"]
-        vacancyID = int(vacancyID)
-
-        return matchOnVacancy_allParameters(graph, vacancyID)
-
-    # find vacancies for a given person that matches with any of the qualifications of the person
-    @app.route("/vacancy/find", methods=['POST'])
-    def find_vacancy():
-        data = request.form
-
-        if not ("personID" in data):
-            return "Missing personID parameter", 400
-        personID = data["personID"]
-        personID = int(personID)
-        
-        return matchOnPerson(graph, personID)
