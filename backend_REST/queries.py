@@ -115,6 +115,70 @@ def check_valid_vacancy(graph, vacancyID):
     else:
         return True
 
+def check_diploma(graph, diplomaID):
+    query = prefixes + "\n"
+    query += f'''
+                SELECT ?diploma
+                WHERE {{
+                    ?diploma rdf:type local:diploma .
+                    FILTER (?diploma = diploma:{diplomaID})
+                }}
+            '''
+    result = graph.query(query)
+
+    if (len(result) == 0):
+        return False
+    else:
+        return True
+
+def check_skill(graph, skillID):
+    query = prefixes + "\n"
+    query += f'''
+                SELECT ?skill
+                WHERE {{
+                    ?skill rdf:type local:skill .
+                    FILTER (?skill = skill:{skillID})
+                }}
+            '''
+    result = graph.query(query)
+
+    if (len(result) == 0):
+        return False
+    else:
+        return True
+
+def check_language(graph, languageID):
+    query = prefixes + "\n"
+    query += f'''
+                SELECT ?language
+                WHERE {{
+                    ?language rdf:type local:language .
+                    FILTER (?language = language:{languageID})
+                }}
+            '''
+    result = graph.query(query)
+
+    if (len(result) == 0):
+        return False
+    else:
+        return True
+
+def check_experience(graph, experienceID):
+    query = prefixes + "\n"
+    query += f'''
+                SELECT ?experience
+                WHERE {{
+                    ?experience rdf:type local:experience .
+                    FILTER (?experience = experience:{experienceID})
+                }}
+            '''
+    result = graph.query(query)
+
+    if (len(result) == 0):
+        return False
+    else:
+        return True
+
 #########################################################
 # create functions
 #########################################################
