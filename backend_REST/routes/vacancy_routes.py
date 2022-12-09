@@ -3,10 +3,10 @@ from flask import request
 from pandas import DataFrame
 import json
 
-from .queries import query_getVacancy, check_enterprise, check_maintainer, check_valid_vacancy, check_person, query_personByDiploma
-from .queries import query_getDiplomasFromVacancy, query_getSkillsFromVacancy, query_personBySkill, query_getLanguagesFromVacancy, query_personByLanguage
-from .queries import query_getExperiencesFromPerson, query_getDiplomasFromPerson, query_getSkillsFromPerson, query_getLanguagesFromPerson, query_getExperienceFromVacancy
-from .queries import query_personByExperience, query_vacancyByDiploma, query_vacancyBySkill, query_vacancyByLanguage, query_vacancyByExperience
+from backend_REST.queries import query_getVacancy, check_enterprise, check_maintainer, check_valid_vacancy, check_person, query_personByDiploma
+from backend_REST.queries import query_getDiplomasFromVacancy, query_getSkillsFromVacancy, query_personBySkill, query_getLanguagesFromVacancy, query_personByLanguage
+from backend_REST.queries import query_getExperiencesFromPerson, query_getDiplomasFromPerson, query_getSkillsFromPerson, query_getLanguagesFromPerson, query_getExperienceFromVacancy
+from backend_REST.queries import query_personByExperience, query_vacancyByDiploma, query_vacancyBySkill, query_vacancyByLanguage, query_vacancyByExperience
 
 from backend_REST import session
 
@@ -226,7 +226,6 @@ def create_vacancy_routes(app, graph):
     @login_required
     def delete_vacancy_diploma(enterprise_id, vacancy_id, diploma_id):
 
-        
         # if session['_user_id'] != user_id:
         #     return Response.unauthorized_access_wrong_user()
 
@@ -250,7 +249,6 @@ def create_vacancy_routes(app, graph):
         if not (check_maintainer(graph, session['_user_id'], enterprise_id)):
             return "only maintainer of enterprise can add skill to vacancy"
 
-        
         # TODO: check if skill in list
 
         Skill.add_to_vacancy(graph, vacancy_id, data["skill"])
