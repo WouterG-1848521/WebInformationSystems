@@ -12,15 +12,6 @@ WHERE {
 LIMIT 3
 """
 
-query2 = """
-SELECT ?item ?itemLabel
-WHERE
-{
-    ?item wdt:P31 wd:Q146 .
-    SERVICE wikibase:label { bd:serviceParam wikibase:language "en" }
-}
-LIMIT 3
-"""
 sparql.setQuery(query)
 sparql.setReturnFormat(JSON)
 results = sparql.query().convert()
