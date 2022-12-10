@@ -92,9 +92,9 @@ def create_vacancy_routes(app, graph):
         if not Validator.valid_date(data["endDate"]):
             return Response.end_date_not_valid()
 
-        # TODO: check if profession in list
+        # TODO: check if discipline in list
 
-        diploma_id = Diploma.create_for_vacancy(graph, vacancy_id, data["degree"], data["profession"],
+        diploma_id = Diploma.create_for_vacancy(graph, vacancy_id, data["degree"], data["discipline"],
                                                 data["institution"], data["startDate"], data["endDate"], data["location_id"])
         return f"Created diploma {diploma_id } for vacancy {vacancy_id}."
 
@@ -121,9 +121,9 @@ def create_vacancy_routes(app, graph):
         if not Validator.valid_date(data["endDate"]):
             return Response.end_date_not_valid()
 
-        # TODO: check if profession in list
+        # TODO: check if discipline in list
 
-        Diploma.update(graph, diploma_id, data["degree"], data["profession"],
+        Diploma.update(graph, diploma_id, data["degree"], data["discipline"],
                        data["institution"], data["startDate"], data["endDate"])
         return f"Updated diploma {diploma_id}."
 
@@ -185,6 +185,7 @@ def create_vacancy_routes(app, graph):
 
         if not (check_maintainer(graph, session['_user_id'], enterprise_id)):
             return "only maintainer of enterprise can delete vacancy diploma"
+
         # TODO: check if language in list
 
         Language.add_to_vacancy(graph, vacancy_id, data["language"])
@@ -195,7 +196,7 @@ def create_vacancy_routes(app, graph):
     def get_all_languages_by_vacancy_id(enterprise_id, vacancy_id):
 
         return Language.get_all_by_vacancy_id(graph, vacancy_id)
-
+    
     @app.route("/enterprises/<int:enterprise_id>/vacancies/<int:vacancy_id>/languages/<string:language>", methods=['DELETE'])
     def remove_language_from_vacancy(enterprise_id, vacancy_id, language):
 

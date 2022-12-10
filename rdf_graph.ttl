@@ -1,11 +1,11 @@
 @prefix degree: <http://localhost/degree/> .
 @prefix diploma: <http://localhost/diploma/> .
-@prefix enterprise: <http://localhost/enterprise/> .
 @prefix experience: <http://localhost/experience/> .
 @prefix language: <http://localhost/language/> .
 @prefix local: <http://localhost/> .
 @prefix person: <http://localhost/person/> .
 @prefix profession: <http://localhost/profession/> .
+@prefix enterprise: <http://localhost/enterprise/> .
 @prefix skill: <http://localhost/skill/> .
 @prefix vacancy: <http://localhost/vacancy/> .
 

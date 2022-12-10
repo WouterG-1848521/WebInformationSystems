@@ -29,7 +29,7 @@ from backend_REST.models.database import DBVacancy
 
 class Vacancy():
 
-    def create(graph, enterprise_id, maintainer_id, job_title, start_date, end_date, location_id):
+    def create(graph, enterprise_id, maintainer_id, job_title, start_date, end_date, location_id, job_desciption, job_responsibilities, job_salary):
         # Add vacancy to DB
         vacancy = DBVacancy()
         db.session.add(vacancy)
@@ -51,6 +51,11 @@ class Vacancy():
         graph.add((vacancy_URI, LOCAL.endDate,
                   Literal(end_date,  datatype=XSD.date)))
         graph.add((vacancy_URI, LOCAL.location, location_URI))
+
+        graph.add((vacancy_URI, LOCAL.hasJobDescription, Literal(job_desciption)))
+        graph.add((vacancy_URI, LOCAL.hasJobResponsibilities, Literal(job_responsibilities)))
+        graph.add((vacancy_URI, LOCAL.hasJobSalary, Literal(job_salary)))
+        
 
         graph.serialize(destination=GRAPH_FILE)
 
