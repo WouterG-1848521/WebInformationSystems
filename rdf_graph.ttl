@@ -139,56 +139,56 @@ diploma:1 a local:diploma ;
     local:degree degree:bachelor ;
     local:endDate "2022-06-30"^^xsd:date ;
     local:institution "uHasselt" ;
-    local:profession profession:computer_science ;
+    local:discipline profession:computer_science ;
     local:startDate "2018-09-01"^^xsd:date .
 
 diploma:2 a local:diploma ;
     local:degree degree:bachelor ;
     local:endDate "2022-06-30"^^xsd:date ;
     local:institution "uHasselt" ;
-    local:profession profession:architect ;
+    local:discipline profession:architect ;
     local:startDate "2018-09-01"^^xsd:date .
 
 diploma:3 a local:diploma ;
     local:degree degree:bachelor ;
     local:endDate "2022-06-30"^^xsd:date ;
     local:institution "uHasselt" ;
-    local:profession profession:biology ;
+    local:discipline profession:biology ;
     local:startDate "2018-09-01"^^xsd:date .
 
 diploma:4 a local:diploma ;
     local:degree degree:bachelor ;
     local:endDate "2022-06-30"^^xsd:date ;
     local:institution "uHasselt" ;
-    local:profession profession:chemistry ;
+    local:discipline profession:chemistry ;
     local:startDate "2018-09-01"^^xsd:date .
 
 diploma:5 a local:diploma ;
     local:degree degree:bachelor ;
     local:endDate "2022-06-30"^^xsd:date ;
     local:institution "uHasselt" ;
-    local:profession profession:computer_science ;
+    local:discipline profession:computer_science ;
     local:startDate "2018-09-01"^^xsd:date .
 
 diploma:6 a local:diploma ;
     local:degree degree:bachelor ;
     local:endDate "2022-06-30"^^xsd:date ;
     local:institution "uHasselt" ;
-    local:profession profession:computer_science ;
+    local:discipline profession:computer_science ;
     local:startDate "2018-09-01"^^xsd:date .
 
 diploma:7 a local:diploma ;
     local:degree degree:bachelor ;
     local:endDate "2022-06-30"^^xsd:date ;
     local:institution "uHasselt" ;
-    local:profession profession:computer_science ;
+    local:discipline profession:computer_science ;
     local:startDate "2018-09-01"^^xsd:date .
 
 diploma:8 a local:diploma ;
     local:degree degree:bachelor ;
     local:endDate "2022-06-30"^^xsd:date ;
     local:institution "uHasselt" ;
-    local:profession profession:computer_science ;
+    local:discipline profession:computer_science ;
     local:startDate "2018-09-01"^^xsd:date .
 
 experience:1 a local:experience ;

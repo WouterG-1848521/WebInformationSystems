@@ -5,6 +5,8 @@ from pandas import DataFrame
 
 from backend_REST.graph import LOCAL, PERSON, EXPERIENCE, VACANCY, DIPLOMA, GEO, ENTERPRISE
 
+# TODO @wouter: owl2:equivalentClass vs owl:equivalentClass
+
 prefixes = '''
                 prefix foaf: <http://xmlns.com/foaf/0.1/> 
                 prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> 
@@ -210,7 +212,6 @@ def create_enterpriseRDF(graph, name, owner, lat, long, address, phone, email, w
 #########################################################
 # enterprise queries
 #########################################################
-# TODO @wouter: per maintainer wordt er nu een apart result teruggegeven, kan dit misschien samengevoegd worden?
 def query_enterpriseGetAll():
     query = prefixes + '''
                             SELECT ?uri ?name ?owner  ?maintainerName ?maintainerSurName ?lat ?long ?address ?description ?phone ?email ?website ?location
@@ -354,7 +355,6 @@ def query_update_enterpriseRDF(name, lat, long, address, phone, email, website, 
     return query
 
 # deletes the enterprise, the enterpriseInfo and the connected vacancies, vacancyInfo
-# TODO @wouter (update delete): vacancies willen nog niet verwijdert worden
 def query_delete_enterpriseRDF(enterpriseID):
     query = prefixes + "\n"
     query += f'''
@@ -482,6 +482,17 @@ def query_enterpriseGetByLocation(location):
     '''
     return query
 
+def query_getVacanciesOfEnterprise(enterpriseID):
+    query = prefixes + f'''
+            SELECT ?vacancy
+            WHERE {{
+                ?vacancy rdf:type local:vacancy .
+                ?vacancy local:enterprise ?owner .
+                FILTER (?owner = enterprise:{enterpriseID})
+            }}
+    '''
+    return query
+
 #########################################################
 # vacancy queries
 #########################################################
@@ -555,6 +566,19 @@ def query_getDiplomasFromVacancy(vacancyID):
             '''
     return query
 
+def query_getDisciplinesFromVacancy(vacancyID):
+    query = prefixes + "\n"
+    query += f'''
+                SELECT ?discipline
+                WHERE {{
+                    ?vacancy rdf:type local:vacancy .
+                    ?vacancy local:diploma ?diploma .
+                    ?diploma local:discipline ?discipline .
+                    FILTER (?vacancy = vacancy:{vacancyID})
+                }}
+            '''
+    return query
+
 def query_getSkillsFromVacancy(vacancyID):
     query = prefixes + "\n"
     query += f'''
@@ -602,6 +626,22 @@ def query_vacancyByDiploma(diplomaURI):
                         ?diploma owl2:equivalentClass ?input .
                     }}
                     FILTER ((?input = {diplomaURI} || ?diploma = {diplomaURI}))
+                }}
+            '''
+    return query
+
+def query_vacancyByDiscipline(disciplineURI):
+    query = prefixes + "\n"
+    query += f'''
+                SELECT ?vacancy
+                WHERE {{
+                    ?vacancy rdf:type local:vacancy .
+                    ?vacancy local:diploma ?diploma .
+                    ?diploma local:discipline ?discipline .
+                    OPTIONAL {{
+                        ?discipline owl2:equivalentClass ?input .
+                    }}
+                    FILTER ((?input = {disciplineURI} || ?discipline = {disciplineURI}))
                 }}
             '''
     return query
@@ -673,6 +713,26 @@ def query_personByDiploma(diplomas):
             '''
     return query
 
+def query_personByDiscipline(disciplines):
+    query = prefixes + "\n"
+    query += f'''
+                SELECT ?uri ?name ?surname ?email
+                WHERE {{
+                    ?uri rdf:type foaf:Person .
+                    ?uri foaf:name ?name .
+                    ?uri foaf:surname ?surname .
+                    ?uri local:email ?email .
+                    ?uri local:diploma ?diploma .
+                    ?diploma rdf:type local:diploma .
+                    ?diploma local:discipline ?discipline .
+                    OPTIONAL {{
+                        ?discipline owl2:equivalentClass ?input .
+                    }}
+                    FILTER (?discipline = {disciplines} || ?input = {disciplines})
+                }}
+            '''
+    return query
+
 def query_personBySkill(skill):
     query = prefixes + "\n"
     query += f'''
@@ -738,6 +798,19 @@ def query_getDiplomasFromPerson(personID):
                 WHERE {{
                     ?person rdf:type foaf:Person .
                     ?person local:diploma ?diploma .
+                    FILTER (?person = person:{personID})
+                }}
+            '''
+    return query
+
+def query_getDisciplinessFromPerson(personID):
+    query = prefixes + "\n"
+    query += f'''
+                SELECT ?discipline
+                WHERE {{
+                    ?person rdf:type foaf:Person .
+                    ?person local:diploma ?diploma .
+                    ?diploma local:discipline ?discipline .
                     FILTER (?person = person:{personID})
                 }}
             '''

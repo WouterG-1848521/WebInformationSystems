@@ -1,16 +1,27 @@
 from flask import request
 from pandas import DataFrame    
 
-from .queries import query_getVacancy, check_experience, check_valid_vacancy, check_person, query_personByDiploma
+from .queries import query_getVacancy, query_personByDiscipline, check_valid_vacancy, check_person, query_personByDiploma
 from .queries import query_getDiplomasFromVacancy, query_getSkillsFromVacancy, query_personBySkill, query_getLanguagesFromVacancy, query_personByLanguage
 from .queries import query_getExperiencesFromPerson, query_getDiplomasFromPerson, query_getSkillsFromPerson, query_getLanguagesFromPerson, query_getExperienceFromVacancy
 from .queries import query_personByExperience, query_vacancyByDiploma, query_vacancyBySkill, query_vacancyByLanguage, query_vacancyByExperience
-from .queries import check_language, check_skill
+from .queries import query_getDisciplinesFromVacancy, query_vacancyByDiscipline, query_getDisciplinessFromPerson
 
 
 def getPersonsWithDiploma(graph, diploma):
     out = {}
     query = query_personByDiploma(diploma)
+    result = graph.query(query)
+    df = DataFrame(result, columns=result.vars)
+    for row in df.values:
+        if not (row[0] == None):
+            personID = row[0].n3()
+            out[personID] = row
+    return out
+
+def getPersonsWithDiscipline(graph, discipline):
+    out = {}
+    query = query_personByDiscipline(discipline)
     result = graph.query(query)
     df = DataFrame(result, columns=result.vars)
     for row in df.values:
@@ -55,6 +66,16 @@ def getPersonWithExperience(graph, experience):
 def getVacanciesForDiploma(graph, diploma):
     out = []
     query = query_vacancyByDiploma(diploma)
+    result = graph.query(query)
+    df = DataFrame(result, columns=result.vars)
+    for row in df.values:
+        if not (row[0] == None):
+            out.append(row[0].n3())
+    return out
+
+def getVacanciesForDiscipline(graph, discipline):
+    out = []
+    query = query_vacancyByDiscipline(discipline)
     result = graph.query(query)
     df = DataFrame(result, columns=result.vars)
     for row in df.values:
@@ -143,6 +164,7 @@ def getVacanciesByIDs(graph, vacancyIDs):
 # DONE : groepeer returned values per person/vacancy
 # DONE : add column names
 # TODO @wouter: checken dat het toch niet beter kan via dataframe tojson
+# DONE @wouter: matchen bij diploma's -> niet op diploma in het algemeen maar op de profession/discipline erin
 
 # DONE : ik check by vacancies that ze available zijn via "availability = 'true'"
 #      Dit lijkt enkel te werken als we specifieren dat het een boolean is? via local:availability "true"^^xsd:boolean 
@@ -431,7 +453,35 @@ def matchVacancy_diploma(graph, vacancyID):
     df = df.drop_duplicates()
 
     return df.to_json(orient='index', indent=2)
-    
+
+# get all the persons that match the discipline of the vacancy
+def matchVacancy_discipline(graph, vacancyID):
+    # check the vacancy exists
+    if not (check_valid_vacancy(graph, vacancyID)):
+        return "vacancy not found", 404
+
+
+    # get all the diploma of the vacnacy
+    query = query_getDisciplinesFromVacancy(vacancyID)
+    result = graph.query(query)
+    disciplines = [row.discipline.n3() for row in result]
+    disciplines = list(set(disciplines))
+
+    if (len(disciplines) == 0):
+        return "vacancy has no disciplines", 404
+
+    # get all the vacancies that require this diploma
+    persons = []
+    for i in range(len(disciplines)):
+        result = getPersonsWithDiscipline(graph, disciplines[i])
+        for el in result:
+            persons.append(el)
+
+    df = DataFrame(persons, columns=['person'])
+    df = df.drop_duplicates()
+
+    return df.to_json(orient='index', indent=2)
+
 # get all the persons that match the skills of the vacancy
 def matchVacancy_skill(graph, vacancyID):
     # check the vacancy exists
@@ -514,24 +564,25 @@ def matchVacancy_experience(graph, vacancyID):
     return df.to_json(orient='index', indent=2)
 
 # get all the vacanies that match the diplomas of the person
-def matchPerson_diploma(graph, personID):
+def matchPerson_discipline(graph, personID):
     # check the person exists
     if not (check_person(graph, personID)):
         return "person not found", 404
 
     # get all the diploma of the person
-    query = query_getDiplomasFromPerson(personID)
+    query = query_getDisciplinessFromPerson(personID)
     result = graph.query(query)
-    diplomas = [row.diploma.n3() for row in result]
-    print(diplomas)
+    disciplines = [row.discipline.n3() for row in result]
+    disciplines = list(set(disciplines))
+    # print(disciplines)
 
-    if (len(diplomas) == 0):
-        return "person has no diplomas", 404
+    if (len(disciplines) == 0):
+        return "person has no disciplines", 404
 
-    # get all the vacancies that require this diploma
+    # get all the vacancies that require this discipline
     vacancies = []
-    for i in range(len(diplomas)):
-        result = getVacanciesForDiploma(graph, diplomas[i])
+    for i in range(len(disciplines)):
+        result = getVacanciesForDiscipline(graph, disciplines[i])
         for el in result:
             vacancies.append(el)
 
