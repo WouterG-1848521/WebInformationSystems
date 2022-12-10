@@ -5,6 +5,7 @@ from datetime import timedelta
 load_dotenv()  # take environment variables from .env.
 GRAPH_FILE = os.getenv("GRAPH_FILE")
 
+
 # TODO: Modify to our needs
 class Config:
    SQLALCHEMY_TRACK_MODIFICATIONS = False

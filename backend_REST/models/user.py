@@ -1,5 +1,5 @@
 from pandas import DataFrame
-from rdflib import Literal, RDF, URIRef
+from rdflib import Literal, RDF, URIRef, Variable
 from rdflib.namespace import RDF, RDFS, FOAF, XSD
 from backend_REST.graph import LOCAL, PERSON, GEONAMES
 
@@ -101,6 +101,22 @@ class User():
 
     # def update_main_data(graph, user_id, name, surname, email, password):
 
+    def update(graph, user_id, name, surname, email):
+        user_URI = URIRef(PERSON + str(user_id))
+
+        # Remove old, add new
+        graph.remove((user_URI, FOAF.name, None))
+        graph.add((user_URI, FOAF.name, Literal(name)))
+
+        graph.remove((user_URI, FOAF.surname, None))
+        graph.add((user_URI, FOAF.surname, Literal(surname)))
+
+        graph.remove((user_URI, LOCAL.email, None))
+        graph.add((user_URI, LOCAL.email, Literal(email)))
+
+        graph.serialize(destination=GRAPH_FILE)
+
+
     def update_literal(graph, user_id, term, literal, literal_type=None):
         user_URI = URIRef(PERSON + str(user_id))
 
@@ -140,6 +156,34 @@ class User():
         location_URI = URIRef(GEONAMES + location_id)
         User.update_URI(graph, user_id, LOCAL.location, location_URI)
 
+    def get_all_diploma_URIs(graph, user_id):
+        user_URI = URIRef(PERSON + str(user_id))
+        q = f'''
+            SELECT ?diploma
+            WHERE {{
+                ?p rdf:type foaf:Person .
+                ?p local:diploma ?diploma .
+            }}
+        '''
+
+        result = graph.query(q, initBindings={'p': user_URI})
+        df = DataFrame(result, columns=result.vars)
+        return df[Variable('diploma')].values.tolist()
+
+    def get_all_work_experience_URIs(graph, user_id):
+        user_URI = URIRef(PERSON + str(user_id))
+        q = f'''
+            SELECT ?experience
+            WHERE {{
+                ?p rdf:type foaf:Person .
+                ?p local:experience ?experience .
+            }}
+        '''
+
+        result = graph.query(q, initBindings={'p': user_URI})
+        df = DataFrame(result, columns=result.vars)
+        return df[Variable('experience')].values.tolist()
+
     ########################################
     # DELETE
     ########################################
@@ -155,8 +199,16 @@ class User():
 
         user_URI = URIRef(PERSON + str(user_id))
 
-        # TODO: Delete all diplomas
-        # TODO: Delete all work experiences
+        diploma_URIs = User.get_all_diploma_URIs(graph, user_id)
+        experience_URIs = User.get_all_work_experience_URIs(graph, user_id)
+
+        # Delete all diplomas of user
+        for diploma_URI in diploma_URIs:
+            graph.remove((diploma_URI, None, None))
+
+        # Delete all experiences of user
+        for experience_URI in experience_URIs:
+            graph.remove((experience_URI, None, None))
 
         # Delete user
         print("Deleting: " + user_URI)

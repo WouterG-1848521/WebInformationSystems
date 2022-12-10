@@ -5,6 +5,7 @@ from backend_REST.routes.enterprise_routes import create_enterprise_routes
 from backend_REST.routes.vacancy_routes import create_vacancy_routes
 from backend_REST.routes.connection_routes import create_connections_routes
 from backend_REST.routes.matching_routes import create_matching_routes
+from backend_REST.routes.frontend_routes import create_frontend_routes
 
 
 def create_routes(app, g):
@@ -15,3 +16,4 @@ def create_routes(app, g):
     create_vacancy_routes(app, g)
     create_connections_routes(app, g)
     create_matching_routes(app, g)
+    create_frontend_routes(app, g)

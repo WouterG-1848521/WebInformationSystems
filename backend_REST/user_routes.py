@@ -1,5 +1,6 @@
-from flask import request
+from flask import request, render_template, redirect, url_for, session
 from flask_login import login_required, logout_user
+
 import hashlib
 
 from backend_REST import session
@@ -12,7 +13,6 @@ from backend_REST.models.work_experience import WorkExperience
 
 from backend_REST.models.validator import Validator
 from backend_REST.models.response import Response
-
 
 def create_user_routes(app, g):
     ########################################
@@ -69,6 +69,34 @@ def create_user_routes(app, g):
     def get_user_profile(user_id):
         return User.get_profile_by_id(g, user_id)
 
+    @app.route("/users/<int:user_id>/profile", methods=["PUT"])
+    @login_required
+    def update_user_profile(user_id):
+        data = request.form
+
+        # Check if logged-in user is correct
+        if session['_user_id'] != user_id:
+            return Response.unauthorized_access_wrong_user()
+
+        User.update(g, user_id, data["name"], data["surname"],
+                            data["description"], data["profile_picture"])
+        return f"Updated profile of user {user_id}."
+        
+
+    @app.route("/users/<int:user_id>/profile", methods=["POST"])
+    @login_required
+    def create_user_profile(user_id):
+        data = request.form
+
+        # Check if logged-in user is correct
+        if session['_user_id'] != user_id:
+            return Response.unauthorized_access_wrong_user()
+
+        User.create(g, user_id, data["name"], data["surname"],
+                            data["description"], data["profile_picture"])
+        return f"Created profile of user {user_id}."
+
+
     @app.route("/users/<int:user_id>/email", methods=["PUT"])
     @login_required
     def update_user_email(user_id):
@@ -78,7 +106,7 @@ def create_user_routes(app, g):
         if session['_user_id'] != user_id:
             return Response.unauthorized_access_wrong_user()
 
-        if not Validator.valid_email(data["email"]):
+        if not User.valid_email(data["email"]):
             return Response.email_not_valid()
 
         if not User.is_available(data["email"]):
@@ -135,7 +163,7 @@ def create_user_routes(app, g):
         if not Validator.valid_degree(data["degree"]):
             return Response.degree_not_valid()
 
-        diploma_id = Diploma.create_for_user(g, user_id, data["degree"], data["discipline"],
+        diploma_id = Diploma.create_for_user(g, user_id, data["degree"], data["profession"],
                                              data["institution"], data["startDate"], data["endDate"])
         return f"Created diploma {diploma_id } for user {user_id}."
 
@@ -165,7 +193,7 @@ def create_user_routes(app, g):
         if not Validator.valid_degree(data["degree"]):
             return Response.degree_not_valid()
 
-        Diploma.update(g, diploma_id, data["degree"], data["discipline"],
+        Diploma.update(g, diploma_id, data["degree"], data["profession"],
                        data["institution"], data["startDate"], data["endDate"])
         return f"Updated diploma {diploma_id}."
 
@@ -267,8 +295,8 @@ def create_user_routes(app, g):
 
         # TODO: check data (check skill list)
 
-        experience_id = WorkExperience.create_for_user(g, user_id, data["jobTitle"], data["profession"],
-                                                       data["skills"].split(','), data["startDate"], data["endDate"])
+        experience_id = WorkExperience.create_for_user(g, user_id, data["jobTitle"], data["skills"].split(','),
+                                                       data["startDate"], data["endDate"])
         return f"Created experience {experience_id } for user {user_id}."
 
     @app.route("/users/<int:user_id>/experiences", methods=["GET"])
@@ -294,8 +322,9 @@ def create_user_routes(app, g):
         if not Validator.valid_date(data["endDate"]):
             return Response.end_date_not_valid()
 
-        WorkExperience.update(g, user_id, data["jobTitle"], data["profession"],
-                              data["skills"].split(','), data["startDate"], data["endDate"])
+        WorkExperience.update(g, user_id, data["jobTitle"],
+                              data["skills"].split(','), data["startDate"],
+                              data["endDate"])
         return f"Updated experience {experience_id}."
 
     @app.route("/users/<int:user_id>/experiences/<int:experience_id>", methods=["DELETE"])
@@ -309,15 +338,3 @@ def create_user_routes(app, g):
         WorkExperience.delete_from_user(g, user_id, experience_id)
         return f"Deleted experience {experience_id} from user {user_id}."
 
-    ########################################
-    # USER ROUTES - VACANCIES TOGGLE
-    ########################################
-
-    @app.route("/users/<int:user_id>/vacancies/toggle", methods=['PUT'])
-    def toggle_user_vacancies(user_id):
-        get_vacancies = User.toggle_get_vacancies(g, user_id)
-
-        if (get_vacancies):
-            return f"User {user_id} vacancies: enabled"
-        else:
-            return f"User {user_id} vacancies: disabled"

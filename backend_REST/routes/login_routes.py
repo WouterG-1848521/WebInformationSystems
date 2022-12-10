@@ -1,21 +1,21 @@
-from flask import request, render_template
-from flask_login import login_user, logout_user, login_required
+from flask import request, render_template, redirect, url_for, make_response, jsonify
+from flask import Response as FlaskResponse
+from flask_login import login_user, logout_user, login_required, current_user
 import hashlib
+import json
 
 from backend_REST import db, session
 from backend_REST.models.database import DBUser
+from backend_REST.models.response import Response
 
 
 def create_login_routes(app):
-    @app.route("/index", methods=['GET'])
-    @app.route("/", methods=['GET'])
-    def home():
-        return render_template("index.html")
-
-
     @app.route("/login", methods=['POST'])
     def db_login():
         data = request.form
+
+        if (current_user.is_authenticated):
+            return make_response(jsonify({"message": "Already logged in."}), 200)
 
         # Encryption must be done before send with HTTP POST, but currently no front-end
         encrypted_password = hashlib.sha256(
@@ -31,7 +31,13 @@ def create_login_routes(app):
 
         login_user(user)
 
-        return render_template("index.html", message="Logged in.", status="success", user=user)
+        userJson = jsonify({
+            "id": user.id,
+            "email": user.email,
+            "password": user.password
+        })
+
+        return make_response(userJson, 200)
 
     @app.route("/logout", methods=['GET'])
     @login_required
@@ -39,11 +45,19 @@ def create_login_routes(app):
         app.logger.info("Logging out...")
         logout_user()
 
-        return render_template("index.html", message="Logged out.", status="success")
+        return make_response(jsonify({"message": "Logged out."}), 200)
+        # return render_template("index.html", message="Logged out.", status="success")
 
     @app.route("/sign-up", methods=['POST'])
     def db_sign_up():
         data = request.form
+
+        # Check if email is already in use
+        if (DBUser.query.filter_by(email=data['email']).first() != None):
+            return make_response(jsonify({"message": "Email is already in use."}), 200)
+
+        if (current_user.is_authenticated):
+            return make_response(jsonify({"message": "Already logged in."}), 200)
 
         # Encryption must be done before send with HTTP POST, but currently no front-end
         encrypted_password = hashlib.sha256(
@@ -55,15 +69,13 @@ def create_login_routes(app):
         db.session.add(user)
         db.session.commit()
 
-        login_user(user)
+        # login_user(user)
 
-        return render_template("index.html", message="Signed up.", status="success", user=user)
-
-    @app.route("/sign-up", methods=['GET'])
-    def sign_up_form():
-        return render_template("sign_up_form.html")
-    
-
-    @app.route("/login", methods=['GET'])
-    def login_form():
-        return render_template("login_form.html")
+        userJson = jsonify({
+            "id": user.id,
+            "email": user.email,
+            "password": user.password
+        })
+        
+        return make_response(userJson, 200)
+        # return render_template("index.html", message="Signed up.", status="success")
