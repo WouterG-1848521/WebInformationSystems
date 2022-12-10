@@ -1,13 +1,14 @@
 from flask import request
 from pandas import DataFrame
-import json
-from flask_login import login_required, logout_user
-from backend_REST import session
-
-from rdflib import Graph, URIRef, Literal, Namespace
 
 from backend_REST.models.user import User
 
+from backend_REST.matching import matchOnVacancy_allParameters, matchOnVacancy_anyParameters, matchOnPerson
+from backend_REST.matching import matchVacancy_diploma, matchVacancy_language, matchVacancy_skill, matchVacancy_experience
+from backend_REST.matching import matchPerson_diploma, matchPerson_language, matchPerson_skill, matchPerson_experience
+
+# TODO @wouter: nog wel eens testen of alles correct terug gegeven wordt
+# TODO @wouter: equivalent classes testen
 
 def create_matching_routes(app, graph):
     ########################################
@@ -16,19 +17,38 @@ def create_matching_routes(app, graph):
 
     @app.route("/users/<int:user_id>/matches", methods=['GET'])
     def get_all_vacancy_matches_for_user(user_id):
-        pass
+        personID = user_id
+        personID = int(personID)
+        
+        return matchOnPerson(graph, personID)
 
     @app.route("/users/<int:user_id>/matches/skills", methods=['GET'])
     def get_all_vacancy_matches_for_user_by_skills(user_id):
-        pass
+        personID = user_id
+        personID = int(personID)
+        
+        return matchPerson_skill(graph, personID)
 
     @app.route("/users/<int:user_id>/matches/diplomas", methods=['GET'])
     def get_all_vacancy_matches_for_user_by_diplomas(user_id):
-        pass
+        personID = user_id
+        personID = int(personID)
+        
+        return matchPerson_diploma(graph, personID)
 
     @app.route("/users/<int:user_id>/matches/languages", methods=['GET'])
     def get_all_vacancy_matches_for_user_by_languages(user_id):
-        pass
+        personID = user_id
+        personID = int(personID)
+        
+        return matchPerson_language(graph, personID)
+    
+    @app.route("/users/<int:user_id>/matches/experience", methods=['GET'])
+    def get_all_vacancy_matches_for_user_by_experiences(user_id):
+        personID = user_id
+        personID = int(personID)
+        
+        return matchPerson_experience(graph, personID)
 
     ########################################
     # MATCHING ROUTES - VACANCY -> USERS
@@ -36,16 +56,43 @@ def create_matching_routes(app, graph):
 
     @app.route("/vacancies/<int:vacancy_id>/matches", methods=['GET'])
     def get_all_user_matches_for_vacancy(vacancy_id):
-        pass
+        vacancyID = vacancy_id
+        vacancyID = int(vacancyID)
+
+        return matchOnVacancy_anyParameters(graph, vacancyID)
+
+    @app.route("/vacancies/<int:vacancy_id>/matchesAll", methods=['GET'])
+    def get_all_user_matches_for_vacancyall(vacancy_id):
+        vacancyID = vacancy_id
+        vacancyID = int(vacancyID)
+
+        return matchOnVacancy_allParameters(graph, vacancyID)
 
     @app.route("/vacancies/<int:vacancy_id>/matches/skills", methods=['GET'])
     def get_all_user_matches_for_vacancy_by_skills(vacancy_id):
-        pass
+        vacancyID = vacancy_id
+        vacancyID = int(vacancyID)
+
+        return matchVacancy_skill(graph, vacancyID)
 
     @app.route("/vacancies/<int:vacancy_id>/matches/diplomas", methods=['GET'])
     def get_all_user_matches_for_vacancy_by_diplomas(vacancy_id):
-        pass
+        vacancyID = vacancy_id
+        vacancyID = int(vacancyID)
+
+        return matchVacancy_diploma(graph, vacancyID)
 
     @app.route("/vacancies/<int:vacancy_id>/matches/languages", methods=['GET'])
     def get_all_user_matches_for_vacancy_by_languages(vacancy_id):
-        pass
+        vacancyID = vacancy_id
+        vacancyID = int(vacancyID)
+
+        return matchVacancy_language(graph, vacancyID)
+
+
+    @app.route("/vacancies/<int:vacancy_id>/matches/experience", methods=['GET'])
+    def get_all_user_matches_for_vacancy_by_exps(vacancy_id):
+        vacancyID = vacancy_id
+        vacancyID = int(vacancyID)
+
+        return matchVacancy_experience(graph, vacancyID)

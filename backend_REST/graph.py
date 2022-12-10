@@ -16,6 +16,7 @@ DEGREE          = Namespace(local + "degree/")
 ENTERPRISE      = Namespace(local + "enterprise/")
 VACANCY         = Namespace(local + "vacancy/")
 EXPERIENCE      = Namespace(local + "experience/")
+GEO             = Namespace("http://www.w3.org/2003/01/geo/wgs84_pos#")
 
 
 def create_graph(file_path):
@@ -39,5 +40,6 @@ def create_graph(file_path):
     g.bind("vacancy"        , VACANCY)
     g.bind("diploma"        , DIPLOMA)
     g.bind("experience"     , EXPERIENCE)
+    g.bind("geo"            , GEO)
     
     return g

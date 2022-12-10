@@ -12,7 +12,7 @@ prefixes = '''
                 prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
                 prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
                 prefix xsd: <http://www.w3.org/2001/XMLSchema#> 
-                prefix local: <http://localhost/#> 
+                prefix local: <http://localhost/> 
                 prefix profession: <http://localhost/profession/> 
                 prefix degree: <http://localhost/degree/> 
                 prefix enterprise: <http://localhost/enterprise/>
@@ -26,143 +26,28 @@ prefixes = '''
 
 
 graph = Graph()
-graph.parse("graph.ttl")
+graph.parse("rdf_graph.ttl")
 
-query = """
-            prefix local: <http://localhost/#>
-            SELECT ?userInfo ?diploma ?degree ?profession ?institution ?startDate ?endDate
-            where {
-                ?userInfo a local:personalInfo .
-                ?userInfo local:diploma ?diploma .
-                ?diploma local:degree ?degree .
-                ?diploma local:profession ?profession .
-                ?diploma local:institution ?institution .
-                ?diploma local:startDate ?startDate .
-                ?diploma local:endDate ?endDate .
-            }
-        """
+query = ""
         # owlrl.DeductiveClosure(owlrl.OWLRL_Semantics).expand(g)
 # owlrl.DeductiveClosure(owlrl.RDFS_Semantics).expand(g)
 owlrl.DeductiveClosure(owlrl.RDFS_OWLRL_Semantics, rdfs_closure = True, axiomatic_triples = True, datatype_axioms = True).expand(graph)
 
-query2 = """
-            prefix local: <http://localhost/#>
-            SELECT ?name ?surname
-            where {
-                ?user a foaf:Person .
-                ?user foaf:name ?name .
-                ?user local:hasSurName ?surname .
-                ?connections local:connections ?user .
-                ?connections rdfs:member ?John .
-                ?John foaf:name "John" .
-            }
-        """
-
-query3 = """
-            prefix local: <http://localhost/#>
-            prefix profession: <http://localhost/profession#>
-            prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-            prefix owl: <http://www.w3.org/2002/07/owl#>
-            SELECT ?profession
-            where {
-                ?profession rdfs:subClassOf local:profession .
-            } 
-            """
-
-query4 = """
-            prefix local: <http://localhost/#>
-            prefix profession: <http://localhost/profession/>
-            prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-            prefix owl: <http://www.w3.org/2002/07/owl#>
-            SELECT ?profession
-            where {
-                ?profession rdfs:subClassOf profession:doctor .
-            } 
-            """
-
-query5 = """
-            prefix local: <http://localhost/#>
-            prefix profession: <http://localhost/profession/>
-            prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-            prefix owl: <http://www.w3.org/2002/07/owl#>
-            SELECT ?name ?surName
-            where {
-                ?personalInfo a local:personalInfo .
-                ?personalInfo local:diploma ?diploma .
-                ?diploma rdf:type local:diploma .
-                ?diploma local:degree degree:bachelor .
-                ?person local:personalInfo ?personalInfo .
-                ?person foaf:name ?name .
-                ?person local:hasSurName ?surName .
-            } 
-            """
-
-query6 = prefixes + '''
-        SELECT ?p ?name ?lat ?long ?location ?owner ?enterpriseInfo ?maintainerName ?maintainerSurName
-        WHERE {
-            ?p rdf:type local:enterprise .
-            ?p foaf:name ?name .
-            ?p geo:lat ?lat .
-            ?p geo:long ?long  .
-            ?p geo:location ?location .
-            ?p local:owner ?owner .
-            ?p local:enterpriseInfo ?enterpriseInfo .
-            ?p local:maintainer ?maintainer .
-            ?maintainer foaf:name ?maintainerName .
-            ?maintainer foaf:surname ?maintainerSurName .
-        }
-    '''
-
-id = 1
-query7 = prefixes + f'''
-                        SELECT ?uri ?name ?lat ?long ?location ?owner ?enterpriseInfo ?maintainerName ?maintainerSurName
-                        WHERE {{
-                            ?uri rdf:type local:enterprise .
-                            ?uri foaf:name ?name .
-                            ?uri geo:lat ?lat .
-                            ?uri geo:long ?long  .
-                            ?uri geo:location ?location .
-                            ?uri local:owner ?owner .
-                            ?uri local:enterpriseInfo ?enterpriseInfo .
-                            ?uri local:maintainer ?maintainer .
-                            ?maintainer foaf:name ?maintainerName .
-                            ?maintainer foaf:surname ?maintainerSurName .
-                            FILTER (?uri = enterprise:{id}) 
-                        }}              
-                    '''
-
-# select ?uri ?id { values ?uri { <http://dbpedia.org/resource/Weight_gain> } ?uri <http://dbpedia.org/ontology/wikiPageID> ?id }
-
-query8 = prefixes + '''
-                        SELECT ?uri ?name ?lat ?long ?location ?owner ?enterpriseInfo ?maintainerName ?maintainerSurName
-                        WHERE {
-                                ?uri rdf:type local:enterprise .
-                                ?uri foaf:name ?name .
-                                ?uri geo:lat ?lat .
-                                ?uri geo:long ?long  .
-                                ?uri geo:location ?location .
-                                ?uri local:owner ?owner .
-                                ?uri local:enterpriseInfo ?enterpriseInfo .
-                                ?uri local:maintainer ?maintainer .
-                                ?maintainer foaf:name ?maintainerName .
-                                ?maintainer foaf:surname ?maintainerSurName .
-                            }
-                    '''
-
-input = "skill:skilleq100"
 query = prefixes + "\n"
 query += f'''
-        SELECT ?uri
-        WHERE {{
-            ?uri rdf:type foaf:Person .
-            ?uri local:language ?language .
-            ?language rdf:type local:language .
-            OPTIONAL {{
-                ?language owl:equivalentClass ?input .
-                ?input owl:equivalentClass ?language .
-            }}
-            FILTER (?input = <http://localhost/language/dutch> || ?language = <http://localhost/language/dutch>)
-        }}
+                SELECT ?uri
+                WHERE {{
+                    ?uri rdf:type foaf:Person .
+                    ?uri foaf:name ?name .
+                    ?uri foaf:surname ?surname .
+                    ?uri local:email ?email .
+                    ?uri local:skill ?skill .
+                    ?skill rdf:type local:skill .
+                    OPTIONAL {{
+                        ?skill owl:equivalentClass ?input .
+                    }}
+                    FILTER (?skill = <http://localhost/skill/teamwork> || ?input = <http://localhost/skill/teamwork>)
+                }}
         '''                
 print(query)
                     

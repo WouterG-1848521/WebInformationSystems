@@ -3,11 +3,10 @@
 @prefix enterprise: <http://localhost/enterprise/> .
 @prefix experience: <http://localhost/experience/> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
-@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix gn: <https://sws.geonames.org/> .
 @prefix language: <http://localhost/language/> .
-@prefix local: <http://localhost/#> .
+@prefix local: <http://localhost/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
-@prefix owl2: <http://www.w3.org/2006/12/owl2#> .
 @prefix person: <http://localhost/person/> .
 @prefix profession: <http://localhost/profession/> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
@@ -15,160 +14,6 @@
 @prefix skill: <http://localhost/skill/> .
 @prefix vacancy: <http://localhost/vacancy/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-
-_:nd8084e41ffaa46e189b814fce796bb72b1 a rdfs:Class,
-        rdfs:Resource,
-        owl:Class,
-        owl:Restriction,
-        owl:Thing ;
-    rdfs:subClassOf _:nd8084e41ffaa46e189b814fce796bb72b1,
-        rdfs:Resource,
-        owl:Thing ;
-    owl:cardinality "1"^^xsd:nonNegativeInteger ;
-    owl:equivalentClass _:nd8084e41ffaa46e189b814fce796bb72b1 ;
-    owl:onProperty foaf:name ;
-    owl:sameAs _:nd8084e41ffaa46e189b814fce796bb72b1 ;
-    owl2:onClass foaf:Person .
-
-_:nd8084e41ffaa46e189b814fce796bb72b10 a rdfs:Class,
-        rdfs:Resource,
-        owl:Class,
-        owl:Restriction,
-        owl:Thing ;
-    rdfs:subClassOf _:nd8084e41ffaa46e189b814fce796bb72b10,
-        rdfs:Resource,
-        owl:Thing ;
-    owl:cardinality "1"^^xsd:nonNegativeInteger ;
-    owl:equivalentClass _:nd8084e41ffaa46e189b814fce796bb72b10 ;
-    owl:onProperty local:endDate ;
-    owl:sameAs _:nd8084e41ffaa46e189b814fce796bb72b10 ;
-    owl2:onClass local:diploma .
-
-_:nd8084e41ffaa46e189b814fce796bb72b2 a rdfs:Class,
-        rdfs:Resource,
-        owl:Class,
-        owl:Restriction,
-        owl:Thing ;
-    rdfs:subClassOf _:nd8084e41ffaa46e189b814fce796bb72b2,
-        rdfs:Resource,
-        owl:Thing ;
-    owl:cardinality "1"^^xsd:nonNegativeInteger ;
-    owl:equivalentClass _:nd8084e41ffaa46e189b814fce796bb72b2 ;
-    owl:onProperty foaf:surname ;
-    owl:sameAs _:nd8084e41ffaa46e189b814fce796bb72b2 ;
-    owl2:onClass foaf:Person .
-
-_:nd8084e41ffaa46e189b814fce796bb72b3 a rdfs:Class,
-        rdfs:Resource,
-        owl:Class,
-        owl:Restriction,
-        owl:Thing ;
-    rdfs:subClassOf _:nd8084e41ffaa46e189b814fce796bb72b3,
-        rdfs:Resource,
-        owl:Thing ;
-    owl:cardinality "1"^^xsd:nonNegativeInteger ;
-    owl:equivalentClass _:nd8084e41ffaa46e189b814fce796bb72b3 ;
-    owl:onProperty local:email ;
-    owl:sameAs _:nd8084e41ffaa46e189b814fce796bb72b3 ;
-    owl2:onClass local:Person .
-
-_:nd8084e41ffaa46e189b814fce796bb72b4 a rdfs:Class,
-        rdfs:Resource,
-        owl:Class,
-        owl:Restriction,
-        owl:Thing ;
-    rdfs:subClassOf _:nd8084e41ffaa46e189b814fce796bb72b4,
-        rdfs:Resource,
-        owl:Thing ;
-    owl:cardinality "1"^^xsd:nonNegativeInteger ;
-    owl:equivalentClass _:nd8084e41ffaa46e189b814fce796bb72b4 ;
-    owl:onProperty local:phone ;
-    owl:sameAs _:nd8084e41ffaa46e189b814fce796bb72b4 ;
-    owl2:onClass local:Person .
-
-_:nd8084e41ffaa46e189b814fce796bb72b5 a rdfs:Class,
-        rdfs:Resource,
-        owl:Class,
-        owl:Restriction,
-        owl:Thing ;
-    rdfs:subClassOf _:nd8084e41ffaa46e189b814fce796bb72b5,
-        rdfs:Resource,
-        owl:Thing ;
-    owl:cardinality "1"^^xsd:nonNegativeInteger ;
-    owl:equivalentClass _:nd8084e41ffaa46e189b814fce796bb72b5 ;
-    owl:onProperty local:graduationDate ;
-    owl:sameAs _:nd8084e41ffaa46e189b814fce796bb72b5 ;
-    owl2:onClass local:Person .
-
-_:nd8084e41ffaa46e189b814fce796bb72b6 a rdfs:Class,
-        rdfs:Resource,
-        owl:Class,
-        owl:Restriction,
-        owl:Thing ;
-    rdfs:subClassOf _:nd8084e41ffaa46e189b814fce796bb72b6,
-        rdfs:Resource,
-        owl:Thing ;
-    owl:cardinality "1"^^xsd:nonNegativeInteger ;
-    owl:equivalentClass _:nd8084e41ffaa46e189b814fce796bb72b6 ;
-    owl:onProperty local:degree ;
-    owl:sameAs _:nd8084e41ffaa46e189b814fce796bb72b6 ;
-    owl2:onClass local:diploma .
-
-_:nd8084e41ffaa46e189b814fce796bb72b7 a rdfs:Class,
-        rdfs:Resource,
-        owl:Class,
-        owl:Restriction,
-        owl:Thing ;
-    rdfs:subClassOf _:nd8084e41ffaa46e189b814fce796bb72b7,
-        rdfs:Resource,
-        owl:Thing ;
-    owl:cardinality "1"^^xsd:nonNegativeInteger ;
-    owl:equivalentClass _:nd8084e41ffaa46e189b814fce796bb72b7 ;
-    owl:onProperty local:profession ;
-    owl:sameAs _:nd8084e41ffaa46e189b814fce796bb72b7 ;
-    owl2:onClass local:diploma .
-
-_:nd8084e41ffaa46e189b814fce796bb72b8 a rdfs:Class,
-        rdfs:Resource,
-        owl:Class,
-        owl:Restriction,
-        owl:Thing ;
-    rdfs:subClassOf _:nd8084e41ffaa46e189b814fce796bb72b8,
-        rdfs:Resource,
-        owl:Thing ;
-    owl:cardinality "1"^^xsd:nonNegativeInteger ;
-    owl:equivalentClass _:nd8084e41ffaa46e189b814fce796bb72b8 ;
-    owl:onProperty local:institution ;
-    owl:sameAs _:nd8084e41ffaa46e189b814fce796bb72b8 ;
-    owl2:onClass local:diploma .
-
-_:nd8084e41ffaa46e189b814fce796bb72b9 a rdfs:Class,
-        rdfs:Resource,
-        owl:Class,
-        owl:Restriction,
-        owl:Thing ;
-    rdfs:subClassOf _:nd8084e41ffaa46e189b814fce796bb72b9,
-        rdfs:Resource,
-        owl:Thing ;
-    owl:cardinality "1"^^xsd:nonNegativeInteger ;
-    owl:equivalentClass _:nd8084e41ffaa46e189b814fce796bb72b9 ;
-    owl:onProperty local:startDate ;
-    owl:sameAs _:nd8084e41ffaa46e189b814fce796bb72b9 ;
-    owl2:onClass local:diploma .
-
-local:degree a rdf:Property,
-        rdfs:Class,
-        rdfs:Resource,
-        owl:Class,
-        owl:ObjectProperty,
-        owl:Thing ;
-    rdfs:subClassOf local:degree,
-        rdfs:Resource,
-        owl:Thing ;
-    rdfs:subPropertyOf local:degree ;
-    owl:equivalentClass local:degree ;
-    owl:equivalentProperty local:degree ;
-    owl:sameAs local:degree .
 
 local:diploma a rdf:Property,
         rdfs:Class,
@@ -184,17 +29,6 @@ local:diploma a rdf:Property,
     owl:equivalentProperty local:diploma ;
     owl:sameAs local:diploma .
 
-local:enterprise a rdfs:Class,
-        rdfs:Resource,
-        owl:Class,
-        owl:Thing ;
-    rdfs:subClassOf local:enterprise,
-        rdfs:Resource,
-        owl:Thing,
-        foaf:Organization ;
-    owl:equivalentClass local:enterprise ;
-    owl:sameAs local:enterprise .
-
 local:experience a rdf:Property,
         rdfs:Class,
         rdfs:Resource,
@@ -208,34 +42,6 @@ local:experience a rdf:Property,
     owl:equivalentClass local:experience ;
     owl:equivalentProperty local:experience ;
     owl:sameAs local:experience .
-
-local:language a rdf:Property,
-        rdfs:Class,
-        rdfs:Resource,
-        owl:Class,
-        owl:ObjectProperty,
-        owl:Thing ;
-    rdfs:subClassOf local:language,
-        rdfs:Resource,
-        owl:Thing ;
-    rdfs:subPropertyOf local:language ;
-    owl:equivalentClass local:language ;
-    owl:equivalentProperty local:language ;
-    owl:sameAs local:language .
-
-local:profession a rdf:Property,
-        rdfs:Class,
-        rdfs:Resource,
-        owl:Class,
-        owl:ObjectProperty,
-        owl:Thing ;
-    rdfs:subClassOf local:profession,
-        rdfs:Resource,
-        owl:Thing ;
-    rdfs:subPropertyOf local:profession ;
-    owl:equivalentClass local:profession ;
-    owl:equivalentProperty local:profession ;
-    owl:sameAs local:profession .
 
 local:skill a rdf:Property,
         rdfs:Class,
@@ -251,6 +57,17 @@ local:skill a rdf:Property,
     owl:equivalentProperty local:skill ;
     owl:sameAs local:skill .
 
+skill:teamwork a local:skill,
+        rdfs:Class,
+        rdfs:Resource,
+        owl:Class,
+        owl:Thing ;
+    rdfs:subClassOf skill:teamwork,
+        rdfs:Resource,
+        owl:Thing ;
+    owl:equivalentClass skill:teamwork ;
+    owl:sameAs skill:teamwork .
+
 local:vacancy a rdfs:Class,
         rdfs:Resource,
         owl:Class,
@@ -260,245 +77,6 @@ local:vacancy a rdfs:Class,
         owl:Thing ;
     owl:equivalentClass local:vacancy ;
     owl:sameAs local:vacancy .
-
-degree:bachelor a local:degree,
-        rdfs:Class,
-        rdfs:Resource,
-        owl:Class,
-        owl:Thing ;
-    rdfs:subClassOf degree:bachelor,
-        rdfs:Resource,
-        owl:Thing ;
-    owl:equivalentClass degree:bachelor ;
-    owl:sameAs degree:bachelor .
-
-degree:master a local:degree,
-        rdfs:Class,
-        rdfs:Resource,
-        owl:Class,
-        owl:Thing ;
-    rdfs:subClassOf degree:master,
-        rdfs:Resource,
-        owl:Thing ;
-    owl:equivalentClass degree:master ;
-    owl:sameAs degree:master .
-
-language:dutch a local:language,
-        rdfs:Class,
-        rdfs:Resource,
-        owl:Class,
-        owl:Thing ;
-    rdfs:subClassOf language:dutch,
-        language:nederlands,
-        rdfs:Resource,
-        owl:Thing ;
-    owl:equivalentClass language:dutch,
-        language:nederlands ;
-    owl:sameAs language:dutch .
-
-language:engels a local:language,
-        rdfs:Class,
-        rdfs:Resource,
-        owl:Class,
-        owl:Thing ;
-    rdfs:subClassOf language:engels,
-        language:english,
-        rdfs:Resource,
-        owl:Thing ;
-    owl:equivalentClass language:engels,
-        language:english ;
-    owl:sameAs language:engels .
-
-language:english a local:language,
-        rdfs:Class,
-        rdfs:Resource,
-        owl:Class,
-        owl:Thing ;
-    rdfs:subClassOf language:engels,
-        language:english,
-        rdfs:Resource,
-        owl:Thing ;
-    owl:equivalentClass language:engels,
-        language:english ;
-    owl:sameAs language:english .
-
-language:lang100 a local:language,
-        rdfs:Class,
-        rdfs:Resource,
-        owl:Class,
-        owl:Thing ;
-    rdfs:subClassOf language:lang100,
-        language:langeq100,
-        rdfs:Resource,
-        owl:Thing ;
-    owl:equivalentClass language:lang100,
-        language:langeq100 ;
-    owl:sameAs language:lang100 .
-
-language:langeq100 a local:language,
-        rdfs:Class,
-        rdfs:Resource,
-        owl:Class,
-        owl:Thing ;
-    rdfs:subClassOf language:lang100,
-        language:langeq100,
-        rdfs:Resource,
-        owl:Thing ;
-    owl:equivalentClass language:lang100,
-        language:langeq100 ;
-    owl:sameAs language:langeq100 .
-
-language:nederlands a local:language,
-        rdfs:Class,
-        rdfs:Resource,
-        owl:Class,
-        owl:Thing ;
-    rdfs:subClassOf language:dutch,
-        language:nederlands,
-        rdfs:Resource,
-        owl:Thing ;
-    owl:equivalentClass language:dutch,
-        language:nederlands ;
-    owl:sameAs language:nederlands .
-
-profession:Chirurg a profession:doctor,
-        rdfs:Class,
-        rdfs:Resource,
-        owl:Class,
-        owl:Thing ;
-    rdfs:subClassOf profession:Chirurg,
-        rdfs:Resource,
-        owl:Thing ;
-    owl:equivalentClass profession:Chirurg ;
-    owl:sameAs profession:Chirurg .
-
-profession:doctor a local:profession,
-        rdfs:Class,
-        rdfs:Resource,
-        owl:Class,
-        owl:Thing ;
-    rdfs:subClassOf profession:doctor,
-        rdfs:Resource,
-        owl:Thing ;
-    owl:equivalentClass profession:doctor ;
-    owl:sameAs profession:doctor .
-
-profession:familyDoctor a profession:doctor,
-        rdfs:Class,
-        rdfs:Resource,
-        owl:Class,
-        owl:Thing ;
-    rdfs:subClassOf profession:familyDoctor,
-        rdfs:Resource,
-        owl:Thing ;
-    owl:equivalentClass profession:familyDoctor ;
-    owl:sameAs profession:familyDoctor .
-
-profession:programmer a local:profession,
-        rdfs:Class,
-        rdfs:Resource,
-        owl:Class,
-        owl:Thing ;
-    rdfs:subClassOf profession:programmer,
-        rdfs:Resource,
-        owl:Thing ;
-    owl:equivalentClass profession:programmer ;
-    owl:sameAs profession:programmer .
-
-profession:teacher a local:profession,
-        rdfs:Class,
-        rdfs:Resource,
-        owl:Class,
-        owl:Thing ;
-    rdfs:subClassOf profession:teacher,
-        rdfs:Resource,
-        owl:Thing ;
-    owl:equivalentClass profession:teacher ;
-    owl:sameAs profession:teacher .
-
-skill:leadership a skill:skill,
-        rdfs:Class,
-        rdfs:Resource,
-        owl:Class,
-        owl:Thing ;
-    rdfs:subClassOf skill:leadership,
-        skill:leiderschap,
-        rdfs:Resource,
-        owl:Thing ;
-    owl:equivalentClass skill:leadership,
-        skill:leiderschap ;
-    owl:sameAs skill:leadership .
-
-skill:leiderschap a local:skill,
-        rdfs:Class,
-        rdfs:Resource,
-        owl:Class,
-        owl:Thing ;
-    rdfs:subClassOf skill:leadership,
-        skill:leiderschap,
-        rdfs:Resource,
-        owl:Thing ;
-    owl:equivalentClass skill:leadership,
-        skill:leiderschap ;
-    owl:sameAs skill:leiderschap .
-
-skill:skill a rdfs:Class,
-        rdfs:Resource,
-        owl:Class,
-        owl:Thing ;
-    rdfs:subClassOf skill:skill,
-        rdfs:Resource,
-        owl:Thing ;
-    owl:equivalentClass skill:skill ;
-    owl:sameAs skill:skill .
-
-skill:skill1 a local:skill,
-        rdfs:Class,
-        rdfs:Resource,
-        owl:Class,
-        owl:Thing ;
-    rdfs:subClassOf skill:skill1,
-        rdfs:Resource,
-        owl:Thing ;
-    owl:equivalentClass skill:skill1 ;
-    owl:sameAs skill:skill1 .
-
-skill:skill100 a local:skill,
-        rdfs:Class,
-        rdfs:Resource,
-        owl:Class,
-        owl:Thing ;
-    rdfs:subClassOf skill:skill100,
-        skill:skilleq100,
-        rdfs:Resource,
-        owl:Thing ;
-    owl:equivalentClass skill:skill100,
-        skill:skilleq100 ;
-    owl:sameAs skill:skill100 .
-
-skill:skill2 a local:skill,
-        rdfs:Class,
-        rdfs:Resource,
-        owl:Class,
-        owl:Thing ;
-    rdfs:subClassOf skill:skill2,
-        rdfs:Resource,
-        owl:Thing ;
-    owl:equivalentClass skill:skill2 ;
-    owl:sameAs skill:skill2 .
-
-skill:skilleq100 a local:skill,
-        rdfs:Class,
-        rdfs:Resource,
-        owl:Class,
-        owl:Thing ;
-    rdfs:subClassOf skill:skill100,
-        skill:skilleq100,
-        rdfs:Resource,
-        owl:Thing ;
-    owl:equivalentClass skill:skill100,
-        skill:skilleq100 ;
-    owl:sameAs skill:skilleq100 .
 
 rdf:Alt a rdfs:Class,
         rdfs:Resource,
@@ -1406,44 +984,11 @@ owl:Nothing a rdfs:Class,
         rdfs:Resource,
         owl:Class,
         owl:Thing ;
-    rdfs:subClassOf _:nd8084e41ffaa46e189b814fce796bb72b1,
-        _:nd8084e41ffaa46e189b814fce796bb72b10,
-        _:nd8084e41ffaa46e189b814fce796bb72b2,
-        _:nd8084e41ffaa46e189b814fce796bb72b3,
-        _:nd8084e41ffaa46e189b814fce796bb72b4,
-        _:nd8084e41ffaa46e189b814fce796bb72b5,
-        _:nd8084e41ffaa46e189b814fce796bb72b6,
-        _:nd8084e41ffaa46e189b814fce796bb72b7,
-        _:nd8084e41ffaa46e189b814fce796bb72b8,
-        _:nd8084e41ffaa46e189b814fce796bb72b9,
-        local:degree,
-        local:diploma,
-        local:enterprise,
+    rdfs:subClassOf local:diploma,
         local:experience,
-        local:language,
-        local:profession,
         local:skill,
+        skill:teamwork,
         local:vacancy,
-        degree:bachelor,
-        degree:master,
-        language:dutch,
-        language:engels,
-        language:english,
-        language:lang100,
-        language:langeq100,
-        language:nederlands,
-        profession:Chirurg,
-        profession:doctor,
-        profession:familyDoctor,
-        profession:programmer,
-        profession:teacher,
-        skill:leadership,
-        skill:leiderschap,
-        skill:skill,
-        skill:skill1,
-        skill:skill100,
-        skill:skill2,
-        skill:skilleq100,
         rdf:Alt,
         rdf:Bag,
         rdf:HTML,
@@ -1517,7 +1062,6 @@ owl:Nothing a rdfs:Class,
         owl:SymmetricProperty,
         owl:Thing,
         owl:TransitiveProperty,
-        foaf:Organization,
         foaf:Person ;
     owl:equivalentClass owl:Nothing ;
     owl:sameAs owl:Nothing .
@@ -1614,16 +1158,6 @@ owl:TransitiveProperty a rdfs:Class,
     owl:equivalentClass owl:TransitiveProperty ;
     owl:sameAs owl:TransitiveProperty .
 
-foaf:Organization a rdfs:Class,
-        rdfs:Resource,
-        owl:Class,
-        owl:Thing ;
-    rdfs:subClassOf rdfs:Resource,
-        owl:Thing,
-        foaf:Organization ;
-    owl:equivalentClass foaf:Organization ;
-    owl:sameAs foaf:Organization .
-
 foaf:Person a rdfs:Class,
         rdfs:Resource,
         owl:Class,
@@ -1634,312 +1168,288 @@ foaf:Person a rdfs:Class,
     owl:equivalentClass foaf:Person ;
     owl:sameAs foaf:Person .
 
-enterprise:2 a local:enterprise,
+diploma:4 a local:diploma,
         rdfs:Resource,
-        owl:Thing,
-        foaf:Organization ;
-    local:description "Colruyt is a winkel" ;
-    local:email "Colruyt@email.com" ;
-    local:maintainer person:3,
-        person:4 ;
-    local:owner person:4 ;
-    local:phone "016/123456" ;
-    local:website "www.colruyt.be" ;
-    owl:sameAs enterprise:2 ;
-    geo:address "Hasselt straat 5" ;
-    geo:lat "40.879"^^xsd:float ;
-    geo:long "45.6997"^^xsd:float ;
-    foaf:name "Colruyt" .
+        owl:Thing ;
+    local:degree degree:bachelor ;
+    local:endDate "2022-06-30"^^xsd:date ;
+    local:institution "uHasselt" ;
+    local:profession profession:chemistry ;
+    local:startDate "2018-09-01"^^xsd:date ;
+    owl:sameAs diploma:4 .
 
-person:100 a rdfs:Resource,
+diploma:5 a local:diploma,
+        rdfs:Resource,
+        owl:Thing ;
+    local:degree degree:bachelor ;
+    local:endDate "2022-06-30"^^xsd:date ;
+    local:institution "uHasselt" ;
+    local:profession profession:computer_science ;
+    local:startDate "2018-09-01"^^xsd:date ;
+    owl:sameAs diploma:5 .
+
+person:2 a rdfs:Resource,
         owl:Thing,
         foaf:Person ;
-    local:diploma diploma:100 ;
-    local:email "test@email.be" ;
-    local:experience experience:100 ;
-    local:language language:lang100 ;
-    local:skill skill:skill100 ;
-    owl:sameAs person:100 ;
-    foaf:name "test" ;
-    foaf:surname "tester" .
+    local:diploma diploma:2 ;
+    local:email "email" ;
+    owl:sameAs person:2 ;
+    foaf:name "Brent" ;
+    foaf:surname "Zoomers" .
 
-person:5 a rdfs:Resource,
+person:3 a rdfs:Resource,
         owl:Thing,
         foaf:Person ;
-    local:email "Koen@email.com" ;
-    local:experience experience:2 ;
-    owl:sameAs person:5 ;
-    foaf:name "Koen" ;
-    foaf:surname "Koens" .
+    local:diploma diploma:3 ;
+    local:email "email" ;
+    owl:sameAs person:3 ;
+    foaf:name "Wouter" ;
+    foaf:surname "Grootjans" .
+
+person:4 a rdfs:Resource,
+        owl:Thing,
+        foaf:Person ;
+    local:diploma diploma:1 ;
+    local:email "email" ;
+    local:language language:english ;
+    local:skill skill:teamwork ;
+    owl:sameAs person:4 ;
+    foaf:name "Gwendoline" ;
+    foaf:surname "Nijssen" .
 
 vacancy:1 a local:vacancy,
         rdfs:Resource,
         owl:Thing ;
-    local:availability true ;
-    local:diploma diploma:1,
-        diploma:2 ;
-    local:endDate "2015-12-31"^^xsd:date ;
-    local:experience experience:1 ;
-    local:jobDescription "jobDescription" ;
-    local:jobLocation "jobLocation" ;
-    local:jobResponsibilities "jobResponsibilities" ;
-    local:jobSalary "jobSalary" ;
-    local:jobTitle "programmer" ;
-    local:language language:dutch ;
-    local:owner enterprise:1 ;
-    local:skills skill:skill1 ;
-    local:startDate "2015-01-01"^^xsd:date ;
+    local:diploma diploma:1 ;
+    local:endDate "2023-01-12"^^xsd:date ;
+    local:enterprise enterprise:1 ;
+    local:jobDescription "jobDes" ;
+    local:jobResponsibilities "jobResp" ;
+    local:jobSalary "jobSal" ;
+    local:jobTitle "software_developer" ;
+    local:language language:english ;
+    local:location gn:2796491 ;
+    local:postedBy person:1 ;
+    local:skill skill:teamwork ;
+    local:startDate "2022-12-12"^^xsd:date ;
     owl:sameAs vacancy:1 .
-
-vacancy:100 a local:vacancy,
-        rdfs:Resource,
-        owl:Thing ;
-    local:availability true ;
-    local:diploma diploma:100 ;
-    local:endDate "2015-12-31"^^xsd:date ;
-    local:experience experience:100 ;
-    local:jobDescription "equivtest" ;
-    local:jobLocation "equivtest" ;
-    local:jobResponsibilities "equivtest" ;
-    local:jobSalary "equivtest" ;
-    local:jobTitle "equivtest" ;
-    local:language language:lang100 ;
-    local:owner enterprise:5 ;
-    local:skills skill:skill100 ;
-    local:startDate "2015-01-01"^^xsd:date ;
-    owl:sameAs vacancy:100 .
 
 vacancy:2 a local:vacancy,
         rdfs:Resource,
         owl:Thing ;
-    local:availability true ;
-    local:diploma diploma:2 ;
-    local:endDate "2015-12-31"^^xsd:date ;
+    local:diploma diploma:6 ;
+    local:endDate "2023-01-12"^^xsd:date ;
+    local:enterprise enterprise:1 ;
     local:experience experience:1 ;
-    local:jobDescription "jobDescription" ;
-    local:jobLocation "jobLocation" ;
-    local:jobResponsibilities "jobResponsibilities" ;
-    local:jobSalary "jobSalary" ;
-    local:jobTitle "test" ;
-    local:language language:nederland ;
-    local:owner enterprise:1 ;
-    local:skills skill:skill2 ;
-    local:startDate "2015-01-01"^^xsd:date ;
+    local:jobDescription "jobDes" ;
+    local:jobResponsibilities "jobResp" ;
+    local:jobSalary "jobSal" ;
+    local:jobTitle "data_engineer" ;
+    local:language language:english ;
+    local:location gn:2796491 ;
+    local:postedBy person:1 ;
+    local:skill skill:teamwork ;
+    local:startDate "2022-12-12"^^xsd:date ;
     owl:sameAs vacancy:2 .
 
 vacancy:3 a local:vacancy,
         rdfs:Resource,
         owl:Thing ;
-    local:availability true ;
-    local:diploma diploma:2 ;
-    local:endDate "2015-12-31"^^xsd:date ;
-    local:experience experience:2 ;
-    local:jobDescription "jobDescription" ;
-    local:jobLocation "jobLocation" ;
-    local:jobResponsibilities "jobResponsibilities" ;
-    local:jobSalary "jobSalary" ;
-    local:jobTitle "test" ;
-    local:language language:nederlands ;
-    local:owner enterprise:1 ;
-    local:skills skill:skill1 ;
-    local:startDate "2015-01-01"^^xsd:date ;
+    local:diploma diploma:7 ;
+    local:endDate "2023-01-12"^^xsd:date ;
+    local:enterprise enterprise:1 ;
+    local:experience experience:1 ;
+    local:jobDescription "jobDes" ;
+    local:jobResponsibilities "jobResp" ;
+    local:jobSalary "jobSal" ;
+    local:jobTitle "data_analyst" ;
+    local:language language:english ;
+    local:location gn:2796491 ;
+    local:postedBy person:1 ;
+    local:skill skill:teamwork ;
+    local:startDate "2022-12-12"^^xsd:date ;
     owl:sameAs vacancy:3 .
+
+vacancy:4 a local:vacancy,
+        rdfs:Resource,
+        owl:Thing ;
+    local:diploma diploma:8 ;
+    local:endDate "2023-01-12"^^xsd:date ;
+    local:enterprise enterprise:1 ;
+    local:experience experience:1 ;
+    local:jobDescription "jobDes" ;
+    local:jobResponsibilities "jobResp" ;
+    local:jobSalary "jobSal" ;
+    local:jobTitle "data_scientist" ;
+    local:language language:english ;
+    local:location gn:2796491 ;
+    local:postedBy person:1 ;
+    local:skill skill:teamwork ;
+    local:startDate "2022-12-12"^^xsd:date ;
+    owl:sameAs vacancy:4 .
 
 () a rdf:List,
         rdfs:Resource,
         owl:Thing ;
     owl:sameAs () .
 
-diploma:eq100 a local:diploma,
+diploma:2 a local:diploma,
         rdfs:Resource,
         owl:Thing ;
-    local:degree degree:master ;
-    local:endDate "2012-01-01"^^xsd:date ;
-    local:institution enterprise:1 ;
-    local:profession profession:programmer ;
-    local:startDate "2010-01-01"^^xsd:date ;
-    owl:sameAs diploma:eq100 .
+    local:degree degree:bachelor ;
+    local:endDate "2022-06-30"^^xsd:date ;
+    local:institution "uHasselt" ;
+    local:profession profession:architect ;
+    local:startDate "2018-09-01"^^xsd:date ;
+    owl:sameAs diploma:2 .
 
-enterprise:5 a rdfs:Resource,
-        owl:Thing ;
-    owl:sameAs enterprise:5 .
-
-experience:eq100 a local:experience,
+diploma:3 a local:diploma,
         rdfs:Resource,
         owl:Thing ;
-    local:endDate "2012-01-01"^^xsd:date ;
-    local:jobTitle "eqprogrammer" ;
-    local:skill skill:skill1 ;
-    local:startDate "2010-01-01"^^xsd:date ;
-    owl:sameAs experience:eq100 .
+    local:degree degree:bachelor ;
+    local:endDate "2022-06-30"^^xsd:date ;
+    local:institution "uHasselt" ;
+    local:profession profession:biology ;
+    local:startDate "2018-09-01"^^xsd:date ;
+    owl:sameAs diploma:3 .
 
-language:nederland a rdfs:Resource,
-        owl:Thing ;
-    owl:sameAs language:nederland .
-
-person:2 a rdfs:Resource,
-        owl:Thing,
-        foaf:Person ;
-    local:diploma diploma:1 ;
-    local:email "Piet@mail.com" ;
-    local:experience experience:1 ;
-    local:graduationDate "2010-01-01"^^xsd:date ;
-    local:language language:dutch ;
-    local:skill skill:skill1 ;
-    owl:sameAs person:2 ;
-    foaf:name "Piet" ;
-    foaf:surname "Pieters" .
-
-person:3 a rdfs:Resource,
-        owl:Thing,
-        foaf:Person ;
-    local:diploma diploma:1 ;
-    local:email "Klaas@mail.com" ;
-    local:experience experience:1 ;
-    local:graduationDate "2010-01-01"^^xsd:date ;
-    local:language language:dutch ;
-    local:skill skill:skill1 ;
-    owl:sameAs person:3 ;
-    foaf:name "Klaas" ;
-    foaf:surname "Klaassen" .
-
-"2008-01-01"^^xsd:date a rdfs:Literal,
+diploma:6 a local:diploma,
         rdfs:Resource,
-        xsd:date,
         owl:Thing ;
-    owl:sameAs "2008-01-01"^^xsd:date .
+    local:degree degree:bachelor ;
+    local:endDate "2022-06-30"^^xsd:date ;
+    local:institution "uHasselt" ;
+    local:profession profession:computer_science ;
+    local:startDate "2018-09-01"^^xsd:date ;
+    owl:sameAs diploma:6 .
 
-"Colruyt" a rdfs:Resource,
+diploma:7 a local:diploma,
+        rdfs:Resource,
         owl:Thing ;
-    owl:sameAs "Colruyt" .
+    local:degree degree:bachelor ;
+    local:endDate "2022-06-30"^^xsd:date ;
+    local:institution "uHasselt" ;
+    local:profession profession:computer_science ;
+    local:startDate "2018-09-01"^^xsd:date ;
+    owl:sameAs diploma:7 .
 
-"Colruyt is a winkel" a rdfs:Resource,
+diploma:8 a local:diploma,
+        rdfs:Resource,
         owl:Thing ;
-    owl:sameAs "Colruyt is a winkel" .
+    local:degree degree:bachelor ;
+    local:endDate "2022-06-30"^^xsd:date ;
+    local:institution "uHasselt" ;
+    local:profession profession:computer_science ;
+    local:startDate "2018-09-01"^^xsd:date ;
+    owl:sameAs diploma:8 .
 
-"Colruyt@email.com" a rdfs:Resource,
+language:dutch a rdfs:Resource,
         owl:Thing ;
-    owl:sameAs "Colruyt@email.com" .
+    owl:sameAs language:dutch .
 
-"Hasselt straat 5" a rdfs:Resource,
+profession:architect a rdfs:Resource,
         owl:Thing ;
-    owl:sameAs "Hasselt straat 5" .
+    owl:sameAs profession:architect .
 
-"Jan" a rdfs:Resource,
+profession:biology a rdfs:Resource,
         owl:Thing ;
-    owl:sameAs "Jan" .
+    owl:sameAs profession:biology .
 
-"Janssens" a rdfs:Resource,
+profession:chemistry a rdfs:Resource,
         owl:Thing ;
-    owl:sameAs "Janssens" .
+    owl:sameAs profession:chemistry .
+
+"Bertram" a rdfs:Resource,
+        owl:Thing ;
+    owl:sameAs "Bertram" .
+
+"Brent" a rdfs:Resource,
+        owl:Thing ;
+    owl:sameAs "Brent" .
+
+"Grootjans" a rdfs:Resource,
+        owl:Thing ;
+    owl:sameAs "Grootjans" .
+
+"Gwendoline" a rdfs:Resource,
+        owl:Thing ;
+    owl:sameAs "Gwendoline" .
 
 "Joris" a rdfs:Resource,
         owl:Thing ;
     owl:sameAs "Joris" .
 
-"Joris@mail.com" a rdfs:Resource,
+"Nijssen" a rdfs:Resource,
         owl:Thing ;
-    owl:sameAs "Joris@mail.com" .
+    owl:sameAs "Nijssen" .
 
-"Jorissen" a rdfs:Resource,
+"Web Developer" a rdfs:Resource,
         owl:Thing ;
-    owl:sameAs "Jorissen" .
+    owl:sameAs "Web Developer" .
 
-"KU Leuven" a rdfs:Resource,
+"Wouter" a rdfs:Resource,
         owl:Thing ;
-    owl:sameAs "KU Leuven" .
+    owl:sameAs "Wouter" .
 
-"KU Leuven is a university in Leuven, Belgium" a rdfs:Resource,
+"Zoomers" a rdfs:Resource,
         owl:Thing ;
-    owl:sameAs "KU Leuven is a university in Leuven, Belgium" .
+    owl:sameAs "Zoomers" .
 
-"KUL@email.com" a rdfs:Resource,
+"data_analyst" a rdfs:Resource,
         owl:Thing ;
-    owl:sameAs "KUL@email.com" .
+    owl:sameAs "data_analyst" .
 
-"Klaas" a rdfs:Resource,
+"data_engineer" a rdfs:Resource,
         owl:Thing ;
-    owl:sameAs "Klaas" .
+    owl:sameAs "data_engineer" .
 
-"Klaas@mail.com" a rdfs:Resource,
+"data_scientist" a rdfs:Resource,
         owl:Thing ;
-    owl:sameAs "Klaas@mail.com" .
+    owl:sameAs "data_scientist" .
 
-"Klaassen" a rdfs:Resource,
+"software_developer" a rdfs:Resource,
         owl:Thing ;
-    owl:sameAs "Klaassen" .
+    owl:sameAs "software_developer" .
 
-"Koen" a rdfs:Resource,
-        owl:Thing ;
-    owl:sameAs "Koen" .
-
-"Koen@email.com" a rdfs:Resource,
-        owl:Thing ;
-    owl:sameAs "Koen@email.com" .
-
-"Koens" a rdfs:Resource,
-        owl:Thing ;
-    owl:sameAs "Koens" .
-
-"Leuven straat 7" a rdfs:Resource,
-        owl:Thing ;
-    owl:sameAs "Leuven straat 7" .
-
-"Piet" a rdfs:Resource,
-        owl:Thing ;
-    owl:sameAs "Piet" .
-
-"Piet@mail.com" a rdfs:Resource,
-        owl:Thing ;
-    owl:sameAs "Piet@mail.com" .
-
-"Pieters" a rdfs:Resource,
-        owl:Thing ;
-    owl:sameAs "Pieters" .
-
-"analyst" a rdfs:Resource,
-        owl:Thing ;
-    owl:sameAs "analyst" .
-
-"eqprogrammer" a rdfs:Resource,
-        owl:Thing ;
-    owl:sameAs "eqprogrammer" .
-
-"jan@email.com" a rdfs:Resource,
-        owl:Thing ;
-    owl:sameAs "jan@email.com" .
-
-"test@email.be" a rdfs:Resource,
-        owl:Thing ;
-    owl:sameAs "test@email.be" .
-
-"tester" a rdfs:Resource,
-        owl:Thing ;
-    owl:sameAs "tester" .
-
-"www.KUL.be" a rdfs:Resource,
-        owl:Thing ;
-    owl:sameAs "www.KUL.be" .
-
-"www.colruyt.be" a rdfs:Resource,
-        owl:Thing ;
-    owl:sameAs "www.colruyt.be" .
-
-local:availability a rdf:Property,
+local:degree a rdf:Property,
         rdfs:Resource,
         owl:ObjectProperty,
         owl:Thing ;
-    rdfs:subPropertyOf local:availability ;
-    owl:equivalentProperty local:availability ;
-    owl:sameAs local:availability .
+    rdfs:subPropertyOf local:degree ;
+    owl:equivalentProperty local:degree ;
+    owl:sameAs local:degree .
 
-local:description a rdf:Property,
+local:email a rdf:Property,
         rdfs:Resource,
         owl:ObjectProperty,
         owl:Thing ;
-    rdfs:subPropertyOf local:description ;
-    owl:equivalentProperty local:description ;
-    owl:sameAs local:description .
+    rdfs:subPropertyOf local:email ;
+    owl:equivalentProperty local:email ;
+    owl:sameAs local:email .
+
+local:endDate a rdf:Property,
+        rdfs:Resource,
+        owl:ObjectProperty,
+        owl:Thing ;
+    rdfs:subPropertyOf local:endDate ;
+    owl:equivalentProperty local:endDate ;
+    owl:sameAs local:endDate .
+
+local:enterprise a rdf:Property,
+        rdfs:Resource,
+        owl:ObjectProperty,
+        owl:Thing ;
+    rdfs:subPropertyOf local:enterprise ;
+    owl:equivalentProperty local:enterprise ;
+    owl:sameAs local:enterprise .
+
+local:institution a rdf:Property,
+        rdfs:Resource,
+        owl:ObjectProperty,
+        owl:Thing ;
+    rdfs:subPropertyOf local:institution ;
+    owl:equivalentProperty local:institution ;
+    owl:sameAs local:institution .
 
 local:jobDescription a rdf:Property,
         rdfs:Resource,
@@ -1948,14 +1458,6 @@ local:jobDescription a rdf:Property,
     rdfs:subPropertyOf local:jobDescription ;
     owl:equivalentProperty local:jobDescription ;
     owl:sameAs local:jobDescription .
-
-local:jobLocation a rdf:Property,
-        rdfs:Resource,
-        owl:ObjectProperty,
-        owl:Thing ;
-    rdfs:subPropertyOf local:jobLocation ;
-    owl:equivalentProperty local:jobLocation ;
-    owl:sameAs local:jobLocation .
 
 local:jobResponsibilities a rdf:Property,
         rdfs:Resource,
@@ -1981,88 +1483,49 @@ local:jobTitle a rdf:Property,
     owl:equivalentProperty local:jobTitle ;
     owl:sameAs local:jobTitle .
 
-local:maintainer a rdf:Property,
+local:language a rdf:Property,
         rdfs:Resource,
         owl:ObjectProperty,
         owl:Thing ;
-    rdfs:subPropertyOf local:maintainer ;
-    owl:equivalentProperty local:maintainer ;
-    owl:sameAs local:maintainer .
+    rdfs:subPropertyOf local:language ;
+    owl:equivalentProperty local:language ;
+    owl:sameAs local:language .
 
-local:owner a rdf:Property,
+local:location a rdf:Property,
         rdfs:Resource,
         owl:ObjectProperty,
         owl:Thing ;
-    rdfs:subPropertyOf local:owner ;
-    owl:equivalentProperty local:owner ;
-    owl:sameAs local:owner .
+    rdfs:subPropertyOf local:location ;
+    owl:equivalentProperty local:location ;
+    owl:sameAs local:location .
 
-local:skills a rdf:Property,
+local:postedBy a rdf:Property,
         rdfs:Resource,
         owl:ObjectProperty,
         owl:Thing ;
-    rdfs:subPropertyOf local:skills ;
-    owl:equivalentProperty local:skills ;
-    owl:sameAs local:skills .
+    rdfs:subPropertyOf local:postedBy ;
+    owl:equivalentProperty local:postedBy ;
+    owl:sameAs local:postedBy .
 
-local:website a rdf:Property,
+local:profession a rdf:Property,
         rdfs:Resource,
         owl:ObjectProperty,
         owl:Thing ;
-    rdfs:subPropertyOf local:website ;
-    owl:equivalentProperty local:website ;
-    owl:sameAs local:website .
+    rdfs:subPropertyOf local:profession ;
+    owl:equivalentProperty local:profession ;
+    owl:sameAs local:profession .
 
-diploma:100 a local:diploma,
-        rdfs:Resource,
+skill:leadership a rdfs:Resource,
         owl:Thing ;
-    local:degree degree:master ;
-    local:endDate "2012-01-01"^^xsd:date ;
-    local:institution enterprise:1 ;
-    local:profession profession:programmer ;
-    local:startDate "2010-01-01"^^xsd:date ;
-    owl:sameAs diploma:100 ;
-    owl2:equivalentClass diploma:eq100 .
+    owl:sameAs skill:leadership .
 
-experience:100 a local:experience,
+local:startDate a rdf:Property,
         rdfs:Resource,
+        owl:ObjectProperty,
         owl:Thing ;
-    local:endDate "2012-01-01"^^xsd:date ;
-    local:jobTitle "programmer" ;
-    local:skill skill:skill1 ;
-    local:startDate "2010-01-01"^^xsd:date ;
-    owl:sameAs experience:100 ;
-    owl2:equivalentClass experience:eq100 .
-
-person:1 a rdfs:Resource,
-        owl:Thing,
-        foaf:Person ;
-    local:diploma diploma:1,
-        diploma:2 ;
-    local:email "jan@email.com" ;
-    local:experience experience:1,
-        experience:2 ;
-    local:graduationDate "2010-01-01"^^xsd:date ;
-    local:language language:engels,
-        language:nederlands ;
-    local:skill skill:leiderschap,
-        skill:skill1 ;
-    owl:sameAs person:1 ;
-    foaf:name "Jan" ;
-    foaf:surname "Janssens" .
-
-person:4 a rdfs:Resource,
-        owl:Thing,
-        foaf:Person ;
-    local:diploma diploma:1 ;
-    local:email "Joris@mail.com" ;
-    local:experience experience:1 ;
-    local:graduationDate "2010-01-01"^^xsd:date ;
-    local:language language:dutch ;
-    local:skill skill:skill1 ;
-    owl:sameAs person:4 ;
-    foaf:name "Joris" ;
-    foaf:surname "Jorissen" .
+    rdfs:subPropertyOf local:startDate ;
+    owl:equivalentProperty local:startDate ;
+    owl:sameAs local:startDate .
 
 rdf:first a rdf:Property,
         rdfs:Resource,
@@ -2321,14 +1784,6 @@ owl:backwardCompatibleWith a rdf:Property,
     rdfs:subPropertyOf owl:backwardCompatibleWith ;
     owl:equivalentProperty owl:backwardCompatibleWith ;
     owl:sameAs owl:backwardCompatibleWith .
-
-owl:cardinality a rdf:Property,
-        rdfs:Resource,
-        owl:ObjectProperty,
-        owl:Thing ;
-    rdfs:subPropertyOf owl:cardinality ;
-    owl:equivalentProperty owl:cardinality ;
-    owl:sameAs owl:cardinality .
 
 owl:complementOf a rdf:Property,
         rdfs:Resource,
@@ -2817,135 +2272,14 @@ owl:withRestrictions a rdf:Property,
     owl:equivalentProperty owl:withRestrictions ;
     owl:sameAs owl:withRestrictions .
 
-geo:address a rdf:Property,
+foaf:knows a rdf:Property,
         rdfs:Resource,
         owl:ObjectProperty,
+        owl:SymmetricProperty,
         owl:Thing ;
-    rdfs:subPropertyOf geo:address ;
-    owl:equivalentProperty geo:address ;
-    owl:sameAs geo:address .
-
-geo:lat a rdf:Property,
-        rdfs:Resource,
-        owl:ObjectProperty,
-        owl:Thing ;
-    rdfs:subPropertyOf geo:lat ;
-    owl:equivalentProperty geo:lat ;
-    owl:sameAs geo:lat .
-
-geo:long a rdf:Property,
-        rdfs:Resource,
-        owl:ObjectProperty,
-        owl:Thing ;
-    rdfs:subPropertyOf geo:long ;
-    owl:equivalentProperty geo:long ;
-    owl:sameAs geo:long .
-
-owl2:equivalentClass a rdf:Property,
-        rdfs:Resource,
-        owl:ObjectProperty,
-        owl:Thing ;
-    rdfs:subPropertyOf owl2:equivalentClass ;
-    owl:equivalentProperty owl2:equivalentClass ;
-    owl:sameAs owl2:equivalentClass .
-
-owl2:onClass a rdf:Property,
-        rdfs:Resource,
-        owl:ObjectProperty,
-        owl:Thing ;
-    rdfs:subPropertyOf owl2:onClass ;
-    owl:equivalentProperty owl2:onClass ;
-    owl:sameAs owl2:onClass .
-
-"40.879"^^xsd:float a rdfs:Literal,
-        rdfs:Resource,
-        xsd:float,
-        owl:Thing ;
-    owl:sameAs "40.879"^^xsd:float .
-
-"45.6997"^^xsd:float a rdfs:Literal,
-        rdfs:Resource,
-        xsd:float,
-        owl:Thing ;
-    owl:sameAs "45.6997"^^xsd:float .
-
-"016/123456" a rdfs:Resource,
-        owl:Thing ;
-    owl:sameAs "016/123456" .
-
-local:Person a rdfs:Resource,
-        owl:Thing ;
-    owl:sameAs local:Person .
-
-local:email a rdf:Property,
-        rdfs:Resource,
-        owl:ObjectProperty,
-        owl:Thing ;
-    rdfs:subPropertyOf local:email ;
-    owl:equivalentProperty local:email ;
-    owl:sameAs local:email .
-
-local:endDate a rdf:Property,
-        rdfs:Resource,
-        owl:ObjectProperty,
-        owl:Thing ;
-    rdfs:subPropertyOf local:endDate ;
-    owl:equivalentProperty local:endDate ;
-    owl:sameAs local:endDate .
-
-local:graduationDate a rdf:Property,
-        rdfs:Resource,
-        owl:ObjectProperty,
-        owl:Thing ;
-    rdfs:subPropertyOf local:graduationDate ;
-    owl:equivalentProperty local:graduationDate ;
-    owl:sameAs local:graduationDate .
-
-local:institution a rdf:Property,
-        rdfs:Resource,
-        owl:ObjectProperty,
-        owl:Thing ;
-    rdfs:subPropertyOf local:institution ;
-    owl:equivalentProperty local:institution ;
-    owl:sameAs local:institution .
-
-local:phone a rdf:Property,
-        rdfs:Resource,
-        owl:ObjectProperty,
-        owl:Thing ;
-    rdfs:subPropertyOf local:phone ;
-    owl:equivalentProperty local:phone ;
-    owl:sameAs local:phone .
-
-local:startDate a rdf:Property,
-        rdfs:Resource,
-        owl:ObjectProperty,
-        owl:Thing ;
-    rdfs:subPropertyOf local:startDate ;
-    owl:equivalentProperty local:startDate ;
-    owl:sameAs local:startDate .
-
-experience:2 a local:experience,
-        rdfs:Resource,
-        owl:Thing ;
-    local:endDate "2012-01-01"^^xsd:date ;
-    local:jobTitle "analyst" ;
-    local:skill skill:leiderschap ;
-    local:startDate "2010-01-01"^^xsd:date ;
-    owl:sameAs experience:2 .
-
-rdfs:seeAlso a rdf:Property,
-        rdfs:Resource,
-        owl:AnnotationProperty,
-        owl:ObjectProperty,
-        owl:Thing ;
-    rdfs:domain rdfs:Resource,
-        owl:Thing ;
-    rdfs:range rdfs:Resource,
-        owl:Thing ;
-    rdfs:subPropertyOf rdfs:seeAlso ;
-    owl:equivalentProperty rdfs:seeAlso ;
-    owl:sameAs rdfs:seeAlso .
+    rdfs:subPropertyOf foaf:knows ;
+    owl:equivalentProperty foaf:knows ;
+    owl:sameAs foaf:knows .
 
 foaf:name a rdf:Property,
         rdfs:Resource,
@@ -2963,116 +2297,114 @@ foaf:surname a rdf:Property,
     owl:equivalentProperty foaf:surname ;
     owl:sameAs foaf:surname .
 
-"jobDescription" a rdfs:Resource,
-        owl:Thing ;
-    owl:sameAs "jobDescription" .
-
-"jobLocation" a rdfs:Resource,
-        owl:Thing ;
-    owl:sameAs "jobLocation" .
-
-"jobResponsibilities" a rdfs:Resource,
-        owl:Thing ;
-    owl:sameAs "jobResponsibilities" .
-
-"jobSalary" a rdfs:Resource,
-        owl:Thing ;
-    owl:sameAs "jobSalary" .
-
-"programmer" a rdfs:Resource,
-        owl:Thing ;
-    owl:sameAs "programmer" .
-
-"test" a rdfs:Resource,
-        owl:Thing ;
-    owl:sameAs "test" .
-
-diploma:2 a local:diploma,
-        rdfs:Resource,
-        owl:Thing ;
-    local:degree degree:bachelor ;
-    local:endDate "2010-01-01"^^xsd:date ;
-    local:institution enterprise:1 ;
-    local:profession profession:programmer ;
-    local:startDate "2008-01-01"^^xsd:date ;
-    owl:sameAs diploma:2 .
-
-true a rdfs:Literal,
-        rdfs:Resource,
-        xsd:boolean,
-        owl:Thing ;
-    owl:sameAs true .
-
-"2015-01-01"^^xsd:date a rdfs:Literal,
-        rdfs:Resource,
-        xsd:date,
-        owl:Thing ;
-    owl:sameAs "2015-01-01"^^xsd:date .
-
-"2015-12-31"^^xsd:date a rdfs:Literal,
-        rdfs:Resource,
-        xsd:date,
-        owl:Thing ;
-    owl:sameAs "2015-12-31"^^xsd:date .
-
 diploma:1 a local:diploma,
         rdfs:Resource,
         owl:Thing ;
-    local:degree degree:master ;
-    local:endDate "2012-01-01"^^xsd:date ;
-    local:institution enterprise:1 ;
-    local:profession profession:programmer ;
-    local:startDate "2010-01-01"^^xsd:date ;
+    local:degree degree:bachelor ;
+    local:endDate "2022-06-30"^^xsd:date ;
+    local:institution "uHasselt" ;
+    local:profession profession:computer_science ;
+    local:startDate "2018-09-01"^^xsd:date ;
     owl:sameAs diploma:1 .
 
-"equivtest" a rdfs:Resource,
+rdfs:seeAlso a rdf:Property,
+        rdfs:Resource,
+        owl:AnnotationProperty,
+        owl:ObjectProperty,
         owl:Thing ;
-    owl:sameAs "equivtest" .
+    rdfs:domain rdfs:Resource,
+        owl:Thing ;
+    rdfs:range rdfs:Resource,
+        owl:Thing ;
+    rdfs:subPropertyOf rdfs:seeAlso ;
+    owl:equivalentProperty rdfs:seeAlso ;
+    owl:sameAs rdfs:seeAlso .
+
+enterprise:1 a rdfs:Resource,
+        owl:Thing ;
+    owl:sameAs enterprise:1 .
 
 experience:1 a local:experience,
         rdfs:Resource,
         owl:Thing ;
-    local:endDate "2012-01-01"^^xsd:date ;
-    local:jobTitle "programmer" ;
-    local:skill skill:skill1,
-        skill:skill2 ;
-    local:startDate "2010-01-01"^^xsd:date ;
+    local:endDate "2022-06-30"^^xsd:date ;
+    local:jobTitle "Web Developer" ;
+    local:skill skill:leadership,
+        skill:teamwork ;
+    local:startDate "2018-09-01"^^xsd:date ;
     owl:sameAs experience:1 .
 
-enterprise:1 a local:enterprise,
-        rdfs:Resource,
+person:1 a rdfs:Resource,
         owl:Thing,
-        foaf:Organization ;
-    local:description "KU Leuven is a university in Leuven, Belgium" ;
-    local:email "KUL@email.com" ;
-    local:maintainer person:1,
-        person:2 ;
-    local:owner person:1 ;
-    local:phone "016/123456" ;
-    local:website "www.KUL.be" ;
-    owl:sameAs enterprise:1 ;
-    geo:address "Leuven straat 7" ;
-    geo:lat "40.879"^^xsd:float ;
-    geo:long "45.6997"^^xsd:float ;
-    foaf:name "KU Leuven" .
+        foaf:Person ;
+    local:diploma diploma:1 ;
+    local:email "email" ;
+    local:experience experience:1 ;
+    local:language language:dutch,
+        language:english ;
+    local:skill skill:leadership,
+        skill:teamwork ;
+    owl:sameAs person:1 ;
+    foaf:name "Joris" ;
+    foaf:surname "Bertram" .
 
-"2012-01-01"^^xsd:date a rdfs:Literal,
+gn:2796491 a rdfs:Resource,
+        owl:Thing ;
+    owl:sameAs gn:2796491 .
+
+"2022-12-12"^^xsd:date a rdfs:Literal,
         rdfs:Resource,
         xsd:date,
         owl:Thing ;
-    owl:sameAs "2012-01-01"^^xsd:date .
+    owl:sameAs "2022-12-12"^^xsd:date .
 
-"1"^^xsd:nonNegativeInteger a rdfs:Literal,
-        rdfs:Resource,
-        xsd:decimal,
-        xsd:integer,
-        xsd:nonNegativeInteger,
-        owl:Thing ;
-    owl:sameAs "1"^^xsd:nonNegativeInteger .
-
-"2010-01-01"^^xsd:date a rdfs:Literal,
+"2023-01-12"^^xsd:date a rdfs:Literal,
         rdfs:Resource,
         xsd:date,
         owl:Thing ;
-    owl:sameAs "2010-01-01"^^xsd:date .
+    owl:sameAs "2023-01-12"^^xsd:date .
+
+"email" a rdfs:Resource,
+        owl:Thing ;
+    owl:sameAs "email" .
+
+"jobDes" a rdfs:Resource,
+        owl:Thing ;
+    owl:sameAs "jobDes" .
+
+"jobResp" a rdfs:Resource,
+        owl:Thing ;
+    owl:sameAs "jobResp" .
+
+"jobSal" a rdfs:Resource,
+        owl:Thing ;
+    owl:sameAs "jobSal" .
+
+profession:computer_science a rdfs:Resource,
+        owl:Thing ;
+    owl:sameAs profession:computer_science .
+
+language:english a rdfs:Resource,
+        owl:Thing ;
+    owl:sameAs language:english .
+
+degree:bachelor a rdfs:Resource,
+        owl:Thing ;
+    owl:sameAs degree:bachelor .
+
+"uHasselt" a rdfs:Resource,
+        owl:Thing ;
+    owl:sameAs "uHasselt" .
+
+"2018-09-01"^^xsd:date a rdfs:Literal,
+        rdfs:Resource,
+        xsd:date,
+        owl:Thing ;
+    owl:sameAs "2018-09-01"^^xsd:date .
+
+"2022-06-30"^^xsd:date a rdfs:Literal,
+        rdfs:Resource,
+        xsd:date,
+        owl:Thing ;
+    owl:sameAs "2022-06-30"^^xsd:date .
 
