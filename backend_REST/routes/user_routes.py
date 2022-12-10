@@ -44,14 +44,34 @@ def create_user_routes(app, g):
     def get_user(user_id):
         return User.get_by_id(g, user_id)
 
-    # TODO: change name, surname, email and password form
-    # @app.route("/users/<int:user_id>", methods=["PUT"])
-    # def update_user(user_id):
-    #     User.update_user_by_id(g, user_id, request.form.to_dict(flat=False))
-    #     return f"Updated user {user_id}."
+    @app.route("/users/<int:user_id>", methods=["PUT"])
+    @ login_required
+    def update_user(user_id):
+        data = request.form
 
-    @app.route("/users/<int:user_id>", methods=["DELETE"])
-    @login_required
+        # Check if logged-in user is correct
+        if session['_user_id'] != user_id:
+            return Response.unauthorized_access_wrong_user()
+
+        if not Validator.same_password(data["password"], data["passwordConfirmation"]):
+            return Response.password_not_matching()
+
+        if not Validator.valid_email(data["email"]):
+            return Response.email_not_valid()
+
+        if not User.is_available(data["email"]):
+            return Response.email_not_available()
+
+        # Encryption must be done before send with HTTP POST, but currently no front-end
+        encrypted_password = hashlib.sha256(
+            data["password"].encode('utf-8')).hexdigest()
+
+        User.update_user_by_id(g, user_id, data["name"], data["surname"],
+                               data["email"], encrypted_password)
+        return f"Updated user {user_id}."
+
+    @ app.route("/users/<int:user_id>", methods=["DELETE"])
+    @ login_required
     def delete_user(user_id):
         print(f"Trying to delete: {session['_user_id']}")
 
@@ -65,12 +85,12 @@ def create_user_routes(app, g):
         User.delete(g, user_id)
         return f"Deleted user {user_id}."
 
-    @app.route("/users/<int:user_id>/profile", methods=["GET"])
+    @ app.route("/users/<int:user_id>/profile", methods=["GET"])
     def get_user_profile(user_id):
         return User.get_profile_by_id(g, user_id)
 
-    @app.route("/users/<int:user_id>/email", methods=["PUT"])
-    @login_required
+    @ app.route("/users/<int:user_id>/email", methods=["PUT"])
+    @ login_required
     def update_user_email(user_id):
         data = request.form
 
@@ -87,8 +107,8 @@ def create_user_routes(app, g):
         User.update_email(g, user_id, data["email"])
         return f"Updated email of user {user_id}."
 
-    @app.route("/users/<int:user_id>/phone", methods=["PUT"])
-    @login_required
+    @ app.route("/users/<int:user_id>/phone", methods=["PUT"])
+    @ login_required
     def update_user_phone(user_id):
         data = request.form
 
@@ -101,8 +121,8 @@ def create_user_routes(app, g):
         User.update_phone(g, user_id, data["phone"])
         return f"Updated phone of user {user_id}."
 
-    @app.route("/users/<int:user_id>/location", methods=["PUT"])
-    @login_required
+    @ app.route("/users/<int:user_id>/location", methods=["PUT"])
+    @ login_required
     def update_user_location(user_id):
         data = request.form
 
@@ -117,8 +137,8 @@ def create_user_routes(app, g):
     # USER ROUTES - DIPLOMAS
     ########################################
 
-    @app.route("/users/<int:user_id>/diplomas", methods=["POST"])
-    @login_required
+    @ app.route("/users/<int:user_id>/diplomas", methods=["POST"])
+    @ login_required
     def create_user_diploma(user_id):
         data = request.form
 
@@ -139,16 +159,16 @@ def create_user_routes(app, g):
                                              data["institution"], data["startDate"], data["endDate"])
         return f"Created diploma {diploma_id } for user {user_id}."
 
-    @app.route("/users/<int:user_id>/diplomas", methods=["GET"])
+    @ app.route("/users/<int:user_id>/diplomas", methods=["GET"])
     def get_user_diplomas(user_id):
         return Diploma.get_all_by_user_id(g, user_id)
 
-    @app.route("/users/<int:user_id>/diplomas/<int:diploma_id>", methods=["GET"])
+    @ app.route("/users/<int:user_id>/diplomas/<int:diploma_id>", methods=["GET"])
     def get_user_diploma(user_id, diploma_id):
         return Diploma.get_by_id(g, diploma_id)
 
-    @app.route("/users/<int:user_id>/diplomas/<int:diploma_id>", methods=["PUT"])
-    @login_required
+    @ app.route("/users/<int:user_id>/diplomas/<int:diploma_id>", methods=["PUT"])
+    @ login_required
     def update_user_diploma(user_id, diploma_id):
         data = request.form
 
