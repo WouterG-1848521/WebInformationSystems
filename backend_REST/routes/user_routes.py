@@ -1,4 +1,4 @@
-from flask import request
+from flask import request, make_response, jsonify
 from flask_login import login_required, logout_user
 import hashlib
 
@@ -20,7 +20,7 @@ def create_user_routes(app, g):
     ########################################
     @app.route("/users", methods=["GET"])
     def get_all_users():
-        return User.get_all(g)
+        return make_response(jsonify(User.get_all(g)), 200)
 
     @app.route("/users", methods=["POST"])
     def create_user():
@@ -38,11 +38,12 @@ def create_user_routes(app, g):
 
         user_id = User.create(g, data["name"], data["surname"],
                               data["email"], encrypted_password)
-        return f"Created user {user_id}."
+
+        return make_response(jsonify({"user_id": user_id}), 200)
 
     @app.route("/users/<int:user_id>", methods=["GET"])
     def get_user(user_id):
-        return User.get_by_id(g, user_id)
+        return make_response(User.get_by_id(g, user_id), 200)
 
     @app.route("/users/<int:user_id>", methods=["PUT"])
     @ login_required
@@ -68,7 +69,8 @@ def create_user_routes(app, g):
 
         User.update_user_by_id(g, user_id, data["name"], data["surname"],
                                data["email"], encrypted_password)
-        return f"Updated user {user_id}."
+
+        return make_response(jsonify({"message": f"User updated with id {user_id}"}), 200)
 
     @ app.route("/users/<int:user_id>", methods=["DELETE"])
     @ login_required
@@ -83,11 +85,12 @@ def create_user_routes(app, g):
         logout_user()
 
         User.delete(g, user_id)
-        return f"Deleted user {user_id}."
+
+        return make_response(jsonify({"message": f"User deleted with id {user_id}"}), 200)
 
     @ app.route("/users/<int:user_id>/profile", methods=["GET"])
     def get_user_profile(user_id):
-        return User.get_profile_by_id(g, user_id)
+        return make_response(User.get_profile_by_id(g, user_id), 200)
 
     @ app.route("/users/<int:user_id>/email", methods=["PUT"])
     @ login_required
@@ -105,7 +108,8 @@ def create_user_routes(app, g):
             return Response.email_not_available()
 
         User.update_email(g, user_id, data["email"])
-        return f"Updated email of user {user_id}."
+
+        return make_response(jsonify({"message": f"Updated email of user {user_id}."}), 200)
 
     @ app.route("/users/<int:user_id>/phone", methods=["PUT"])
     @ login_required
@@ -119,7 +123,7 @@ def create_user_routes(app, g):
         # TODO: check phone number (hard do to)
 
         User.update_phone(g, user_id, data["phone"])
-        return f"Updated phone of user {user_id}."
+        return make_response(jsonify({"message": f"Updated phone of user {user_id}."}), 200)
 
     @ app.route("/users/<int:user_id>/location", methods=["PUT"])
     @ login_required
@@ -131,7 +135,7 @@ def create_user_routes(app, g):
             return Response.unauthorized_access_wrong_user()
 
         User.update_location(g, user_id, data["location_id"])
-        return f"Updated location of user {user_id}."
+        return make_response(jsonify({"message": f"Updated location of user {user_id}."}), 200)
 
     ########################################
     # USER ROUTES - DIPLOMAS
@@ -157,15 +161,16 @@ def create_user_routes(app, g):
 
         diploma_id = Diploma.create_for_user(g, user_id, data["degree"], data["discipline"],
                                              data["institution"], data["startDate"], data["endDate"])
-        return f"Created diploma {diploma_id } for user {user_id}."
+
+        return make_response(jsonify({"message": f"Created diploma {diploma_id } for user {user_id}."}), 200)
 
     @ app.route("/users/<int:user_id>/diplomas", methods=["GET"])
     def get_user_diplomas(user_id):
-        return Diploma.get_all_by_user_id(g, user_id)
+        return make_response(Diploma.get_all_by_user_id(g, user_id), 200)
 
     @ app.route("/users/<int:user_id>/diplomas/<int:diploma_id>", methods=["GET"])
     def get_user_diploma(user_id, diploma_id):
-        return Diploma.get_by_id(g, diploma_id)
+        return make_response(Diploma.get_by_id(g, diploma_id), 200)
 
     @ app.route("/users/<int:user_id>/diplomas/<int:diploma_id>", methods=["PUT"])
     @ login_required
@@ -187,7 +192,8 @@ def create_user_routes(app, g):
 
         Diploma.update(g, diploma_id, data["degree"], data["discipline"],
                        data["institution"], data["startDate"], data["endDate"])
-        return f"Updated diploma {diploma_id}."
+
+        return make_response(jsonify({"message": f"Updated diploma {diploma_id}."}), 200)
 
     @app.route("/users/<int:user_id>/diplomas/<int:diploma_id>", methods=["DELETE"])
     @login_required
@@ -198,7 +204,7 @@ def create_user_routes(app, g):
             return Response.unauthorized_access_wrong_user()
 
         Diploma.delete_from_user(g, user_id, diploma_id)
-        return f"Deleted diploma {diploma_id} from user {user_id}."
+        return make_response(jsonify({"message": f"Deleted diploma {diploma_id} from user {user_id}."}), 200)
 
     ########################################
     # USER ROUTES - LANGUAGES
@@ -216,7 +222,8 @@ def create_user_routes(app, g):
         # TODO: check data (check language list)
 
         Language.add_to_user(g, user_id, data["language"])
-        return f"Added language {data['language']} to user {user_id}'s languages."
+
+        return make_response(jsonify({"message": f"Added language {data['language']} to user {user_id}."}), 200)
 
     @app.route("/users/<int:user_id>/languages", methods=["GET"])
     def get_all_languages_from_user(user_id):
@@ -231,7 +238,7 @@ def create_user_routes(app, g):
             return Response.unauthorized_access_wrong_user()
 
         Language.remove_from_user(g, user_id, language)
-        return f"Removed language {language} from user {user_id}'s languages."
+        return make_response(jsonify({"message": f"Removed language {language} from user {user_id}."}), 200)
 
     ########################################
     # USER ROUTES - SKILLS
@@ -249,7 +256,8 @@ def create_user_routes(app, g):
         # TODO: check data (check skill list)
 
         Skill.add_to_user(g, user_id, data["skill"])
-        return f"Added skill {data['skill']} to user {user_id}'s skills."
+
+        return make_response(jsonify({"message": f"Added skill {data['skill']} to user {user_id}."}), 200)
 
     @app.route("/users/<int:user_id>/skills", methods=["GET"])
     def get_all_skills_from_user(user_id):
@@ -264,7 +272,7 @@ def create_user_routes(app, g):
             return Response.unauthorized_access_wrong_user()
 
         Skill.remove_from_user(g, user_id, skill)
-        return f"Removed skill {skill} from user {user_id}'s skills."
+        return make_response(jsonify({"message": f"Removed skill {skill} from user {user_id}."}), 200)
 
     ########################################
     # USER ROUTES - WORK EXPERIENCE
@@ -289,15 +297,15 @@ def create_user_routes(app, g):
 
         experience_id = WorkExperience.create_for_user(g, user_id, data["jobTitle"], data["profession"],
                                                        data["skills"].split(','), data["startDate"], data["endDate"])
-        return f"Created experience {experience_id } for user {user_id}."
+        return make_response(jsonify({"message": f"Created experience {experience_id} for user {user_id}."}), 200)
 
     @app.route("/users/<int:user_id>/experiences", methods=["GET"])
     def get_user_experiences(user_id):
-        return WorkExperience.get_all_by_user_id(g, user_id)
+        return make_response(WorkExperience.get_all_by_user_id(g, user_id), 200)
 
     @app.route("/users/<int:user_id>/experiences/<int:experience_id>", methods=["GET"])
     def get_user_experience(user_id, experience_id):
-        return WorkExperience.get_by_id(g, experience_id)
+        return make_response(WorkExperience.get_by_id(g, experience_id), 200)
 
     @app.route("/users/<int:user_id>/experiences/<int:experience_id>", methods=["PUT"])
     @login_required
@@ -316,7 +324,8 @@ def create_user_routes(app, g):
 
         WorkExperience.update(g, user_id, data["jobTitle"], data["profession"],
                               data["skills"].split(','), data["startDate"], data["endDate"])
-        return f"Updated experience {experience_id}."
+
+        return make_response(jsonify({"message": f"Updated experience {experience_id}."}), 200)
 
     @app.route("/users/<int:user_id>/experiences/<int:experience_id>", methods=["DELETE"])
     @login_required
@@ -327,7 +336,7 @@ def create_user_routes(app, g):
             return Response.unauthorized_access_wrong_user()
 
         WorkExperience.delete_from_user(g, user_id, experience_id)
-        return f"Deleted experience {experience_id} from user {user_id}."
+        return make_response(jsonify({"message": f"Deleted experience {experience_id} from user {user_id}."}), 200)
 
     ########################################
     # USER ROUTES - VACANCIES TOGGLE
@@ -338,6 +347,6 @@ def create_user_routes(app, g):
         get_vacancies = User.toggle_get_vacancies(g, user_id)
 
         if (get_vacancies):
-            return f"User {user_id} vacancies: enabled"
+            return make_response(jsonify({"message": f"User {user_id} vacancies: enabled"}), 200)
         else:
-            return f"User {user_id} vacancies: disabled"
+            return make_response(jsonify({"message": f"User {user_id} vacancies: disabled"}), 200)

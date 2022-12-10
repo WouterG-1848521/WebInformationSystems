@@ -85,4 +85,4 @@ Compile and watch for changes in Tailwind CSS files: `npx tailwindcss -i ./stati
 - `"/vacancies/<int:vacancy_id>/matches/experience"` GET
 
 - `"/users"` GET, POST
-- `"/users/<int:user_id>"` GET, DELETE, 
+- `"/users/<int:user_id>"` GET, DELETE
