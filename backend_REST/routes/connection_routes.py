@@ -1,4 +1,4 @@
-from flask import request
+from flask import request, make_response, jsonify
 from pandas import DataFrame
 import json
 from flask_login import login_required, logout_user
@@ -30,9 +30,10 @@ def create_connections_routes(app, graph):
             data["fromUserId"], data["toUserId"])
 
         if (request_id != -1):
-            return f"Connection request {request_id} send. ({data['fromUserId']} -> {data['toUserId']})"
+            responseMessage = f"Connection request send. ({data['fromUserId']} -> {data['toUserId']})"
+            return make_response(jsonify({"request_id": request_id, "message": jsonify(responseMessage)}), 200)
         else:
-            return f"Connection request already send."
+            return make_response(jsonify({"message": jsonify("Connection request already sent.")}), 200)
 
     @app.route("/connections/cancel/<int:request_id>", methods=['DELETE'])
     @login_required
@@ -48,7 +49,7 @@ def create_connections_routes(app, graph):
 
         Connection.cancel_request(request_id)
 
-        return f"Connection request {request_id} canceled."
+        return make_response(jsonify({"message": jsonify(f"Connection request {request_id} canceled.")}), 200)
 
     @app.route("/connections/accept", methods=['POST'])
     @login_required
@@ -65,7 +66,7 @@ def create_connections_routes(app, graph):
 
         Connection.accept_request(data["request_id"])
 
-        return f"Connection request {data['request_id']} accepted."
+        return make_response(jsonify({"message": jsonify(f"Connection request {data['request_id']} accepted.")}), 200)
 
     @app.route("/connections/deny", methods=['POST'])
     @login_required
@@ -82,7 +83,7 @@ def create_connections_routes(app, graph):
 
         Connection.deny_request(data['request_id'])
 
-        return f"Connection request {data['request_id']} denied."
+        return make_response(jsonify({"message": jsonify(f"Connection request {data['request_id']} denied.")}), 200)
 
     @app.route("/connections/pending/<int:user_id>", methods=['GET'])
     @login_required
@@ -91,7 +92,11 @@ def create_connections_routes(app, graph):
         if (user_id != session['_user_id']):
             return Response.unauthorized_access_wrong_user()
 
-        return Connection.get_pending_requests_by_user(user_id)
+        pending_requests = Connection.get_pending_requests_by_user(user_id)
+
+        # TODO: test if the json dump has useful information
+        return make_response(json.dump(pending_requests), 200)
+
 
     @app.route("/connections/add", methods=['POST'])
     @login_required

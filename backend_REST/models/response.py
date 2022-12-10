@@ -1,27 +1,63 @@
-date_formats = "Y/M/D or Y-M-D"
+from flask import make_response, jsonify, url_for
+import flask_rdf
 
+# class RDFResponse():
+#     def __init__(self, status, message, data, graph, location = None):
+#         self.status = status
+#         self.message = message
+#         self.data = data
+#         self.graph = graph
+#         self.location = location
+
+#     def get_response(self):
+#         response = make_response(self.data, self.status)
+#         response.headers["Content-Type"] = "application/rdf+xml"
+
+#         if (self.location != None):
+#             response.headers["Location"] = url_for(self.location)
+
+#         return response
+
+# class JsonResponse():
+#     def __init__(self, status, message, data, location = None):
+#         self.status = status
+#         self.message = message
+#         self.data = data
+#         self.location = location
+        
+
+#     def get_response(self):
+#         response = make_response(self.data, self.status)
+#         response.headers["Content-Type"] = "application/json"
+
+#         if (self.location != None):
+#             response.headers["Location"] = url_for(self.location)
+
+#         return response
+    
+date_formats = "Y/M/D or Y-M-D"
 
 class Response():
     def unauthorized_access_not_logged_in():
-        return f"Unauthorized Access (Need to login first)"
+        return make_response(jsonify({"message": "Unauthorized Access (Need to login first)"}), 401)
 
     def unauthorized_access_wrong_user():
-        return f"Unauthorized Access (Wrong user)"
+        return make_response(jsonify({"message": "Unauthorized Access (Wrong user)"}), 401)
 
     def start_date_not_valid():
-        return f"Start date not valid. (Formats: {date_formats})"
+        return make_response(jsonify({"message": f"Start date not valid. (Formats: {date_formats})"}), 400)
 
     def end_date_not_valid():
-        return f"End date not valid. (Formats: {date_formats})"
+        return make_response(jsonify({"message": f"End date not valid. (Formats: {date_formats})"}), 400)
 
     def email_not_valid():
-        return f"Email not valid."
+        return make_response(jsonify({"message": "Email not valid."}), 400)
 
     def email_not_available():
-        return f"Email already in use."
+        return make_response(jsonify({"message": "Email not available."}), 400)
 
     def degree_not_valid():
-        return f"Degree not valid."
-    
+        return make_response(jsonify({"message": "Degree not valid."}), 400)
+
     def user_not_exist():
-        return f"This user does not exists."
+        return make_response(jsonify({"message": "User not exist."}), 400)
