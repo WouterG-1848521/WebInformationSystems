@@ -1,5 +1,4 @@
 from flask import make_response, jsonify, url_for, render_template, request
-import flask_rdf
 
 # class RDFResponse():
 #     def __init__(self, status, message, data, graph, location = None):
