@@ -78,7 +78,7 @@ def create_user_routes(app, g):
         if session['_user_id'] != user_id:
             return Response.unauthorized_access_wrong_user()
 
-        if not User.valid_email(data["email"]):
+        if not Validator.valid_email(data["email"]):
             return Response.email_not_valid()
 
         if not User.is_available(data["email"]):
@@ -135,7 +135,7 @@ def create_user_routes(app, g):
         if not Validator.valid_degree(data["degree"]):
             return Response.degree_not_valid()
 
-        diploma_id = Diploma.create_for_user(g, user_id, data["degree"], data["profession"],
+        diploma_id = Diploma.create_for_user(g, user_id, data["degree"], data["discipline"],
                                              data["institution"], data["startDate"], data["endDate"])
         return f"Created diploma {diploma_id } for user {user_id}."
 
@@ -165,7 +165,7 @@ def create_user_routes(app, g):
         if not Validator.valid_degree(data["degree"]):
             return Response.degree_not_valid()
 
-        Diploma.update(g, diploma_id, data["degree"], data["profession"],
+        Diploma.update(g, diploma_id, data["degree"], data["discipline"],
                        data["institution"], data["startDate"], data["endDate"])
         return f"Updated diploma {diploma_id}."
 
@@ -267,8 +267,8 @@ def create_user_routes(app, g):
 
         # TODO: check data (check skill list)
 
-        experience_id = WorkExperience.create_for_user(g, user_id, data["jobTitle"], data["skills"].split(','),
-                                                       data["startDate"], data["endDate"])
+        experience_id = WorkExperience.create_for_user(g, user_id, data["jobTitle"], data["profession"], 
+                                                       data["skills"].split(','), data["startDate"], data["endDate"])
         return f"Created experience {experience_id } for user {user_id}."
 
     @app.route("/users/<int:user_id>/experiences", methods=["GET"])
@@ -294,9 +294,8 @@ def create_user_routes(app, g):
         if not Validator.valid_date(data["endDate"]):
             return Response.end_date_not_valid()
 
-        WorkExperience.update(g, user_id, data["jobTitle"],
-                              data["skills"].split(','), data["startDate"],
-                              data["endDate"])
+        WorkExperience.update(g, user_id, data["jobTitle"], data["profession"],
+                              data["skills"].split(','), data["startDate"], data["endDate"])
         return f"Updated experience {experience_id}."
 
     @app.route("/users/<int:user_id>/experiences/<int:experience_id>", methods=["DELETE"])

@@ -7,7 +7,7 @@ import owlrl
 
 from backend_REST import db, session
 from backend_REST.models.database import DBUser
-from backend_REST.graph import LOCAL, LANGUAGE, SKILL
+from backend_REST.graph import LOCAL
 from backend_REST.models.user import User
 
 from flask_login import login_required, logout_user

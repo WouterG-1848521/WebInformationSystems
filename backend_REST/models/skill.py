@@ -4,16 +4,16 @@ from rdflib.namespace import RDF, RDFS, FOAF, XSD
 
 from config import GRAPH_FILE
 
-from backend_REST.graph import LOCAL, PERSON, VACANCY, SKILL
+from backend_REST.graph import WIKIDATA, LOCAL, PERSON, VACANCY
 
 class Skill():
     ########################################
     # USER SECTION
     ########################################
-    def add_to_user(graph, user_id, skill):
+    def add_to_user(graph, user_id, skill_id):
         user_URI = URIRef(PERSON + str(user_id))
-        skill_URI = URIRef(SKILL + str(skill))
-
+        skill_URI = URIRef(WIKIDATA + str(skill_id))
+    
         graph.add((user_URI, LOCAL.skill, skill_URI))
         graph.serialize(destination=GRAPH_FILE)
 
@@ -33,9 +33,9 @@ class Skill():
         df = DataFrame(result, columns=result.vars)
         return df.to_json()
 
-    def remove_from_user(graph, user_id, skill):
+    def remove_from_user(graph, user_id, skill_id):
         user_URI = URIRef(PERSON + str(user_id))
-        skill_URI = URIRef(SKILL + str(skill))
+        skill_URI = URIRef(WIKIDATA + str(skill_id))
 
         graph.remove((user_URI, LOCAL.skill, skill_URI))
         graph.serialize(destination=GRAPH_FILE)
@@ -43,9 +43,9 @@ class Skill():
     ########################################
     # VACANCY SECTION
     ########################################
-    def add_to_vacancy(graph, vacancy_id, skill):
+    def add_to_vacancy(graph, vacancy_id, skill_id):
         vacancy_URI = URIRef(VACANCY + str(vacancy_id))
-        skill_URI = URIRef(SKILL + str(skill))
+        skill_URI = URIRef(WIKIDATA + str(skill_id))
 
         graph.add((vacancy_URI, LOCAL.skill, skill_URI))
         graph.serialize(destination=GRAPH_FILE)
@@ -64,9 +64,9 @@ class Skill():
         df = DataFrame(result, columns=result.vars)
         return df.to_json()
 
-    def remove_from_vacancy(graph, user_id, skill):
+    def remove_from_vacancy(graph, user_id, skill_id):
         vacancy_URI = URIRef(VACANCY + str(user_id))
-        skill_URI = URIRef(SKILL + str(skill))
+        skill_URI = URIRef(WIKIDATA + str(skill_id))
 
         graph.remove((vacancy_URI, LOCAL.skill, skill_URI))
         graph.serialize(destination=GRAPH_FILE)

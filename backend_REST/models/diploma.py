@@ -1,7 +1,7 @@
 from pandas import DataFrame
 from rdflib import Literal, RDF, URIRef
 from rdflib.namespace import RDF, RDFS, FOAF, XSD
-from backend_REST.graph import LOCAL, PERSON, VACANCY, DIPLOMA, DEGREE, PROFESSION
+from backend_REST.graph import WIKIDATA, LOCAL, PERSON, VACANCY, DIPLOMA, DEGREE
 
 from backend_REST import db
 from config import GRAPH_FILE
@@ -10,20 +10,20 @@ from backend_REST.models.database import DBDiploma
 
 
 class Diploma():
-    def add(graph, diploma_URI, degree, profession, institiution, startDate, endDate):
+    def add(graph, diploma_URI, degree, discipline_id, institiution, startDate, endDate):
         degree_URI = URIRef(DEGREE + degree)
-        profession_URI = URIRef(PROFESSION + profession)
+        discipline_URI = URIRef(WIKIDATA + discipline_id)
 
         graph.add((diploma_URI, RDF.type, LOCAL.diploma))
         graph.add((diploma_URI, LOCAL.degree, degree_URI))
-        graph.add((diploma_URI, LOCAL.profession, profession_URI))
+        graph.add((diploma_URI, LOCAL.discipline, discipline_URI))
         graph.add((diploma_URI, LOCAL.institution, Literal(institiution)))
         graph.add((diploma_URI, LOCAL.startDate,
                   Literal(startDate, datatype=XSD.date)))
         graph.add((diploma_URI, LOCAL.endDate,
                   Literal(endDate, datatype=XSD.date)))
 
-    def create(graph, degree, profession, institiution, startDate, endDate):
+    def create(graph, degree, discipline_id, institiution, startDate, endDate):
         diploma = DBDiploma()
         db.session.add(diploma)
         db.session.commit()
@@ -32,19 +32,19 @@ class Diploma():
         diploma_URI = URIRef(DIPLOMA + str(diploma_id))
 
         # Add diploma
-        Diploma.add(graph, diploma_URI, degree, profession,
+        Diploma.add(graph, diploma_URI, degree, discipline_id,
                     institiution, startDate, endDate)
 
         return diploma_URI
 
-    def update(graph, diploma_id, degree, profession, institiution, startDate, endDate):
+    def update(graph, diploma_id, degree, discipline_id, institiution, startDate, endDate):
         diploma_URI = URIRef(DIPLOMA + str(diploma_id))
 
         # Remove previous diploma
         graph.remove((diploma_URI, None, None))
 
         # Add new diploma
-        Diploma.add(graph, diploma_URI, degree, profession,
+        Diploma.add(graph, diploma_URI, degree, discipline_id,
                     institiution, startDate, endDate)
 
         graph.serialize(destination=GRAPH_FILE)
@@ -66,11 +66,11 @@ class Diploma():
         diploma_URI = URIRef(DIPLOMA + str(diploma_id))
 
         q = f'''
-            SELECT ?d ?degree ?profession ?institution ?startDate ?endDate
+            SELECT ?d ?degree ?discipline ?institution ?startDate ?endDate
             WHERE {{
                 ?d rdf:type local:diploma .
                 ?d local:degree ?degree .
-                ?d local:profession ?profession .
+                ?d local:discipline ?discipline .
                 ?d local:institution ?institution .
                 ?d local:startDate ?startDate .
                 ?d local:endDate ?endDate .
@@ -85,10 +85,10 @@ class Diploma():
     # USER SECTION
     ########################################
 
-    def create_for_user(graph, user_id, degree, profession, institiution, startDate, endDate):
+    def create_for_user(graph, user_id, degree, discipline_id, institiution, startDate, endDate):
         user_URI = URIRef(PERSON + str(user_id))
         diploma_URI = Diploma.create(
-            graph, degree, profession, institiution, startDate, endDate)
+            graph, degree, discipline_id, institiution, startDate, endDate)
 
         # Link diploma to user
         graph.add((user_URI, LOCAL.diploma, diploma_URI))
@@ -100,13 +100,13 @@ class Diploma():
         user_URI = URIRef(PERSON + str(user_id))
 
         q = f'''
-            SELECT ?d ?degree ?profession ?institution ?startDate ?endDate
+            SELECT ?d ?degree ?discipline ?institution ?startDate ?endDate
             WHERE {{
                 ?p rdf:type foaf:Person .
                 ?p local:diploma ?d .
                 ?d rdf:type local:diploma .
                 ?d local:degree ?degree .
-                ?d local:profession ?profession .
+                ?d local:discipline ?discipline .
                 ?d local:institution ?institution .
                 ?d local:startDate ?startDate .
                 ?d local:endDate ?endDate .
@@ -137,10 +137,10 @@ class Diploma():
     ########################################
     # VACANCY SECTION
     ########################################
-    def create_for_vacancy(graph, vacancy_id, degree, profession, institiution, startDate, endDate):
+    def create_for_vacancy(graph, vacancy_id, degree, discipline_id, institiution, startDate, endDate):
         vacancy_URI = URIRef(VACANCY + str(vacancy_id))
         diploma_URI = Diploma.create(
-            graph, degree, profession, institiution, startDate, endDate)
+            graph, degree, discipline_id, institiution, startDate, endDate)
 
         # Link diploma to vacancy
         graph.add((vacancy_URI, LOCAL.diploma, diploma_URI))
@@ -152,13 +152,13 @@ class Diploma():
         vacancy_URI = URIRef(VACANCY + str(vacancy_id))
 
         q = f'''
-            SELECT ?d ?degree ?profession ?institution ?startDate ?endDate
+            SELECT ?d ?degree ?discipline ?institution ?startDate ?endDate
             WHERE {{
                 ?v rdf:type local:vacancy .
                 ?v local:diploma ?d .
                 ?d rdf:type local:diploma .
                 ?d local:degree ?degree .
-                ?d local:profession ?profession .
+                ?d local:discipline ?discipline .
                 ?d local:institution ?institution .
                 ?d local:startDate ?startDate .
                 ?d local:endDate ?endDate .

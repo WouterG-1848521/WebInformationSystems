@@ -23,11 +23,11 @@ g = create_graph(GRAPH_FILE)
 #                        axiomatic_triples=True, datatype_axioms=True).expand(g)
 
 # with app.app_context():
-#     # Reload same data
-#     reset_DB(app)
-#     clear_graph(app, g)
-#     set_initial_graph_properties(g)
-#     set_initial_graph_data(g)
+    # Reload same data
+    # reset_DB(app)
+    # clear_graph(app, g)
+    # set_initial_graph_properties(g)
+    # set_initial_graph_data(g)
 
 create_login_manager(app)
 create_routes(app, g)
