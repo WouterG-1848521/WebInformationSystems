@@ -100,8 +100,8 @@ def create_test_routes(app, g):
             return f"Permission Denied"
 
 
-        g.add((URIRef(SKILL + "leadership"), RDF.type, LOCAL.skill))
-        g.add((URIRef(SKILL + "teamwork"), RDF.type, LOCAL.skill))
+        # g.add((URIRef(SKILL + "leadership"), RDF.type, LOCAL.skill))
+        # g.add((URIRef(SKILL + "teamwork"), RDF.type, LOCAL.skill))
 
         g.serialize(destination="user.ttl")
 
@@ -115,9 +115,9 @@ def create_test_routes(app, g):
             return f"Permission Denied"
 
 
-        g.add((URIRef(LANGUAGE + "dutch"), RDF.type, LOCAL.language))
-        g.add((URIRef(LANGUAGE + "english"), RDF.type, LOCAL.language))
-        g.add((URIRef(LANGUAGE + "french"), RDF.type, LOCAL.language))
+        # g.add((URIRef(LANGUAGE + "dutch"), RDF.type, LOCAL.language))
+        # g.add((URIRef(LANGUAGE + "english"), RDF.type, LOCAL.language))
+        # g.add((URIRef(LANGUAGE + "french"), RDF.type, LOCAL.language))
 
         g.serialize(destination="user.ttl")
 

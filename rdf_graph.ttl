@@ -5,6 +5,7 @@
 @prefix local: <http://localhost/> .
 @prefix person: <http://localhost/person/> .
 @prefix profession: <http://localhost/profession/> .
+@prefix enterprise: <http://localhost/enterprise/> .
 @prefix skill: <http://localhost/skill/> .
 @prefix vacancy: <http://localhost/vacancy/> .
 
