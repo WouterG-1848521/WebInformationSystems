@@ -4,8 +4,8 @@ from pandas import DataFrame
 from backend_REST.models.user import User
 
 from backend_REST.matching import matchOnVacancy_allParameters, matchOnVacancy_anyParameters, matchOnPerson
-from backend_REST.matching import matchVacancy_diploma, matchVacancy_language, matchVacancy_skill, matchVacancy_experience
-from backend_REST.matching import matchPerson_diploma, matchPerson_language, matchPerson_skill, matchPerson_experience
+from backend_REST.matching import matchVacancy_discipline, matchVacancy_language, matchVacancy_skill, matchVacancy_experience
+from backend_REST.matching import matchPerson_discipline, matchPerson_language, matchPerson_skill, matchPerson_experience
 
 # TODO @wouter: nog wel eens testen of alles correct terug gegeven wordt
 # TODO @wouter: equivalent classes testen
@@ -29,12 +29,12 @@ def create_matching_routes(app, graph):
         
         return matchPerson_skill(graph, personID)
 
-    @app.route("/users/<int:user_id>/matches/diplomas", methods=['GET'])
-    def get_all_vacancy_matches_for_user_by_diplomas(user_id):
+    @app.route("/users/<int:user_id>/matches/discipline", methods=['GET'])
+    def get_all_vacancy_matches_for_user_by_discipline(user_id):
         personID = user_id
         personID = int(personID)
         
-        return matchPerson_diploma(graph, personID)
+        return matchPerson_discipline(graph, personID)
 
     @app.route("/users/<int:user_id>/matches/languages", methods=['GET'])
     def get_all_vacancy_matches_for_user_by_languages(user_id):
@@ -75,12 +75,12 @@ def create_matching_routes(app, graph):
 
         return matchVacancy_skill(graph, vacancyID)
 
-    @app.route("/vacancies/<int:vacancy_id>/matches/diplomas", methods=['GET'])
-    def get_all_user_matches_for_vacancy_by_diplomas(vacancy_id):
+    @app.route("/vacancies/<int:vacancy_id>/matches/discipline", methods=['GET'])
+    def get_all_user_matches_for_vacancy_by_discipline(vacancy_id):
         vacancyID = vacancy_id
         vacancyID = int(vacancyID)
 
-        return matchVacancy_diploma(graph, vacancyID)
+        return matchVacancy_discipline(graph, vacancyID)
 
     @app.route("/vacancies/<int:vacancy_id>/matches/languages", methods=['GET'])
     def get_all_user_matches_for_vacancy_by_languages(vacancy_id):

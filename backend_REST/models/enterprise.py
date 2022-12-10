@@ -1,7 +1,7 @@
 from pandas import DataFrame
 from rdflib import Literal, RDF, URIRef
 from rdflib.namespace import RDF, RDFS, FOAF, XSD
-from backend_REST.graph import LOCAL
+from backend_REST.graph import ENTERPRISE, VACANCY
 from math import sqrt
 
 from backend_REST import db
@@ -11,17 +11,17 @@ from backend_REST.models.database import DBEnterprise
 
 from backend_REST.queries import query_enterpriseGetAll, query_enterpriseGetById, query_enterpriseGetByName, query_enterpriseGetByLocation, check_maintainer, check_owner, check_person
 from backend_REST.queries import create_enterpriseRDF, query_update_enterpriseRDF, query_delete_enterpriseRDF, query_transfer_ownershipRDF
-from backend_REST.queries import query_remove_maintainerRDF, query_add_maintainerRDF, check_enterprise, query_enterpriseGetByLocation
+from backend_REST.queries import query_remove_maintainerRDF, query_add_maintainerRDF, check_enterprise, query_enterpriseGetByLocation, query_getVacanciesOfEnterprise
 
 gFile = "graph.ttl"
 
-# TODO @wouter: delete omzetten naar rdflib vorm en extra controleren
+# DONE @wouter: delete omzetten naar rdflib vorm en extra controleren
+# DONE @wouter: bij delete de bijhorende vacancies ook verwijderen
 # DONE : update omzetten
 # DONE : create omzetten
 # DONE : log in testen
 # DONE : ID by create uit db halen
-# TODO @wouter: location bij enterprise insteken via gn, nog bij delete
-# TODO @wouter: matchen on lacation
+# DONE @wouter: matchen on lacation
 # TODO @wouter: groeperen per maintainer
 
 class Enterprise:
@@ -110,9 +110,33 @@ class Enterprise:
         if not (check_owner(graph, enterpriseID, ownerID)):
             return "only owner of enterprise can delete the enterprise"
 
-        query = query_delete_enterpriseRDF(enterpriseID)
-        graph.update(query)
-        graph.serialize(destination=gFile)
+        # delete enterprise from DB
+        enterprise = DBEnterprise().query.get(enterpriseID)
+
+        if not (enterprise is None):
+            db.session.delete(enterprise)
+            db.session.commit()
+
+        # verwijder al de vacancies van de enterprise
+        query = query_getVacanciesOfEnterprise(enterpriseID)
+        result = graph.query(query)
+        df = DataFrame(result, columns=result.vars)
+
+        for index, row in df.iterrows():
+            vacancyURI = row[0]
+            graph.remove((vacancyURI, None, None))
+
+
+        enterpriseURI = URIRef(ENTERPRISE + str(enterpriseID))
+
+        # query = query_delete_enterpriseRDF(enterpriseID)
+        # graph.update(query)
+        # graph.serialize(destination=gFile)
+
+        # Delete user
+        graph.remove((enterpriseURI, None, None))
+
+        graph.serialize(destination=GRAPH_FILE)
 
         return "delete enterprise"
 

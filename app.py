@@ -15,6 +15,8 @@ from backend_REST.login import create_login_manager
 
 from backend_REST.initial_data import clear_graph, set_initial_graph_properties, set_initial_graph_data
 
+import os
+
 
 app = create_app('development')
 
