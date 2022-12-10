@@ -24,6 +24,11 @@ gFile = "graph.ttl"
 # DONE @wouter: matchen on lacation
 # TODO @wouter: groeperen per maintainer
 
+def groupByMaintainer(df):
+    df = df.groupby(['maintainer'])['id'].apply(list).reset_index(name='vacancies')
+    df = df.to_json(orient='index', indent=2)
+    return df
+
 class Enterprise:
 
     def get_maintainers_by_id(graph, enterprise_id):
@@ -50,6 +55,8 @@ class Enterprise:
         query = query_enterpriseGetAll()
         result = graph.query(query)
         df = DataFrame(result, columns=result.vars)
+
+        df = groupByMaintainer(df)
 
         return df.to_json(orient='index', indent=2)
 
