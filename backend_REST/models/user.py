@@ -33,12 +33,14 @@ class User():
         user_id = user.id
 
         # Add user to Graph
-        user_ref = URIRef(PERSON + str(user_id))
+        user_URI = URIRef(PERSON + str(user_id))
 
         # User
-        graph.add((user_ref, RDF.type, FOAF.Person))
-        graph.add((user_ref, FOAF.name, Literal(name)))
-        graph.add((user_ref, FOAF.surname, Literal(surname)))
+        graph.add((user_URI, RDF.type, FOAF.Person))
+        graph.add((user_URI, FOAF.name, Literal(name)))
+        graph.add((user_URI, FOAF.surname, Literal(surname)))
+        graph.add((user_URI, LOCAL.getVacancies, Literal(
+            user.getVacancies, datatype=XSD.boolean)))
 
         graph.serialize(destination=GRAPH_FILE)
 
@@ -167,9 +169,14 @@ class User():
 
         return user.isAdmin
 
-    def toggle_get_vacancies(user_id):
+    def toggle_get_vacancies(graph, user_id):
+        # Update DB
         user = DBUser.query.get(user_id)
         user.getVacancies = not user.getVacancies
         db.session.commit()
+
+        # Update RDF
+        User.update_literal(graph, user_id, LOCAL.getVacancies,
+                            user.getVacancies, XSD.boolean)
 
         return user.getVacancies

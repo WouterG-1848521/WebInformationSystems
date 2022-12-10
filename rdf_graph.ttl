@@ -32,6 +32,7 @@ person:1 a foaf:Person ;
     foaf:name "Joris" ;
     foaf:surname "Bertram" ;
     local:email "email" ;
+    local:getVacancies false ;
 
     local:diploma diploma:1 ;
     local:experience experience:1 ;
@@ -43,12 +44,14 @@ person:1 a foaf:Person ;
 
 person:2 a foaf:Person ;
     local:diploma diploma:2 ;
+    local:getVacancies true ;
     foaf:name "Brent" ;
     foaf:surname "Zoomers" ;
     local:email "email" .
 
 person:3 a foaf:Person ;
     local:diploma diploma:3 ;
+    local:getVacancies true ;
     foaf:name "Wouter" ;
     foaf:surname "Grootjans" ;
     local:email "email" ;
@@ -56,6 +59,8 @@ person:3 a foaf:Person ;
     local:skill skill:teamwork .
 
 person:4 a foaf:Person ;
+    local:diploma diploma:4 ;
+    local:getVacancies true ;
     foaf:name "Gwendoline" ;
     foaf:surname "Nijssen" ;
     local:email "email" ;
@@ -192,6 +197,5 @@ experience:1 a local:experience ;
     local:skill skill:leadership,
         skill:teamwork ;
     local:startDate "2018-09-01"^^xsd:date .
-
 
 

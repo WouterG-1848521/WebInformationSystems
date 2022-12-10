@@ -135,14 +135,14 @@ def getVacanciesByIDs(graph, vacancyIDs):
 # public functions
 ##################################################################
 
-# TODO : testen
+# TODO @wouter: testen
 # DONE : individuele matching aanpassen aan ander stramien, eerst data van user/vacancy opvragen en deze gebruiken om andere te queryen
 
 # DONE : pass queries aan met equivalent skills
-# TODO : experience heeft ook skills, deze ook matchen met de skills? of gewoon op experience matchen
+# TODO @wouter: experience heeft ook skills, deze ook matchen met de skills? of gewoon op experience matchen
 # DONE : groepeer returned values per person/vacancy
 # DONE : add column names
-# TODO : checken dat het toch niet beter kan via dataframe tojson
+# TODO @wouter: checken dat het toch niet beter kan via dataframe tojson
 
 # DONE : ik check by vacancies that ze available zijn via "availability = 'true'"
 #      Dit lijkt enkel te werken als we specifieren dat het een boolean is? via local:availability "true"^^xsd:boolean 

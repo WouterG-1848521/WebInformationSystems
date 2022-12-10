@@ -7,8 +7,8 @@ from backend_REST.matching import matchOnVacancy_allParameters, matchOnVacancy_a
 from backend_REST.matching import matchVacancy_diploma, matchVacancy_language, matchVacancy_skill, matchVacancy_experience
 from backend_REST.matching import matchPerson_diploma, matchPerson_language, matchPerson_skill, matchPerson_experience
 
-# TODO : nog wel eens testen of alles correct terug gegeven wordt
-# TODO : equivalent classes testen
+# TODO @wouter: nog wel eens testen of alles correct terug gegeven wordt
+# TODO @wouter: equivalent classes testen
 
 def create_matching_routes(app, graph):
     ########################################
@@ -49,15 +49,6 @@ def create_matching_routes(app, graph):
         personID = int(personID)
         
         return matchPerson_experience(graph, personID)
-
-    @app.route("/users/<int:user_id>/matches/toggle", methods=['PUT'])
-    def toggle_user_vacancies(user_id):
-        get_vacancies = User.toggle_get_vacancies(user_id)
-
-        if (get_vacancies):
-            return f"User {user_id} vacancies: enabled"
-        else:
-            return f"User {user_id} vacancies: disabled"
 
     ########################################
     # MATCHING ROUTES - VACANCY -> USERS

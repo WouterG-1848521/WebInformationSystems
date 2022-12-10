@@ -210,7 +210,7 @@ def create_enterpriseRDF(graph, name, owner, lat, long, address, phone, email, w
 #########################################################
 # enterprise queries
 #########################################################
-
+# TODO @wouter: per maintainer wordt er nu een apart result teruggegeven, kan dit misschien samengevoegd worden?
 def query_enterpriseGetAll():
     query = prefixes + '''
                             SELECT ?uri ?name ?owner  ?maintainerName ?maintainerSurName ?lat ?long ?address ?description ?phone ?email ?website ?location
@@ -231,7 +231,6 @@ def query_enterpriseGetAll():
                                     ?maintainer foaf:surname ?maintainerSurName .
                                 }
                         '''
-    # TODO: per maintainer wordt er nu een apart result teruggegeven, kan dit misschien samengevoegd worden?
     return query
 
 def query_enterpriseGetById(id):
@@ -255,7 +254,6 @@ def query_enterpriseGetById(id):
                                 FILTER (?uri = enterprise:{id}) 
                             }}
                     '''
-    # TODO: per maintainer wordt er nu een apart result teruggegeven, kan dit misschien samengevoegd worden?
     return query
 
 def query_enterpriseGetByName(name):
@@ -278,7 +276,6 @@ def query_enterpriseGetByName(name):
                                 ?maintainer foaf:surname ?maintainerSurName .
                         }}
                 '''
-    # TODO: per maintainer wordt er nu een apart result teruggegeven, kan dit misschien samengevoegd worden?
     return query
 
 def query_enterpriseGetByLocation(location):
@@ -301,7 +298,6 @@ def query_enterpriseGetByLocation(location):
                                 ?maintainer foaf:surname ?maintainerSurName .
                         }}
                 '''
-    # TODO: per maintainer wordt er nu een apart result teruggegeven, kan dit misschien samengevoegd worden?
     return query
 
 def query_update_enterpriseRDF(name, lat, long, address, phone, email, website, description, enterpriseID, location):
@@ -335,7 +331,7 @@ def query_update_enterpriseRDF(name, lat, long, address, phone, email, website, 
         deletes += "?enterprise local:description ?description .\n"
         inserts += f"?enterprise local:description \"{description}\" .\n"
     if (location != ""):
-        deletes += "?enterprise local:location ?location .\n"   # TODO delete werkt niet
+        deletes += "?enterprise local:location ?location .\n"
         inserts += f"?enterprise local:location \"gn:{location}\" .\n"
 
     query += ' DELETE { ' + "\n" + deletes + ' } ' + "\n"
@@ -358,7 +354,7 @@ def query_update_enterpriseRDF(name, lat, long, address, phone, email, website, 
     return query
 
 # deletes the enterprise, the enterpriseInfo and the connected vacancies, vacancyInfo
-# TODO : vacancies willen nog niet verwijdert worden
+# TODO @wouter (update delete): vacancies willen nog niet verwijdert worden
 def query_delete_enterpriseRDF(enterpriseID):
     query = prefixes + "\n"
     query += f'''

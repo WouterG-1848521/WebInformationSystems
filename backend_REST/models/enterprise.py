@@ -14,13 +14,13 @@ from backend_REST.queries import query_remove_maintainerRDF, query_add_maintaine
 
 gFile = "graph.ttl"
 
-# TODO : delete omzetten naar rdflib vorm en extra controleren
+# TODO @wouter: delete omzetten naar rdflib vorm en extra controleren
 # DONE : update omzetten
 # DONE : create omzetten
 # DONE : log in testen
 # DONE : ID by create uit db halen
-# TODO : location bij enterprise insteken via gn, nog bij delete
-# TODO : matchen on lacation
+# TODO @wouter: location bij enterprise insteken via gn, nog bij delete
+# TODO @wouter: matchen on lacation
 
 class Enterprise:
 
@@ -96,7 +96,6 @@ class Enterprise:
         query = query_update_enterpriseRDF(name, lat, long, address, phone, email, website, description, enterpriseID, location)
         graph.update(query)
         graph.serialize(destination=gFile)
-        # TODO : hoe controleer je of de update gelukt is?
 
         return "update enterprise"
 
@@ -112,7 +111,6 @@ class Enterprise:
         query = query_delete_enterpriseRDF(enterpriseID)
         graph.update(query)
         graph.serialize(destination=gFile)
-        # TODO : hoe controleer je of de delete gelukt is?
 
         return "delete enterprise"
 
@@ -134,7 +132,6 @@ class Enterprise:
         query = query_transfer_ownershipRDF(enterpriseID, newOwnerID)
         graph.update(query)
         graph.serialize(destination=gFile)  
-        # TODO : hoe controleer je of de update gelukt is?
     
         return "transfer enterprise"
 
@@ -156,7 +153,6 @@ class Enterprise:
         query = query_add_maintainerRDF(enterpriseID, maintainerID)
         graph.update(query)
         graph.serialize(destination=gFile)   
-        # TODO : hoe controleer je of de update gelukt is?
         
         return "added maintainer"
 
