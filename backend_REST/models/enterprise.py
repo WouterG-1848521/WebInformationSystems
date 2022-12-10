@@ -2,6 +2,7 @@ from pandas import DataFrame
 from rdflib import Literal, RDF, URIRef
 from rdflib.namespace import RDF, RDFS, FOAF, XSD
 from backend_REST.graph import LOCAL
+from math import sqrt
 
 from backend_REST import db
 from config import GRAPH_FILE
@@ -10,7 +11,7 @@ from backend_REST.models.database import DBEnterprise
 
 from backend_REST.queries import query_enterpriseGetAll, query_enterpriseGetById, query_enterpriseGetByName, query_enterpriseGetByLocation, check_maintainer, check_owner, check_person
 from backend_REST.queries import create_enterpriseRDF, query_update_enterpriseRDF, query_delete_enterpriseRDF, query_transfer_ownershipRDF
-from backend_REST.queries import query_remove_maintainerRDF, query_add_maintainerRDF, check_enterprise
+from backend_REST.queries import query_remove_maintainerRDF, query_add_maintainerRDF, check_enterprise, query_enterpriseGetByLocation
 
 gFile = "graph.ttl"
 
@@ -21,6 +22,7 @@ gFile = "graph.ttl"
 # DONE : ID by create uit db halen
 # TODO @wouter: location bij enterprise insteken via gn, nog bij delete
 # TODO @wouter: matchen on lacation
+# TODO @wouter: groeperen per maintainer
 
 class Enterprise:
 
@@ -176,3 +178,35 @@ class Enterprise:
         graph.update(query)
         graph.serialize(destination=gFile)   
         return "remove maintainer"
+
+    def get_onLATLONGLocation(graph, lat, long, radius):
+        query = query_enterpriseGetAll()
+        result = graph.query(query)
+        df = DataFrame(result, columns=result.vars)
+
+        # lat is on position 5 and long on 6, It doesn't want to work with the column names
+        
+        # Filter on distance
+        # df = df[(df['lat'] >= lat - radius) & (df['lat'] <= lat + radius) & (df['long'] >= long - radius) & (df['long'] <= long + radius)]
+        # df = df[sqrt( (lat - df['lat'])**2 + (long - df["long"])**2 ) <= radius]
+
+        returndf = DataFrame(columns=['id', 'name', 'lat', 'long', 'address', 'phone', 'email', 'website', 'description', 'owner', 'location'])
+        for i in range(len(df)):
+            # get the float value of lat and long
+            dflat = df.iloc[i][5].n3()[1:]
+            dflat = float(dflat[:dflat.find('"')])
+            dflong = df.iloc[i][6].n3()[1:]
+            dflong = float(dflong[:dflong.find('"')])
+
+            if (sqrt( (lat - dflat)**2 + (long - dflong)**2 ) <= radius):
+                returndf = returndf.append({'id': df.iloc[i][0], 'name': df.iloc[i][1], 'lat': df.iloc[i][5], 'long': df.iloc[i][6], 'address': df.iloc[i][2], 'phone': df.iloc[i][3], 'email': df.iloc[i][4], 'website': df.iloc[i][7], 'description': df.iloc[i][8], 'owner': df.iloc[i][9], 'location': df.iloc[i][10]}, ignore_index=True)
+
+        return returndf.to_json(orient='index', indent=2)
+
+    def get_onLocation(graph, location):
+        query = query_enterpriseGetByLocation(location)
+        result = graph.query(query)
+
+        df = DataFrame(result, columns=result.vars)
+
+        return df.to_json(orient='index', indent=2)
