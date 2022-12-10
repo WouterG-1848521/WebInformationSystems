@@ -1,6 +1,5 @@
 @prefix degree: <http://localhost/degree/> .
 @prefix diploma: <http://localhost/diploma/> .
-@prefix enterprise: <http://localhost/enterprise/> .
 @prefix experience: <http://localhost/experience/> .
 @prefix language: <http://localhost/language/> .
 @prefix local: <http://localhost/> .

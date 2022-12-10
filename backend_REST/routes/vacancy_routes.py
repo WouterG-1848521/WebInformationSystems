@@ -92,9 +92,9 @@ def create_vacancy_routes(app, graph):
         if not Validator.valid_date(data["endDate"]):
             return Response.end_date_not_valid()
 
-        # TODO: check if profession in list
+        # TODO: check if discipline in list
 
-        diploma_id = Diploma.create_for_vacancy(graph, vacancy_id, data["degree"], data["profession"],
+        diploma_id = Diploma.create_for_vacancy(graph, vacancy_id, data["degree"], data["discipline"],
                                                 data["institution"], data["startDate"], data["endDate"], data["location_id"])
         return f"Created diploma {diploma_id } for vacancy {vacancy_id}."
 
@@ -121,9 +121,9 @@ def create_vacancy_routes(app, graph):
         if not Validator.valid_date(data["endDate"]):
             return Response.end_date_not_valid()
 
-        # TODO: check if profession in list
+        # TODO: check if discipline in list
 
-        Diploma.update(graph, diploma_id, data["degree"], data["profession"],
+        Diploma.update(graph, diploma_id, data["degree"], data["discipline"],
                        data["institution"], data["startDate"], data["endDate"])
         return f"Updated diploma {diploma_id}."
 
