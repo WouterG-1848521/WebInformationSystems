@@ -267,7 +267,7 @@ def create_user_routes(app, g):
 
         # TODO: check data (check skill list)
 
-        experience_id = WorkExperience.create_for_user(g, user_id, data["jobTitle"], data["profession"], 
+        experience_id = WorkExperience.create_for_user(g, user_id, data["jobTitle"], data["profession"],
                                                        data["skills"].split(','), data["startDate"], data["endDate"])
         return f"Created experience {experience_id } for user {user_id}."
 
