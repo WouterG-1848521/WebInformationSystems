@@ -2,44 +2,91 @@
 @prefix diploma: <http://localhost/diploma/> .
 @prefix enterprise: <http://localhost/enterprise/> .
 @prefix experience: <http://localhost/experience/> .
-@prefix foaf: <http://xmlns.com/foaf/0.1/> .
-@prefix gn: <https://sws.geonames.org/> .
 @prefix language: <http://localhost/language/> .
 @prefix local: <http://localhost/> .
-@prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix person: <http://localhost/person/> .
 @prefix profession: <http://localhost/profession/> .
 @prefix skill: <http://localhost/skill/> .
 @prefix vacancy: <http://localhost/vacancy/> .
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix owl2: <http://www.w3.org/2006/12/owl2#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix gn: <https://sws.geonames.org/> .
+
+
+skill:teamwork rdf:type owl:Class ;
+    rdf:type local:skill .
+
+experience:10 rdf:type owl:Class ;
+    rdf:type local:experience .
+
+language:english rdf:type owl:Class ;
+    rdf:type local:language .
+
+person:1 a foaf:Person ;
+    foaf:name "Joris" ;
+    foaf:surname "Bertram" ;
+    local:email "email" ;
+    local:getVacancies false ;
+
+    local:diploma diploma:1 ;
+    local:experience experience:1 ;
+    local:language language:dutch,
+        language:english ;
+    local:skill skill:leadership,
+        skill:teamwork .
+
 
 person:2 a foaf:Person ;
     local:diploma diploma:2 ;
     local:getVacancies true ;
     foaf:name "Brent" ;
-    foaf:surname "Zoomers" .
+    foaf:surname "Zoomers" ;
+    local:email "email" .
 
 person:3 a foaf:Person ;
     local:diploma diploma:3 ;
     local:getVacancies true ;
     foaf:name "Wouter" ;
-    foaf:surname "Grootjans" .
+    foaf:surname "Grootjans" ;
+    local:email "email" ;
+
+    local:skill skill:teamwork .
 
 person:4 a foaf:Person ;
     local:diploma diploma:4 ;
     local:getVacancies true ;
     foaf:name "Gwendoline" ;
-    foaf:surname "Nijssen" .
+    foaf:surname "Nijssen" ;
+    local:email "email" ;
+
+    local:diploma diploma:1 ;
+    local:skill skill:teamwork ;
+    local:experience experience:10 ;
+    local:language language:english .
+
 
 vacancy:1 a local:vacancy ;
-    local:diploma diploma:5 ;
+    local:jobTitle "software_developer" ;
+    local:startDate "2022-12-12"^^xsd:date ;
     local:endDate "2023-01-12"^^xsd:date ;
     local:enterprise enterprise:1 ;
-    local:jobTitle "software_developer" ;
-    local:location gn:2796491 ;
     local:postedBy person:1 ;
+
+    local:diploma diploma:1 ;
     local:skill skill:teamwork ;
-    local:startDate "2022-12-12"^^xsd:date .
+    local:language language:english ;
+    local:experience experience:10 ;
+
+    local:jobDescription "jobDes" ;
+    local:jobResponsibilities "jobResp" ;
+    local:jobSalary "jobSal" ;
+    local:location gn:2796491 .
 
 vacancy:2 a local:vacancy ;
     local:diploma diploma:6 ;
@@ -49,7 +96,12 @@ vacancy:2 a local:vacancy ;
     local:location gn:2796491 ;
     local:postedBy person:1 ;
     local:skill skill:teamwork ;
-    local:startDate "2022-12-12"^^xsd:date .
+    local:startDate "2022-12-12"^^xsd:date ;
+    local:jobDescription "jobDes" ;
+    local:jobResponsibilities "jobResp" ;
+    local:language language:english ;
+    local:experience experience:1 ;
+    local:jobSalary "jobSal" .
 
 vacancy:3 a local:vacancy ;
     local:diploma diploma:7 ;
@@ -59,7 +111,12 @@ vacancy:3 a local:vacancy ;
     local:location gn:2796491 ;
     local:postedBy person:1 ;
     local:skill skill:teamwork ;
-    local:startDate "2022-12-12"^^xsd:date .
+    local:startDate "2022-12-12"^^xsd:date ;
+    local:jobDescription "jobDes" ;
+    local:jobResponsibilities "jobResp" ;
+    local:language language:english ;
+    local:experience experience:1 ;
+    local:jobSalary "jobSal" .
 
 vacancy:4 a local:vacancy ;
     local:diploma diploma:8 ;
@@ -69,7 +126,12 @@ vacancy:4 a local:vacancy ;
     local:location gn:2796491 ;
     local:postedBy person:1 ;
     local:skill skill:teamwork ;
-    local:startDate "2022-12-12"^^xsd:date .
+    local:startDate "2022-12-12"^^xsd:date ;
+    local:jobDescription "jobDes" ;
+    local:jobResponsibilities "jobResp" ;
+    local:language language:english ;
+    local:experience experience:1 ;
+    local:jobSalary "jobSal" .
 
 foaf:knows a owl:SymmetricProperty .
 
@@ -136,14 +198,4 @@ experience:1 a local:experience ;
         skill:teamwork ;
     local:startDate "2018-09-01"^^xsd:date .
 
-person:1 a foaf:Person ;
-    local:diploma diploma:1 ;
-    local:experience experience:1 ;
-    local:getVacancies false ;
-    local:language language:dutch,
-        language:english ;
-    local:skill skill:leadership,
-        skill:teamwork ;
-    foaf:name "Joris" ;
-    foaf:surname "Bertram" .
 

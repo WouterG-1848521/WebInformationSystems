@@ -8,7 +8,7 @@
 
 # local declarations
 
-@prefix local: <http://localhost/#> .
+@prefix local: <http://localhost/> .
 @prefix profession: <http://localhost/profession/> .
 @prefix degree: <http://localhost/degree/> .
 @prefix enterprise: <http://localhost/enterprise/> . 
@@ -171,6 +171,7 @@ enterprise:1 rdf:type local:enterprise ;
     geo:lat "40.879"^^xsd:float ;
     geo:long "45.6997"^^xsd:float ;
     geo:address "Leuven straat 7" ;
+    local:location "gn:2796491" ;
     local:phone "016/123456" ;
     local:email "KUL@email.com" ;
     local:website "www.KUL.be" .
@@ -185,6 +186,7 @@ enterprise:2 rdf:type local:enterprise ;
     geo:lat "40.879"^^xsd:float ;
     geo:long "45.6997"^^xsd:float ;
     geo:address "Hasselt straat 5" ;
+    local:location "gn:2796491" ;
     local:phone "016/123456" ;
     local:email "Colruyt@email.com" ;
     local:website "www.colruyt.be" .

@@ -25,6 +25,8 @@ from backend_REST.models.database import DBVacancy
 #     id has a jobLocation
 
 
+# TODO : jobDescription, responsibilities, salary, zijn hier nog niet in opgenomen
+
 class Vacancy():
 
     def create(graph, enterprise_id, maintainer_id, job_title, start_date, end_date, location_id, job_desciption, job_responsibilities, job_salary):
