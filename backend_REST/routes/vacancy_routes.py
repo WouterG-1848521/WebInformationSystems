@@ -280,6 +280,7 @@ def create_vacancy_routes(app, graph):
 
         if not (check_maintainer(graph, session['_user_id'], enterprise_id)):
             return "only maintainer of enterprise can delete vacancy diploma"
+
         # TODO: check if language in list
 
         Language.add_to_vacancy(graph, vacancy_id, data["language"])
@@ -290,7 +291,7 @@ def create_vacancy_routes(app, graph):
     def get_all_languages_by_vacancy_id(enterprise_id, vacancy_id):
 
         return Language.get_all_by_vacancy_id(graph, vacancy_id)
-
+    
     @app.route("/enterprises/<int:enterprise_id>/vacancies/<int:vacancy_id>/languages/<string:language>", methods=['DELETE'])
     def remove_language_from_vacancy(enterprise_id, vacancy_id, language):
 
