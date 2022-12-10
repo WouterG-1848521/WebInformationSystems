@@ -48,3 +48,17 @@ Run command: `yarn run start`
 Install tainwindcss: `npm install -D tailwindcss`
 
 Compile and watch for changes in Tailwind CSS files: `npx tailwindcss -i ./static/src/input.css -o ./static/dist/css/output.css --watch`
+
+
+# API Reference
+## Available URI's and supported methods:
+- `"/index` GET
+- `"/login"` POST, GET
+- `"/sign-up"` POST, GET
+- `"/users/<int:user_id>/profile/show"` GET
+- `"/users/<int:user_id>/profile"` GET, PUT, POST
+
+
+
+- `"/users"` GET, POST
+- `"/users/<int:user_id>"` GET, DELETE, 

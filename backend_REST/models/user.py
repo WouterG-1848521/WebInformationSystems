@@ -101,6 +101,22 @@ class User():
 
     # def update_main_data(graph, user_id, name, surname, email, password):
 
+    def update(graph, user_id, name, surname, email):
+        user_URI = URIRef(PERSON + str(user_id))
+
+        # Remove old, add new
+        graph.remove((user_URI, FOAF.name, None))
+        graph.add((user_URI, FOAF.name, Literal(name)))
+
+        graph.remove((user_URI, FOAF.surname, None))
+        graph.add((user_URI, FOAF.surname, Literal(surname)))
+
+        graph.remove((user_URI, LOCAL.email, None))
+        graph.add((user_URI, LOCAL.email, Literal(email)))
+
+        graph.serialize(destination=GRAPH_FILE)
+
+
     def update_literal(graph, user_id, term, literal, literal_type=None):
         user_URI = URIRef(PERSON + str(user_id))
 
