@@ -99,24 +99,6 @@ class User():
     # UPDATE
     ########################################
 
-    # def update_main_data(graph, user_id, name, surname, email, password):
-
-    def update(graph, user_id, name, surname, email):
-        user_URI = URIRef(PERSON + str(user_id))
-
-        # Remove old, add new
-        graph.remove((user_URI, FOAF.name, None))
-        graph.add((user_URI, FOAF.name, Literal(name)))
-
-        graph.remove((user_URI, FOAF.surname, None))
-        graph.add((user_URI, FOAF.surname, Literal(surname)))
-
-        graph.remove((user_URI, LOCAL.email, None))
-        graph.add((user_URI, LOCAL.email, Literal(email)))
-
-        graph.serialize(destination=GRAPH_FILE)
-
-
     def update_literal(graph, user_id, term, literal, literal_type=None):
         user_URI = URIRef(PERSON + str(user_id))
 
@@ -155,6 +137,17 @@ class User():
     def update_location(graph, user_id, location_id):
         location_URI = URIRef(GEONAMES + location_id)
         User.update_URI(graph, user_id, LOCAL.location, location_URI)
+
+    def update_user_by_id(graph, user_id, name, surname, email, encrypted_password):
+        user = DBUser.query.get(user_id)
+        user.email = email
+        user.password = encrypted_password
+        db.session.commit()
+
+        User.update_literal(graph, user_id, FOAF.name, name)
+        User.update_literal(graph, user_id, FOAF.surname, surname)
+
+        graph.serialize(destination=GRAPH_FILE)
 
     def get_all_diploma_URIs(graph, user_id):
         user_URI = URIRef(PERSON + str(user_id))

@@ -27,3 +27,6 @@ class Validator():
             return True
         else:
             return False
+
+    def same_password(password, password_confirmation):
+        return password == password_confirmation

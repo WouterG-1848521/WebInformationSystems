@@ -24,7 +24,7 @@ import flask_rdf
 #         self.message = message
 #         self.data = data
 #         self.location = location
-        
+
 
 #     def get_response(self):
 #         response = make_response(self.data, self.status)
@@ -34,8 +34,9 @@ import flask_rdf
 #             response.headers["Location"] = url_for(self.location)
 
 #         return response
-    
+
 date_formats = "Y/M/D or Y-M-D"
+
 
 class Response():
     def unauthorized_access_not_logged_in():
@@ -61,3 +62,6 @@ class Response():
 
     def user_not_exist():
         return make_response(jsonify({"message": "User not exist."}), 400)
+
+    def password_not_matching():
+        return make_response(jsonify({"message": "Passwords don't match"}), 400)
