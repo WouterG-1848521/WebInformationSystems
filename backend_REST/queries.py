@@ -459,6 +459,29 @@ def query_remove_maintainerRDF(enterpriseID, maintainerID):
             '''
     return query
 
+def query_enterpriseGetByLocation(location):
+    query = prefixes + f'''
+            SELECT ?uri ?name ?lat ?long ?address ?owner ?maintainerName ?maintainerSurName ?description ?phone ?email ?website ?location
+            WHERE {{
+                ?uri rdf:type local:enterprise .
+                ?uri foaf:name ?name .
+                ?uri geo:lat ?lat .
+                ?uri geo:long ?long  .
+                ?uri geo:address ?address .
+                ?uri local:owner ?owner .
+                ?uri local:description ?description .
+                ?uri local:phone ?phone .
+                ?uri local:email ?email .
+                ?uri local:website ?website .
+                ?uri local:maintainer ?maintainer .
+                ?uri local:location ?location .
+                ?maintainer foaf:name ?maintainerName .
+                ?maintainer foaf:surname ?maintainerSurName .
+                FILTER (?location = "gn:{location}") 
+            }}
+    '''
+    return query
+
 #########################################################
 # vacancy queries
 #########################################################

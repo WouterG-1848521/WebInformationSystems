@@ -199,3 +199,40 @@ experience:1 a local:experience ;
     local:startDate "2018-09-01"^^xsd:date .
 
 
+# enterprise
+
+local:enterprise rdf:type owl:Class ;
+    rdfs:subClassOf foaf:Organization .
+
+enterprise:1 rdf:type local:enterprise ;
+    foaf:name "KU Leuven" ;
+    local:owner person:1 ;
+    local:maintainer person:1 ;
+    local:maintainer person:2 ;
+
+    local:description "KU Leuven is a university in Leuven, Belgium" ;
+    geo:lat 40.879 ;
+    geo:long 45.6997 ;
+    geo:address "Leuven straat 7" ;
+    local:location "gn:2796491" ;
+    local:phone "016/123456" ;
+    local:email "KUL@email.com" ;
+    local:website "www.KUL.be" .
+
+enterprise:2 rdf:type local:enterprise ;
+    foaf:name "Colruyt" ;
+    local:owner person:4 ;
+    local:maintainer person:3 ;
+    local:maintainer person:4 ;
+
+    local:description "Colruyt is a winkel" ;
+    geo:lat 40.879 ;
+    geo:long 45.6997 ;
+    geo:address "Hasselt straat 5" ;
+    local:location "gn:2796491" ;
+    local:phone "016/123456" ;
+    local:email "Colruyt@email.com" ;
+    local:website "www.colruyt.be" .
+
+
+

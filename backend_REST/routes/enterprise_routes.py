@@ -218,3 +218,13 @@ def create_enterprise_routes(app, graph):
 
         return Enterprise.remove_maintainer(graph, enterpriseID, ownerID, maintainerID)
 
+    # get the enterprises on a specific location
+    @app.route("/enterprise/location/<int:location>", methods=['GET'])
+    def get_enterprises_location(location):
+        return Enterprise.get_onLocation(graph, location)
+
+    # get the enterprises close to a specif lat and long
+    @app.route("/enterprise/locationLL/<float:lat>/<float:long>/<float:distance>", methods=['GET'])
+    @app.route("/enterprise/locationLL/<float:lat>/<float:long>/<int:distance>", methods=['GET'])
+    def get_enterprises_close(lat, long, distance):
+        return Enterprise.get_onLATLONGLocation(graph, lat, long, distance)
