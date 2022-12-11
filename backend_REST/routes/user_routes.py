@@ -84,7 +84,10 @@ def create_user_routes(app, g):
         # Auto logout
         logout_user()
 
-        User.delete(g, user_id)
+        result = User.delete(g, user_id)
+        print(f"Result: {result}")
+        if not (result == None) and result == "Owner":
+            return "you are still the owner of an enterprise"
 
         return make_response(jsonify({"message": f"User deleted with id {user_id}"}), 200)
 

@@ -27,7 +27,7 @@ prefixes = '''
                 prefix language: <http://localhost/language/> 
                 prefix experience: <http://localhost/experience/>
             '''
-
+# TODO @wouter: change to config
 graphFile = "graph.ttl"
 
 #########################################################
@@ -505,6 +505,17 @@ def query_getVacanciesOfEnterprise(enterpriseID):
                 ?vacancy rdf:type local:vacancy .
                 ?vacancy local:enterprise ?owner .
                 FILTER (?owner = enterprise:{enterpriseID})
+            }}
+    '''
+    return query
+
+def query_enterpriseGetByOwner(personURI):
+    query = prefixes + f'''
+            SELECT ?uri
+            WHERE {{
+                ?uri rdf:type local:enterprise .
+                ?uri local:owner ?owner .
+                FILTER (?owner = {personURI}) 
             }}
     '''
     return query

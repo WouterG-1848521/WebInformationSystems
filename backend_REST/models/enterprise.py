@@ -10,7 +10,7 @@ from config import GRAPH_FILE
 from backend_REST.models.database import DBEnterprise
 
 from backend_REST.queries import query_enterpriseGetAll, query_enterpriseGetById, query_enterpriseGetByName, query_enterpriseGetByLocation, check_maintainer, check_owner, check_person
-from backend_REST.queries import create_enterpriseRDF, query_update_enterpriseRDF, query_enterpriseGetByAddress, query_transfer_ownershipRDF
+from backend_REST.queries import create_enterpriseRDF, query_update_enterpriseRDF, query_enterpriseGetByAddress, query_transfer_ownershipRDF, query_enterpriseGetByOwner
 from backend_REST.queries import query_remove_maintainerRDF, query_add_maintainerRDF, check_enterprise, query_enterpriseGetByLocation, query_getVacanciesOfEnterprise
 
 gFile = "graph.ttl"
@@ -260,3 +260,12 @@ class Enterprise:
         df = groupByMaintainer(df)
 
         return df.to_json(orient='index', indent=2)
+
+    def get_personIsOwner(graph, ownerURI):
+        query = query_enterpriseGetByOwner(ownerURI)
+        result = graph.query(query)
+
+        if (len(result) == 0):
+            return False
+        return True
+

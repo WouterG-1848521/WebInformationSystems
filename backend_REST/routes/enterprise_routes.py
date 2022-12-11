@@ -13,7 +13,7 @@ from backend_REST.queries import query_remove_maintainerRDF, query_add_maintaine
 from backend_REST.models.enterprise import Enterprise
 
 # DONE @wouter: data niet uit body halen, maar uit session wanneer nodig
-
+# TODO @wouter: change to config
 graphFile = "graph.ttl"
 
 def create_enterprise_routes(app, graph):

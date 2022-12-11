@@ -7,6 +7,7 @@ from backend_REST import db
 from config import GRAPH_FILE
 
 from backend_REST.models.database import DBUser
+from backend_REST.models.enterprise import Enterprise
 
 
 class User():
@@ -194,6 +195,12 @@ class User():
     ########################################
 
     def delete(graph, user_id):
+        # check that the user isn't the owner of an enterprise
+        isOwner = Enterprise.get_personIsOwner(graph, user_id)
+        print("isOwner: " + str(isOwner))
+        if not isOwner:
+            return "Owner"
+
         # Delete user from DB
         user = DBUser.query.get(user_id)
 
