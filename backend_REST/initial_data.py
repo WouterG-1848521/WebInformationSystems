@@ -98,3 +98,6 @@ def set_skills(graph):
 def set_languages(graph):
     Language.add_to_user(graph, 1, "Q1860")
     Language.add_to_user(graph, 1, "Q7411")
+
+    Language.add_to_vacancy(graph, 1, "Q1860")
+    Language.add_to_vacancy(graph, 2, "Q7411")
