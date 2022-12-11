@@ -1,3 +1,6 @@
+<!-- Show all users -->
+<!-- Show all user info -->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -37,17 +40,41 @@
             <div class="row pt-5">
                 <div class="col-md-8 text-center text-md-start mx-auto">
                     <div class="text-center">
-                        <h1 class="display-4 fw-bold mb-5">Oops!</h1>
-                        <p class="fs-5 text-muted mb-5">We couldn't seem to find the resource you were looking for. Go <a href="/">home</a>.</p>
+                        <h1 class="display-4 fw-bold mb-5"><span class="underline">Users</span></h1>
                     </div>
                 </div>
-                <div class="col-12 col-lg-10 mx-auto">
+                <!-- <div class="col-12 col-lg-10 mx-auto">
                     <div class="text-center position-relative"><img class="img-fluid" src="{{ url_for('static',filename='assets/img/illustrations/meeting.svg') }}" style="width: 800px;"></div>
-                </div>
+                </div> -->
             </div>
         </div>
     </header>
-    <section></section>
+    <section>
+        <div class="container pt-4 pt-xl-5">
+            <div class="row pt-5">
+                <div class="col-md-8 text-center text-md-start mx-auto">
+                    <div class="card-columns">
+                        {% set users = data['users'] %}
+                        {% if users is none %}
+                            <p>There are no users</p>
+                        {% else %}
+                            {% for id in users %}
+                                {% set user = users[id] %}
+                                <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ user['name'] }} {{ user['surname'] }}</h5>
+                                    <p class="card-text">{{ user['p'] }}</p>
+                                </div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+    </section>
     <section></section>
     <section></section>
     <footer>

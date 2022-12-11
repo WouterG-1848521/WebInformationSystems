@@ -1,5 +1,5 @@
-from flask import make_response, jsonify, url_for
-import flask_rdf
+from flask import make_response, jsonify, url_for, render_template, request
+import json
 
 # class RDFResponse():
 #     def __init__(self, status, message, data, graph, location = None):
@@ -73,7 +73,43 @@ class Response():
         return make_response(jsonify({"message": "Profession not valid."}), 400)
 
     def user_not_exist():
-        return make_response(jsonify({"message": "User not exist."}), 400)
+        return make_response(jsonify({"message": "User does not exist."}), 400)
 
     def password_not_matching():
         return make_response(jsonify({"message": "Passwords don't match"}), 400)
+
+    @staticmethod
+    def make_response_for_content_type(accept_headers, message="", template="index.html", status="success", code=200):
+        if ('text/html' in accept_headers):
+            return make_response(render_template(template, message=message, status=status), code)
+        elif ('application/json' in accept_headers):
+            return make_response(jsonify({"message": message}), code)
+        else:
+            # Default to HTML
+            return make_response(render_template(template, message=message, status=status), code)
+    
+    @staticmethod
+    def make_response_for_content_type_and_data(accept_headers, data, template="index.html", status="success", code=200):
+        if ('text/html' in accept_headers):
+            return make_response(render_template(template, status=status, data=data), code)
+        elif ('application/json' in accept_headers):
+            return make_response(jsonify(data), code)
+        else:
+            # Default to HTML
+            return make_response(render_template(template, status=status, data=data), code)
+    
+    @staticmethod
+    def format_users_json(usersJson):
+        # Format dictionary correctly for response so that each key is a user_id 
+        # and the value is the user data
+        newDict = {'users': {}}
+        for id in usersJson['p']:
+            info = {
+                "p": usersJson['p'][id],
+                "name": usersJson['name'][id],
+                "surname": usersJson['surname'][id],
+            }
+            newDict['users'][int(id)] = info
+            print(newDict)
+        
+        return newDict

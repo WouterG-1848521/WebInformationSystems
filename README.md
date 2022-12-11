@@ -58,7 +58,31 @@ Compile and watch for changes in Tailwind CSS files: `npx tailwindcss -i ./stati
 - `"/users/<int:user_id>/profile/show"` GET
 - `"/users/<int:user_id>/profile"` GET, PUT, POST
 
+- `"/enterprise/get/all"` GET
+- `"/enterprise/get/id/<int:id>"` GET
+- `"/enterprise/get/name/<string:name>"` GET
+- `"/enterprise/get/address/<string:address>"` GET
+- `"/enterprise/create"` POST
+- `"/enterprise/update/<int:id>"` PUT
+- `"/enterprise/delete"` DELETE
+- `"/enterprise/transfer"` PUT
+- `"/enterprise/maintainer/add"` POST
+- `"/enterprise/maintainer/remove""` PUT
+- `"/enterprise/get/location/<int:location>"` GET
+- `"/enterprise/get/locationLL/<float:lat>/<float:long>/<float:distance>"` GET
+- `"/enterprise/get/locationLL/<float:lat>/<float:long>/<int:distance>"` GET
 
+- `"/users/<int:user_id>/matches"` GET
+- `"/users/<int:user_id>/matches/skills"` GET
+- `"/users/<int:user_id>/matches/discipline"` GET
+- `"/users/<int:user_id>/matches/languages"` GET
+- `"/users/<int:user_id>/matches/experience"` GET
+- `"/vacancies/<int:vacancy_id>/matches"` GET
+- `"/vacancies/<int:vacancy_id>/matchesAll"` GET
+- `"/vacancies/<int:vacancy_id>/matches/skills"` GET
+- `"/vacancies/<int:vacancy_id>/matches/discipline"` GET
+- `"/vacancies/<int:vacancy_id>/matches/languages"` GET
+- `"/vacancies/<int:vacancy_id>/matches/experience"` GET
 
 - `"/users"` GET, POST
-- `"/users/<int:user_id>"` GET, DELETE, 
+- `"/users/<int:user_id>"` GET, DELETE

@@ -16,36 +16,42 @@ def create_frontend_routes(app, graph):
     @app.route("/index", methods=['GET'])
     @app.route("/", methods=['GET'])
     def home():
-        return render_template("index.html")
+        # Check the Content-Type header
+        content_type = request.headers.get("Content-Type", "text/html")
+        if (content_type == "application/json"):
+            return make_response(jsonify({"message": f"Welcome!"}), 200)
+        elif (content_type == "text/html"):
+            return make_response(render_template("index.html"), 200)
+        else:
+            return make_response(jsonify({"error": "Unsupported Content-Type."}), 400)
 
     # ########################################
     # # Authentication / Sign up
     # ########################################
-    # @app.route("/login/save", methods=['POST'])
-    # def login_save():
-    #     data = request.form
-
-    #     # Use API login routes
-    #     response = login_routes.db_login()
-
-
-    #     return render_template("index.html", message="Logged in.", status="success")
-
+    # These routes have content negotiation to support both HTML and JSON
 
     @app.route("/sign-up", methods=['GET'])
     def sign_up_form():
-        if (current_user.is_authenticated):
-            return render_template("index.html")
-
-        return render_template("sign_up_form.html")
+        # Check the Content-Type header
+        content_type = request.headers.get("Content-Type", "text/html")
+        if (content_type == "application/json"):
+            return make_response(jsonify({"message": f"Please use the HTML form to sign up or send a POST request to {url_for('sign_up_form')}."}), 200)
+        elif (content_type == "text/html"):
+            return make_response(render_template("sign_up_form.html"), 200)
+        else:
+            return make_response(jsonify({"message": f"Please use the HTML form to sign up or send a POST request to {url_for('sign_up_form')}."}), 200)
     
     @app.route("/login", methods=['GET'])
     def login_form():
-        # Check if user is logged in
-        if (current_user.is_authenticated):
-            return redirect("/index")
+        # Check the Content-Type header
+        content_type = request.headers.get("Content-Type", "text/html")
 
-        return render_template("login_form.html")
+        if (content_type == "application/json"):
+            return make_response(jsonify({"message": f"Please use the HTML form to login or send a POST request to {url_for('login_form')}."}), 200)
+        elif (content_type == "text/html"):
+            return make_response(render_template("login_form.html"), 200)
+        else:
+            return make_response(jsonify({"message": f"Please use the HTML form to login or send a POST request to {url_for('login_form')}."}), 200)
 
     ########################################
     # User profiles
@@ -64,14 +70,17 @@ def create_frontend_routes(app, graph):
     @app.errorhandler(404)
     def not_found(request):
         """Page not found."""
+        return render_template("404.html"), 404
         return make_response(jsonify({"error": "Page not found."}), 404)
 
     @app.errorhandler(400)
     def bad_request(request):
         """Bad request."""
+        return render_template("400.html"), 400
         return make_response(jsonify({"error": "Bad request."}), 400)
 
     @app.errorhandler(500)
     def server_error(request):
         """Internal server error."""
+        return render_template("500.html"), 500
         return make_response(jsonify({"error": "Internal server error."}), 500)

@@ -2,13 +2,15 @@ from pandas import DataFrame
 from rdflib import Literal, RDF, URIRef, Variable
 from rdflib.namespace import RDF, RDFS, FOAF, XSD
 from backend_REST.graph import LOCAL, PERSON, GEONAMES
+from rdflib.plugins.sparql.results.jsonresults import JSONResultSerializer
 
 from backend_REST import db
 from config import GRAPH_FILE
 
 from backend_REST.models.database import DBUser
+from backend_REST.models.enterprise import Enterprise
 
-
+import json
 class User():
     def exists(user_id):
         user = DBUser.query.get(user_id)
@@ -53,14 +55,31 @@ class User():
     def get_all(graph):
         print("Getting all users...")
         q = f'''
-                SELECT ?p
+                SELECT ?p ?name ?surname
                 WHERE {{
                     ?p rdf:type foaf:Person .
                 }}
             '''
         result = graph.query(q)
+
+        # result = JSONResultSerializer.serialize(result, stream="IO", format="json")
+        # return result
+
+        # Cant properly read json
+
         df = DataFrame(result, columns=result.vars)
         return df.to_json()
+
+    def get_all_rdf(graph):
+        print("Getting all users...")
+        q = f'''
+                SELECT ?p ?name ?surname
+                WHERE {{
+                    ?p rdf:type foaf:Person .
+                }}
+            '''
+        result = graph.query(q)
+        return result
 
     def get_by_id(graph, user_id):
         user_URI = URIRef(PERSON + str(user_id))
@@ -182,6 +201,12 @@ class User():
     ########################################
 
     def delete(graph, user_id):
+        # check that the user isn't the owner of an enterprise
+        isOwner = Enterprise.get_personIsOwner(graph, user_id)
+        print("isOwner: " + str(isOwner))
+        if not isOwner:
+            return "Owner"
+
         # Delete user from DB
         user = DBUser.query.get(user_id)
 
