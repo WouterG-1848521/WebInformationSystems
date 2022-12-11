@@ -1,5 +1,6 @@
 from flask import jsonify, request
 from pandas import DataFrame
+import json
 
 from flask_login import login_required
 from backend_REST import session
@@ -12,6 +13,7 @@ from backend_REST.queries import create_enterpriseRDF, query_update_enterpriseRD
 from backend_REST.queries import query_remove_maintainerRDF, query_add_maintainerRDF, check_enterprise
 
 from backend_REST.models.enterprise import Enterprise
+from backend_REST.models.response import Response
 
 graphFile = GRAPH_FILE
 
@@ -20,22 +22,27 @@ def create_enterprise_routes(app, graph):
     # get all enterprises
     @app.route("/enterprises", methods=['GET'])
     def get_all_enterprises():
-        return Enterprise.get_all_enterprises(graph)
+        enterprisesJSON = json.loads(Enterprise.get_all_enterprises(graph))
+        return Response.make_response_for_content_type_and_data(request.headers.get("Accept", "text/html"), data=enterprisesJSON, template="enterprises.html")
 
     # get enterprise by id
     @app.route("/enterprises/<int:id>", methods=['GET'])
     def get_enterprises_by_ID(id):
-        return Enterprise.get_by_id(graph, id)
+        enterprisesJSON = json.loads(Enterprise.get_by_id(graph, id))
+        return Response.make_response_for_content_type_and_data(request.headers.get("Accept", "text/html"), data=enterprisesJSON, template="enterprise.html")
 
     # get enterprise by name
     @app.route("/enterprises/name/<string:name>", methods=['GET'])
     def get_enterprises_by_name(name):
-        return Enterprise.get_enterprises_by_name(graph, name)
+        enterprisesJSON = json.loads(Enterprise.get_enterprises_by_name(graph, name))
+        return Response.make_response_for_content_type_and_data(request.headers.get("Accept", "text/html"), data=enterprisesJSON, template="enterprise.html")
+    
 
     # get enterprise by location
     @app.route("/enterprises/address/<string:address>", methods=['GET'])
     def get_enterprises_by_address(address):
-        return Enterprise.get_enterprises_by_address(graph, address)
+        enterprisesJSON = json.loads(Enterprise.get_enterprises_by_address(graph, address))
+        return Response.make_response_for_content_type_and_data(request.headers.get("Accept", "text/html"), data=enterprisesJSON, template="enterprise.html")
 
     # CRUD operations
     # create enterprise
@@ -222,10 +229,13 @@ def create_enterprise_routes(app, graph):
     # get the enterprises on a specific location
     @app.route("/enterprises/location/<int:location>", methods=['GET'])
     def get_enterprises_location(location):
-        return Enterprise.get_onLocation(graph, location)
+        enterprisesJSON = json.loads(Enterprise.get_onLocation(graph, location))
+        return Response.make_response_for_content_type_and_data(request.headers.get("Accept", "text/html"), data=enterprisesJSON, template="enterprise.html")
+        return 
 
     # get the enterprises close to a specif lat and long
     @app.route("/enterprises/locationLL/<float:lat>/<float:long>/<float:distance>", methods=['GET'])
     @app.route("/enterprises/locationLL/<float:lat>/<float:long>/<int:distance>", methods=['GET'])
     def get_enterprises_close(lat, long, distance):
-        return Enterprise.get_onLATLONGLocation(graph, lat, long, distance)
+        enterprisesJSON = json.loads(Enterprise.get_onLATLONGLocation(graph, lat, long, distance))
+        return Response.make_response_for_content_type_and_data(request.headers.get("Accept", "text/html"), data=enterprisesJSON, template="enterprise.html")

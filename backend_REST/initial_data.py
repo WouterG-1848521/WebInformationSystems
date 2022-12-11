@@ -48,19 +48,19 @@ def set_users(graph):
 
 def set_enterprises(graph):
     # create(graph, name, lat, long, address, phone, email, website, owner, description, location)
-    Enterprise.create(graph, "CS Enterprise", 23, 30, "Hasselt straat 2", "123", "cs.enterprise@gmail.com", "cs.com", 1, "Computer Science Agency", "2796491")
-    Enterprise.create(graph, "KU Leuven", 50, 30, "Leuven straat 7", "0478521632", "KUL@gmail.com", "KUL.com", 2, "Universiteit", "2796492")
-    Enterprise.create(graph, "Aldi", 25, 31, "Aarschot straat 1", "013558899", "Aldi.Aarschot@gmail.com", "ALDIE.com", 3, "Winkel", "2796493")
-    Enterprise.create(graph, "Colruyt", 30, 20, "Scherpenheuvel straat 8", "0475654789", "Colruyt.Scherp@gmail.com", "COLRUYT.com", 3, "Winkel", "2796494")
+    Enterprise.create(graph, "WEB Enterprise", 23, 30, "Hasselt straat 2", "123", "web.enterprise@gmail.com", "https://web.com", 1, "Enterpise", "2796491")
+    Enterprise.create(graph, "KU Leuven", 50, 30, "Leuven straat 7", "0478521632", "kul@gmail.com", "https://kul.be", 2, "Universiteit", "2792482")
+    Enterprise.create(graph, "Aldi", 25, 31, "Aarschot straat 1", "013558899", "aldi.aarschot@gmail.com", "https://aldi.be", 3, "Winkel", "2793406")
+    Enterprise.create(graph, "Colruyt", 30, 20, "Scherpenheuvel straat 8", "0475654789", "colruyt.scherp@gmail.com", "https://colruyt.be", 3, "Winkel", "2802865")
 
 
 def set_vacancies(graph):
     # create(graph, enterprise_id, maintainer_id, job_title, start_date, end_date, location_id, job_desciption, job_responsibilities, job_salary)
-    Vacancy.create(graph, 1, 1, "Web Developer", "2022-12-12", "2023-01-12", "2796491", "JobDescription", "JOBResponsibilities", 3100)
-    Vacancy.create(graph, 2, 2, "Teaching assistant", "2022-12-12", "2023-01-12", "2796492", "Teaching assistant", "examens maken", 2800)
+    Vacancy.create(graph, 1, 1, "Web Developer", "2022-12-12", "2023-01-12", "2796491", "Develop for the web", "Developing web applicaties", 3100)
+    Vacancy.create(graph, 2, 2, "Teaching assistant", "2022-12-12", "2023-01-12", "2796492", "Teaching assistant", "Examens maken", 2800)
     Vacancy.create(graph, 3, 3, "Kassa medewerker", "2022-12-12", "2023-01-12", "2796493", "Kassa medewerker", "Werken met klanten", 2300)
     # Vacancy.create(graph, 3, 3, "Q11063", "2022-12-12", "2023-01-12", "2796494", "kassamedewerker", "Werken met klanten", 2200)
-    Vacancy.create(graph, 4, 3, "Manager", "2022-12-12", "2023-01-12", "2796494", "Manager", "Niets", 2900)
+    Vacancy.create(graph, 4, 3, "Manager", "2022-12-12", "2023-01-12", "2796494", "Manager", "Managen", 2900)
 
 
 def set_diplomas(graph):
