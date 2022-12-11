@@ -77,6 +77,7 @@ def create_user_routes(app, g):
         User.update_user_by_id(g, user_id, data["name"], data["surname"],
                                data["email"], encrypted_password)
 
+        return Response.make_response_for_content_type_and_data(request.headers.get("Accept", "text/html"), {"message": f"User updated with id {user_id}"}, "user.html")
         return make_response(jsonify({"message": f"User updated with id {user_id}"}), 200)
 
     @ app.route("/users/<int:user_id>", methods=["DELETE"])

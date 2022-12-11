@@ -90,14 +90,14 @@ class Response():
     def format_users_json(usersJson):
         # Format dictionary correctly for response so that each key is a user_id 
         # and the value is the user data
-        newDict = {}
+        newDict = {'users': {}}
         for id in usersJson['p']:
             info = {
                 "p": usersJson['p'][id],
                 "name": usersJson['name'][id],
                 "surname": usersJson['surname'][id],
             }
-            newDict[int(id)] = info
+            newDict['users'][int(id)] = info
             print(newDict)
         
         return newDict

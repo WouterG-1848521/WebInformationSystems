@@ -40,9 +40,10 @@
             <div class="row pt-5">
                 <div class="col-md-8 text-center text-md-start mx-auto">
                     <div class="text-center">
-                        {% if 0 in data.keys() %}
-                        <h1 class="display-4 fw-bold mb-5"><span class="underline">{{ data[0]['name']+' '+data[0]['surname'] }}</span></h1>
-                        <p class="lead fw-normal text-muted mb-4">{{ data[0]['p'] }}</p>
+                        {% set users = data['users'] %}
+                        {% if 0 in users.keys() %}
+                        <h1 class="display-4 fw-bold mb-5"><span class="underline">{{ users[0]['name']+' '+users[0]['surname'] }}</span></h1>
+                        <p class="lead fw-normal text-muted mb-4">{{ users[0]['p'] }}</p>
                         {% else %}
                         <h1 class="display-4 fw-bold mb-5"><span class="underline">No user found</span></h1>
                         {% endif %}
@@ -59,14 +60,20 @@
             <div class="row pt-5">
                 <div class="col-md-8 text-center text-md-start mx-auto">
                     <div class="card-columns">
-                      {% for id in data %}
-                        <div class="card">
-                          <div class="card-body">
-                            <h5 class="card-title">{{ data[id]['name'] }} {{ data[id]['surname'] }}</h5>
-                            <p class="card-text">{{ data[id]['p'] }}</p>
-                          </div>
-                        </div>
-                      {% endfor %}
+                        {% set users = data['users'] %}
+                        {% if users is none %}
+                            <p>There are no users</p>
+                        {% else %}
+                            {% for id in users %}
+                                {% set user = users[id] %}
+                                <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ user['name'] }} {{ user['surname'] }}</h5>
+                                    <p class="card-text">{{ user['p'] }}</p>
+                                </div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
                     </div>
                 </div>
             </div>

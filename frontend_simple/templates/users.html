@@ -54,14 +54,20 @@
             <div class="row pt-5">
                 <div class="col-md-8 text-center text-md-start mx-auto">
                     <div class="card-columns">
-                      {% for id in data %}
-                        <div class="card">
-                          <div class="card-body">
-                            <h5 class="card-title">{{ data[id]['name'] }} {{ data[id]['surname'] }}</h5>
-                            <p class="card-text">{{ data[id]['p'] }}</p>
-                          </div>
-                        </div>
-                      {% endfor %}
+                        {% set users = data['users'] %}
+                        {% if users is none %}
+                            <p>There are no users</p>
+                        {% else %}
+                            {% for id in users %}
+                                {% set user = users[id] %}
+                                <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ user['name'] }} {{ user['surname'] }}</h5>
+                                    <p class="card-text">{{ user['p'] }}</p>
+                                </div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
                     </div>
                 </div>
             </div>
