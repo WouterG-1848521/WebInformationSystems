@@ -159,9 +159,6 @@ def getVacanciesByIDs(graph, vacancyIDs):
 # public functions
 ##################################################################
 
-# TODO @wouter: checken dat het toch niet beter kan via dataframe tojson
-
-
 def matchOnVacancy_anyParameters(graph, vacancyID):
         # check if the vacancy exists
         if not check_valid_vacancy(graph, vacancyID):

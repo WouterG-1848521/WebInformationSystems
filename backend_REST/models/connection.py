@@ -41,7 +41,6 @@ class Connection():
             
     
     def accept_request(request_id):
-        # TODO: add to both user?
         Connection.cancel_request(request_id)
         
         
@@ -54,15 +53,13 @@ class Connection():
         
         pending_requests = []
         for request in requests:
-            pending_requests.append(request.fromUser)
+            pending_requests.append(request.id)
         return pending_requests
         
         
         
         
     def add_to_user(graph, user1_id, user2_id):
-
-        # TODO : Check if users exist
 
         graph.add((URIRef(PERSON + str(user1_id)), FOAF.knows, URIRef(PERSON + str(user2_id))))
         graph.serialize(destination=GRAPH_FILE)

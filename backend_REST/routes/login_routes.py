@@ -28,7 +28,6 @@ def create_login_routes(app, g):
         user = DBUser.query.filter_by(
             email=data['email'], password=encrypted_password).first()
 
-        # TODO: check email and password
         if (user == None):
             return Response.make_response_for_content_type(accept_headers, "Email or password is incorrect.")
 

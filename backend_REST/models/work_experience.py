@@ -52,7 +52,6 @@ class WorkExperience():
     
     
     def delete(graph, experience_id):
-        # TODO: delete from db
         experience_URI = URIRef(EXPERIENCE + str(experience_id))
         
         # Remove work experience

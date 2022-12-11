@@ -49,18 +49,6 @@ person:4 a foaf:Person ;
     foaf:name "Gwendoline" ;
     foaf:surname "Nijssen" .
 
-person:5 a foaf:Person ;
-    local:email "hello@fueled.be" ;
-    local:getVacancies true ;
-    foaf:name "Test" ;
-    foaf:surname "De Tester" .
-
-person:7 a foaf:Person ;
-    local:email "john@gmail.com" ;
-    local:getVacancies true ;
-    foaf:name "John" ;
-    foaf:surname "Legend" .
-
 vacancy:1 a local:vacancy ;
     local:available true ;
     local:diploma diploma:6 ;
@@ -69,7 +57,7 @@ vacancy:1 a local:vacancy ;
     local:jobDescription "Develop for the web" ;
     local:jobResponsibilities "Developing web applicaties" ;
     local:jobSalary 3100 ;
-    local:jobTitle "Q593644" ;
+    local:jobTitle "Web Developer" ;
     local:language wd:Q1860 ;
     local:location gn:2796491 ;
     local:postedBy person:1 ;
@@ -84,7 +72,7 @@ vacancy:2 a local:vacancy ;
     local:jobDescription "Teaching assistant" ;
     local:jobResponsibilities "Examens maken" ;
     local:jobSalary 2800 ;
-    local:jobTitle "Q901" ;
+    local:jobTitle "Teaching assistant" ;
     local:language wd:Q7411 ;
     local:location gn:2796492 ;
     local:postedBy person:2 ;
@@ -96,10 +84,10 @@ vacancy:3 a local:vacancy ;
     local:diploma diploma:8 ;
     local:endDate "2023-01-12"^^xsd:date ;
     local:enterprise enterprise:3 ;
-    local:jobDescription "kassamedewerker" ;
+    local:jobDescription "Kassa medewerker" ;
     local:jobResponsibilities "Werken met klanten" ;
     local:jobSalary 2300 ;
-    local:jobTitle "Q9402" ;
+    local:jobTitle "Kassa medewerker" ;
     local:location gn:2796493 ;
     local:postedBy person:3 ;
     local:skill wd:Q102066 ;
@@ -119,18 +107,7 @@ vacancy:4 a local:vacancy ;
     local:skill wd:Q167612 ;
     local:startDate "2022-12-12"^^xsd:date .
 
-vacancy:5 a local:vacancy ;
-    local:available true ;
-    local:diploma diploma:10 ;
-    local:endDate "2023-01-12"^^xsd:date ;
-    local:enterprise enterprise:4 ;
-    local:jobDescription "Manager" ;
-    local:jobResponsibilities "Niets" ;
-    local:jobSalary 2900 ;
-    local:jobTitle "Q11063" ;
-    local:location gn:2796494 ;
-    local:postedBy person:3 ;
-    local:startDate "2022-12-12"^^xsd:date .
+vacancy:5 local:diploma diploma:10 .
 
 foaf:knows a owl:SymmetricProperty .
 
@@ -252,26 +229,16 @@ enterprise:2 a foaf:Organization ;
 
 enterprise:3 a foaf:Organization ;
     local:description "Winkel" ;
-    local:email "Aldi.Aarschot@gmail.com",
-        "aldi.aarschot@gmail.com" ;
-    local:location gn:2793406,
-        "gn:2796493" ;
+    local:email "aldi.aarschot@gmail.com" ;
+    local:location gn:2793406 ;
     local:maintainer person:3 ;
     local:owner person:3 ;
     local:phone "013558899" ;
-    local:website "ALDIE.com",
-        "https://aldi.be" ;
+    local:website "https://aldi.be" ;
     geo:address "Aarschot straat 1" ;
     geo:lat 25 ;
     geo:long 31 ;
     foaf:name "Aldi" .
-
-experience:1 a local:experience ;
-    local:endDate "2022-06-30"^^xsd:date ;
-    local:jobTitle "Computer Science Student" ;
-    local:profession wd:Q9402 ;
-    local:skill wd:Q24288 ;
-    local:startDate "2018-09-01"^^xsd:date .
 
 enterprise:4 a foaf:Organization ;
     local:description "Winkel" ;
@@ -285,6 +252,13 @@ enterprise:4 a foaf:Organization ;
     geo:lat 30 ;
     geo:long 20 ;
     foaf:name "Colruyt" .
+
+experience:1 a local:experience ;
+    local:endDate "2022-06-30"^^xsd:date ;
+    local:jobTitle "Computer Science Student" ;
+    local:profession wd:Q9402 ;
+    local:skill wd:Q24288 ;
+    local:startDate "2018-09-01"^^xsd:date .
 
 person:1 a foaf:Person ;
     local:diploma diploma:1 ;

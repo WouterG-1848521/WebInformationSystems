@@ -22,7 +22,6 @@ def clear_graph(app, graph):
     open(GRAPH_FILE, 'w').close()
 
 def set_initial_graph_properties(graph):
-    # TODO : Add more?
     graph.add((FOAF.knows, RDF.type, OWL.SymmetricProperty))
     graph.add((LOCAL.enterprise, OWL.equivalentClass, FOAF.Organization))
     graph.add((LOCAL.person, OWL.equivalentClass, FOAF.Person))

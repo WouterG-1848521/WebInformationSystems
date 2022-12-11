@@ -169,8 +169,6 @@ def create_user_routes(app, g):
         if session['_user_id'] != user_id:
             return Response.unauthorized_access_wrong_user()
 
-        # TODO: check phone number (hard do to)
-
         User.update_phone(g, user_id, data["phone"])
         return make_response(jsonify({"message": f"Updated phone of user {user_id}."}), 200)
 
@@ -274,8 +272,6 @@ def create_user_routes(app, g):
         if session['_user_id'] != user_id:
             return Response.unauthorized_access_wrong_user()
 
-        # TODO: check data (check language list)
-
         Language.add_to_user(g, user_id, data["language"])
 
         return make_response(jsonify({"message": f"Added language {data['language']} to user {user_id}."}), 200)
@@ -310,8 +306,6 @@ def create_user_routes(app, g):
         # Check if logged-in user is correct
         if session['_user_id'] != user_id:
             return Response.unauthorized_access_wrong_user()
-
-        # TODO: check data (check skill list)
 
         Skill.add_to_user(g, user_id, data["skill"])
 
@@ -353,8 +347,6 @@ def create_user_routes(app, g):
 
         if not Validator.valid_date(data["endDate"]):
             return Response.end_date_not_valid()
-
-        # TODO: check data (check skill list)
 
         experience_id = WorkExperience.create_for_user(g, user_id, data["jobTitle"], data["profession"],
                                                        data["skills"].split(','), data["startDate"], data["endDate"])
