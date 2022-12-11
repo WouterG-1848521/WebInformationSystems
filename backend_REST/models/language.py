@@ -63,7 +63,7 @@ class Language():
         q = f'''
             SELECT ?language
             WHERE {{
-                ?v rdf:type loval:vacancy .
+                ?v rdf:type local:vacancy .
                 ?v local:language ?language .
             }}
         '''

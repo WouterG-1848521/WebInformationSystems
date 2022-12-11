@@ -182,7 +182,7 @@ def create_user_routes(app, g):
 
     @ app.route("/users/<int:user_id>/diplomas/<int:diploma_id>", methods=["GET"])
     def get_user_diploma(user_id, diploma_id):
-        diplomasJSON = json.loads(Diploma.get_all_by_user_id(g, user_id))
+        diplomasJSON = json.loads(Diploma.get_by_id(g, diploma_id))
         diplomasJSON = Response.format_diplomas_json(diplomasJSON)
         
         return Response.make_response_for_content_type_and_data(request.headers.get("Content-Type", "text/html"), data=diplomasJSON, template="diploma.html")
