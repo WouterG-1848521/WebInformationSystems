@@ -23,7 +23,6 @@ class User():
     ########################################
     # CREATE
     ########################################
-    # TODO: password encryption
     def create(graph, name, surname, email, password, is_admin=False):
 
         # Add user to DB

@@ -99,8 +99,7 @@ def create_connections_routes(app, graph):
             return Response.unauthorized_access_wrong_user()
 
         pending_requests = Connection.get_pending_requests_by_user(user_id)
-
-        # TODO: test if the json dump has useful information
+        
         return make_response(jsonify(pending_requests), 200)
         # return make_response(json.dump(pending_requests), 200)
 
