@@ -1,4 +1,5 @@
 import hashlib
+from rdflib import URIRef, Literal
 from rdflib.namespace import FOAF, RDF, OWL
 from backend_REST.graph import LOCAL
 
@@ -26,6 +27,53 @@ def set_initial_graph_properties(graph):
     graph.add((LOCAL.enterprise, OWL.equivalentClass, FOAF.Organization))
     graph.add((LOCAL.person, OWL.equivalentClass, FOAF.Person))
 
+def set_cardinaltiies(graph):
+    graph.add((URIRef("personNameCardinality"), RDF.type, OWL.Restriction))
+    graph.add((URIRef("personNameCardinality"), OWL.onClass, FOAF.Person))
+    graph.add((URIRef("personNameCardinality"), OWL.onProperty, FOAF.name))
+    graph.add((URIRef("personNameCardinality"), OWL.cardinality, Literal("1")))
+
+    graph.add((URIRef("personSurNameCardinality"), RDF.type, OWL.Restriction))
+    graph.add((URIRef("personSurNameCardinality"), OWL.onClass, FOAF.Person))
+    graph.add((URIRef("personSurNameCardinality"), OWL.onProperty, FOAF.surname))
+    graph.add((URIRef("personSurNameCardinality"), OWL.cardinality, Literal("1")))
+
+    graph.add((URIRef("personMailCardinality"), RDF.type, OWL.Restriction))
+    graph.add((URIRef("personMailCardinality"), OWL.onClass, FOAF.Person))
+    graph.add((URIRef("personMailCardinality"), OWL.onProperty, LOCAL.email))
+    graph.add((URIRef("personMailCardinality"), OWL.cardinality, Literal("1")))
+
+    graph.add((URIRef("personPhoneCardinality"), RDF.type, OWL.Restriction))
+    graph.add((URIRef("personPhoneCardinality"), OWL.onClass, FOAF.Person))
+    graph.add((URIRef("personPhoneCardinality"), OWL.onProperty, LOCAL.phone))
+    graph.add((URIRef("personPhoneCardinality"), OWL.cardinality, Literal("1")))
+
+    graph.add((URIRef("diplomaDegreeCardinality"), RDF.type, OWL.Restriction))
+    graph.add((URIRef("diplomaDegreeCardinality"), OWL.onClass, LOCAL.diploma))
+    graph.add((URIRef("diplomaDegreeCardinality"), OWL.onProperty, LOCAL.degree))
+    graph.add((URIRef("diplomaDegreeCardinality"), OWL.cardinality, Literal("1")))
+
+    graph.add((URIRef("diplomaDisciplineCardinality"), RDF.type, OWL.Restriction))
+    graph.add((URIRef("diplomaDisciplineCardinality"), OWL.onClass, LOCAL.diploma))
+    graph.add((URIRef("diplomaDisciplineCardinality"), OWL.onProperty, LOCAL.discipline))
+    graph.add((URIRef("diplomaDisciplineCardinality"), OWL.cardinality, Literal("1")))
+
+    graph.add((URIRef("diplomaInstitutionCardinality"), RDF.type, OWL.Restriction))
+    graph.add((URIRef("diplomaInstitutionCardinality"), OWL.onClass, LOCAL.diploma))
+    graph.add((URIRef("diplomaInstitutionCardinality"), OWL.onProperty, LOCAL.institution))
+    graph.add((URIRef("diplomaInstitutionCardinality"), OWL.cardinality, Literal("1")))
+
+    graph.add((URIRef("diplomaStartDateCardinality"), RDF.type, OWL.Restriction))
+    graph.add((URIRef("diplomaStartDateCardinality"), OWL.onClass, LOCAL.diploma))
+    graph.add((URIRef("diplomaStartDateCardinality"), OWL.onProperty, LOCAL.startDate))
+    graph.add((URIRef("diplomaStartDateCardinality"), OWL.cardinality, Literal("1")))
+
+    graph.add((URIRef("diplomaEndDateCardinality"), RDF.type, OWL.Restriction))
+    graph.add((URIRef("diplomaEndDateCardinality"), OWL.onClass, LOCAL.diploma))
+    graph.add((URIRef("diplomaEndDateCardinality"), OWL.onProperty, LOCAL.endDate))
+    graph.add((URIRef("diplomaEndDateCardinality"), OWL.cardinality, Literal("1")))
+
+
 
 def set_initial_graph_data(graph):
     set_users(graph)
@@ -35,6 +83,7 @@ def set_initial_graph_data(graph):
     set_experiences(graph)
     set_skills(graph)
     set_languages(graph)
+    set_cardinaltiies(graph)
 
 
 def set_users(graph):
@@ -59,7 +108,7 @@ def set_vacancies(graph):
     Vacancy.create(graph, 1, 1, "Q593644", "2022-12-12", "2023-01-12", "2796491", "JobDescription", "JOBResponsibilities", 3100)
     Vacancy.create(graph, 2, 2, "Q901", "2022-12-12", "2023-01-12", "2796492", "Teaching assistant", "examens maken", 2800)
     Vacancy.create(graph, 3, 3, "Q9402", "2022-12-12", "2023-01-12", "2796493", "kassamedewerker", "Werken met klanten", 2300)
-    # Vacancy.create(graph, 3, 3, "Q11063", "2022-12-12", "2023-01-12", "2796494", "kassamedewerker", "Werken met klanten", 2200)
+    Vacancy.create(graph, 3, 3, "Q11063", "2022-12-12", "2023-01-12", "2796494", "kassamedewerker", "Werken met klanten", 2200)
     Vacancy.create(graph, 4, 3, "Q11063", "2022-12-12", "2023-01-12", "2796494", "Manager", "Niets", 2900)
 
 
@@ -67,7 +116,7 @@ def set_diplomas(graph):
     # create_for_user(graph, user_id, degree, discipline_id, institiution, startDate, endDate)
     Diploma.create_for_user(graph, 1, "bachelor", "Q21198", "uHasselt", "2018-09-01", "2022-06-30")
     Diploma.create_for_user(graph, 2, "master", "Q21198", "KUL", "2018-09-01", "2022-06-30")
-    # Diploma.create_for_user(graph, 2, "bachelor", "Q431", "uHasselt", "2018-09-01", "2022-06-30")
+    Diploma.create_for_user(graph, 2, "bachelor", "Q431", "uHasselt", "2018-09-01", "2022-06-30")
     Diploma.create_for_user(graph, 3, "bachelor", "Q420", "uHasselt", "2018-09-01", "2022-06-30")
     Diploma.create_for_user(graph, 4, "bachelor", "Q2329", "uHasselt", "2018-09-01", "2022-06-30")
     
