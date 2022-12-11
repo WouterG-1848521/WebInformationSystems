@@ -40,7 +40,7 @@ def check_maintainer(graph, enterpriseID, maintainerID):
     query += f'''
                 SELECT ?maintainer
                 WHERE {{
-                    ?enterprise rdf:type local:enterprise .
+                    ?enterprise rdf:type foaf:Organization .
                     ?enterprise local:maintainer ?maintainer .
                     FILTER (?enterprise = enterprise:{enterpriseID})
                     FILTER (?maintainer = person:{maintainerID})
@@ -58,7 +58,7 @@ def check_owner(graph, enterpriseID, ownerID):
     query += f'''
                 SELECT ?owner
                 WHERE {{
-                    ?enterprise rdf:type local:enterprise .
+                    ?enterprise rdf:type foaf:Organization .
                     ?enterprise local:owner ?owner .
                     FILTER (?enterprise = enterprise:{enterpriseID})
                     FILTER (?owner = person:{ownerID})
@@ -92,7 +92,7 @@ def check_enterprise(graph, enterpriseID):
     query += f'''
                 SELECT ?enterprise
                 WHERE {{
-                    ?enterprise rdf:type local:enterprise .
+                    ?enterprise rdf:type foaf:Organization .
                     FILTER (?enterprise = enterprise:{enterpriseID})
                 }}
             '''
@@ -191,7 +191,7 @@ def create_enterpriseRDF(graph, name, owner, lat, long, address, phone, email, w
     # Add enterprise to Graph
     ref = URIRef(ENTERPRISE + str(enterpriseID))
 
-    graph.add((ref, RDF.type, LOCAL.enterprise))
+    graph.add((ref, RDF.type, FOAF.Organization))
     graph.add((ref, FOAF.name, Literal(name)))
     graph.add((ref, LOCAL.owner, URIRef(PERSON + str(owner))))
     graph.add((ref, LOCAL.maintainer, URIRef(PERSON + str(owner))))
@@ -215,7 +215,7 @@ def query_enterpriseGetAll():
     query = prefixes + '''
                             SELECT ?uri ?name ?owner ?maintainer ?lat ?long ?address ?description ?phone ?email ?website ?location
                             WHERE {
-                                    ?uri rdf:type local:enterprise .
+                                    ?uri rdf:type foaf:Organization .
                                     ?uri foaf:name ?name .
                                     ?uri geo:lat ?lat .
                                     ?uri geo:long ?long  .
@@ -235,7 +235,7 @@ def query_enterpriseGetById(id):
     query = prefixes + f'''
                             SELECT ?uri ?name ?owner ?maintainer ?lat ?long ?address ?description ?phone ?email ?website ?location
                             WHERE {{
-                                ?uri rdf:type local:enterprise .
+                                ?uri rdf:type foaf:Organization .
                                 ?uri foaf:name ?name .
                                 ?uri geo:lat ?lat .
                                 ?uri geo:long ?long  .
@@ -256,7 +256,7 @@ def query_enterpriseGetByName(name):
     query = prefixes + f'''
                         SELECT ?uri ?name ?owner ?maintainer ?lat ?long ?address ?description ?phone ?email ?website ?location
                         WHERE {{
-                                ?uri rdf:type local:enterprise .
+                                ?uri rdf:type foaf:Organization .
                                 ?uri foaf:name "{name}" .
                                 ?uri geo:lat ?lat .
                                 ?uri geo:long ?long  .
@@ -278,7 +278,7 @@ def query_enterpriseGetByLocation(location):
     query = prefixes + f'''
                         SELECT ?uri ?name ?lat ?long ?address ?owner ?maintainerName ?maintainerSurName ?description ?phone ?email ?website
                         WHERE {{
-                                ?uri rdf:type local:enterprise .
+                                ?uri rdf:type foaf:Organization .
                                 ?uri foaf:name ?name .
                                 ?uri geo:lat ?lat .
                                 ?uri geo:long ?long  .
@@ -334,7 +334,7 @@ def query_update_enterpriseRDF(name, lat, long, address, phone, email, website, 
     query += ' INSERT { ' + "\n" + inserts + ' } ' + "\n"
     query += f'''
                 WHERE {{
-                    ?enterprise rdf:type local:enterprise .
+                    ?enterprise rdf:type foaf:Organization .
                     ?enterprise foaf:name ?name .
                     ?enterprise geo:lat ?lat .
                     ?enterprise geo:long ?long .
@@ -354,7 +354,7 @@ def query_delete_enterpriseRDF(enterpriseID):
     query = prefixes + "\n"
     query += f'''
                 DELETE {{
-                    ?enterprise rdf:type local:enterprise .
+                    ?enterprise rdf:type foaf:Organization .
                     ?enterprise foaf:name ?name .
                     ?enterprise geo:lat ?lat .
                     ?enterprise geo:long ?long .
@@ -380,7 +380,7 @@ def query_delete_enterpriseRDF(enterpriseID):
                     ?vacancy local:startDate ?startDate .
                 }}
                 WHERE {{
-                    ?enterprise rdf:type local:enterprise .
+                    ?enterprise rdf:type foaf:Organization .
                     ?enterprise foaf:name ?name .
                     ?enterprise geo:lat ?lat .
                     ?enterprise geo:long ?long .
@@ -421,7 +421,7 @@ def query_transfer_ownershipRDF(enterpriseID, newOwnerID):
                     ?enterprise local:owner person:{newOwnerID} .
                 }}
                 WHERE {{
-                    ?enterprise rdf:type local:enterprise .
+                    ?enterprise rdf:type foaf:Organization .
                     ?enterprise local:owner ?owner .
                     FILTER (?enterprise = enterprise:{enterpriseID})
                 }}
@@ -435,7 +435,7 @@ def query_add_maintainerRDF(enterpriseID, newMaintainerID):
                     ?enterprise local:maintainer person:{newMaintainerID} .
                 }}
                 WHERE {{
-                    ?enterprise rdf:type local:enterprise .
+                    ?enterprise rdf:type foaf:Organization .
                     FILTER (?enterprise = enterprise:{enterpriseID})
                 }}
             '''
@@ -448,7 +448,7 @@ def query_remove_maintainerRDF(enterpriseID, maintainerID):
                     ?enterprise local:maintainer person:{maintainerID} .
                 }}
                 WHERE {{
-                    ?enterprise rdf:type local:enterprise .
+                    ?enterprise rdf:type foaf:Organization .
                     FILTER (?enterprise = enterprise:{enterpriseID})
                 }}
             '''
@@ -458,7 +458,7 @@ def query_enterpriseGetByAddress(address):
     query = prefixes + f'''
         SELECT ?uri ?name ?owner ?maintainer ?lat ?long ?address ?description ?phone ?email ?website ?location
         WHERE {{
-            ?uri rdf:type local:enterprise .
+            ?uri rdf:type foaf:Organization .
             ?uri foaf:name ?name .
             ?uri geo:lat ?lat .
             ?uri geo:long ?long  .
@@ -479,7 +479,7 @@ def query_enterpriseGetByLocation(location):
     query = prefixes + f'''
             SELECT ?uri ?name ?owner ?maintainer ?lat ?long ?address ?description ?phone ?email ?website ?location
             WHERE {{
-                ?uri rdf:type local:enterprise .
+                ?uri rdf:type foaf:Organization .
                 ?uri foaf:name ?name .
                 ?uri geo:lat ?lat .
                 ?uri geo:long ?long  .
@@ -511,7 +511,7 @@ def query_enterpriseGetByOwner(personURI):
     query = prefixes + f'''
             SELECT ?uri
             WHERE {{
-                ?uri rdf:type local:enterprise .
+                ?uri rdf:type foaf:Organization .
                 ?uri local:owner ?owner .
                 FILTER (?owner = {personURI}) 
             }}

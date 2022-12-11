@@ -1,5 +1,6 @@
 import hashlib
 from rdflib.namespace import FOAF, RDF, OWL
+from backend_REST.graph import LOCAL
 
 from config import GRAPH_FILE
 
@@ -22,6 +23,8 @@ def clear_graph(app, graph):
 def set_initial_graph_properties(graph):
     # TODO : Add more?
     graph.add((FOAF.knows, RDF.type, OWL.SymmetricProperty))
+    graph.add((LOCAL.enterprise, OWL.equivalentClass, FOAF.Organization))
+    graph.add((LOCAL.person, OWL.equivalentClass, FOAF.Person))
 
 
 def set_initial_graph_data(graph):
@@ -44,7 +47,9 @@ def set_users(graph):
 
 
 def set_enterprises(graph):
-    Enterprise.create(graph, "CS Enterprise", 23, 30, "Hasselt", 123, "cs.enterprise@gmail.com", "cs.com", 1, "Computer Science Agency", "2796491")
+    Enterprise.create(graph, "CS Enterprise", 40.879, 45.6997, "Hasselt straat 2", "016/123456", "cs.enterprise@gmail.com", "cs.com", 1, "Computer Science Agency", "2796491")
+    Enterprise.create(graph, "uHasselt", 40.879, 45.6997, "Hasselt straat 1", "016/123456", "uhasselt@gmail.com", "www.uhasselt.be", 2, "uHasselt is a university in Hasselt, Belgium", "2796491")
+    Enterprise.create(graph, "KU Leuven", 40.879, 45.6997, "Leuven straat 7", "016/123456", "KUL@gmail.com", "www.KUL.be", 3, "KU Leuven is a university in Leuven, Belgium", "2796491")
 
 
 def set_vacancies(graph):
