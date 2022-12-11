@@ -8,9 +8,10 @@ from backend_REST import db, session
 from backend_REST.models.database import DBUser
 from backend_REST.models.response import Response
 
+from backend_REST.models.user import User
 
 
-def create_login_routes(app):
+def create_login_routes(app, g):
     @app.route("/login", methods=['POST'])
     def db_login():
         data = request.form
@@ -33,13 +34,9 @@ def create_login_routes(app):
 
         login_user(user)
 
-        userJson = {
-            "id": user.id,
-            "email": user.email,
-            "password": user.password
-        }
-        
-        data = Response.format_users_json(data)
+        user = json.loads(User.get_by_id(g, current_user.id))
+        data = Response.format_users_json(user)
+
         return Response.make_response_for_content_type_and_data(accept_headers, data)
 
     @app.route("/logout", methods=['GET'])

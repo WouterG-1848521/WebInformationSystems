@@ -3,7 +3,7 @@ from rdflib.namespace import RDF, FOAF, RDFS
 import owlrl
 from pandas import DataFrame
 
-from backend_REST.graph import LOCAL, PERSON, EXPERIENCE, VACANCY, DIPLOMA, GEO, ENTERPRISE
+from backend_REST.graph import LOCAL, PERSON, GEO, ENTERPRISE, GEONAMES
 from config import GRAPH_FILE
 
 graphFile = GRAPH_FILE
@@ -167,7 +167,7 @@ def create_enterpriseRDF(graph, name, owner, lat, long, address, phone, email, w
     graph.add((ref, GEO.lat, Literal(lat)))
     graph.add((ref, GEO.long, Literal(long)))
     graph.add((ref, GEO.address, Literal(address)))
-    graph.add((ref, LOCAL.location, Literal("gn:" + location)))
+    graph.add((ref, LOCAL.location, URIRef(GEONAMES + str(location))))
     graph.add((ref, LOCAL.description, Literal(description)))
     graph.add((ref, LOCAL.phone, Literal(phone)))
     graph.add((ref, LOCAL.email, Literal(email)))
@@ -455,7 +455,6 @@ def query_enterpriseGetByLocation(location):
                 ?uri local:website ?website .
                 ?uri local:maintainer ?maintainer .
                 ?uri local:location ?location .
-                FILTER (?location = "gn:{location}") 
             }}
     '''
     return query

@@ -19,7 +19,7 @@
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item"><a class="nav-link active" href="/"><span class="underline">Home</span></a></li>
                     {% if current_user.is_authenticated %}
-                    <li class="nav-item"><a class="nav-link" href="/users/{{current_user.id}}">My profile</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/profile">My profile</a></li>
                     <li class="nav-item"><a class="nav-link" href="/enterprises">My enterprises</a></li>
                     <li class="nav-item"><a class="nav-link" href="/connections">My connections</a></li>
                     <li class="nav-item"><a class="nav-link" href="/matches">My matches</a></li>
@@ -40,7 +40,7 @@
             <div class="row pt-5">
                 <div class="col-md-8 text-center text-md-start mx-auto">
                     <div class="text-center">
-                        <h1 class="display-4 fw-bold mb-5"><span class="underline">Experiences</span></h1>
+                        <h1 class="display-4 fw-bold mb-5"><span class="underline">Enterpises</span></h1>
                     </div>
                 </div>
                 <!-- <div class="col-12 col-lg-10 mx-auto">
@@ -54,20 +54,26 @@
             <div class="row pt-5">
                 <div class="col-md-8 text-center text-md-start mx-auto">
                     <div class="card-columns">
-                        {% set experiences = data['experiences'] %}
-                        {% if not experiences %}
-                            <p>There are no experiences</p>
+                        {% set enterprises = data %}
+                        {% if not enterprises %}
+                            <p>There are no enterprises</p>
                         {% else %}
-                            {% for id in experiences %}
-                                {% set experience = experiences[id] %}
+                            {% for id in enterprises %}
+                                {% set enterprise = enterprises[id] %}
                                 <div class="card">
                                 <div class="card-body">
-                                    <h5 class="card-title">{{ experience['e'] }}</h5>
+                                    <h5 class="card-title">{{ enterprise['id'] }}</h5>
                                     <p class="card-text">
-                                        <b>Job Title</b>: {{ experience['jobTitle'] }} </br>
-                                        <b>Profession</b>: <a href={{ experience['profession'] }}>{{ experience['profession'] }}</a> </br>
-                                        <b>Skill</b>: <a href={{ experience['skill'] }}>{{ experience['profession'] }}</a> </br>
-                                        <b>Worked from</b> {{ experience['startDate'] }} <b>until</b> {{ experience['endDate'] }}</p>
+                                        <b>Name</b>: {{ enterprise['name'] }} </br>
+                                        <b>Owner</b>: <a href={{ enterprise['owner'] }}>{{ enterprise['owner'] }}</a> </br>
+                                        <b>Maintainer</b>: <a href={{ enterprise['maintainer'] }}>{{ enterprise['maintainer'] }}</a> </br>
+                                        <b>Lat/Long</b>: {{ enterprise['lat'] }} / {{ enterprise['long'] }}  </br>
+                                        <b>Address</b>: {{ enterprise['address'] }} </br>
+                                        <b>Description</b>: {{ enterprise['description'] }} </br>
+                                        <b>Phone</b>: {{ enterprise['phone'] }} </br>
+                                        <b>Email</b>: {{ enterprise['email'] }} </br>
+                                        <b>Website</b>: <a href={{ enterprise['website'] }}>{{ enterprise['website'] }}</a> </br>
+                                        <b>Location</b>: <a href={{ enterprise['location'] }}>{{ enterprise['location'] }}</a> </br>
                                 </div>
                             {% endfor %}    
                         {% endif %}

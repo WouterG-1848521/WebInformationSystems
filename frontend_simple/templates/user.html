@@ -17,7 +17,7 @@
         <div class="container"><a class="navbar-brand d-flex align-items-center" href="/"><span>LinkRec</span></a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navcol-1">
                 <ul class="navbar-nav mx-auto">
-                    <li class="nav-item"><a class="nav-link active" href="/"><span class="underline">Home</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
                     {% if current_user.is_authenticated %}
                     <li class="nav-item"><a class="nav-link" href="/users/{{current_user.id}}">My profile</a></li>
                     <li class="nav-item"><a class="nav-link" href="/enterprises">My enterprises</a></li>
@@ -70,11 +70,11 @@
                                 <div class="card-body">
                                     <h5 class="card-title">{{ user['name'] }} {{ user['surname'] }}</h5>
                                     <p class="card-text">{{ user['p'] }}</p>
-                                </div>
+                                </div>     
 
-                                {% if current_user.is_authenticated and current_user.id == user_id %}
+                                {% if current_user.is_authenticated and current_user.id == user['id'] %}
                                 <div class="card-footer">
-                                    <button type="button" class="btn btn-primary">Edit</button>
+                                    <a class="btn btn-primary" href="/users/{{current_user.id}}/edit">Edit</a>
                                   </div>
                                 </div>
                                 {% endif %}

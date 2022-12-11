@@ -40,7 +40,16 @@
             <div class="row pt-5">
                 <div class="col-md-8 text-center text-md-start mx-auto">
                     <div class="text-center">
-                        <h1 class="display-4 fw-bold mb-5"><span class="underline">Experiences</span></h1>
+                        {% if data %}
+                        {% set users = data['users'] %}
+                        {% if 0 in users.keys() %}
+                        {% set user = users[0] %}
+                        <h1 class="display-4 fw-bold mb-5">Edit - <span class="underline">{{ user['name']+' '+user['surname'] }}</span></h1>
+                        <p class="lead fw-normal text-muted mb-4">{{ user['p'] }}</p>
+                        {% else %}
+                        <h1 class="display-4 fw-bold mb-5"><span class="underline">No user found</span></h1>
+                        {% endif %}
+                        {% endif %}
                     </div>
                 </div>
                 <!-- <div class="col-12 col-lg-10 mx-auto">
@@ -53,30 +62,36 @@
         <div class="container pt-4 pt-xl-5">
             <div class="row pt-5">
                 <div class="col-md-8 text-center text-md-start mx-auto">
-                    <div class="card-columns">
-                        {% set experiences = data['experiences'] %}
-                        {% if not experiences %}
-                            <p>There are no experiences</p>
-                        {% else %}
-                            {% for id in experiences %}
-                                {% set experience = experiences[id] %}
-                                <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ experience['e'] }}</h5>
-                                    <p class="card-text">
-                                        <b>Job Title</b>: {{ experience['jobTitle'] }} </br>
-                                        <b>Profession</b>: <a href={{ experience['profession'] }}>{{ experience['profession'] }}</a> </br>
-                                        <b>Skill</b>: <a href={{ experience['skill'] }}>{{ experience['profession'] }}</a> </br>
-                                        <b>Worked from</b> {{ experience['startDate'] }} <b>until</b> {{ experience['endDate'] }}</p>
+                    <section class="position-relative py-4 py-l-5">
+                        <div class="row d-flex justify-content-center">
+                            <div class="col-md-8 col-xl-10 col-xxl-12">
+                                <div class="mb-5">
+                                    {% if user['id'] == current_user.id %}
+                                    <div class="card-body d-flex flex-column align-items-center">
+                                        <form class="text-center" method="POST" action="/users/{{ current_user.id }}">
+                                            <div class="mb-3"><input required class="form-control" type="text" name="name" placeholder="First name" value="{{ user['name'] }}"/></div>
+                                            <div class="mb-3"><input required class="form-control" type="text" name="surname" placeholder="Last name" value="{{ user['surname'] }}"/></div>
+                                            <div class="mb-3"><input required class="form-control" type="email" name="email" placeholder="Email" value="{{ current_user.email }}"/></div>
+                                            <div class="mb-3"><input required class="form-control" type="password" name="password" placeholder="Password"/></div>
+                                            <div class="mb-3"><input required class="form-control" type="password" name="passwordConfirmation" placeholder="Repeat your password" /></div>
+                                            <div class="mb-3"><button class="btn btn-primary d-block w-100" type="submit">Save</button></div>
+                                        </form>
+                                    </div>
+                                    {% else %}
+                                    This doesn't work.
+                                    {% endif %}
                                 </div>
-                            {% endfor %}    
-                        {% endif %}
-                    </div>
+                            </div>
+                        </div>
+                        <div class="container"></div>
+                    </section>
+                </div>
+                <div class="col-12 col-lg-10 mx-auto">
+                    <div class="text-center position-relative"></div>
                 </div>
             </div>
         </div>
         
-
     </section>
     <section></section>
     <section></section>

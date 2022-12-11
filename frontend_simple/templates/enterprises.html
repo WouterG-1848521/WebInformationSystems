@@ -40,13 +40,7 @@
             <div class="row pt-5">
                 <div class="col-md-8 text-center text-md-start mx-auto">
                     <div class="text-center">
-                        {% set users = data['users'] %}
-                        {% if 0 in users.keys() %}
-                        <h1 class="display-4 fw-bold mb-5"><span class="underline">{{ users[0]['name']+' '+users[0]['surname'] }}</span></h1>
-                        <p class="lead fw-normal text-muted mb-4">{{ users[0]['p'] }}</p>
-                        {% else %}
-                        <h1 class="display-4 fw-bold mb-5"><span class="underline">No user found</span></h1>
-                        {% endif %}
+                        <h1 class="display-4 fw-bold mb-5"><span class="underline">Enterpises</span></h1>
                     </div>
                 </div>
                 <!-- <div class="col-12 col-lg-10 mx-auto">
@@ -60,19 +54,29 @@
             <div class="row pt-5">
                 <div class="col-md-8 text-center text-md-start mx-auto">
                     <div class="card-columns">
-                        {% set users = data['users'] %}
-                        {% if users is none %}
-                            <p>There are no users</p>
+                        {% set enterprises = data %}
+                        {% if not enterprises %}
+                            <p>There are no enterprises</p>
                         {% else %}
-                            {% for id in users %}
-                                {% set user = users[id] %}
-                                <div class="card">
+                            {% for id in enterprises %}
+                                {% set enterprise = enterprises[id] %}
+                                <div class="card mb-3">
                                 <div class="card-body">
-                                    <h5 class="card-title">{{ user['name'] }} {{ user['surname'] }}</h5>
-                                    <p class="card-text">{{ user['p'] }}</p>
+                                    <h5 class="card-title">{{ enterprise['id'] }}</h5>
+                                    <p class="card-text">
+                                        <b>Name</b>: {{ enterprise['name'] }} </br>
+                                        <b>Owner</b>: <a href={{ enterprise['owner'] }}>{{ enterprise['owner'] }}</a> </br>
+                                        <b>Maintainer</b>: <a href={{ enterprise['maintainer'] }}>{{ enterprise['maintainer'] }}</a> </br>
+                                        <b>Lat/Long</b>: {{ enterprise['lat'] }} / {{ enterprise['long'] }}  </br>
+                                        <b>Address</b>: {{ enterprise['address'] }} </br>
+                                        <b>Description</b>: {{ enterprise['description'] }} </br>
+                                        <b>Phone</b>: {{ enterprise['phone'] }} </br>
+                                        <b>Email</b>: {{ enterprise['email'] }} </br>
+                                        <b>Website</b>: <a href={{ enterprise['website'] }}>{{ enterprise['website'] }}</a> </br>
+                                        <b>Location</b>: <a href={{ enterprise['location'] }}>{{ enterprise['location'] }}</a> </br>
                                 </div>
                                 </div>
-                            {% endfor %}
+                            {% endfor %}    
                         {% endif %}
                     </div>
                 </div>

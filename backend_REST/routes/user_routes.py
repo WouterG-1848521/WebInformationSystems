@@ -1,5 +1,5 @@
 from flask import request, make_response, jsonify
-from flask_login import login_required, logout_user
+from flask_login import login_required, logout_user, current_user
 import hashlib
 import json
 
@@ -23,6 +23,7 @@ def create_user_routes(app, g):
     def get_all_users():
         usersJson = json.loads(User.get_all(g))
         usersJson = Response.format_users_json(usersJson)
+        
         return Response.make_response_for_content_type_and_data(request.headers.get("Accept", "text/html"), data=usersJson, template="users.html")
 
     @app.route("/users", methods=["POST"])
@@ -42,6 +43,7 @@ def create_user_routes(app, g):
         user_id = User.create(g, data["name"], data["surname"],
                               data["email"], encrypted_password)
         userJson = json.loads(User.get_by_id(g, user_id))
+        
         userJson = Response.format_users_json(userJson)
 
         return Response.make_response_for_content_type_and_data(request.headers.get("Accept", "text/html"), userJson, "users.html")
@@ -67,8 +69,10 @@ def create_user_routes(app, g):
         if not Validator.valid_email(data["email"]):
             return Response.email_not_valid()
 
-        if not User.is_available(data["email"]):
-            return Response.email_not_available()
+        if (data["email"] != current_user.email):
+            if not User.is_available(data["email"]):
+                if (data["email"] != current_user.email):
+                    return Response.email_not_available()
 
         # Encryption must be done before send with HTTP POST, but currently no front-end
         encrypted_password = hashlib.sha256(
@@ -77,7 +81,45 @@ def create_user_routes(app, g):
         User.update_user_by_id(g, user_id, data["name"], data["surname"],
                                data["email"], encrypted_password)
 
-        return Response.make_response_for_content_type_and_data(request.headers.get("Accept", "text/html"), {"message": f"User updated with id {user_id}"}, "user.html")
+        data = json.loads(User.get_by_id(g, user_id))
+        print(data)
+        data = Response.format_users_json(data)
+        print(data)
+
+        return Response.make_response_for_content_type_and_data(request.headers.get("Accept", "text/html"), data, "user.html")
+        return make_response(jsonify({"message": f"User updated with id {user_id}"}), 200)
+    
+    # Added POST since PUT is not supported by HTML forms
+    @app.route("/users/<int:user_id>", methods=["POST"])
+    @ login_required
+    def update_user_for_frontend(user_id):
+        data = request.form
+
+        # Check if logged-in user is correct
+        if session['_user_id'] != user_id:
+            return Response.unauthorized_access_wrong_user()
+
+        if not Validator.same_password(data["password"], data["passwordConfirmation"]):
+            return Response.password_not_matching()
+
+        if not Validator.valid_email(data["email"]):
+            return Response.email_not_valid()
+
+        if (data["email"] != current_user.email):
+            if not User.is_available(data["email"]):
+                return Response.email_not_available()
+
+        # Encryption must be done before send with HTTP POST, but currently no front-end
+        encrypted_password = hashlib.sha256(
+            data["password"].encode('utf-8')).hexdigest()
+
+        User.update_user_by_id(g, user_id, data["name"], data["surname"],
+                               data["email"], encrypted_password)
+
+        data = json.loads(User.get_by_id(g, user_id))
+        data = Response.format_users_json(data)
+
+        return Response.make_response_for_content_type_and_data(request.headers.get("Accept", "text/html"), data, "user.html")
         return make_response(jsonify({"message": f"User updated with id {user_id}"}), 200)
 
     @ app.route("/users/<int:user_id>", methods=["DELETE"])
@@ -92,7 +134,9 @@ def create_user_routes(app, g):
         # Auto logout
         logout_user()
 
-        User.delete(g, user_id)
+        owner = User.delete(g, user_id)
+        if owner == "Owner":
+            return make_response(jsonify({"message": f"User is a owner of an enterprise"}), 400)
 
         return make_response(jsonify({"message": f"User deleted with id {user_id}"}), 200)
 

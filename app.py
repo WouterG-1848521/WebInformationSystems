@@ -21,15 +21,17 @@ import os
 app = create_app('development')
 
 g = create_graph(GRAPH_FILE)
-# owlrl.DeductiveClosure(owlrl.RDFS_OWLRL_Semantics, rdfs_closure=True,
-#                        axiomatic_triples=True, datatype_axioms=True).expand(g)
 
 # \/ Uncomment to insert initial data \/
-with app.app_context():
-    reset_DB(app)
-    clear_graph(app, g)
-    set_initial_graph_properties(g)
-    set_initial_graph_data(g)
+# with app.app_context():
+#     reset_DB(app)
+#     clear_graph(app, g)
+#     set_initial_graph_properties(g)
+#     set_initial_graph_data(g)
+
+# owlrl.DeductiveClosure(owlrl.RDFS_OWLRL_Semantics, rdfs_closure=True,
+#                        axiomatic_triples=True, datatype_axioms=True).expand(g)
+# g.serialize(destination=GRAPH_FILE)
 
 create_login_manager(app)
 create_routes(app, g)

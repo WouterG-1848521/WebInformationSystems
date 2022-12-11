@@ -35,7 +35,8 @@ def create_vacancy_routes(app, graph):
             return Response.end_date_not_valid()
 
         vacancy_id = Vacancy.create(graph, enterprise_id, session["_user_id"],
-                                    data["jobTitle"], data["startDate"], data["endDate"], data["location_id"])
+                                    data["jobTitle"], data["startDate"], data["endDate"], data["location_id"], 
+                                    data["jobDescription"], data["jobResponsibilities"], data["jobSalary"])
 
         return f"Created vacancy {vacancy_id}."
 
@@ -55,7 +56,11 @@ def create_vacancy_routes(app, graph):
         Vacancy.update_job_title(graph, vacancy_id, data["jobTitle"])
         Vacancy.update_start_date(graph, vacancy_id, data["startDate"])
         Vacancy.update_end_date(graph, vacancy_id, data["endDate"])
-
+        Vacancy.update_location(graph, vacancy_id, data["location_id"])
+        Vacancy.update_job_description(graph, vacancy_id, data["jobDescription"])
+        Vacancy.update_job_responsibilities(graph, vacancy_id, data["jobResponsibilities"])
+        Vacancy.update_job_salary(graph, vacancy_id, data["jobSalary"])
+        
         return f"Updated vacancy {vacancy_id}"
 
     @app.route("/enterprises/<int:enterprise_id>/vacancies/<int:vacancy_id>", methods=['DELETE'])
@@ -98,7 +103,7 @@ def create_vacancy_routes(app, graph):
             return Response.discipline_not_valid()
 
         diploma_id = Diploma.create_for_vacancy(graph, vacancy_id, data["degree"], data["discipline"],
-                                                data["institution"], data["startDate"], data["endDate"], data["location_id"])
+                                                data["institution"], data["startDate"], data["endDate"])
         return f"Created diploma {diploma_id } for vacancy {vacancy_id}."
 
     @app.route("/enterprises/<int:enterprise_id>/vacancies/<int:vacancy_id>/diplomas", methods=["GET"])
@@ -199,7 +204,7 @@ def create_vacancy_routes(app, graph):
         if not (check_maintainer(graph, session['_user_id'], enterprise_id)):
             return "only maintainer of enterprise can delete vacancy diploma"
 
-        if not Validator.valid_language(data["skill"]):
+        if not Validator.valid_language(data["language"]):
             return Response.language_not_valid()
 
         Language.add_to_vacancy(graph, vacancy_id, data["language"])

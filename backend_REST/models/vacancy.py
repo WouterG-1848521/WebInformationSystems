@@ -1,5 +1,5 @@
 from pandas import DataFrame
-from rdflib import Literal, RDF, URIRef
+from rdflib import Literal, RDF, URIRef, Variable
 from rdflib.namespace import RDF, RDFS, FOAF, XSD
 from backend_REST.graph import LOCAL, VACANCY, ENTERPRISE, PERSON, GEONAMES
 
@@ -25,6 +25,7 @@ from backend_REST.models.database import DBVacancy
 #     id has a jobLocation
 
 class Vacancy():
+
 
     def create(graph, enterprise_id, maintainer_id, job_title, start_date, end_date, location_id, job_desciption, job_responsibilities, job_salary):
         # Add vacancy to DB
@@ -95,6 +96,15 @@ class Vacancy():
     def update_location(graph, vacancy_id, location_id):
         location_URI = URIRef(GEONAMES + str(location_id))
         Vacancy.update_URI(graph, vacancy_id, LOCAL.location, location_URI)
+        
+    def update_job_description(graph, vacancy_id, job_description):
+        Vacancy.update_literal(graph, vacancy_id, LOCAL.jobDescription, job_description)
+        
+    def update_job_responsibilities(graph, vacancy_id, job_responsibilities):
+        Vacancy.update_literal(graph, vacancy_id, LOCAL.jobResponsibilities, job_responsibilities)
+    
+    def update_job_salary(graph, vacancy_id, job_salary):
+        Vacancy.update_literal(graph, vacancy_id, LOCAL.jobSalary, job_salary)
 
     def delete(graph, vacancy_id):
         # Delete from DB
@@ -103,6 +113,12 @@ class Vacancy():
         if (vacancy != None):
             db.session.delete(vacancy)
             db.session.commit()
+            
+        diploma_URIs = Vacancy.get_all_diploma_URIs(graph, vacancy_id)
+        
+        # Delete all diplomas of vacancy
+        for diploma_URI in diploma_URIs:
+            graph.remove((diploma_URI, None, None))
 
         vacancy_URI = URIRef(VACANCY + str(vacancy_id))
         graph.remove((vacancy_URI, None, None))
@@ -128,3 +144,18 @@ class Vacancy():
         result = graph.query(q, initBindings={'e': enterprise_URI})
         df = DataFrame(result, columns=result.vars)
         return df.to_json()
+
+
+    def get_all_diploma_URIs(graph, vacancy_id):
+        vacancy_URI = URIRef(VACANCY + str(vacancy_id))
+        q = f'''
+            SELECT ?diploma
+            WHERE {{
+                ?v rdf:type local:vacancy .
+                ?v local:diploma ?diploma .
+            }}
+        '''
+
+        result = graph.query(q, initBindings={'v': vacancy_URI})
+        df = DataFrame(result, columns=result.vars)
+        return df[Variable('diploma')].values.tolist()
