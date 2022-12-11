@@ -178,7 +178,7 @@ class User():
         # check that the user isn't the owner of an enterprise
         isOwner = Enterprise.get_personIsOwner(graph, user_id)
         print("isOwner: " + str(isOwner))
-        if not isOwner:
+        if isOwner:
             return "Owner"
 
         # Delete user from DB
