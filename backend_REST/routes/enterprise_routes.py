@@ -154,7 +154,7 @@ def create_enterprise_routes(app, graph):
         return Enterprise.delete_enterprise(graph, enterpriseID, ownerID)
 
     # transfer ownership
-    @app.route("/enterprise/transfer", methods=['PUT'])
+    @app.route("/enterprises/transfer", methods=['PUT'])
     @login_required
     def transfer_enterprise():
         data = request.form
@@ -177,7 +177,7 @@ def create_enterprise_routes(app, graph):
 
     # Maintainers
     # add a maintainer to an enterprise
-    @app.route("/enterprise/maintainer/add", methods=['POST'])
+    @app.route("/enterprises/maintainer/add", methods=['POST'])
     @login_required
     def add_maintainer():
         data = request.form
@@ -198,7 +198,7 @@ def create_enterprise_routes(app, graph):
         return Enterprise.add_maintainer(graph, enterpriseID, ownerID, maintainerID)
 
     # remove a maintainer from an enterprise
-    @app.route("/enterprise/maintainer/remove", methods=['PUT'])
+    @app.route("/enterprises/maintainer/remove", methods=['PUT'])
     @login_required
     def remove_maintainer():
         data = request.form     # request contains : enterpriseID, ownerID (for security check), MaintainerID

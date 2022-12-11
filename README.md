@@ -58,19 +58,19 @@ Compile and watch for changes in Tailwind CSS files: `npx tailwindcss -i ./stati
 - `"/users/<int:user_id>/profile/show"` GET
 - `"/users/<int:user_id>/profile"` GET, PUT, POST
 
-- `"/enterprise/get/all"` GET
-- `"/enterprise/get/id/<int:id>"` GET
-- `"/enterprise/get/name/<string:name>"` GET
-- `"/enterprise/get/address/<string:address>"` GET
-- `"/enterprise/create"` POST
-- `"/enterprise/update/<int:id>"` PUT
-- `"/enterprise/delete"` DELETE
-- `"/enterprise/transfer"` PUT
-- `"/enterprise/maintainer/add"` POST
-- `"/enterprise/maintainer/remove""` PUT
-- `"/enterprise/get/location/<int:location>"` GET
-- `"/enterprise/get/locationLL/<float:lat>/<float:long>/<float:distance>"` GET
-- `"/enterprise/get/locationLL/<float:lat>/<float:long>/<int:distance>"` GET
+- `"/enterprises/all"` GET
+- `"/enterprises/id/<int:id>"` GET
+- `"/enterprises/name/<string:name>"` GET
+- `"/enterprises/address/<string:address>"` GET
+- `"/enterprises"` POST
+- `"/enterprises<int:id>"` PUT
+- `"/enterprises"` DELETE
+- `"/enterprises/transfer"` PUT
+- `"/enterprises/maintainer/add"` POST
+- `"/enterprises/maintainer/remove""` PUT
+- `"/enterprises/location/<int:location>"` GET
+- `"/enterprises/locationLL/<float:lat>/<float:long>/<float:distance>"` GET
+- `"/enterprises/locationLL/<float:lat>/<float:long>/<int:distance>"` GET
 
 - `"/users/<int:user_id>/matches"` GET
 - `"/users/<int:user_id>/matches/skills"` GET
