@@ -1,5 +1,4 @@
-from flask import make_response, jsonify, url_for
-import flask_rdf
+from flask import make_response, jsonify, url_for, render_template, request
 
 # class RDFResponse():
 #     def __init__(self, status, message, data, graph, location = None):
@@ -65,3 +64,23 @@ class Response():
 
     def password_not_matching():
         return make_response(jsonify({"message": "Passwords don't match"}), 400)
+
+    @staticmethod
+    def make_response_for_content_type(accept_headers, message="", template="index.html", status="success", code=200):
+        if ('text/html' in accept_headers):
+            return make_response(render_template(template, message=message, status=status), code)
+        elif ('application/json' in accept_headers):
+            return make_response(jsonify({"message": message}), code)
+        else:
+            # Default to HTML
+            return make_response(render_template(template, message=message, status=status), code)
+    
+    @staticmethod
+    def make_response_for_content_type_and_data(accept_headers, data, template="index.html", status="success", code=200):
+        if ('text/html' in accept_headers):
+            return make_response(render_template(template, status=status, data=data), code)
+        elif ('application/json' in accept_headers):
+            return make_response(data, code)
+        else:
+            # Default to HTML
+            return make_response(render_template(template, status=status, data=data), code)

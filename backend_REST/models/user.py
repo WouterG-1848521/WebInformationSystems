@@ -62,6 +62,18 @@ class User():
         df = DataFrame(result, columns=result.vars)
         return df.to_json()
 
+    def get_all_rdf(graph):
+        print("Getting all users...")
+        q = f'''
+                SELECT ?p ?name ?surname
+                WHERE {{
+                    ?p rdf:type foaf:Person .
+                }}
+            '''
+        result = graph.query(q)
+        return result
+
+
     def get_by_id(graph, user_id):
         user_URI = URIRef(PERSON + str(user_id))
 
