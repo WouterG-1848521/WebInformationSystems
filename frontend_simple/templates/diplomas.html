@@ -55,7 +55,7 @@
                 <div class="col-md-8 text-center text-md-start mx-auto">
                     <div class="card-columns">
                         {% set diplomas = data['diplomas'] %}
-                        {% if diplomas is none %}
+                        {% if not diplomas %}
                             <p>There are no diplomas</p>
                         {% else %}
                             {% for id in diplomas %}
@@ -65,7 +65,7 @@
                                     <h5 class="card-title">{{ diploma['d'] }}</h5>
                                     <p class="card-text">
                                         <b>Degree</b>: {{ diploma['degree'] }} </br>
-                                        <b>Discipline</b>: {{ diploma['discipline'] }} </br>
+                                        <b>Discipline</b>: <a href={{ diploma['discipline'] }}>{{ diploma['discipline'] }}</a> </br>
                                         <b>Institution</b>: {{ diploma['institution'] }} </br>
                                         <b>Enrolled from</b> {{ diploma['startDate'] }} <b>until</b> {{ diploma['endDate'] }}</p>
                                 </div>

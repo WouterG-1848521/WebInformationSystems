@@ -62,7 +62,7 @@
                                 {% set skill = skills[id] %}
                                 <div class="card">
                                 <div class="card-body">
-                                    <h5 class="card-title">{{ skill[0] }}</h5>
+                                    <h5 class="card-title"><a href={{ skill[0] }}>{{ skill[0] }}</a></h5>
                                 </div>
                             {% endfor %}    
                         {% endif %}

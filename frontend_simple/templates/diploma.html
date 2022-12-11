@@ -65,7 +65,7 @@
                                     <h5 class="card-title">{{ diploma['d'] }}</h5>
                                     <p class="card-text">
                                         <b>Degree</b>: {{ diploma['degree'] }} </br>
-                                        <b>Discipline</b>: {{ diploma['discipline'] }} </br>
+                                        <b>Discipline</b>: <url href={{ diploma['discipline'] }}>{{ diploma['discipline'] }}</url> </br>
                                         <b>Institution</b>: {{ diploma['institution'] }} </br>
                                         <b>Enrolled from</b> {{ diploma['startDate'] }} <b>until</b> {{ diploma['endDate'] }}</p>
                                 </div>

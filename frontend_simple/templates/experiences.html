@@ -65,8 +65,8 @@
                                     <h5 class="card-title">{{ experience['e'] }}</h5>
                                     <p class="card-text">
                                         <b>Job Title</b>: {{ experience['jobTitle'] }} </br>
-                                        <b>Profession</b>: {{ experience['profession'] }} </br>
-                                        <b>Skill</b>: {{ experience['skill'] }} </br>
+                                        <b>Profession</b>: <a href={{ experience['profession'] }}>{{ experience['profession'] }}</a> </br>
+                                        <b>Skill</b>: <a href={{ experience['skill'] }}>{{ experience['profession'] }}</a> </br>
                                         <b>Worked from</b> {{ experience['startDate'] }} <b>until</b> {{ experience['endDate'] }}</p>
                                 </div>
                             {% endfor %}    

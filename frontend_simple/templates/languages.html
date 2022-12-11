@@ -62,7 +62,7 @@
                                 {% set language = languages[id] %}
                                 <div class="card">
                                 <div class="card-body">
-                                    <h5 class="card-title">{{ language[0] }}</h5>
+                                    <h5 class="card-title"><a href={{ language[0] }}>{{ language[0] }}</a></h5>
                                 </div>
                             {% endfor %}    
                         {% endif %}

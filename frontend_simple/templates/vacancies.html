@@ -65,8 +65,8 @@
                                     <h5 class="card-title">{{ vacancy['v'] }}</h5>
                                     <p class="card-text">
                                         <b>Job Title</b>: {{ vacancy['jobTitle'] }} </br>
-                                        <b>Location</b>: {{ vacancy['location'] }} </br>
-                                        <b>Maintainer</b>: {{ vacancy['maintainerId'] }} </br>
+                                        <b>Location</b>: <a href={{ vacancy['location'] }}>{{ vacancy['location'] }}</a> </br>
+                                        <b>Maintainer</b>: <a href={{ vacancy['maintainerId'] }}>{{ vacancy['maintainerId'] }}</a> </br>
                                         <b>Open from</b> {{ vacancy['startDate'] }} <b>until</b> {{ vacancy['endDate'] }}</p>
                                 </div>
                             {% endfor %}    
