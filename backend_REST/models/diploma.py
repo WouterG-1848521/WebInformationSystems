@@ -115,7 +115,6 @@ class Diploma():
         '''
         result = graph.query(q, initBindings={'p': user_URI})
         df = DataFrame(result, columns=result.vars)
-        print(df['d'])
         return df.to_json()
 
     def delete_from_user(graph, user_id, diploma_id):

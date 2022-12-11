@@ -107,7 +107,6 @@ class Response():
     def format_users_json(usersJSON):
         # Format dictionary correctly for response so that each key is a user_id 
         # and the value is the user data
-        print(usersJSON)
         newDict = {'users': {}}
         for id in usersJSON['p']:
             info = {
@@ -117,7 +116,7 @@ class Response():
                 "getVacancies": usersJSON['getVacancies'][id]                
             }
             newDict['users'][int(id)] = info
-            
+            print(newDict)
         
         return newDict
     
@@ -147,13 +146,13 @@ class Response():
         # Format dictionary correctly for response so that each key is a experience_id 
         # and the value is the experience data
         newDict = {'experiences': {}}
-        for id in experiencesJSON['d']:
+        for id in experiencesJSON['e']:
             info = {
-                "d": experiencesJSON['d'][id],
+                "e": experiencesJSON['e'][id],
                 "jobTitle": experiencesJSON['jobTitle'][id],
                 "profession": experiencesJSON['profession'][id],
                 "skill": experiencesJSON['skill'][id],
-                "startDate": experiencesJSON['discipline'][id],
+                "startDate": experiencesJSON['startDate'][id],
                 "endDate": experiencesJSON['endDate'][id],
             }
             newDict['experiences'][int(id)] = info
@@ -166,13 +165,10 @@ class Response():
     def format_skills_json(skillsJSON):
         # Format dictionary correctly for response so that each key is a experience_id 
         # and the value is the experience data
+        print()
         newDict = {'skills': {}}
-        for id in skillsJSON['d']:
-            info = {
-                "skill": skillsJSON['skill'][id],
-            }
-            newDict['skills'][int(id)] = info
-            print(newDict)
+        for id in skillsJSON['skill']:
+            newDict['skills'][int(id)] = skillsJSON['skill'][id],
         
         return newDict
     
@@ -181,12 +177,9 @@ class Response():
     def format_languages_json(languagesJSON):
         # Format dictionary correctly for response so that each key is a experience_id 
         # and the value is the experience data
+        print(languagesJSON)
         newDict = {'languages': {}}
-        for id in languagesJSON['d']:
-            info = {
-                "language": languagesJSON['language'][id],
-            }
-            newDict['languages'][int(id)] = info
-            print(newDict)
+        for id in languagesJSON['language']:
+            newDict['languages'][int(id)] = languagesJSON['language'][id],
         
         return newDict

@@ -175,14 +175,17 @@ def create_user_routes(app, g):
 
     @ app.route("/users/<int:user_id>/diplomas", methods=["GET"])
     def get_user_diplomas(user_id):
-        diplomaJSON = json.loads(User.get_all(g))
-        diplomaJSON = Response.format_diplomas_json(diplomaJSON)
+        diplomasJSON = json.loads(Diploma.get_all_by_user_id(g, user_id))
+        diplomasJSON = Response.format_diplomas_json(diplomasJSON)
         
-        return Response.make_response_for_content_type_and_data(request.headers.get("Content-Type", "text/html"), data=diplomaJSON, template="users.html")
+        return Response.make_response_for_content_type_and_data(request.headers.get("Content-Type", "text/html"), data=diplomasJSON, template="diplomas.html")
 
     @ app.route("/users/<int:user_id>/diplomas/<int:diploma_id>", methods=["GET"])
     def get_user_diploma(user_id, diploma_id):
-        return make_response(Diploma.get_by_id(g, diploma_id), 200)
+        diplomasJSON = json.loads(Diploma.get_all_by_user_id(g, user_id))
+        diplomasJSON = Response.format_diplomas_json(diplomasJSON)
+        
+        return Response.make_response_for_content_type_and_data(request.headers.get("Content-Type", "text/html"), data=diplomasJSON, template="diploma.html")
 
     @ app.route("/users/<int:user_id>/diplomas/<int:diploma_id>", methods=["PUT"])
     @ login_required
@@ -242,7 +245,10 @@ def create_user_routes(app, g):
 
     @app.route("/users/<int:user_id>/languages", methods=["GET"])
     def get_all_languages_from_user(user_id):
-        return Language.get_all_by_user_id(g, user_id)
+        languagesJSON = json.loads(Language.get_all_by_user_id(g, user_id))
+        languagesJSON = Response.format_languages_json(languagesJSON)
+        
+        return Response.make_response_for_content_type_and_data(request.headers.get("Content-Type", "text/html"), data=languagesJSON, template="languages.html")
 
     @app.route("/users/<int:user_id>/languages/<string:language>", methods=["DELETE"])
     @login_required
@@ -277,7 +283,10 @@ def create_user_routes(app, g):
 
     @app.route("/users/<int:user_id>/skills", methods=["GET"])
     def get_all_skills_from_user(user_id):
-        return Skill.get_all_by_user_id(g, user_id)
+        skillsJSON = json.loads(Skill.get_all_by_user_id(g, user_id))
+        skillsJSON = Response.format_skills_json(skillsJSON)
+        
+        return Response.make_response_for_content_type_and_data(request.headers.get("Content-Type", "text/html"), data=skillsJSON, template="skills.html")
 
     @app.route("/users/<int:user_id>/skills/<string:skill>", methods=["DELETE"])
     @login_required
@@ -322,11 +331,17 @@ def create_user_routes(app, g):
 
     @app.route("/users/<int:user_id>/experiences", methods=["GET"])
     def get_user_experiences(user_id):
-        return make_response(WorkExperience.get_all_by_user_id(g, user_id), 200)
+        experiencesJSON = json.loads(WorkExperience.get_all_by_user_id(g, user_id))
+        experiencesJSON = Response.format_experiences_json(experiencesJSON)
+        
+        return Response.make_response_for_content_type_and_data(request.headers.get("Content-Type", "text/html"), data=experiencesJSON, template="experiences.html")
 
     @app.route("/users/<int:user_id>/experiences/<int:experience_id>", methods=["GET"])
     def get_user_experience(user_id, experience_id):
-        return make_response(WorkExperience.get_by_id(g, experience_id), 200)
+        experiencesJSON = json.loads(WorkExperience.get_all_by_user_id(g, user_id))
+        experiencesJSON = Response.format_experiences_json(experiencesJSON)
+        
+        return Response.make_response_for_content_type_and_data(request.headers.get("Content-Type", "text/html"), data=experiencesJSON, template="experience.html")
 
     @app.route("/users/<int:user_id>/experiences/<int:experience_id>", methods=["PUT"])
     @login_required
