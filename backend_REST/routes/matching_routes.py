@@ -89,7 +89,6 @@ def create_matching_routes(app, graph):
 
         return matchVacancy_language(graph, vacancyID)
 
-
     @app.route("/vacancies/<int:vacancy_id>/matches/experience", methods=['GET'])
     def get_all_user_matches_for_vacancy_by_exps(vacancy_id):
         vacancyID = vacancy_id

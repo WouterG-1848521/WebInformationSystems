@@ -12,7 +12,7 @@ from backend_REST.queries import query_remove_maintainerRDF, query_add_maintaine
 
 from backend_REST.models.enterprise import Enterprise
 
-# TODO @wouter: data niet uit body halen, maar uit session wanneer nodig
+# DONE @wouter: data niet uit body halen, maar uit session wanneer nodig
 
 graphFile = "graph.ttl"
 
@@ -34,9 +34,9 @@ def create_enterprise_routes(app, graph):
         return Enterprise.get_enterprises_by_name(graph, name)
 
     # get enterprise by location
-    @app.route("/enterprise/get/location/<string:location>", methods=['GET'])
-    def get_enterprises_by_location(location):
-        return Enterprise.get_enterprises_by_location(graph, location)
+    @app.route("/enterprise/get/address/<string:address>", methods=['GET'])
+    def get_enterprises_by_address(address):
+        return Enterprise.get_enterprises_by_address(graph, address)
 
     # CRUD operations
     # create enterprise
@@ -102,7 +102,7 @@ def create_enterprise_routes(app, graph):
         data = request.form
 
         user_id = session['_user_id']
-        maintainerID = user_id  # TODO: is this also the rdf id?
+        maintainerID = user_id
 
         if "enterpriseID" not in data:
             return "enterpriseID is missing"
@@ -148,7 +148,7 @@ def create_enterprise_routes(app, graph):
         data = request.form
 
         user_id = session['_user_id']
-        ownerID = user_id  # TODO: is this also the rdf id?
+        ownerID = user_id
         if "enterpriseID" not in data:
             return "enterpriseID is missing"
         enterpriseID = data["enterpriseID"]
@@ -185,7 +185,7 @@ def create_enterprise_routes(app, graph):
         data = request.form
 
         user_id = session['_user_id']
-        ownerID = user_id  # TODO: is this also the rdf id?
+        ownerID = user_id
         if "enterpriseID" not in data:
             return "enterpriseID is missing"
         enterpriseID = data["enterpriseID"]
@@ -221,12 +221,12 @@ def create_enterprise_routes(app, graph):
         return Enterprise.remove_maintainer(graph, enterpriseID, ownerID, maintainerID)
 
     # get the enterprises on a specific location
-    @app.route("/enterprise/location/<int:location>", methods=['GET'])
+    @app.route("/enterprise/get/location/<int:location>", methods=['GET'])
     def get_enterprises_location(location):
         return Enterprise.get_onLocation(graph, location)
 
     # get the enterprises close to a specif lat and long
-    @app.route("/enterprise/locationLL/<float:lat>/<float:long>/<float:distance>", methods=['GET'])
-    @app.route("/enterprise/locationLL/<float:lat>/<float:long>/<int:distance>", methods=['GET'])
+    @app.route("/enterprise/get/locationLL/<float:lat>/<float:long>/<float:distance>", methods=['GET'])
+    @app.route("/enterprise/get/locationLL/<float:lat>/<float:long>/<int:distance>", methods=['GET'])
     def get_enterprises_close(lat, long, distance):
         return Enterprise.get_onLATLONGLocation(graph, lat, long, distance)

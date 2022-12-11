@@ -10,7 +10,7 @@ from config import GRAPH_FILE
 from backend_REST.models.database import DBEnterprise
 
 from backend_REST.queries import query_enterpriseGetAll, query_enterpriseGetById, query_enterpriseGetByName, query_enterpriseGetByLocation, check_maintainer, check_owner, check_person
-from backend_REST.queries import create_enterpriseRDF, query_update_enterpriseRDF, query_delete_enterpriseRDF, query_transfer_ownershipRDF
+from backend_REST.queries import create_enterpriseRDF, query_update_enterpriseRDF, query_enterpriseGetByAddress, query_transfer_ownershipRDF
 from backend_REST.queries import query_remove_maintainerRDF, query_add_maintainerRDF, check_enterprise, query_enterpriseGetByLocation, query_getVacanciesOfEnterprise
 
 gFile = "graph.ttl"
@@ -22,12 +22,25 @@ gFile = "graph.ttl"
 # DONE : log in testen
 # DONE : ID by create uit db halen
 # DONE @wouter: matchen on lacation
-# TODO @wouter: groeperen per maintainer
+# DONE @wouter: groeperen per maintainer
 
 def groupByMaintainer(df):
-    df = df.groupby(['maintainer'])['id'].apply(list).reset_index(name='vacancies')
-    df = df.to_json(orient='index', indent=2)
-    return df
+    r = DataFrame()
+    df = df.reset_index()
+    for index, row in df.iterrows():
+        inside = False
+        # check if it is already in the list
+        for index, row2 in r.iterrows():
+            if row[1] == row2[1]:
+                # add the maintainer to the list
+                r.at[index, 'maintainer'] = r.at[index, 'maintainer'] + "," + row[4]
+                inside = True
+                break
+        if not inside:
+            # ?uri ?name ?owner ?maintainer ?lat ?long ?address ?description ?phone ?email ?website ?location
+            r = r.append({'id': row[0], 'name': row[1], 'lat': row[2], 'owner': row[3], 'maintainer': row[4], 'lat': row[5], 'long': row[6], 'address': row[7], 'description': row[8], 'phone': row[9], 'email': row[10], 'website': row[11], 'location': row[12]}, ignore_index=True)
+
+    return r
 
 class Enterprise:
 
@@ -49,6 +62,8 @@ class Enterprise:
 
         df = DataFrame(result, columns=result.vars)
 
+        df = groupByMaintainer(df)
+
         return df.to_json(orient='index', indent=2)
 
     def get_all_enterprises(graph):
@@ -62,18 +77,18 @@ class Enterprise:
 
     def get_enterprises_by_name(graph, name):
         query = query_enterpriseGetByName(name)
-        print(query)
         result = graph.query(query)
         df = DataFrame(result, columns=result.vars)
+        df = groupByMaintainer(df)
 
         return df.to_json(orient='index', indent=2)
 
-    def get_enterprises_by_location(graph, location):
-        query = query_enterpriseGetByLocation(location)
-        print(query)
-        # TODO: mayby search on distance
+    def get_enterprises_by_address(graph, address):
+        query = query_enterpriseGetByAddress(address)
         result = graph.query(query)
         df = DataFrame(result, columns=result.vars)
+
+        df = groupByMaintainer(df)
 
         return df.to_json(orient='index', indent=2)
 
@@ -215,23 +230,25 @@ class Enterprise:
         result = graph.query(query)
         df = DataFrame(result, columns=result.vars)
 
-        # lat is on position 5 and long on 6, It doesn't want to work with the column names
+        # lat is on position 4 and long on 5, It doesn't want to work with the column names
+        # # ?uri ?name ?owner ?maintainer ?lat ?long ?address ?description ?phone ?email ?website ?location
         
         # Filter on distance
         # df = df[(df['lat'] >= lat - radius) & (df['lat'] <= lat + radius) & (df['long'] >= long - radius) & (df['long'] <= long + radius)]
         # df = df[sqrt( (lat - df['lat'])**2 + (long - df["long"])**2 ) <= radius]
 
-        returndf = DataFrame(columns=['id', 'name', 'lat', 'long', 'address', 'phone', 'email', 'website', 'description', 'owner', 'location'])
+        returndf = DataFrame(columns=['uri', 'name', 'owner', 'maintainer', 'lat', 'long', 'address', 'description', 'phone', 'email', 'website', 'location'])
         for i in range(len(df)):
             # get the float value of lat and long
-            dflat = df.iloc[i][5].n3()[1:]
+            dflat = df.iloc[i][4].n3()[1:]
             dflat = float(dflat[:dflat.find('"')])
-            dflong = df.iloc[i][6].n3()[1:]
+            dflong = df.iloc[i][5].n3()[1:]
             dflong = float(dflong[:dflong.find('"')])
 
             if (sqrt( (lat - dflat)**2 + (long - dflong)**2 ) <= radius):
-                returndf = returndf.append({'id': df.iloc[i][0], 'name': df.iloc[i][1], 'lat': df.iloc[i][5], 'long': df.iloc[i][6], 'address': df.iloc[i][2], 'phone': df.iloc[i][3], 'email': df.iloc[i][4], 'website': df.iloc[i][7], 'description': df.iloc[i][8], 'owner': df.iloc[i][9], 'location': df.iloc[i][10]}, ignore_index=True)
+                returndf = returndf.append({'uri': df.iloc[i][0], 'name': df.iloc[i][1], 'owner': df.iloc[i][2], 'maintainer': df.iloc[i][3], 'lat': df.iloc[i][4], 'long': df.iloc[i][5], 'address': df.iloc[i][6], 'description': df.iloc[i][7], 'phone': df.iloc[i][8], 'email': df.iloc[i][9], 'website': df.iloc[i][10], 'location': df.iloc[i][11]}, ignore_index=True)
 
+        returndf = groupByMaintainer(returndf)
         return returndf.to_json(orient='index', indent=2)
 
     def get_onLocation(graph, location):
@@ -239,5 +256,7 @@ class Enterprise:
         result = graph.query(query)
 
         df = DataFrame(result, columns=result.vars)
+
+        df = groupByMaintainer(df)
 
         return df.to_json(orient='index', indent=2)

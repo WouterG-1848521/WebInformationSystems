@@ -6,6 +6,7 @@ from pandas import DataFrame
 from backend_REST.graph import LOCAL, PERSON, EXPERIENCE, VACANCY, DIPLOMA, GEO, ENTERPRISE
 
 # TODO @wouter: owl2:equivalentClass vs owl:equivalentClass
+# TODO @wouter: bij returnend enterprise, vervang maintainer name en surname door gewoon uri
 
 prefixes = '''
                 prefix foaf: <http://xmlns.com/foaf/0.1/> 
@@ -214,7 +215,7 @@ def create_enterpriseRDF(graph, name, owner, lat, long, address, phone, email, w
 #########################################################
 def query_enterpriseGetAll():
     query = prefixes + '''
-                            SELECT ?uri ?name ?owner  ?maintainerName ?maintainerSurName ?lat ?long ?address ?description ?phone ?email ?website ?location
+                            SELECT ?uri ?name ?owner ?maintainer ?lat ?long ?address ?description ?phone ?email ?website ?location
                             WHERE {
                                     ?uri rdf:type local:enterprise .
                                     ?uri foaf:name ?name .
@@ -228,15 +229,13 @@ def query_enterpriseGetAll():
                                     ?uri local:email ?email .
                                     ?uri local:website ?website .
                                     ?uri local:maintainer ?maintainer .
-                                    ?maintainer foaf:name ?maintainerName .
-                                    ?maintainer foaf:surname ?maintainerSurName .
                                 }
                         '''
     return query
 
 def query_enterpriseGetById(id):
     query = prefixes + f'''
-                            SELECT ?uri ?name ?lat ?long ?address ?owner ?maintainerName ?maintainerSurName ?description ?phone ?email ?website ?location
+                            SELECT ?uri ?name ?owner ?maintainer ?lat ?long ?address ?description ?phone ?email ?website ?location
                             WHERE {{
                                 ?uri rdf:type local:enterprise .
                                 ?uri foaf:name ?name .
@@ -250,8 +249,6 @@ def query_enterpriseGetById(id):
                                 ?uri local:website ?website .
                                 ?uri local:maintainer ?maintainer .
                                 ?uri local:location ?location .
-                                ?maintainer foaf:name ?maintainerName .
-                                ?maintainer foaf:surname ?maintainerSurName .
                                 FILTER (?uri = enterprise:{id}) 
                             }}
                     '''
@@ -259,7 +256,7 @@ def query_enterpriseGetById(id):
 
 def query_enterpriseGetByName(name):
     query = prefixes + f'''
-                        SELECT ?uri ?lat ?long ?address ?owner ?maintainerName ?maintainerSurName ?description ?phone ?email ?website
+                        SELECT ?uri ?name ?owner ?maintainer ?lat ?long ?address ?description ?phone ?email ?website ?location
                         WHERE {{
                                 ?uri rdf:type local:enterprise .
                                 ?uri foaf:name "{name}" .
@@ -459,9 +456,30 @@ def query_remove_maintainerRDF(enterpriseID, maintainerID):
             '''
     return query
 
+def query_enterpriseGetByAddress(address):
+    query = prefixes + f'''
+        SELECT ?uri ?name ?owner ?maintainer ?lat ?long ?address ?description ?phone ?email ?website ?location
+        WHERE {{
+            ?uri rdf:type local:enterprise .
+            ?uri foaf:name ?name .
+            ?uri geo:lat ?lat .
+            ?uri geo:long ?long  .
+            ?uri geo:address ?address .
+            ?uri local:owner ?owner .
+            ?uri local:description ?description .
+            ?uri local:phone ?phone .
+            ?uri local:email ?email .
+            ?uri local:website ?website .
+            ?uri local:maintainer ?maintainer .
+            ?uri local:location ?location .
+            FILTER (?address = "{address}") 
+        }}
+    '''
+    return query
+
 def query_enterpriseGetByLocation(location):
     query = prefixes + f'''
-            SELECT ?uri ?name ?lat ?long ?address ?owner ?maintainerName ?maintainerSurName ?description ?phone ?email ?website ?location
+            SELECT ?uri ?name ?owner ?maintainer ?lat ?long ?address ?description ?phone ?email ?website ?location
             WHERE {{
                 ?uri rdf:type local:enterprise .
                 ?uri foaf:name ?name .
@@ -475,8 +493,6 @@ def query_enterpriseGetByLocation(location):
                 ?uri local:website ?website .
                 ?uri local:maintainer ?maintainer .
                 ?uri local:location ?location .
-                ?maintainer foaf:name ?maintainerName .
-                ?maintainer foaf:surname ?maintainerSurName .
                 FILTER (?location = "gn:{location}") 
             }}
     '''
