@@ -49,6 +49,8 @@ class User():
 
         return user_id
 
+   
+
     ########################################
     # GETTERS
     ########################################
@@ -56,64 +58,35 @@ class User():
     def get_all(graph):
         print("Getting all users...")
         q = f'''
-                SELECT ?p ?name ?surname
-                WHERE {{
-                    ?p rdf:type foaf:Person .
-                }}
-            '''
+            SELECT *
+            WHERE {{
+                ?p rdf:type foaf:Person .
+                ?p foaf:name ?name .
+                ?p foaf:surname ?surname .
+                ?p local:getVacancies ?getVacancies .
+            }}
+        '''
         result = graph.query(q)
-
-        # result = JSONResultSerializer.serialize(result, stream="IO", format="json")
-        # return result
-
-        # Cant properly read json
-
         df = DataFrame(result, columns=result.vars)
         return df.to_json()
-
-    def get_all_rdf(graph):
-        print("Getting all users...")
-        q = f'''
-                SELECT ?p ?name ?surname
-                WHERE {{
-                    ?p rdf:type foaf:Person .
-                }}
-            '''
-        result = graph.query(q)
-        return result
 
     def get_by_id(graph, user_id):
         user_URI = URIRef(PERSON + str(user_id))
 
         print("Searching: " + PERSON + str(user_id))
         q = f'''
-            SELECT ?p ?name ?surname
+            SELECT *
             WHERE {{
                 ?p rdf:type foaf:Person .
                 ?p foaf:name ?name .
                 ?p foaf:surname ?surname .
+                ?p local:getVacancies ?getVacancies .
             }}
         '''
 
         result = graph.query(q, initBindings={'p': user_URI})
         df = DataFrame(result, columns=result.vars)
         return df.to_json()
-
-    def get_profile_by_id(graph, user_id):
-        user_URI = URIRef(PERSON + str(user_id))
-
-        q = f"""
-                SELECT ?p ?i ?surName ?email
-                WHERE {{
-                    ?p rdf:type foaf:Person .
-                    OPTIONAL {{ ?p foaf:surname ?surName . }}
-                    OPTIONAL {{ ?p local:email ?email . }}    
-                }}
-            """
-
-        result = graph.query(q, initBindings={'p': user_URI})
-        df = DataFrame(result, columns=result.vars)
-        return df.to_json(orient="records")
 
     ########################################
     # UPDATE

@@ -16,7 +16,7 @@
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item"><a class="nav-link active" href="/"><span class="underline">Home</span></a></li>
                     {% if current_user.is_authenticated %}
-                    <li class="nav-item"><a class="nav-link" href="/profile">My profile</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/users/{{current_user.id}}">My profile</a></li>
                     <li class="nav-item"><a class="nav-link" href="/enterprises">My enterprises</a></li>
                     <li class="nav-item"><a class="nav-link" href="/connections">My connections</a></li>
                     <li class="nav-item"><a class="nav-link" href="/matches">My matches</a></li>
@@ -38,16 +38,15 @@
                 <div class="col-md-8 text-center text-md-start mx-auto">
                     <div class="text-center">
                         {% if current_user.is_authenticated %}
-                            {% if current_user %}
+                            {% if current_user and data %}
                             <!-- TODO: Check if user has profile -->
-                                <h1 class="display-4 fw-bold mb-5">Hi there!</h1>
-                                <p class="fs-5 text-muted mb-5">Looks like you haven't completed your profile yet. You can do that <a href="/profile/create">here</a>.</p>
+                                <h1 class="display-4 fw-bold mb-5">Hi <span class="underline">{{ data['users'][0]['name'] }}</span>!</h1>
+                                <p class="fs-5 text-muted mb-5">Welcome to our platform.</p>
                             {% else %}
-                                {% set data = current_user.profile.to_dict() %}
                                 <h1 class="display-4 fw-bold mb-5">Hi!</h1>
                             {% endif %}
                         {% else %}
-                        <h1 class="display-4 fw-bold mb-5">Hi &nbsp;<span class="underline">connect</span>.</h1>
+                        <h1 class="display-4 fw-bold mb-5">Let's&nbsp;<span class="underline">connect</span>.</h1>
                         <p class="fs-5 text-muted mb-5">A place for people and companies to come together.</p>
                         {% endif %}
 

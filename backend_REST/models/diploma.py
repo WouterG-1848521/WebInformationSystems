@@ -1,3 +1,4 @@
+import pandas as pd
 from pandas import DataFrame
 from rdflib import Literal, RDF, URIRef
 from rdflib.namespace import RDF, RDFS, FOAF, XSD

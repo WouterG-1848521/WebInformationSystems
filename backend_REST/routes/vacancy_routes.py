@@ -71,7 +71,9 @@ def create_vacancy_routes(app, graph):
 
     @app.route("/enterprises/<int:enterprise_id>/vacancies/", methods=['GET'])
     def get_all_vacancies_of_enterprise(enterprise_id):
-        return Vacancy.get_by_enterprise_id(graph, enterprise_id)
+        vacanciesJson = json.loads(Vacancy.get_by_enterprise_id(graph, enterprise_id))
+        vacanciesJson = Response.format_vacancies_json(vacanciesJson)
+        return Response.make_response_for_content_type_and_data(request.headers.get("Accept", "text/html"), data=vacanciesJson, template="vacancies.html")
 
     ########################################
     # VACANCY ROUTES - DIPLOMA
@@ -101,11 +103,17 @@ def create_vacancy_routes(app, graph):
 
     @app.route("/enterprises/<int:enterprise_id>/vacancies/<int:vacancy_id>/diplomas", methods=["GET"])
     def get_vacancy_diplomas(enterprise_id, vacancy_id):
-        return Diploma.get_all_by_vacancy_id(graph, vacancy_id)
+        diplomasJSON = json.loads(Diploma.get_all_by_vacancy_id(graph, vacancy_id))
+        diplomasJSON = Response.format_diplomas_json(diplomasJSON)
+        
+        return Response.make_response_for_content_type_and_data(request.headers.get("Accept", "text/html"), data=diplomasJSON, template="diplomas.html")
 
     @app.route("/enterprises/<int:enterprise_id>/vacancies/<int:vacancy_id>/diplomas/<int:diploma_id>", methods=["GET"])
     def get_vacancy_diploma(enterprise_id, vacancy_id, diploma_id):
-        return Diploma.get_by_id(graph, diploma_id)
+        diplomasJSON = json.loads(Diploma.get_by_id(graph, diploma_id))
+        diplomasJSON = Response.format_diplomas_json(diplomasJSON)
+        
+        return Response.make_response_for_content_type_and_data(request.headers.get("Accept", "text/html"), data=diplomasJSON, template="diploma.html")
 
     @app.route("/enterprises/<int:enterprise_id>/vacancies/<int:vacancy_id>/diplomas/<int:diploma_id>", methods=["PUT"])
     def update_vacancy_diploma(enterprise_id, vacancy_id, diploma_id):
@@ -165,8 +173,10 @@ def create_vacancy_routes(app, graph):
 
     @app.route("/enterprises/<int:enterprise_id>/vacancies/<int:vacancy_id>/skills", methods=['GET'])
     def get_all_skills_by_vacancy_id(enterprise_id, vacancy_id):
-
-        return Skill.get_all_by_vacancy_id(graph, vacancy_id)
+        skillsJSON = json.loads(Skill.get_all_by_vacancy_id(graph, vacancy_id))
+        skillsJSON = Response.format_skills_json(skillsJSON)
+        
+        return Response.make_response_for_content_type_and_data(request.headers.get("Accept", "text/html"), data=skillsJSON, template="skills.html")
 
     @app.route("/enterprises/<int:enterprise_id>/vacancies/<int:vacancy_id>/skills/<string:skill>", methods=['DELETE'])
     def remove_skill_from_vacancy(enterprise_id, vacancy_id, skill):
@@ -198,8 +208,10 @@ def create_vacancy_routes(app, graph):
 
     @app.route("/enterprises/<int:enterprise_id>/vacancies/<int:vacancy_id>/languages", methods=['GET'])
     def get_all_languages_by_vacancy_id(enterprise_id, vacancy_id):
-
-        return Language.get_all_by_vacancy_id(graph, vacancy_id)
+        languagesJSON = json.loads(Language.get_all_by_vacancy_id(graph, vacancy_id))
+        languagesJSON = Response.format_languages_json(languagesJSON)
+        
+        return Response.make_response_for_content_type_and_data(request.headers.get("Accept", "text/html"), data=languagesJSON, template="languages.html")
 
     @app.route("/enterprises/<int:enterprise_id>/vacancies/<int:vacancy_id>/languages/<string:language>", methods=['DELETE'])
     def remove_language_from_vacancy(enterprise_id, vacancy_id, language):

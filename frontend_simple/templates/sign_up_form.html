@@ -16,7 +16,7 @@
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item"><a class="nav-link" href="/"><span class="underline">Home</span></a></li>
                     {% if current_user.is_authenticated %}
-                    <li class="nav-item"><a class="nav-link" href="/profile">My profile</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/users/{{current_user.id}}">My profile</a></li>
                     <li class="nav-item"><a class="nav-link" href="/enterprises">My enterprises</a></li>
                     <li class="nav-item"><a class="nav-link" href="/connections">My connections</a></li>
                     <li class="nav-item"><a class="nav-link" href="/matches">My matches</a></li>
@@ -43,10 +43,12 @@
                         </div>
                         <section class="position-relative py-4 py-xl-5" style="padding: 20px 0px;">
                             <div class="row d-flex justify-content-center">
-                                <div class="col-md-6 col-xl-4 col-xxl-8">
-                                    <div class="card mb-5">
+                                <div class="col-md-8 col-xl-10 col-xxl-12">
+                                    <div class="mb-5">
                                         <div class="card-body d-flex flex-column align-items-center">
-                                            <form class="text-center" method="POST" action="/sign-up">
+                                            <form class="text-center" method="POST" action="/users">
+                                                <div class="mb-3"><input class="form-control" type="text" name="name" placeholder="First name" /></div>
+                                                <div class="mb-3"><input class="form-control" type="text" name="surname" placeholder="Last name" /></div>
                                                 <div class="mb-3"><input class="form-control" type="email" name="email" placeholder="Email" /></div>
                                                 <div class="mb-3"><input class="form-control" type="password" name="password" placeholder="Password" /></div>
                                                 <div class="mb-3"><button class="btn btn-primary d-block w-100" type="submit">Register</button></div>
