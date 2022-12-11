@@ -1,0 +1,10 @@
+<!-- Show all user info -->
+{% for user in data %}
+{% if user.id != current_user.id %}
+
+<!-- Show user info -->
+
+{{ data.email }}
+
+{% endif %}
+{% endfor %}

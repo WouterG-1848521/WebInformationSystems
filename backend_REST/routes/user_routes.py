@@ -1,6 +1,7 @@
 from flask import request, make_response, jsonify
 from flask_login import login_required, logout_user
 import hashlib
+import json
 
 from backend_REST import session
 
@@ -20,7 +21,9 @@ def create_user_routes(app, g):
     ########################################
     @app.route("/users", methods=["GET"])
     def get_all_users():
-        return make_response(jsonify(User.get_all(g)), 200)
+        usersJson = json.loads(User.get_all(g))
+        usersJson = Response.format_users_json(usersJson)
+        return Response.make_response_for_content_type_and_data(request.headers.get("Accept", "text/html"), data=usersJson, template="users.html")
 
     @app.route("/users", methods=["POST"])
     def create_user():
@@ -38,12 +41,16 @@ def create_user_routes(app, g):
 
         user_id = User.create(g, data["name"], data["surname"],
                               data["email"], encrypted_password)
+        userJson = json.loads(User.get_by_id(g, user_id))
+        userJson = Response.format_users_json(userJson)
 
-        return make_response(jsonify({"user_id": user_id}), 200)
+        return Response.make_response_for_content_type_and_data(request.headers.get("Accept", "text/html"), userJson, "users.html")
 
     @app.route("/users/<int:user_id>", methods=["GET"])
     def get_user(user_id):
-        return make_response(User.get_by_id(g, user_id), 200)
+        userJson = json.loads(User.get_by_id(g, user_id))
+        userJson = Response.format_users_json(userJson)
+        return Response.make_response_for_content_type_and_data(request.headers.get("Accept", "text/html"), userJson, "user.html")
 
     @app.route("/users/<int:user_id>", methods=["PUT"])
     @ login_required
