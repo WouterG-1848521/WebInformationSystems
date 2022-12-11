@@ -97,7 +97,7 @@ class Response():
                 "name": usersJson['name'][id],
                 "surname": usersJson['surname'][id],
             }
-            newDict[id] = info
+            newDict[int(id)] = info
             print(newDict)
         
         return newDict
