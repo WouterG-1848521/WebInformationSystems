@@ -54,7 +54,7 @@ class Connection():
         
         pending_requests = []
         for request in requests:
-            pending_requests.append(request.fromUser)
+            pending_requests.append(request.id)
         return pending_requests
         
         

@@ -20,7 +20,10 @@ def create_connections_routes(app, graph):
 
         data = request.form
 
-        if session['_user_id'] != data["fromUserId"]:
+        fromUserId = data["fromUserId"]
+        if (type(data["fromUserId"]) != int):
+            fromUserId= int(data["fromUserId"])
+        if session['_user_id'] != fromUserId:
             return Response.unauthorized_access_wrong_user()
 
         if not User.exists(data["toUserId"]):
@@ -29,11 +32,12 @@ def create_connections_routes(app, graph):
         request_id = Connection.send_request(
             data["fromUserId"], data["toUserId"])
 
-        if (request_id != -1):
-            responseMessage = f"Connection request send. ({data['fromUserId']} -> {data['toUserId']})"
-            return make_response(jsonify({"request_id": request_id, "message": jsonify(responseMessage)}), 200)
+        responseMessage = f"Connection request send. ({data['fromUserId']} -> {data['toUserId']})"
+        if (request_id != -1):  
+
+            return make_response(jsonify({"request_id": request_id, "message": responseMessage}), 200)
         else:
-            return make_response(jsonify({"message": jsonify("Connection request already sent.")}), 200)
+            return make_response(jsonify({"message": "Connection request already sent."}), 200)
 
     @app.route("/connections/cancel/<int:request_id>", methods=['DELETE'])
     @login_required
@@ -56,16 +60,18 @@ def create_connections_routes(app, graph):
     def accept_connection_request():
         data = request.form
 
-        request = Connection.get_by_id(data['request_id'])
+        request2 = Connection.get_by_id(data['request_id'])
+        print(request2)
 
-        if not request:
+        if not request2:
             return Response.unauthorized_access_wrong_user()
 
-        if (request.toUser != session['_user_id']):
+        if (request2.toUser != session['_user_id']):
             return Response.unauthorized_access_wrong_user()
 
         Connection.accept_request(data["request_id"])
 
+        return make_response(jsonify({"message": f"Connection request {data['request_id']} accepted."}), 200)
         return make_response(jsonify({"message": jsonify(f"Connection request {data['request_id']} accepted.")}), 200)
 
     @app.route("/connections/deny", methods=['POST'])
@@ -95,7 +101,8 @@ def create_connections_routes(app, graph):
         pending_requests = Connection.get_pending_requests_by_user(user_id)
 
         # TODO: test if the json dump has useful information
-        return make_response(json.dump(pending_requests), 200)
+        return make_response(jsonify(pending_requests), 200)
+        # return make_response(json.dump(pending_requests), 200)
 
 
     @app.route("/connections/add", methods=['POST'])
