@@ -44,29 +44,40 @@ def set_users(graph):
 
 
 def set_enterprises(graph):
-    Enterprise.create(graph, "CS Enterprise", 23, 30, "Hasselt", 123, "cs.enterprise@gmail.com", "cs.com", 1, "Computer Science Agency", "2796491")
+    # create(graph, name, lat, long, address, phone, email, website, owner, description, location)
+    Enterprise.create(graph, "CS Enterprise", 23, 30, "Hasselt", "123", "cs.enterprise@gmail.com", "cs.com", 1, "Computer Science Agency", "2796491")
+    Enterprise.create(graph, "KU Leuven", 50, 30, "Leuven", "0478521632", "KUL@gmail.com", "KUL.com", 2, "Universiteit", "2796492")
+    Enterprise.create(graph, "Aldi", 25, 31, "Aarschot", "013558899", "Aldi.Aarschot@gmail.com", "ALDIE.com", 3, "Winkel", "2796493")
+    Enterprise.create(graph, "Colruyt", 30, 20, "Scherpenheuvel", "0475654789", "Colruyt.Scherp@gmail.com", "COLRUYT.com", 3, "Winkel", "2796494")
 
 
 def set_vacancies(graph):
-    Vacancy.create(graph, 1, 1, "Q593644", "2022-12-12", "2023-01-12", "2796491", "Description", "Responsibilities", 3100)
-    Vacancy.create(graph, 1, 1, "Q901", "2022-12-12", "2023-01-12", "2796491", "Description", "Responsibilities", 3100)
-    Vacancy.create(graph, 1, 1, "Q9402", "2022-12-12", "2023-01-12", "2796491", "Description", "Responsibilities", 3100)
-    Vacancy.create(graph, 1, 1, "Q11063", "2022-12-12", "2023-01-12", "2796491", "Description", "Responsibilities", 3100)
+    # create(graph, enterprise_id, maintainer_id, job_title, start_date, end_date, location_id, job_desciption, job_responsibilities, job_salary)
+    Vacancy.create(graph, 1, 1, "Q593644", "2022-12-12", "2023-01-12", "2796491", "JobDescription", "JOBResponsibilities", 3100)
+    Vacancy.create(graph, 2, 2, "Q901", "2022-12-12", "2023-01-12", "2796492", "Teaching assistant", "examens maken", 2800)
+    Vacancy.create(graph, 3, 3, "Q9402", "2022-12-12", "2023-01-12", "2796493", "kassamedewerker", "Werken met klanten", 2300)
+    Vacancy.create(graph, 3, 3, "Q11063", "2022-12-12", "2023-01-12", "2796494", "kassamedewerker", "Werken met klanten", 2200)
+    Vacancy.create(graph, 4, 3, "Q11063", "2022-12-12", "2023-01-12", "2796494", "Manager", "Niets", 2900)
 
 
 def set_diplomas(graph):
+    # create_for_user(graph, user_id, degree, discipline_id, institiution, startDate, endDate)
     Diploma.create_for_user(graph, 1, "bachelor", "Q21198", "uHasselt", "2018-09-01", "2022-06-30")
+    Diploma.create_for_user(graph, 1, "master", "Q21198", "KUL", "2018-09-01", "2022-06-30")
     Diploma.create_for_user(graph, 2, "bachelor", "Q431", "uHasselt", "2018-09-01", "2022-06-30")
     Diploma.create_for_user(graph, 3, "bachelor", "Q420", "uHasselt", "2018-09-01", "2022-06-30")
     Diploma.create_for_user(graph, 4, "bachelor", "Q2329", "uHasselt", "2018-09-01", "2022-06-30")
     
+    # create_for_vacancy(graph, vacancy_id, degree, discipline_id, institiution, startDate, endDate)
     Diploma.create_for_vacancy(graph, 1, "bachelor", "Q21198", "uHasselt", "2018-09-01", "2022-06-30")
     Diploma.create_for_vacancy(graph, 2, "bachelor", "Q431", "uHasselt", "2018-09-01", "2022-06-30")
     Diploma.create_for_vacancy(graph, 3, "bachelor", "Q420", "uHasselt", "2018-09-01", "2022-06-30")
     Diploma.create_for_vacancy(graph, 4, "bachelor", "Q2329", "uHasselt", "2018-09-01", "2022-06-30")
+    Diploma.create_for_vacancy(graph, 5, "master", "Q21198", "ANYWHERE", "000-00-00", "000-00-00")
 
 
 def set_experiences(graph):
+    # create_for_user(graph, user_id, job_title, profession_id, skills, start_date, end_date)
     WorkExperience.create_for_user(graph, 1, "Computer Science Student", "Q9402", ["Q24288", "Q80006"], "2018-09-01", "2022-06-30")
 
 
