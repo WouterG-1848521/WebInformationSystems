@@ -1,4 +1,7 @@
 from datetime import datetime
+from backend_REST.graph import WIKIDATA
+
+import json
 import re
 
 
@@ -30,3 +33,36 @@ class Validator():
 
     def same_password(password, password_confirmation):
         return password == password_confirmation
+
+    def inside_json_list(URI, subject):
+        file_path = "wikidata/" + subject + "s.json"
+        column_name = subject + ".value"
+
+        with open(file_path) as json_file:
+            json_text = json.load(json_file)
+            URI_list = list(json_text[column_name].values())
+
+            for URI_list_item in URI_list:
+                if URI_list_item == URI:
+                    return True
+        return False
+
+    def valid_skill(skill_id):
+        skill_URI = WIKIDATA + skill_id
+
+        return Validator.inside_json_list(skill_URI, "skill")
+
+    def valid_language(language_id):
+        language_URI = WIKIDATA + language_id
+
+        return Validator.inside_json_list(language_URI, "language")
+
+    def valid_profession(profession_id):
+        profession_URI = WIKIDATA + profession_id
+
+        return Validator.inside_json_list(profession_URI, "profession")
+
+    def valid_discipline(discipline_id):
+        discipline_URI = WIKIDATA + discipline_id
+
+        return Validator.inside_json_list(discipline_URI, "discipline")

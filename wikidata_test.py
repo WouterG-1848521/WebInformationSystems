@@ -29,7 +29,7 @@ def get_professions():
     print(results_json)
 
     # Write pretty print JSON data to file
-    with open("professions.json", "w") as outfile:
+    with open("wikidata/professions.json", "w") as outfile:
         outfile.write(results_json)
 
 
@@ -58,7 +58,7 @@ def get_skills():
     print(results_json)
 
     # Write pretty print JSON data to file
-    with open("skills.json", "w") as outfile:
+    with open("wikidata/skills.json", "w") as outfile:
         outfile.write(results_json)
 
 
@@ -87,20 +87,20 @@ def get_languages():
     print(results_json)
     # Write pretty print JSON data to file
 
-    with open("languages.json", "w") as outfile:
+    with open("wikidata/languages.json", "w") as outfile:
         outfile.write(results_json)
 
 
-def get_diplomas():
+def get_disciplines():
     query = """
-    SELECT ?diploma ?diplomaLabel
+    SELECT ?discipline ?disciplineLabel
     WHERE {
-        ?diploma wdt:P31 wd:Q11862829 . # instance of academic discipline
-        ?diploma wikibase:sitelinks ?linkcount .
+        ?discipline wdt:P31 wd:Q11862829 . # instance of academic discipline
+        ?discipline wikibase:sitelinks ?linkcount .
         SERVICE wikibase:label { bd:serviceParam wikibase:language "en" }
         FILTER (?linkcount >= 125) .
     } 
-    GROUP BY ?diploma ?diplomaLabel ?linkcount
+    GROUP BY ?discipline ?disciplineLabel ?linkcount
     ORDER BY DESC(?linkcount)
     LIMIT 50
     """
@@ -110,17 +110,17 @@ def get_diplomas():
     results = sparql.query().convert()
 
     results_df = pd.json_normalize(results['results']['bindings'])
-    results_json = results_df[['diploma.value',
-                               'diplomaLabel.value']].to_json()
+    results_json = results_df[['discipline.value',
+                               'disciplineLabel.value']].to_json()
 
     print(results_json)
     # Write pretty print JSON data to file
 
-    with open("diplomas.json", "w") as outfile:
+    with open("wikidata/disciplines.json", "w") as outfile:
         outfile.write(results_json)
 
 
 # get_professions()
 # get_skills()
 # get_languages()
-get_diplomas()
+get_disciplines()

@@ -1,5 +1,5 @@
 {
-    "diploma.value": {
+    "discipline.value": {
         "0": "http://www.wikidata.org/entity/Q34178",
         "1": "http://www.wikidata.org/entity/Q34749",
         "2": "http://www.wikidata.org/entity/Q35277",
@@ -51,7 +51,7 @@
         "48": "http://www.wikidata.org/entity/Q25261",
         "49": "http://www.wikidata.org/entity/Q765633"
     },
-    "diplomaLabel.value": {
+    "disciplineLabel.value": {
         "0": "theology",
         "1": "social science",
         "2": "metaphysics",

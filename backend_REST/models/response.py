@@ -60,6 +60,18 @@ class Response():
     def degree_not_valid():
         return make_response(jsonify({"message": "Degree not valid."}), 400)
 
+    def discipline_not_valid():
+        return make_response(jsonify({"message": "Discipline not valid."}), 400)
+
+    def skill_not_valid():
+        return make_response(jsonify({"message": "Skill not valid."}), 400)
+
+    def language_not_valid():
+        return make_response(jsonify({"message": "Language not valid."}), 400)
+
+    def profession_not_valid():
+        return make_response(jsonify({"message": "Profession not valid."}), 400)
+
     def user_not_exist():
         return make_response(jsonify({"message": "User not exist."}), 400)
 
