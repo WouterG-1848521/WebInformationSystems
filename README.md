@@ -61,16 +61,16 @@ Compile and watch for changes in Tailwind CSS files: `npx tailwindcss -i ./stati
 - `"/enterprise/get/all"` GET
 - `"/enterprise/get/id/<int:id>"` GET
 - `"/enterprise/get/name/<string:name>"` GET
-- `"/enterprise/get/location/<string:location>"` GET
+- `"/enterprise/get/address/<string:address>"` GET
 - `"/enterprise/create"` POST
 - `"/enterprise/update/<int:id>"` PUT
 - `"/enterprise/delete"` DELETE
 - `"/enterprise/transfer"` PUT
 - `"/enterprise/maintainer/add"` POST
 - `"/enterprise/maintainer/remove""` PUT
-- `"/enterprise/location/<int:location>"` GET
-- `"/enterprise/locationLL/<float:lat>/<float:long>/<float:distance>"` GET
-- `"/enterprise/locationLL/<float:lat>/<float:long>/<int:distance>"` GET
+- `"/enterprise/get/location/<int:location>"` GET
+- `"/enterprise/get/locationLL/<float:lat>/<float:long>/<float:distance>"` GET
+- `"/enterprise/get/locationLL/<float:lat>/<float:long>/<int:distance>"` GET
 
 - `"/users/<int:user_id>/matches"` GET
 - `"/users/<int:user_id>/matches/skills"` GET
