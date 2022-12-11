@@ -37,8 +37,6 @@ def create_login_routes(app, g):
         user = json.loads(User.get_by_id(g, current_user.id))
         data = Response.format_users_json(user)
 
-
-
         return Response.make_response_for_content_type_and_data(accept_headers, data)
 
     @app.route("/logout", methods=['GET'])

@@ -40,12 +40,15 @@
             <div class="row pt-5">
                 <div class="col-md-8 text-center text-md-start mx-auto">
                     <div class="text-center">
+                        {% if data %}
                         {% set users = data['users'] %}
                         {% if 0 in users.keys() %}
-                        <h1 class="display-4 fw-bold mb-5">Edit - <span class="underline">{{ users['name']+' '+users['surname'] }}</span></h1>
-                        <p class="lead fw-normal text-muted mb-4">{{ users['p'] }}</p>
+                        {% set user = users[0] %}
+                        <h1 class="display-4 fw-bold mb-5">Edit - <span class="underline">{{ user['name']+' '+user['surname'] }}</span></h1>
+                        <p class="lead fw-normal text-muted mb-4">{{ user['p'] }}</p>
                         {% else %}
                         <h1 class="display-4 fw-bold mb-5"><span class="underline">No user found</span></h1>
+                        {% endif %}
                         {% endif %}
                     </div>
                 </div>
@@ -63,7 +66,7 @@
                         <div class="row d-flex justify-content-center">
                             <div class="col-md-8 col-xl-10 col-xxl-12">
                                 <div class="mb-5">
-                                    {% if users['id'] == current_user.id %}
+                                    {% if user['id'] == current_user.id %}
                                     <div class="card-body d-flex flex-column align-items-center">
                                         <form class="text-center" method="POST" action="/users/{{ current_user.id }}">
                                             <div class="mb-3"><input required class="form-control" type="text" name="name" placeholder="First name" value="{{ user['name'] }}"/></div>
