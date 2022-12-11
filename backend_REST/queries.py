@@ -34,8 +34,6 @@ graphFile = GRAPH_FILE
 #########################################################
 
 def check_maintainer(graph, enterpriseID, maintainerID):
-    print("checking maintainer, enterpriseID: " +
-          str(enterpriseID) + ", maintainerID: " + str(maintainerID))
     query = prefixes + "\n"
     query += f'''
                 SELECT ?maintainer
@@ -408,7 +406,6 @@ def query_delete_enterpriseRDF(enterpriseID):
                     FILTER (?enterprise = enterprise:{enterpriseID})
                 }}
             '''
-    print(query)
     return query
 
 def query_transfer_ownershipRDF(enterpriseID, newOwnerID):
@@ -793,12 +790,12 @@ def query_personBySkill(skill):
                     ?uri foaf:surname ?surname .
                     ?uri local:email ?email .
                     ?uri local:skill ?skill .
-                    ?skill rdf:type local:skill .
                     ?uri local:getVacancies ?v
                     OPTIONAL {{
                         ?skill owl:equivalentClass ?input .
                     }}
-                    FILTER ((?skill = {skill} || ?input = {skill}) && ?v = true))
+                    FILTER (?skill = {skill} || ?input = {skill})
+                    FILTER (?v = true)
                 }}
             '''
     return query
@@ -813,7 +810,6 @@ def query_personByLanguage(language):
                     ?uri foaf:surname ?surname .
                     ?uri local:email ?email .
                     ?uri local:language ?language .
-                    ?language rdf:type local:language .
                     ?uri local:getVacancies ?v
                     OPTIONAL {{
                         ?language owl:equivalentClass ?input .

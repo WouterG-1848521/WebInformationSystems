@@ -58,9 +58,9 @@ vacancy:1 a local:vacancy ;
     local:diploma diploma:5 ;
     local:endDate "2023-01-12"^^xsd:date ;
     local:enterprise enterprise:1 ;
-    local:hasJobDescription "Description" ;
-    local:hasJobResponsibilities "Responsibilities" ;
-    local:hasJobSalary 3100 ;
+    local:jobDescription "Description" ;
+    local:jobResponsibilities "Responsibilities" ;
+    local:jobSalary 3100 ;
     local:jobTitle "Q593644" ;
     local:location gn:2796491 ;
     local:postedBy person:1 ;
@@ -70,27 +70,30 @@ vacancy:1 a local:vacancy ;
     local:startDate "2022-12-12"^^xsd:date .
 
 vacancy:2 a local:vacancy ;
-    local:diploma diploma:6 ;
+    local:jobTitle "Q901" ;
+    local:startDate "2022-12-12"^^xsd:date ;
     local:endDate "2023-01-12"^^xsd:date ;
     local:enterprise enterprise:1 ;
-    local:hasJobDescription "Description" ;
-    local:hasJobResponsibilities "Responsibilities" ;
-    local:hasJobSalary 3100 ;
-    local:jobTitle "Q901" ;
-    local:location gn:2796491 ;
     local:postedBy person:1 ;
     local:available true ;
+
+    local:jobDescription "Description" ;
+    local:jobResponsibilities "Responsibilities" ;
+    local:jobSalary 3100 ;
+    local:location gn:2796491 ;
+
+    local:diploma diploma:6 ;
     local:skill skill:teamwork ;
-    local:skill wd:Q80006 ;
-    local:startDate "2022-12-12"^^xsd:date .
+    local:skill wd:Q80006 .
+    
 
 vacancy:3 a local:vacancy ;
     local:diploma diploma:7 ;
     local:endDate "2023-01-12"^^xsd:date ;
     local:enterprise enterprise:1 ;
-    local:hasJobDescription "Description" ;
-    local:hasJobResponsibilities "Responsibilities" ;
-    local:hasJobSalary 3100 ;
+    local:jobDescription "Description" ;
+    local:jobResponsibilities "Responsibilities" ;
+    local:jobSalary 3100 ;
     local:jobTitle "Q9402" ;
     local:location gn:2796491 ;
     local:postedBy person:1 ;
@@ -103,9 +106,9 @@ vacancy:4 a local:vacancy ;
     local:diploma diploma:8 ;
     local:endDate "2023-01-12"^^xsd:date ;
     local:enterprise enterprise:1 ;
-    local:hasJobDescription "Description" ;
-    local:hasJobResponsibilities "Responsibilities" ;
-    local:hasJobSalary 3100 ;
+    local:jobDescription "Description" ;
+    local:jobResponsibilities "Responsibilities" ;
+    local:jobSalary 3100 ;
     local:jobTitle "Q11063" ;
     local:location gn:2796491 ;
     local:postedBy person:1 ;
@@ -227,4 +230,10 @@ enterprise:3 a local:enterprise ;
     geo:long 30 ;
     foaf:name "CS Enterprise" .
 
-
+experience:1 a local:experience ;
+    local:endDate "2022-06-30"^^xsd:date ;
+    local:jobTitle "Computer Science Student" ;
+    local:profession wd:Q9402 ;
+    local:skill wd:Q24288,
+        wd:Q80006 ;
+    local:startDate "2018-09-01"^^xsd:date .

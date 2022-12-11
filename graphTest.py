@@ -35,33 +35,19 @@ owlrl.DeductiveClosure(owlrl.RDFS_OWLRL_Semantics, rdfs_closure = True, axiomati
 
 query = prefixes + "\n"
 query += f'''
-                SELECT ?vacancy
+                SELECT ?uri
                 WHERE {{
-                    ?vacancy rdf:type local:vacancy .
-                    ?vacancy local:jobTitle ?jobTitle .
-                    ?vacancy local:startDate ?startDate .
-                    ?vacancy local:endDate ?endDate .
-                    ?vacancy local:enterprise ?owner .
-
-                    ?vacancy local:jobDescription ?jobDescription .
-                    ?vacancy local:jobResponsibilities ?jobResponsibilities .
-                    ?vacancy local:jobSalary ?jobSalary .
-                    ?vacancy local:location ?jobLocation .
-
+                    ?uri rdf:type foaf:Person .
+                    ?uri foaf:name ?name .
+                    ?uri foaf:surname ?surname .
+                    ?uri local:email ?email .
+                    ?uri local:language ?language .
+                    ?uri local:getVacancies ?v
                     OPTIONAL {{
-                        ?vacancy local:diploma ?diploma .
+                        ?language owl:equivalentClass ?input .
+                        ?input owl:equivalentClass ?language .
                     }}
-                    OPTIONAL {{
-                        ?vacancy local:skill ?skills .
-                    }}
-                    OPTIONAL {{
-                        ?vacancy local:language ?language .
-                    }}
-                    OPTIONAL {{
-                        ?vacancy local:experience ?experience .
-                    }}
-
-                    FILTER (?vacancy = <http://localhost/vacancy/2>)
+                    FILTER ((?input = <http://www.wikidata.org/entity/Q1860> || ?language = <http://www.wikidata.org/entity/Q1860>) && ?v = true)
                 }}
         '''                
 print(query)

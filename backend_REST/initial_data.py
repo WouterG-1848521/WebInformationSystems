@@ -48,11 +48,10 @@ def set_users(graph):
 
 def set_enterprises(graph):
     # create(graph, name, lat, long, address, phone, email, website, owner, description, location)
-    Enterprise.create(graph, "CS Enterprise", 40.879, 45.6997, "Hasselt straat 2", "016/123456", "cs.enterprise@gmail.com", "cs.com", 1, "Computer Science Agency", "2796491")
-    Enterprise.create(graph, "uHasselt", 40.879, 45.6997, "Hasselt straat 1", "016/123456", "uhasselt@gmail.com", "www.uhasselt.be", 2, "uHasselt is a university in Hasselt, Belgium", "2796491")
-    Enterprise.create(graph, "KU Leuven", 50, 30, "Leuven", "0478521632", "KUL@gmail.com", "KUL.com", 2, "Universiteit", "2796492")
-    Enterprise.create(graph, "Aldi", 25, 31, "Aarschot", "013558899", "Aldi.Aarschot@gmail.com", "ALDIE.com", 3, "Winkel", "2796493")
-    Enterprise.create(graph, "Colruyt", 30, 20, "Scherpenheuvel", "0475654789", "Colruyt.Scherp@gmail.com", "COLRUYT.com", 3, "Winkel", "2796494")
+    Enterprise.create(graph, "CS Enterprise", 23, 30, "Hasselt straat 2", "123", "cs.enterprise@gmail.com", "cs.com", 1, "Computer Science Agency", "2796491")
+    Enterprise.create(graph, "KU Leuven", 50, 30, "Leuven straat 7", "0478521632", "KUL@gmail.com", "KUL.com", 2, "Universiteit", "2796492")
+    Enterprise.create(graph, "Aldi", 25, 31, "Aarschot straat 1", "013558899", "Aldi.Aarschot@gmail.com", "ALDIE.com", 3, "Winkel", "2796493")
+    Enterprise.create(graph, "Colruyt", 30, 20, "Scherpenheuvel straat 8", "0475654789", "Colruyt.Scherp@gmail.com", "COLRUYT.com", 3, "Winkel", "2796494")
 
 
 def set_vacancies(graph):
@@ -67,7 +66,7 @@ def set_vacancies(graph):
 def set_diplomas(graph):
     # create_for_user(graph, user_id, degree, discipline_id, institiution, startDate, endDate)
     Diploma.create_for_user(graph, 1, "bachelor", "Q21198", "uHasselt", "2018-09-01", "2022-06-30")
-    Diploma.create_for_user(graph, 1, "master", "Q21198", "KUL", "2018-09-01", "2022-06-30")
+    Diploma.create_for_user(graph, 2, "master", "Q21198", "KUL", "2018-09-01", "2022-06-30")
     Diploma.create_for_user(graph, 2, "bachelor", "Q431", "uHasselt", "2018-09-01", "2022-06-30")
     Diploma.create_for_user(graph, 3, "bachelor", "Q420", "uHasselt", "2018-09-01", "2022-06-30")
     Diploma.create_for_user(graph, 4, "bachelor", "Q2329", "uHasselt", "2018-09-01", "2022-06-30")
@@ -82,7 +81,7 @@ def set_diplomas(graph):
 
 def set_experiences(graph):
     # create_for_user(graph, user_id, job_title, profession_id, skills, start_date, end_date)
-    WorkExperience.create_for_user(graph, 1, "Computer Science Student", "Q9402", ["Q24288", "Q80006"], "2018-09-01", "2022-06-30")
+    WorkExperience.create_for_user(graph, 3, "Computer Science Student", "Q9402", ["Q24288", "Q80006"], "2018-09-01", "2022-06-30")
 
 
 def set_skills(graph):
@@ -97,7 +96,7 @@ def set_skills(graph):
 
 def set_languages(graph):
     Language.add_to_user(graph, 1, "Q1860")
-    Language.add_to_user(graph, 1, "Q7411")
+    Language.add_to_user(graph, 3, "Q7411")
 
     Language.add_to_vacancy(graph, 1, "Q1860")
     Language.add_to_vacancy(graph, 2, "Q7411")
