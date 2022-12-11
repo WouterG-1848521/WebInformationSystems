@@ -5,13 +5,11 @@
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
 @prefix gn: <https://sws.geonames.org/> .
-@prefix language: <http://localhost/language/> .
 @prefix local: <http://localhost/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix person: <http://localhost/person/> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix skill: <http://localhost/skill/> .
 @prefix vacancy: <http://localhost/vacancy/> .
 @prefix wd: <http://www.wikidata.org/entity/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
@@ -38,8 +36,7 @@ local:enterprise a rdf:Property,
         owl:Thing ;
     rdfs:subClassOf local:enterprise,
         rdfs:Resource,
-        owl:Thing,
-        foaf:Organization ;
+        owl:Thing ;
     rdfs:subPropertyOf local:enterprise ;
     owl:equivalentClass local:enterprise ;
     owl:equivalentProperty local:enterprise ;
@@ -58,17 +55,6 @@ local:experience a rdf:Property,
     owl:equivalentClass local:experience ;
     owl:equivalentProperty local:experience ;
     owl:sameAs local:experience .
-
-experience:10 a local:experience,
-        rdfs:Class,
-        rdfs:Resource,
-        owl:Class,
-        owl:Thing ;
-    rdfs:subClassOf experience:10,
-        rdfs:Resource,
-        owl:Thing ;
-    owl:equivalentClass experience:10 ;
-    owl:sameAs experience:10 .
 
 local:vacancy a rdfs:Class,
         rdfs:Resource,
@@ -989,7 +975,6 @@ owl:Nothing a rdfs:Class,
     rdfs:subClassOf local:diploma,
         local:enterprise,
         local:experience,
-        experience:10,
         local:vacancy,
         rdf:Alt,
         rdf:Bag,
@@ -1064,7 +1049,6 @@ owl:Nothing a rdfs:Class,
         owl:SymmetricProperty,
         owl:Thing,
         owl:TransitiveProperty,
-        foaf:Organization,
         foaf:Person ;
     owl:equivalentClass owl:Nothing ;
     owl:sameAs owl:Nothing .
@@ -1161,16 +1145,6 @@ owl:TransitiveProperty a rdfs:Class,
     owl:equivalentClass owl:TransitiveProperty ;
     owl:sameAs owl:TransitiveProperty .
 
-foaf:Organization a rdfs:Class,
-        rdfs:Resource,
-        owl:Class,
-        owl:Thing ;
-    rdfs:subClassOf rdfs:Resource,
-        owl:Thing,
-        foaf:Organization ;
-    owl:equivalentClass foaf:Organization ;
-    owl:sameAs foaf:Organization .
-
 foaf:Person a rdfs:Class,
         rdfs:Resource,
         owl:Class,
@@ -1181,62 +1155,75 @@ foaf:Person a rdfs:Class,
     owl:equivalentClass foaf:Person ;
     owl:sameAs foaf:Person .
 
-enterprise:2 a local:enterprise,
+enterprise:5 a local:enterprise,
         rdfs:Resource,
-        owl:Thing,
-        foaf:Organization ;
-    local:description "KU Leuven is a university in Leuven, Belgium" ;
-    local:email "KUL@email.com" ;
-    local:location "gn:2796491" ;
-    local:maintainer person:1,
-        person:2 ;
-    local:owner person:2 ;
-    local:phone "016/123456" ;
-    local:website "www.KUL.be" ;
-    owl:sameAs enterprise:2 ;
-    geo:address "Leuven straat 7" ;
-    geo:lat 40.879 ;
-    geo:long 45.6997 ;
-    foaf:name "KU Leuven 2" .
-
-enterprise:3 a local:enterprise,
-        rdfs:Resource,
-        owl:Thing,
-        foaf:Organization ;
-    local:description "Computer Science Agency" ;
-    local:email "cs.enterprise@gmail.com" ;
-    local:location "gn:2796491" ;
+        owl:Thing ;
+    local:description "aldi is een leuke winkel" ;
+    local:email "hey@mail.com" ;
+    local:location "gn:1234" ;
     local:maintainer person:1 ;
     local:owner person:1 ;
-    local:phone 123 ;
-    local:website "cs.com" ;
-    owl:sameAs enterprise:3 ;
-    geo:address "Hasselt" ;
-    geo:lat 23 ;
-    geo:long 30 ;
-    foaf:name "CS Enterprise" .
+    local:phone "0" ;
+    local:website "example.com" ;
+    owl:sameAs enterprise:5 ;
+    geo:address "Diepenbeek" ;
+    geo:lat 1e+01 ;
+    geo:long 1e+01 ;
+    foaf:name "Aldi" .
 
-person:3 a rdfs:Resource,
-        owl:Thing,
-        foaf:Person ;
-    local:diploma diploma:3 ;
-    local:email "email" ;
-    local:getVacancies false ;
-    local:skill skill:teamwork ;
-    owl:sameAs person:3 ;
-    foaf:name "Wouter" ;
-    foaf:surname "Grootjans" .
+enterprise:6 a local:enterprise,
+        rdfs:Resource,
+        owl:Thing ;
+    local:description "aldi is een leuke winkel" ;
+    local:email "hey@mail.com" ;
+    local:location "gn:1234" ;
+    local:maintainer person:1 ;
+    local:owner person:1 ;
+    local:phone "0" ;
+    local:website "example.com" ;
+    owl:sameAs enterprise:6 ;
+    geo:address "Diepenbeek" ;
+    geo:lat 1e+01 ;
+    geo:long 1e+01 ;
+    foaf:name "Aldi" .
+
+enterprise:7 a local:enterprise,
+        rdfs:Resource,
+        owl:Thing ;
+    local:description "aldi is een leuke winkel" ;
+    local:email "hey@mail.com" ;
+    local:location "gn:1234" ;
+    local:maintainer person:1 ;
+    local:owner person:1 ;
+    local:phone "0" ;
+    local:website "example.com" ;
+    owl:sameAs enterprise:7 ;
+    geo:address "Diepenbeek" ;
+    geo:lat 1e+01 ;
+    geo:long 1e+01 ;
+    foaf:name "Aldi" .
+
+enterprise:9 a local:enterprise,
+        rdfs:Resource,
+        owl:Thing ;
+    local:description "aldi is een leuke winkel" ;
+    local:email "hey@mail.com" ;
+    local:location "gn:1234" ;
+    local:maintainer person:5 ;
+    local:owner person:5 ;
+    local:phone "0" ;
+    local:website "example.com" ;
+    owl:sameAs enterprise:9 ;
+    geo:address "Diepenbeek" ;
+    geo:lat 1e+01 ;
+    geo:long 1e+01 ;
+    foaf:name "Aldi" .
 
 person:4 a rdfs:Resource,
         owl:Thing,
         foaf:Person ;
-    local:diploma diploma:1,
-        diploma:4 ;
-    local:email "email" ;
-    local:experience experience:10 ;
+    local:diploma diploma:5 ;
     local:getVacancies true ;
-    local:language language:english ;
-    local:skill skill:teamwork ;
     owl:sameAs person:4 ;
     foaf:name "Gwendoline" ;
     foaf:surname "Nijssen" .
@@ -1244,87 +1231,116 @@ person:4 a rdfs:Resource,
 vacancy:1 a local:vacancy,
         rdfs:Resource,
         owl:Thing ;
-    local:available false ;
-    local:diploma diploma:5 ;
+    local:diploma diploma:6 ;
     local:endDate "2023-01-12"^^xsd:date ;
     local:enterprise enterprise:1 ;
-    local:jobDescription "Description" ;
-    local:jobResponsibilities "Responsibilities" ;
+    local:jobDescription "JobDescription" ;
+    local:jobResponsibilities "JOBResponsibilities" ;
     local:jobSalary 3100 ;
     local:jobTitle "Q593644" ;
+    local:language wd:Q1860 ;
     local:location gn:2796491 ;
     local:postedBy person:1 ;
-    local:skill skill:teamwork,
-        wd:Q24288 ;
+    local:skill wd:Q24288 ;
     local:startDate "2022-12-12"^^xsd:date ;
     owl:sameAs vacancy:1 .
 
 vacancy:2 a local:vacancy,
         rdfs:Resource,
         owl:Thing ;
-    local:available true ;
-    local:diploma diploma:6 ;
+    local:diploma diploma:7 ;
     local:endDate "2023-01-12"^^xsd:date ;
-    local:enterprise enterprise:1 ;
-    local:jobDescription "Description" ;
-    local:jobResponsibilities "Responsibilities" ;
-    local:jobSalary 3100 ;
+    local:enterprise enterprise:2 ;
+    local:jobDescription "Teaching assistant" ;
+    local:jobResponsibilities "examens maken" ;
+    local:jobSalary 2800 ;
     local:jobTitle "Q901" ;
-    local:location gn:2796491 ;
-    local:postedBy person:1 ;
-    local:skill skill:teamwork,
-        wd:Q80006 ;
+    local:language wd:Q7411 ;
+    local:location gn:2796492 ;
+    local:postedBy person:2 ;
+    local:skill wd:Q80006 ;
     local:startDate "2022-12-12"^^xsd:date ;
     owl:sameAs vacancy:2 .
 
 vacancy:3 a local:vacancy,
         rdfs:Resource,
         owl:Thing ;
-    local:available true ;
-    local:diploma diploma:7 ;
+    local:diploma diploma:8 ;
     local:endDate "2023-01-12"^^xsd:date ;
-    local:enterprise enterprise:1 ;
-    local:jobDescription "Description" ;
-    local:jobResponsibilities "Responsibilities" ;
-    local:jobSalary 3100 ;
+    local:enterprise enterprise:3 ;
+    local:jobDescription "kassamedewerker" ;
+    local:jobResponsibilities "Werken met klanten" ;
+    local:jobSalary 2300 ;
     local:jobTitle "Q9402" ;
-    local:location gn:2796491 ;
-    local:postedBy person:1 ;
-    local:skill skill:teamwork,
-        wd:Q102066 ;
+    local:location gn:2796493 ;
+    local:postedBy person:3 ;
+    local:skill wd:Q102066 ;
     local:startDate "2022-12-12"^^xsd:date ;
     owl:sameAs vacancy:3 .
 
 vacancy:4 a local:vacancy,
         rdfs:Resource,
         owl:Thing ;
-    local:available true ;
-    local:diploma diploma:8 ;
+    local:diploma diploma:9 ;
     local:endDate "2023-01-12"^^xsd:date ;
-    local:enterprise enterprise:1 ;
-    local:jobDescription "Description" ;
-    local:jobResponsibilities "Responsibilities" ;
-    local:jobSalary 3100 ;
+    local:enterprise enterprise:3 ;
+    local:jobDescription "kassamedewerker" ;
+    local:jobResponsibilities "Werken met klanten" ;
+    local:jobSalary 2200 ;
     local:jobTitle "Q11063" ;
-    local:location gn:2796491 ;
-    local:postedBy person:1 ;
-    local:skill skill:teamwork,
-        wd:Q167612 ;
+    local:location gn:2796494 ;
+    local:postedBy person:3 ;
+    local:skill wd:Q167612 ;
     local:startDate "2022-12-12"^^xsd:date ;
     owl:sameAs vacancy:4 .
+
+vacancy:5 a local:vacancy,
+        rdfs:Resource,
+        owl:Thing ;
+    local:diploma diploma:10 ;
+    local:endDate "2023-01-12"^^xsd:date ;
+    local:enterprise enterprise:4 ;
+    local:jobDescription "Manager" ;
+    local:jobResponsibilities "Niets" ;
+    local:jobSalary 2900 ;
+    local:jobTitle "Q11063" ;
+    local:location gn:2796494 ;
+    local:postedBy person:3 ;
+    local:startDate "2022-12-12"^^xsd:date ;
+    owl:sameAs vacancy:5 .
 
 () a rdf:List,
         rdfs:Resource,
         owl:Thing ;
     owl:sameAs () .
 
-diploma:2 a local:diploma,
+diploma:1 a local:diploma,
         rdfs:Resource,
         owl:Thing ;
     local:degree degree:bachelor ;
-    local:discipline wd:Q431 ;
+    local:discipline wd:Q21198 ;
     local:endDate "2022-06-30"^^xsd:date ;
     local:institution "uHasselt" ;
+    local:startDate "2018-09-01"^^xsd:date ;
+    owl:sameAs diploma:1 .
+
+diploma:10 a local:diploma,
+        rdfs:Resource,
+        owl:Thing ;
+    local:degree degree:master ;
+    local:discipline wd:Q21198 ;
+    local:endDate "0001-01-01"^^xsd:date ;
+    local:institution "ANYWHERE" ;
+    local:startDate "0001-01-01"^^xsd:date ;
+    owl:sameAs diploma:10 .
+
+diploma:2 a local:diploma,
+        rdfs:Resource,
+        owl:Thing ;
+    local:degree degree:master ;
+    local:discipline wd:Q21198 ;
+    local:endDate "2022-06-30"^^xsd:date ;
+    local:institution "KUL" ;
     local:startDate "2018-09-01"^^xsd:date ;
     owl:sameAs diploma:2 .
 
@@ -1332,7 +1348,7 @@ diploma:3 a local:diploma,
         rdfs:Resource,
         owl:Thing ;
     local:degree degree:bachelor ;
-    local:discipline wd:Q420 ;
+    local:discipline wd:Q431 ;
     local:endDate "2022-06-30"^^xsd:date ;
     local:institution "uHasselt" ;
     local:startDate "2018-09-01"^^xsd:date ;
@@ -1342,7 +1358,7 @@ diploma:4 a local:diploma,
         rdfs:Resource,
         owl:Thing ;
     local:degree degree:bachelor ;
-    local:discipline wd:Q2329 ;
+    local:discipline wd:Q420 ;
     local:endDate "2022-06-30"^^xsd:date ;
     local:institution "uHasselt" ;
     local:startDate "2018-09-01"^^xsd:date ;
@@ -1352,7 +1368,7 @@ diploma:5 a local:diploma,
         rdfs:Resource,
         owl:Thing ;
     local:degree degree:bachelor ;
-    local:discipline wd:Q21198 ;
+    local:discipline wd:Q2329 ;
     local:endDate "2022-06-30"^^xsd:date ;
     local:institution "uHasselt" ;
     local:startDate "2018-09-01"^^xsd:date ;
@@ -1362,7 +1378,7 @@ diploma:6 a local:diploma,
         rdfs:Resource,
         owl:Thing ;
     local:degree degree:bachelor ;
-    local:discipline wd:Q431 ;
+    local:discipline wd:Q21198 ;
     local:endDate "2022-06-30"^^xsd:date ;
     local:institution "uHasselt" ;
     local:startDate "2018-09-01"^^xsd:date ;
@@ -1372,7 +1388,7 @@ diploma:7 a local:diploma,
         rdfs:Resource,
         owl:Thing ;
     local:degree degree:bachelor ;
-    local:discipline wd:Q420 ;
+    local:discipline wd:Q431 ;
     local:endDate "2022-06-30"^^xsd:date ;
     local:institution "uHasselt" ;
     local:startDate "2018-09-01"^^xsd:date ;
@@ -1382,11 +1398,69 @@ diploma:8 a local:diploma,
         rdfs:Resource,
         owl:Thing ;
     local:degree degree:bachelor ;
-    local:discipline wd:Q2329 ;
+    local:discipline wd:Q420 ;
     local:endDate "2022-06-30"^^xsd:date ;
     local:institution "uHasselt" ;
     local:startDate "2018-09-01"^^xsd:date ;
     owl:sameAs diploma:8 .
+
+diploma:9 a local:diploma,
+        rdfs:Resource,
+        owl:Thing ;
+    local:degree degree:bachelor ;
+    local:discipline wd:Q2329 ;
+    local:endDate "2022-06-30"^^xsd:date ;
+    local:institution "uHasselt" ;
+    local:startDate "2018-09-01"^^xsd:date ;
+    owl:sameAs diploma:9 .
+
+enterprise:1 a local:enterprise,
+        rdfs:Resource,
+        owl:Thing ;
+    local:description "new des" ;
+    local:email "cs.enterprise@gmail.com" ;
+    local:location "gn:4567" ;
+    local:maintainer person:1 ;
+    local:owner person:1 ;
+    local:phone "1234" ;
+    local:website "cs.com" ;
+    owl:sameAs enterprise:1 ;
+    geo:address "Hasselt straat 2" ;
+    geo:lat 23 ;
+    geo:long 30 ;
+    foaf:name "CS Enterprise" .
+
+enterprise:2 a local:enterprise,
+        rdfs:Resource,
+        owl:Thing ;
+    local:description "Universiteit" ;
+    local:email "KUL@gmail.com" ;
+    local:location "gn:2796492" ;
+    local:maintainer person:2 ;
+    local:owner person:2 ;
+    local:phone "0478521632" ;
+    local:website "KUL.com" ;
+    owl:sameAs enterprise:2 ;
+    geo:address "Leuven straat 7" ;
+    geo:lat 50 ;
+    geo:long 30 ;
+    foaf:name "KU Leuven" .
+
+enterprise:4 a local:enterprise,
+        rdfs:Resource,
+        owl:Thing ;
+    local:description "Winkel" ;
+    local:email "Colruyt.Scherp@gmail.com" ;
+    local:location "gn:2796494" ;
+    local:maintainer person:3 ;
+    local:owner person:3 ;
+    local:phone "0475654789" ;
+    local:website "COLRUYT.com" ;
+    owl:sameAs enterprise:4 ;
+    geo:address "Scherpenheuvel straat 8" ;
+    geo:lat 30 ;
+    geo:long 20 ;
+    foaf:name "Colruyt" .
 
 experience:1 a local:experience,
         rdfs:Resource,
@@ -1399,10 +1473,6 @@ experience:1 a local:experience,
     local:startDate "2018-09-01"^^xsd:date ;
     owl:sameAs experience:1 .
 
-language:english a rdfs:Resource,
-        owl:Thing ;
-    owl:sameAs language:english .
-
 wd:Q102066 a rdfs:Resource,
         owl:Thing ;
     owl:sameAs wd:Q102066 .
@@ -1411,17 +1481,28 @@ wd:Q167612 a rdfs:Resource,
         owl:Thing ;
     owl:sameAs wd:Q167612 .
 
-wd:Q1860 a rdfs:Resource,
-        owl:Thing ;
-    owl:sameAs wd:Q1860 .
-
-wd:Q7411 a rdfs:Resource,
-        owl:Thing ;
-    owl:sameAs wd:Q7411 .
-
 wd:Q9402 a rdfs:Resource,
         owl:Thing ;
     owl:sameAs wd:Q9402 .
+
+gn:2796491 a rdfs:Resource,
+        owl:Thing ;
+    owl:sameAs gn:2796491 .
+
+gn:2796492 a rdfs:Resource,
+        owl:Thing ;
+    owl:sameAs gn:2796492 .
+
+gn:2796493 a rdfs:Resource,
+        owl:Thing ;
+    owl:sameAs gn:2796493 .
+
+20 a rdfs:Literal,
+        rdfs:Resource,
+        xsd:decimal,
+        xsd:integer,
+        owl:Thing ;
+    owl:sameAs 20 .
 
 23 a rdfs:Literal,
         rdfs:Resource,
@@ -1430,19 +1511,93 @@ wd:Q9402 a rdfs:Resource,
         owl:Thing ;
     owl:sameAs 23 .
 
-30 a rdfs:Literal,
+25 a rdfs:Literal,
         rdfs:Resource,
         xsd:decimal,
         xsd:integer,
         owl:Thing ;
-    owl:sameAs 30 .
+    owl:sameAs 25 .
 
-123 a rdfs:Literal,
+31 a rdfs:Literal,
         rdfs:Resource,
         xsd:decimal,
         xsd:integer,
         owl:Thing ;
-    owl:sameAs 123 .
+    owl:sameAs 31 .
+
+50 a rdfs:Literal,
+        rdfs:Resource,
+        xsd:decimal,
+        xsd:integer,
+        owl:Thing ;
+    owl:sameAs 50 .
+
+2200 a rdfs:Literal,
+        rdfs:Resource,
+        xsd:decimal,
+        xsd:integer,
+        owl:Thing ;
+    owl:sameAs 2200 .
+
+2300 a rdfs:Literal,
+        rdfs:Resource,
+        xsd:decimal,
+        xsd:integer,
+        owl:Thing ;
+    owl:sameAs 2300 .
+
+2800 a rdfs:Literal,
+        rdfs:Resource,
+        xsd:decimal,
+        xsd:integer,
+        owl:Thing ;
+    owl:sameAs 2800 .
+
+2900 a rdfs:Literal,
+        rdfs:Resource,
+        xsd:decimal,
+        xsd:integer,
+        owl:Thing ;
+    owl:sameAs 2900 .
+
+3100 a rdfs:Literal,
+        rdfs:Resource,
+        xsd:decimal,
+        xsd:integer,
+        owl:Thing ;
+    owl:sameAs 3100 .
+
+"013558899" a rdfs:Resource,
+        owl:Thing ;
+    owl:sameAs "013558899" .
+
+"0475654789" a rdfs:Resource,
+        owl:Thing ;
+    owl:sameAs "0475654789" .
+
+"0478521632" a rdfs:Resource,
+        owl:Thing ;
+    owl:sameAs "0478521632" .
+
+"1234" a rdfs:Resource,
+        owl:Thing ;
+    owl:sameAs "1234" .
+
+"ALDIE.com" a rdfs:Resource,
+        owl:Thing ;
+    owl:sameAs "ALDIE.com" .
+
+"ANYWHERE" a rdfs:Resource,
+        owl:Thing ;
+    owl:sameAs "ANYWHERE" .
+
+"Aarschot straat 1" a rdfs:Resource,
+        owl:Thing ;
+    owl:sameAs "Aarschot straat 1" .
+
+"Aldi.Aarschot@gmail.com" a rdfs:Resource,
+        owl:Thing ;
+    owl:sameAs "Aldi.Aarschot@gmail.com" .
 
 "Bertram" a rdfs:Resource,
         owl:Thing ;
@@ -1452,13 +1607,21 @@ wd:Q9402 a rdfs:Resource,
         owl:Thing ;
     owl:sameAs "Brent" .
 
+"COLRUYT.com" a rdfs:Resource,
+        owl:Thing ;
+    owl:sameAs "COLRUYT.com" .
+
 "CS Enterprise" a rdfs:Resource,
         owl:Thing ;
     owl:sameAs "CS Enterprise" .
 
-"Computer Science Agency" a rdfs:Resource,
+"Colruyt" a rdfs:Resource,
         owl:Thing ;
-    owl:sameAs "Computer Science Agency" .
+    owl:sameAs "Colruyt" .
+
+"Colruyt.Scherp@gmail.com" a rdfs:Resource,
+        owl:Thing ;
+    owl:sameAs "Colruyt.Scherp@gmail.com" .
 
 "Computer Science Student" a rdfs:Resource,
         owl:Thing ;
@@ -1472,9 +1635,17 @@ wd:Q9402 a rdfs:Resource,
         owl:Thing ;
     owl:sameAs "Gwendoline" .
 
-"Hasselt" a rdfs:Resource,
+"Hasselt straat 2" a rdfs:Resource,
         owl:Thing ;
-    owl:sameAs "Hasselt" .
+    owl:sameAs "Hasselt straat 2" .
+
+"JOBResponsibilities" a rdfs:Resource,
+        owl:Thing ;
+    owl:sameAs "JOBResponsibilities" .
+
+"JobDescription" a rdfs:Resource,
+        owl:Thing ;
+    owl:sameAs "JobDescription" .
 
 "Joris" a rdfs:Resource,
         owl:Thing ;
@@ -1484,17 +1655,33 @@ wd:Q9402 a rdfs:Resource,
         owl:Thing ;
     owl:sameAs "KU Leuven" .
 
-"KU Leuven 2" a rdfs:Resource,
+"KUL" a rdfs:Resource,
         owl:Thing ;
-    owl:sameAs "KU Leuven 2" .
+    owl:sameAs "KUL" .
+
+"KUL.com" a rdfs:Resource,
+        owl:Thing ;
+    owl:sameAs "KUL.com" .
+
+"KUL@gmail.com" a rdfs:Resource,
+        owl:Thing ;
+    owl:sameAs "KUL@gmail.com" .
+
+"Leuven straat 7" a rdfs:Resource,
+        owl:Thing ;
+    owl:sameAs "Leuven straat 7" .
+
+"Manager" a rdfs:Resource,
+        owl:Thing ;
+    owl:sameAs "Manager" .
+
+"Niets" a rdfs:Resource,
+        owl:Thing ;
+    owl:sameAs "Niets" .
 
 "Nijssen" a rdfs:Resource,
         owl:Thing ;
     owl:sameAs "Nijssen" .
-
-"Q11063" a rdfs:Resource,
-        owl:Thing ;
-    owl:sameAs "Q11063" .
 
 "Q593644" a rdfs:Resource,
         owl:Thing ;
@@ -1508,6 +1695,18 @@ wd:Q9402 a rdfs:Resource,
         owl:Thing ;
     owl:sameAs "Q9402" .
 
+"Scherpenheuvel straat 8" a rdfs:Resource,
+        owl:Thing ;
+    owl:sameAs "Scherpenheuvel straat 8" .
+
+"Teaching assistant" a rdfs:Resource,
+        owl:Thing ;
+    owl:sameAs "Teaching assistant" .
+
+"Universiteit" a rdfs:Resource,
+        owl:Thing ;
+    owl:sameAs "Universiteit" .
+
 "Wouter" a rdfs:Resource,
         owl:Thing ;
     owl:sameAs "Wouter" .
@@ -1515,6 +1714,10 @@ wd:Q9402 a rdfs:Resource,
 "Zoomers" a rdfs:Resource,
         owl:Thing ;
     owl:sameAs "Zoomers" .
+
+"a" a rdfs:Resource,
+        owl:Thing ;
+    owl:sameAs "a" .
 
 "cs.com" a rdfs:Resource,
         owl:Thing ;
@@ -1524,13 +1727,33 @@ wd:Q9402 a rdfs:Resource,
         owl:Thing ;
     owl:sameAs "cs.enterprise@gmail.com" .
 
-local:available a rdf:Property,
-        rdfs:Resource,
-        owl:ObjectProperty,
+"examens maken" a rdfs:Resource,
         owl:Thing ;
-    rdfs:subPropertyOf local:available ;
-    owl:equivalentProperty local:available ;
-    owl:sameAs local:available .
+    owl:sameAs "examens maken" .
+
+"gn:2796492" a rdfs:Resource,
+        owl:Thing ;
+    owl:sameAs "gn:2796492" .
+
+"gn:2796493" a rdfs:Resource,
+        owl:Thing ;
+    owl:sameAs "gn:2796493" .
+
+"gn:2796494" a rdfs:Resource,
+        owl:Thing ;
+    owl:sameAs "gn:2796494" .
+
+"gn:4567" a rdfs:Resource,
+        owl:Thing ;
+    owl:sameAs "gn:4567" .
+
+"new des" a rdfs:Resource,
+        owl:Thing ;
+    owl:sameAs "new des" .
+
+"tes" a rdfs:Resource,
+        owl:Thing ;
+    owl:sameAs "tes" .
 
 local:degree a rdf:Property,
         rdfs:Resource,
@@ -1540,6 +1763,10 @@ local:degree a rdf:Property,
     owl:equivalentProperty local:degree ;
     owl:sameAs local:degree .
 
+degree:master a rdfs:Resource,
+        owl:Thing ;
+    owl:sameAs degree:master .
+
 local:description a rdf:Property,
         rdfs:Resource,
         owl:ObjectProperty,
@@ -1547,16 +1774,6 @@ local:description a rdf:Property,
     rdfs:subPropertyOf local:description ;
     owl:equivalentProperty local:description ;
     owl:sameAs local:description .
-
-diploma:1 a local:diploma,
-        rdfs:Resource,
-        owl:Thing ;
-    local:degree degree:bachelor ;
-    local:discipline wd:Q21198 ;
-    local:endDate "2022-06-30"^^xsd:date ;
-    local:institution "uHasselt" ;
-    local:startDate "2018-09-01"^^xsd:date ;
-    owl:sameAs diploma:1 .
 
 local:discipline a rdf:Property,
         rdfs:Resource,
@@ -1581,6 +1798,22 @@ local:endDate a rdf:Property,
     rdfs:subPropertyOf local:endDate ;
     owl:equivalentProperty local:endDate ;
     owl:sameAs local:endDate .
+
+enterprise:3 a local:enterprise,
+        rdfs:Resource,
+        owl:Thing ;
+    local:description "Winkel" ;
+    local:email "Aldi.Aarschot@gmail.com" ;
+    local:location "gn:2796493" ;
+    local:maintainer person:3 ;
+    local:owner person:3 ;
+    local:phone "013558899" ;
+    local:website "ALDIE.com" ;
+    owl:sameAs enterprise:3 ;
+    geo:address "Aarschot straat 1" ;
+    geo:lat 25 ;
+    geo:long 31 ;
+    foaf:name "Aldi" .
 
 local:getVacancies a rdf:Property,
         rdfs:Resource,
@@ -1661,6 +1894,14 @@ local:owner a rdf:Property,
     rdfs:subPropertyOf local:owner ;
     owl:equivalentProperty local:owner ;
     owl:sameAs local:owner .
+
+person:5 a rdfs:Resource,
+        owl:Thing,
+        foaf:Person ;
+    local:getVacancies true ;
+    owl:sameAs person:5 ;
+    foaf:name "tes" ;
+    foaf:surname "a" .
 
 local:phone a rdf:Property,
         rdfs:Resource,
@@ -2479,9 +2720,9 @@ geo:long a rdf:Property,
     owl:equivalentProperty geo:long ;
     owl:sameAs geo:long .
 
-wd:Q21198 a rdfs:Resource,
+wd:Q1860 a rdfs:Resource,
         owl:Thing ;
-    owl:sameAs wd:Q21198 .
+    owl:sameAs wd:Q1860 .
 
 wd:Q2329 a rdfs:Resource,
         owl:Thing ;
@@ -2494,6 +2735,10 @@ wd:Q420 a rdfs:Resource,
 wd:Q431 a rdfs:Resource,
         owl:Thing ;
     owl:sameAs wd:Q431 .
+
+wd:Q7411 a rdfs:Resource,
+        owl:Thing ;
+    owl:sameAs wd:Q7411 .
 
 foaf:knows a rdf:Property,
         rdfs:Resource,
@@ -2520,49 +2765,37 @@ foaf:surname a rdf:Property,
     owl:equivalentProperty foaf:surname ;
     owl:sameAs foaf:surname .
 
-false a rdfs:Literal,
+gn:2796494 a rdfs:Resource,
+        owl:Thing ;
+    owl:sameAs gn:2796494 .
+
+"0001-01-01"^^xsd:date a rdfs:Literal,
         rdfs:Resource,
-        xsd:boolean,
+        xsd:date,
         owl:Thing ;
-    owl:sameAs false .
+    owl:sameAs "0001-01-01"^^xsd:date .
 
-40.879 a rdfs:Literal,
-        rdfs:Resource,
-        xsd:decimal,
+"Q11063" a rdfs:Resource,
         owl:Thing ;
-    owl:sameAs 40.879 .
+    owl:sameAs "Q11063" .
 
-45.6997 a rdfs:Literal,
-        rdfs:Resource,
-        xsd:decimal,
+"Werken met klanten" a rdfs:Resource,
         owl:Thing ;
-    owl:sameAs 45.6997 .
+    owl:sameAs "Werken met klanten" .
 
-"016/123456" a rdfs:Resource,
+"Winkel" a rdfs:Resource,
         owl:Thing ;
-    owl:sameAs "016/123456" .
+    owl:sameAs "Winkel" .
 
-"KU Leuven is a university in Leuven, Belgium" a rdfs:Resource,
+"kassamedewerker" a rdfs:Resource,
         owl:Thing ;
-    owl:sameAs "KU Leuven is a university in Leuven, Belgium" .
-
-"KUL@email.com" a rdfs:Resource,
-        owl:Thing ;
-    owl:sameAs "KUL@email.com" .
-
-"Leuven straat 7" a rdfs:Resource,
-        owl:Thing ;
-    owl:sameAs "Leuven straat 7" .
-
-"www.KUL.be" a rdfs:Resource,
-        owl:Thing ;
-    owl:sameAs "www.KUL.be" .
+    owl:sameAs "kassamedewerker" .
 
 person:2 a rdfs:Resource,
         owl:Thing,
         foaf:Person ;
-    local:diploma diploma:2 ;
-    local:email "email" ;
+    local:diploma diploma:2,
+        diploma:3 ;
     local:getVacancies true ;
     owl:sameAs person:2 ;
     foaf:name "Brent" ;
@@ -2589,35 +2822,46 @@ wd:Q80006 a rdfs:Resource,
         owl:Thing ;
     owl:sameAs wd:Q80006 .
 
-"email" a rdfs:Resource,
-        owl:Thing ;
-    owl:sameAs "email" .
-
-"gn:2796491" a rdfs:Resource,
-        owl:Thing ;
-    owl:sameAs "gn:2796491" .
-
-enterprise:1 a local:enterprise,
+30 a rdfs:Literal,
         rdfs:Resource,
-        owl:Thing,
-        foaf:Organization ;
-    local:description "KU Leuven is a university in Leuven, Belgium" ;
-    local:email "KUL@email.com" ;
-    local:location "gn:2796491" ;
-    local:maintainer person:1,
-        person:2 ;
-    local:owner person:1 ;
-    local:phone "016/123456" ;
-    local:website "www.KUL.be" ;
-    owl:sameAs enterprise:1 ;
-    geo:address "Leuven straat 7" ;
-    geo:lat 40.879 ;
-    geo:long 45.6997 ;
-    foaf:name "KU Leuven" .
-
-gn:2796491 a rdfs:Resource,
+        xsd:decimal,
+        xsd:integer,
         owl:Thing ;
-    owl:sameAs gn:2796491 .
+    owl:sameAs 30 .
+
+wd:Q21198 a rdfs:Resource,
+        owl:Thing ;
+    owl:sameAs wd:Q21198 .
+
+"0" a rdfs:Resource,
+        owl:Thing ;
+    owl:sameAs "0" .
+
+"Diepenbeek" a rdfs:Resource,
+        owl:Thing ;
+    owl:sameAs "Diepenbeek" .
+
+"aldi is een leuke winkel" a rdfs:Resource,
+        owl:Thing ;
+    owl:sameAs "aldi is een leuke winkel" .
+
+"example.com" a rdfs:Resource,
+        owl:Thing ;
+    owl:sameAs "example.com" .
+
+"gn:1234" a rdfs:Resource,
+        owl:Thing ;
+    owl:sameAs "gn:1234" .
+
+"hey@mail.com" a rdfs:Resource,
+        owl:Thing ;
+    owl:sameAs "hey@mail.com" .
+
+true a rdfs:Literal,
+        rdfs:Resource,
+        xsd:boolean,
+        owl:Thing ;
+    owl:sameAs true .
 
 "2022-12-12"^^xsd:date a rdfs:Literal,
         rdfs:Resource,
@@ -2631,34 +2875,30 @@ gn:2796491 a rdfs:Resource,
         owl:Thing ;
     owl:sameAs "2023-01-12"^^xsd:date .
 
-3100 a rdfs:Literal,
-        rdfs:Resource,
-        xsd:decimal,
-        xsd:integer,
+"Aldi" a rdfs:Resource,
         owl:Thing ;
-    owl:sameAs 3100 .
+    owl:sameAs "Aldi" .
 
-"Description" a rdfs:Resource,
-        owl:Thing ;
-    owl:sameAs "Description" .
-
-"Responsibilities" a rdfs:Resource,
-        owl:Thing ;
-    owl:sameAs "Responsibilities" .
-
-skill:teamwork a rdfs:Resource,
-        owl:Thing ;
-    owl:sameAs skill:teamwork .
-
-true a rdfs:Literal,
-        rdfs:Resource,
-        xsd:boolean,
-        owl:Thing ;
-    owl:sameAs true .
+person:3 a rdfs:Resource,
+        owl:Thing,
+        foaf:Person ;
+    local:diploma diploma:4 ;
+    local:experience experience:1 ;
+    local:getVacancies true ;
+    local:language wd:Q7411 ;
+    owl:sameAs person:3 ;
+    foaf:name "Wouter" ;
+    foaf:surname "Grootjans" .
 
 degree:bachelor a rdfs:Resource,
         owl:Thing ;
     owl:sameAs degree:bachelor .
+
+1e+01 a rdfs:Literal,
+        rdfs:Resource,
+        xsd:double,
+        owl:Thing ;
+    owl:sameAs 1e+01 .
 
 "uHasselt" a rdfs:Resource,
         owl:Thing ;
@@ -2668,10 +2908,8 @@ person:1 a rdfs:Resource,
         owl:Thing,
         foaf:Person ;
     local:diploma diploma:1 ;
-    local:experience experience:1 ;
     local:getVacancies true ;
-    local:language wd:Q1860,
-        wd:Q7411 ;
+    local:language wd:Q1860 ;
     local:skill wd:Q24288,
         wd:Q80006 ;
     owl:sameAs person:1 ;

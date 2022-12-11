@@ -69,6 +69,7 @@ def create_enterprise_routes(app, graph):
         # get the logged in user as the owner
         user_id = session['_user_id']
         owner = user_id
+        print("owner: ", owner)
 
         name = data["name"]
         lat = data["lat"]
@@ -76,7 +77,6 @@ def create_enterprise_routes(app, graph):
         long = data["long"]
         long = float(long)
         address = data["address"]
-        owner = data["owner"]
         owner = int(owner)
         phone = data["phone"]
         email = data["email"]
@@ -91,6 +91,7 @@ def create_enterprise_routes(app, graph):
             print(type(name), type(lat), type(
                 long), type(location), type(owner))
             return "Data is not of the correct type"
+        # create(graph, name, lat, long, address, phone, email, website, owner, description, location)
         return Enterprise.create(graph, name, lat, long, address, phone, email, website, owner, description, location)    
 
     # update enterprise
@@ -103,10 +104,7 @@ def create_enterprise_routes(app, graph):
         user_id = session['_user_id']
         maintainerID = user_id
 
-        if "enterpriseID" not in data:
-            return "enterpriseID is missing"
-        enterpriseID = data["enterpriseID"]
-        enterpriseID = int(enterpriseID)
+        enterpriseID = int(id)
 
          # check if data is in the request
         name = ""
@@ -136,7 +134,7 @@ def create_enterprise_routes(app, graph):
             description = data["description"]  
         if ("address" in data):
             address = data["address"] 
-
+        # update_enterprise(graph, enterpriseID, maintainerID, name, lat, long, address, phone, email, website, description, location)
         return Enterprise.update_enterprise(graph, enterpriseID, maintainerID, name, lat, long, address, phone, email, website, description, location)
 
     # delete enterprise
@@ -174,7 +172,8 @@ def create_enterprise_routes(app, graph):
         newOwnerID = data["newOwnerID"]
         newOwnerID = int(newOwnerID)
 
-        return Enterprise.transfer_enterprise(graph, enterpriseID, ownerID, newOwnerID)
+        # transfer_enterprise(graph, ownerID, enterpriseID, newOwnerID)
+        return Enterprise.transfer_enterprise(graph, ownerID, enterpriseID, newOwnerID)
 
     # Maintainers
     # add a maintainer to an enterprise
@@ -217,7 +216,8 @@ def create_enterprise_routes(app, graph):
         maintainerID = data["maintainerID"]
         maintainerID = int(maintainerID)
 
-        return Enterprise.remove_maintainer(graph, enterpriseID, ownerID, maintainerID)
+        # remove_maintainer(graph, ownerID, enterpriseID, maintainerID)
+        return Enterprise.remove_maintainer(graph, ownerID, enterpriseID, maintainerID)
 
     # get the enterprises on a specific location
     @app.route("/enterprise/get/location/<int:location>", methods=['GET'])

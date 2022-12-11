@@ -34,8 +34,6 @@ graphFile = GRAPH_FILE
 #########################################################
 
 def check_maintainer(graph, enterpriseID, maintainerID):
-    print("checking maintainer, enterpriseID: " +
-          str(enterpriseID) + ", maintainerID: " + str(maintainerID))
     query = prefixes + "\n"
     query += f'''
                 SELECT ?maintainer
@@ -408,7 +406,6 @@ def query_delete_enterpriseRDF(enterpriseID):
                     FILTER (?enterprise = enterprise:{enterpriseID})
                 }}
             '''
-    print(query)
     return query
 
 def query_transfer_ownershipRDF(enterpriseID, newOwnerID):

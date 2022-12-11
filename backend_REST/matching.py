@@ -541,7 +541,6 @@ def matchVacancy_experience(graph, vacancyID):
     # get all the experience of the vacnacy
     # query = query_getExperienceFromVacancy(vacancyID)
     query = query_getSkillsFromexperiencesOfVacancy(vacancyID)
-    print(query)
     result = graph.query(query)
     skills = [row.skill.n3() for row in result]
 

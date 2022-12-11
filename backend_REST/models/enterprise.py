@@ -91,8 +91,7 @@ class Enterprise:
         
         # Get user_id
         enterpriseID = enterprise.id
-        print(enterpriseID)
-
+        print(owner)
         create_enterpriseRDF(graph, name, owner, lat, long, address, phone, email, website, description, enterpriseID, location)
 
         graph.serialize(destination=gFile)
@@ -105,7 +104,7 @@ class Enterprise:
             return "Enterprise does not exist"
 
         # check if the maintainer is allowed to update the enterprise
-        if not (check_maintainer(graph, maintainerID, enterpriseID)):
+        if not (check_maintainer(graph, enterpriseID, maintainerID)):
             return "only maintainer of enterprise can update the enterprise"
 
         query = query_update_enterpriseRDF(name, lat, long, address, phone, email, website, description, enterpriseID, location)
@@ -159,12 +158,14 @@ class Enterprise:
             return "Enterprise does not exist"
 
         # check if the owner is allowed to transfer the enterprise
-        if not (check_owner(graph, ownerID, enterpriseID)):
+        # check_owner(graph, enterpriseID, ownerID)
+        if not (check_owner(graph, enterpriseID, ownerID)):
             return "only owner of enterprise can transfer the enterprise"
 
         if not (check_person(graph, newOwnerID)):
             return "newOwner is not a person"
-
+        print(enterpriseID, newOwnerID)
+                # check_maintainer(graph, enterpriseID, maintainerID)
         if not (check_maintainer(graph, enterpriseID, newOwnerID)):
             return "new owner is not a maintainer of the enterprise"
         
@@ -180,7 +181,7 @@ class Enterprise:
             return "Enterprise does not exist"
 
         # check if the owner is allowed to transfer the enterprise
-        if not (check_owner(graph, ownerID, enterpriseID)):
+        if not (check_owner(graph, enterpriseID, ownerID)):
             return "only owner of enterprise can transfer the enterprise"
 
         if not (check_person(graph, maintainerID)):

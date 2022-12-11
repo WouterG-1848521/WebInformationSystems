@@ -35,33 +35,12 @@ owlrl.DeductiveClosure(owlrl.RDFS_OWLRL_Semantics, rdfs_closure = True, axiomati
 
 query = prefixes + "\n"
 query += f'''
-                SELECT ?vacancy
+                SELECT ?maintainer
                 WHERE {{
-                    ?vacancy rdf:type local:vacancy .
-                    ?vacancy local:jobTitle ?jobTitle .
-                    ?vacancy local:startDate ?startDate .
-                    ?vacancy local:endDate ?endDate .
-                    ?vacancy local:enterprise ?owner .
-
-                    ?vacancy local:jobDescription ?jobDescription .
-                    ?vacancy local:jobResponsibilities ?jobResponsibilities .
-                    ?vacancy local:jobSalary ?jobSalary .
-                    ?vacancy local:location ?jobLocation .
-
-                    OPTIONAL {{
-                        ?vacancy local:diploma ?diploma .
-                    }}
-                    OPTIONAL {{
-                        ?vacancy local:skill ?skills .
-                    }}
-                    OPTIONAL {{
-                        ?vacancy local:language ?language .
-                    }}
-                    OPTIONAL {{
-                        ?vacancy local:experience ?experience .
-                    }}
-
-                    FILTER (?vacancy = <http://localhost/vacancy/2>)
+                     ?enterprise rdf:type local:enterprise .
+                    ?enterprise local:maintainer ?maintainer .
+                    FILTER (?enterprise = enterprise:5)
+                    FILTER (?maintainer = person:9)
                 }}
         '''                
 print(query)
