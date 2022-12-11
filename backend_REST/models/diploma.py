@@ -36,7 +36,7 @@ class Diploma():
         Diploma.add(graph, diploma_URI, degree, discipline_id,
                     institiution, startDate, endDate)
 
-        return diploma_URI
+        return diploma_id
 
     def update(graph, diploma_id, degree, discipline_id, institiution, startDate, endDate):
         diploma_URI = URIRef(DIPLOMA + str(diploma_id))
@@ -66,6 +66,7 @@ class Diploma():
     def get_by_id(graph, diploma_id):
         diploma_URI = URIRef(DIPLOMA + str(diploma_id))
 
+        print("Get diploma by id: " + diploma_URI)
         q = f'''
             SELECT ?d ?degree ?discipline ?institution ?startDate ?endDate
             WHERE {{
@@ -88,14 +89,15 @@ class Diploma():
 
     def create_for_user(graph, user_id, degree, discipline_id, institiution, startDate, endDate):
         user_URI = URIRef(PERSON + str(user_id))
-        diploma_URI = Diploma.create(
+        diploma_id = Diploma.create(
             graph, degree, discipline_id, institiution, startDate, endDate)
 
         # Link diploma to user
+        diploma_URI = URIRef(DIPLOMA + str(diploma_id))
         graph.add((user_URI, LOCAL.diploma, diploma_URI))
         graph.serialize(destination=GRAPH_FILE)
 
-        return diploma_URI
+        return diploma_id
 
     def get_all_by_user_id(graph, user_id):
         user_URI = URIRef(PERSON + str(user_id))
@@ -140,14 +142,15 @@ class Diploma():
     ########################################
     def create_for_vacancy(graph, vacancy_id, degree, discipline_id, institiution, startDate, endDate):
         vacancy_URI = URIRef(VACANCY + str(vacancy_id))
-        diploma_URI = Diploma.create(
+        diploma_id = Diploma.create(
             graph, degree, discipline_id, institiution, startDate, endDate)
 
         # Link diploma to vacancy
+        diploma_URI = URIRef(DIPLOMA + str(diploma_id))
         graph.add((vacancy_URI, LOCAL.diploma, diploma_URI))
         graph.serialize(destination=GRAPH_FILE)
 
-        return diploma_URI
+        return diploma_id
 
     def get_all_by_vacancy_id(graph, vacancy_id):
         vacancy_URI = URIRef(VACANCY + str(vacancy_id))

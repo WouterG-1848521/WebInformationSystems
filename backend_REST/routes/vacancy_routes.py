@@ -1,5 +1,5 @@
 from flask_login import login_required
-from flask import request
+from flask import request, make_response, jsonify
 from pandas import DataFrame
 import json
 
@@ -35,11 +35,11 @@ def create_vacancy_routes(app, graph):
             return Response.end_date_not_valid()
 
         vacancy_id = Vacancy.create(graph, enterprise_id, session["_user_id"],
-                                    data["jobTitle"], data["startDate"], data["endDate"], data["location_id"], 
+                                    data["jobTitle"], data["startDate"], data["endDate"], data["profession"], data["location_id"], 
                                     data["jobDescription"], data["jobResponsibilities"], data["jobSalary"])
 
-        return Response.format_vacancy_json(Vacancy.get_by_id(graph, vacancy_id))
-        return f"Created vacancy {vacancy_id}."
+        vacancyJSON = json.loads(Vacancy.get_by_id(graph, vacancy_id))
+        return Response.format_vacancies_json(vacancyJSON)
 
     @app.route("/enterprises/<int:enterprise_id>/vacancies/<int:vacancy_id>", methods=['PUT'])
     def update_vacancy(enterprise_id, vacancy_id):
@@ -63,8 +63,8 @@ def create_vacancy_routes(app, graph):
         Vacancy.update_job_salary(graph, vacancy_id, data["jobSalary"])
         
 
-        return Response.format_vacancy_json(Vacancy.get_by_id(graph, vacancy_id))
-        return f"Updated vacancy {vacancy_id}"
+        vacancyJSON = json.loads(Vacancy.get_by_id(graph, vacancy_id))
+        return Response.format_vacancies_json(vacancyJSON)
 
     @app.route("/enterprises/<int:enterprise_id>/vacancies/<int:vacancy_id>", methods=['DELETE'])
     def remove_vacancy(enterprise_id, vacancy_id):
@@ -74,9 +74,8 @@ def create_vacancy_routes(app, graph):
             return "only maintainer of enterprise can delete vacancies"
 
         Vacancy.delete(graph, vacancy_id)
-
-        return Response.format_vacancy_json(Vacancy.get_by_id(graph, vacancy_id))
-        return f"Removed vacancy {vacancy_id}"
+        
+        return Response.make_response_for_content_type('application/json', message=f"Delete vacancy {vacancy_id}.")
 
     @app.route("/enterprises/<int:enterprise_id>/vacancies/", methods=['GET'])
     def get_all_vacancies_of_enterprise(enterprise_id):
@@ -109,8 +108,8 @@ def create_vacancy_routes(app, graph):
 
         diploma_id = Diploma.create_for_vacancy(graph, vacancy_id, data["degree"], data["discipline"],
                                                 data["institution"], data["startDate"], data["endDate"])
-        return Response.format_diploma_json(Diploma.get_by_id(graph, diploma_id))
-        return f"Created diploma {diploma_id } for vacancy {vacancy_id}."
+        
+        return Response.make_response_for_content_type('application/json', message=f"Created diploma {diploma_id } for vacancy {vacancy_id}.")
 
     @app.route("/enterprises/<int:enterprise_id>/vacancies/<int:vacancy_id>/diplomas", methods=["GET"])
     def get_vacancy_diplomas(enterprise_id, vacancy_id):
@@ -146,8 +145,9 @@ def create_vacancy_routes(app, graph):
 
         Diploma.update(graph, diploma_id, data["degree"], data["discipline"],
                        data["institution"], data["startDate"], data["endDate"])
-
-        return Response.format_diploma_json(Diploma.get_by_id(graph, diploma_id))
+        
+        diplomasJSON = json.loads(Diploma.get_by_id(graph, diploma_id))
+        return Response.format_diplomas_json(diplomasJSON)
         # return f"Updated diploma {diploma_id}."
 
     @app.route("/enterprises/<int:enterprise_id>/vacancies/<int:vacancy_id>/diplomas/<int:diploma_id>", methods=["DELETE"])
@@ -184,8 +184,8 @@ def create_vacancy_routes(app, graph):
 
         Skill.add_to_vacancy(graph, vacancy_id, data["skill"])
 
-        return Response.format_skill_json(Skill.get_by_vacancy_id_and_skill(graph, vacancy_id, data["skill"]))
-        return f"Added skill {data['skill']} to vacancy {vacancy_id}."
+        skillsJSON = json.loads(Skill.get_all_by_vacancy_id(graph, vacancy_id))
+        return Response.format_skills_json(skillsJSON)
 
     @app.route("/enterprises/<int:enterprise_id>/vacancies/<int:vacancy_id>/skills", methods=['GET'])
     def get_all_skills_by_vacancy_id(enterprise_id, vacancy_id):
@@ -222,10 +222,10 @@ def create_vacancy_routes(app, graph):
             return Response.language_not_valid()
 
         Language.add_to_vacancy(graph, vacancy_id, data["language"])
-
-        return Response.format_language_json(Language.get_by_vacancy_id_and_language(graph, vacancy_id, data["language"]))
-        return f"Added language {data['language']} to vacancy {vacancy_id}."
-
+        
+        languagesJSON = json.loads(Language.get_all_by_vacancy_id(graph, vacancy_id))
+        return Response.format_languages_json(languagesJSON)
+    
     @app.route("/enterprises/<int:enterprise_id>/vacancies/<int:vacancy_id>/languages", methods=['GET'])
     def get_all_languages_by_vacancy_id(enterprise_id, vacancy_id):
         languagesJSON = json.loads(Language.get_all_by_vacancy_id(graph, vacancy_id))

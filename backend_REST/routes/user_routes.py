@@ -135,7 +135,8 @@ def create_user_routes(app, g):
         logout_user()
 
         owner = User.delete(g, user_id)
-        if owner == "Owner":
+        print(owner)
+        if owner == -1:
             return make_response(jsonify({"message": f"User is a owner of an enterprise"}), 400)
 
         return make_response(jsonify({"message": f"User deleted with id {user_id}"}), 200)

@@ -1,7 +1,7 @@
 from pandas import DataFrame
 from rdflib import Literal, RDF, URIRef
 from rdflib.namespace import RDF, RDFS, FOAF, XSD
-from backend_REST.graph import ENTERPRISE, VACANCY, GEONAMES
+from backend_REST.graph import ENTERPRISE, VACANCY, GEONAMES, PERSON
 from math import sqrt
 
 from backend_REST import db
@@ -255,9 +255,10 @@ class Enterprise:
 
         return df.to_json(orient='index', indent=2)
 
-    def get_personIsOwner(graph, ownerURI):
-        query = query_enterpriseGetByOwner(ownerURI)
-        result = graph.query(query)
+    def get_personIsOwner(graph, owner_id):
+        owner_URI = URIRef(PERSON + str(owner_id))
+        query = query_enterpriseGetByOwner()
+        result = graph.query(query, initBindings={'owner': owner_URI})
 
         if (len(result) == 0):
             return False

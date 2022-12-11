@@ -1,7 +1,7 @@
 from pandas import DataFrame
 from rdflib import Literal, RDF, URIRef, Variable
 from rdflib.namespace import RDF, RDFS, FOAF, XSD
-from backend_REST.graph import LOCAL, VACANCY, ENTERPRISE, PERSON, GEONAMES
+from backend_REST.graph import LOCAL, VACANCY, ENTERPRISE, PERSON, GEONAMES, WIKIDATA
 
 from backend_REST import db
 from config import GRAPH_FILE
@@ -25,9 +25,7 @@ from backend_REST.models.database import DBVacancy
 #     id has a jobLocation
 
 class Vacancy():
-
-
-    def create(graph, enterprise_id, maintainer_id, job_title, start_date, end_date, location_id, job_desciption, job_responsibilities, job_salary):
+    def create(graph, enterprise_id, maintainer_id, job_title, start_date, end_date, profession, location_id, job_desciption, job_responsibilities, job_salary):
         # Add vacancy to DB
         vacancy = DBVacancy()
         db.session.add(vacancy)
@@ -39,6 +37,7 @@ class Vacancy():
         enterprise_URI = URIRef(ENTERPRISE + str(enterprise_id))
         maintainer_URI = URIRef(PERSON + str(maintainer_id))
         location_URI = URIRef(GEONAMES + str(location_id))
+        profession_URI = URIRef(WIKIDATA + str(profession))
 
         graph.add((vacancy_URI, RDF.type, LOCAL.vacancy))
         graph.add((vacancy_URI, LOCAL.enterprise, enterprise_URI))
@@ -48,6 +47,7 @@ class Vacancy():
                   Literal(start_date, datatype=XSD.date)))
         graph.add((vacancy_URI, LOCAL.endDate,
                   Literal(end_date,  datatype=XSD.date)))
+        graph.add((vacancy_URI, LOCAL.profession, profession_URI))
         graph.add((vacancy_URI, LOCAL.location, location_URI))
 
         graph.add((vacancy_URI, LOCAL.jobDescription, Literal(job_desciption)))
@@ -105,6 +105,10 @@ class Vacancy():
     
     def update_job_salary(graph, vacancy_id, job_salary):
         Vacancy.update_literal(graph, vacancy_id, LOCAL.jobSalary, job_salary)
+        
+    def update_profession(graph, vacancy_id, profession):
+        profession_URI = URIRef(GEONAMES + str(profession))
+        Vacancy.update_URI(graph, vacancy_id, LOCAL.profession, profession_URI)
 
     def delete(graph, vacancy_id):
         # Delete from DB
@@ -129,15 +133,20 @@ class Vacancy():
 
         print("Searching: " + ENTERPRISE + str(enterprise_id))
         q = f'''
-            SELECT ?v ?maintainerId ?jobTitle ?startDate ?endDate ?location
+            SELECT ?v ?e ?maintainerId ?jobTitle ?profession ?startDate ?endDate ?location ?jobDescription ?jobResponsibilities ?jobSalary ?available
             WHERE {{
-                ?v  rdf:type local:vacancy .
+                ?v rdf:type local:vacancy .
                 ?v local:enterprise ?e .
                 ?v local:postedBy ?maintainerId .
+                ?v local:profession ?profession .
                 ?v local:jobTitle ?jobTitle .
                 ?v local:startDate ?startDate .
                 ?v local:endDate ?endDate .
                 ?v local:location ?location .
+                ?v local:jobDescription ?jobDescription .
+                ?v local:jobResponsibilities ?jobResponsibilities .
+                ?v local:jobSalary ?jobSalary .
+                ?v local:available ?available .
             }}
         '''
 
@@ -145,6 +154,44 @@ class Vacancy():
         df = DataFrame(result, columns=result.vars)
         return df.to_json()
 
+    def get_by_id(graph, vacancy_id):
+        vacancy_URI = URIRef(VACANCY + str(vacancy_id))
+
+    #     vacancy:1 a local:vacancy ;
+    # local:available true ;
+    # local:endDate "2022-12-20"^^xsd:date ;
+    # local:enterprise enterprise:1 ;
+    # local:jobDescription "efefe" ;
+    # local:jobResponsibilities "edezdzed" ;
+    # local:jobSalary "1" ;
+    # local:jobTitle "Software Developer" ;
+    # local:location gn:2796491 ;
+    # local:postedBy person:1 ;
+    # local:profession wd:Q12097 ;
+    # local:startDate "2022-12-09"^^xsd:date .
+
+        print("Searching: " + str(vacancy_URI))
+        q = f'''
+            SELECT ?v ?e ?maintainerId ?jobTitle ?profession ?startDate ?endDate ?location ?jobDescription ?jobResponsibilities ?jobSalary ?available
+            WHERE {{
+                ?v rdf:type local:vacancy .
+                ?v local:enterprise ?e .
+                ?v local:postedBy ?maintainerId .
+                ?v local:profession ?profession .
+                ?v local:jobTitle ?jobTitle .
+                ?v local:startDate ?startDate .
+                ?v local:endDate ?endDate .
+                ?v local:location ?location .
+                ?v local:jobDescription ?jobDescription .
+                ?v local:jobResponsibilities ?jobResponsibilities .
+                ?v local:jobSalary ?jobSalary .
+                ?v local:available ?available .
+            }}
+        '''
+
+        result = graph.query(q, initBindings={'v': vacancy_URI})
+        df = DataFrame(result, columns=result.vars)
+        return df.to_json()
 
     def get_all_diploma_URIs(graph, vacancy_id):
         vacancy_URI = URIRef(VACANCY + str(vacancy_id))

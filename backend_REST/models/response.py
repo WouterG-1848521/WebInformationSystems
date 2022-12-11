@@ -194,11 +194,17 @@ class Response():
         for id in vacanciesJSON['v']:
             info = {
                 "v": vacanciesJSON['v'][id],
+                "e": vacanciesJSON['e'][id],
                 "maintainerId": vacanciesJSON['maintainerId'][id],
+                "profession": vacanciesJSON['profession'][id],
                 "jobTitle": vacanciesJSON['jobTitle'][id],
                 "location": vacanciesJSON['location'][id],
                 "startDate": vacanciesJSON['startDate'][id],
                 "endDate": vacanciesJSON['endDate'][id],
+                "jobDescription": vacanciesJSON['jobDescription'][id],
+                "jobResponsibilities": vacanciesJSON['jobResponsibilities'][id],
+                "jobSalary": vacanciesJSON['jobSalary'][id],
+                "available": vacanciesJSON['available'][id],
             }
             newDict['vacancies'][int(id)] = info
             print(newDict)

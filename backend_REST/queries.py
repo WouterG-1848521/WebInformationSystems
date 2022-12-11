@@ -470,13 +470,12 @@ def query_getVacanciesOfEnterprise(enterpriseID):
     '''
     return query
 
-def query_enterpriseGetByOwner(personURI):
+def query_enterpriseGetByOwner():
     query = f'''
             SELECT ?uri
             WHERE {{
                 ?uri rdf:type foaf:Organization .
                 ?uri local:owner ?owner .
-                FILTER (?owner = {personURI}) 
             }}
     '''
     return query

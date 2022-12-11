@@ -60,14 +60,20 @@
                         {% else %}
                             {% for id in vacancies %}
                                 {% set vacancy = vacancies[id] %}
-                                <div class="card">
+                                <div class="card mb-3"> 
                                 <div class="card-body">
                                     <h5 class="card-title">{{ vacancy['v'] }}</h5>
                                     <p class="card-text">
+                                        <b>Enterprise</b>: <a href={{ vacancy['e'] }}>{{ vacancy['e'] }}</a> </br>
                                         <b>Job Title</b>: {{ vacancy['jobTitle'] }} </br>
-                                        <b>Location</b>: <a href={{ vacancy['location'] }}>{{ vacancy['location'] }}</a> </br>
+                                        <b>Job Description</b>: {{ vacancy['jobDescription'] }} </br>
+                                        <b>Job Responsibilities</b>: {{ vacancy['jobResponsibilities'] }} </br>
+                                        <b>Job Salary</b>: {{ vacancy['jobSalary'] }} €</br>
+                                        <b>Profession</b>: <a href={{ vacancy['profession'] }}>{{ vacancy['profession'] }}</a> </br>
                                         <b>Maintainer</b>: <a href={{ vacancy['maintainerId'] }}>{{ vacancy['maintainerId'] }}</a> </br>
+                                        <b>Location</b>: <a href={{ vacancy['location'] }}>{{ vacancy['location'] }}</a> </br>
                                         <b>Open from</b> {{ vacancy['startDate'] }} <b>until</b> {{ vacancy['endDate'] }}</p>
+                                    </div>
                                 </div>
                             {% endfor %}    
                         {% endif %}

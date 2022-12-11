@@ -179,7 +179,7 @@ class User():
         isOwner = Enterprise.get_personIsOwner(graph, user_id)
         print("isOwner: " + str(isOwner))
         if isOwner:
-            return "Owner"
+            return -1
 
         # Delete user from DB
         user = DBUser.query.get(user_id)
@@ -207,6 +207,8 @@ class User():
         graph.remove((user_URI, None, None))
 
         graph.serialize(destination=GRAPH_FILE)
+        
+        return None
 
     def is_admin(user_id):
         user = DBUser.query.get(user_id)
