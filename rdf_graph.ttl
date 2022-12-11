@@ -48,6 +48,7 @@ vacancy:1 a local:vacancy ;
     local:language language:english ;
     local:location gn:2796491 ;
     local:postedBy person:1 ;
+    local:available false ;
     local:skill skill:teamwork ;
     local:startDate "2022-12-12"^^xsd:date .
 
@@ -63,6 +64,7 @@ vacancy:2 a local:vacancy ;
     local:language language:english ;
     local:location gn:2796491 ;
     local:postedBy person:1 ;
+    local:available true ;
     local:skill skill:teamwork ;
     local:startDate "2022-12-12"^^xsd:date .
 
@@ -78,6 +80,7 @@ vacancy:3 a local:vacancy ;
     local:language language:english ;
     local:location gn:2796491 ;
     local:postedBy person:1 ;
+    local:available true ;
     local:skill skill:teamwork ;
     local:startDate "2022-12-12"^^xsd:date .
 
@@ -93,6 +96,7 @@ vacancy:4 a local:vacancy ;
     local:language language:english ;
     local:location gn:2796491 ;
     local:postedBy person:1 ;
+    local:available true ;
     local:skill skill:teamwork ;
     local:startDate "2022-12-12"^^xsd:date .
 
@@ -144,15 +148,13 @@ person:2 a foaf:Person ;
     local:diploma diploma:2 ;
     local:email "email" ;
     local:getVacancies true ;
-    foaf:name "Brent",
-        "tes" ;
-    foaf:surname "Zoomers",
-        "a" .
+    foaf:name "Brent" ;
+    foaf:surname "Zoomers" .
 
 person:3 a foaf:Person ;
     local:diploma diploma:3 ;
     local:email "email" ;
-    local:getVacancies true ;
+    local:getVacancies false ;
     local:skill skill:teamwork ;
     foaf:name "Wouter" ;
     foaf:surname "Grootjans" .
@@ -201,7 +203,7 @@ enterprise:2 a local:enterprise ;
     local:location "gn:2796491" ;
     local:maintainer person:1,
         person:2 ;
-    local:owner person:4 ;
+    local:owner person:2 ;
     local:phone "016/123456" ;
     local:website "www.KUL.be" ;
     geo:address "Leuven straat 7" ;

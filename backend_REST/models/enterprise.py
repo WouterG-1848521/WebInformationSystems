@@ -13,16 +13,7 @@ from backend_REST.queries import query_enterpriseGetAll, query_enterpriseGetById
 from backend_REST.queries import create_enterpriseRDF, query_update_enterpriseRDF, query_enterpriseGetByAddress, query_transfer_ownershipRDF, query_enterpriseGetByOwner
 from backend_REST.queries import query_remove_maintainerRDF, query_add_maintainerRDF, check_enterprise, query_enterpriseGetByLocation, query_getVacanciesOfEnterprise
 
-gFile = "graph.ttl"
-
-# DONE @wouter: delete omzetten naar rdflib vorm en extra controleren
-# DONE @wouter: bij delete de bijhorende vacancies ook verwijderen
-# DONE : update omzetten
-# DONE : create omzetten
-# DONE : log in testen
-# DONE : ID by create uit db halen
-# DONE @wouter: matchen on lacation
-# DONE @wouter: groeperen per maintainer
+gFile = GRAPH_FILE
 
 def groupByMaintainer(df):
     r = DataFrame()

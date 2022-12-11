@@ -3,6 +3,7 @@ from pandas import DataFrame
 
 from flask_login import login_required
 from backend_REST import session
+from config import GRAPH_FILE
 
 from rdflib import Graph, URIRef, Literal, Namespace
 
@@ -12,9 +13,7 @@ from backend_REST.queries import query_remove_maintainerRDF, query_add_maintaine
 
 from backend_REST.models.enterprise import Enterprise
 
-# DONE @wouter: data niet uit body halen, maar uit session wanneer nodig
-# TODO @wouter: change to config
-graphFile = "graph.ttl"
+graphFile = GRAPH_FILE
 
 def create_enterprise_routes(app, graph):
     # getters

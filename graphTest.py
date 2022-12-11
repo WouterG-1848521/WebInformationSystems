@@ -35,18 +35,15 @@ owlrl.DeductiveClosure(owlrl.RDFS_OWLRL_Semantics, rdfs_closure = True, axiomati
 
 query = prefixes + "\n"
 query += f'''
-                SELECT ?uri
+                SELECT ?vacancy
                 WHERE {{
-                    ?uri rdf:type foaf:Person .
-                    ?uri foaf:name ?name .
-                    ?uri foaf:surname ?surname .
-                    ?uri local:email ?email .
-                    ?uri local:skill ?skill .
-                    ?skill rdf:type local:skill .
+                    ?vacancy rdf:type local:vacancy .
+                    ?vacancy local:diploma ?diploma .
+                    ?vacancy local:available ?v .
                     OPTIONAL {{
-                        ?skill owl:equivalentClass ?input .
+                        ?diploma owl2:equivalentClass ?input .
                     }}
-                    FILTER (?skill = <http://localhost/skill/teamwork> || ?input = <http://localhost/skill/teamwork>)
+                    FILTER ((?input = diploma:1 || ?diploma = diploma:1) && ?v = true)
                 }}
         '''                
 print(query)
