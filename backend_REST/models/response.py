@@ -18,7 +18,7 @@ import json
 
 #         return response
 
-# class JsonResponse():
+# class JSONResponse():
 #     def __init__(self, status, message, data, location = None):
 #         self.status = status
 #         self.message = message
@@ -98,18 +98,91 @@ class Response():
             # Default to HTML
             return make_response(render_template(template, status=status, data=data), code)
     
+    # p, name, surname, diploma, experience, getVacancies, language, skill
     @staticmethod
-    def format_users_json(usersJson):
+    def format_users_json(usersJSON):
         # Format dictionary correctly for response so that each key is a user_id 
         # and the value is the user data
+        print(usersJSON)
         newDict = {'users': {}}
-        for id in usersJson['p']:
+        for id in usersJSON['p']:
             info = {
-                "p": usersJson['p'][id],
-                "name": usersJson['name'][id],
-                "surname": usersJson['surname'][id],
+                "p": usersJSON['p'][id],
+                "name": usersJSON['name'][id],
+                "surname": usersJSON['surname'][id],
+                "getVacancies": usersJSON['getVacancies'][id]                
             }
             newDict['users'][int(id)] = info
+            
+        
+        return newDict
+    
+    # d, degree, discipline, institution, startDate, endDate
+    @staticmethod
+    def format_diplomas_json(diplomasJSON):
+        # Format dictionary correctly for response so that each key is a diploma_id 
+        # and the value is the diploma data
+        newDict = {'diplomas': {}}
+        for id in diplomasJSON['d']:
+            info = {
+                "d": diplomasJSON['d'][id],
+                "degree": diplomasJSON['degree'][id],
+                "discipline": diplomasJSON['discipline'][id],
+                "institution": diplomasJSON['institution'][id],
+                "startDate": diplomasJSON['discipline'][id],
+                "endDate": diplomasJSON['endDate'][id],
+            }
+            newDict['diplomas'][int(id)] = info
+            print(newDict)
+        
+        return newDict
+    
+    # e, jobTitle, profession, skill, startDate, endDate
+    @staticmethod
+    def format_experiences_json(experiencesJSON):
+        # Format dictionary correctly for response so that each key is a experience_id 
+        # and the value is the experience data
+        newDict = {'experiences': {}}
+        for id in experiencesJSON['d']:
+            info = {
+                "d": experiencesJSON['d'][id],
+                "jobTitle": experiencesJSON['jobTitle'][id],
+                "profession": experiencesJSON['profession'][id],
+                "skill": experiencesJSON['skill'][id],
+                "startDate": experiencesJSON['discipline'][id],
+                "endDate": experiencesJSON['endDate'][id],
+            }
+            newDict['experiences'][int(id)] = info
+            print(newDict)
+        
+        return newDict
+    
+    # skill
+    @staticmethod
+    def format_skills_json(skillsJSON):
+        # Format dictionary correctly for response so that each key is a experience_id 
+        # and the value is the experience data
+        newDict = {'skills': {}}
+        for id in skillsJSON['d']:
+            info = {
+                "skill": skillsJSON['skill'][id],
+            }
+            newDict['skills'][int(id)] = info
+            print(newDict)
+        
+        return newDict
+    
+    # language
+    @staticmethod
+    def format_languages_json(languagesJSON):
+        # Format dictionary correctly for response so that each key is a experience_id 
+        # and the value is the experience data
+        newDict = {'languages': {}}
+        for id in languagesJSON['d']:
+            info = {
+                "language": languagesJSON['language'][id],
+            }
+            newDict['languages'][int(id)] = info
             print(newDict)
         
         return newDict

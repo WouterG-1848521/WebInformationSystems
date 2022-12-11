@@ -26,7 +26,7 @@ class Skill():
             SELECT ?skill
             WHERE {{
                 ?p rdf:type foaf:Person .
-                ?p local:skill ?skill
+                ?p local:skill ?skill .
             }}
         '''
         result = graph.query(q, initBindings={'p': user_URI})
@@ -57,7 +57,7 @@ class Skill():
             SELECT ?skill
             WHERE {{
                 ?v rdf:type local:vacancy .
-                ?v local:skill ?local
+                ?v local:skill ?skill .
              }}
         '''
         result = graph.query(q, initBindings={'v': vacancy_URI})

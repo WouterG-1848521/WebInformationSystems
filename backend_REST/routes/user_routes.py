@@ -23,7 +23,7 @@ def create_user_routes(app, g):
     def get_all_users():
         usersJson = json.loads(User.get_all(g))
         usersJson = Response.format_users_json(usersJson)
-        return Response.make_response_for_content_type_and_data(request.headers.get("Accept", "text/html"), data=usersJson, template="users.html")
+        return Response.make_response_for_content_type_and_data(request.headers.get("Content-Type", "text/html"), data=usersJson, template="users.html")
 
     @app.route("/users", methods=["POST"])
     def create_user():
@@ -44,13 +44,13 @@ def create_user_routes(app, g):
         userJson = json.loads(User.get_by_id(g, user_id))
         userJson = Response.format_users_json(userJson)
 
-        return Response.make_response_for_content_type_and_data(request.headers.get("Accept", "text/html"), userJson, "users.html")
+        return Response.make_response_for_content_type_and_data(request.headers.get("Content-Type", "text/html"), userJson, "users.html")
 
     @app.route("/users/<int:user_id>", methods=["GET"])
     def get_user(user_id):
         userJson = json.loads(User.get_by_id(g, user_id))
         userJson = Response.format_users_json(userJson)
-        return Response.make_response_for_content_type_and_data(request.headers.get("Accept", "text/html"), userJson, "user.html")
+        return Response.make_response_for_content_type_and_data(request.headers.get("Content-Type", "text/html"), userJson, "user.html")
 
     @app.route("/users/<int:user_id>", methods=["PUT"])
     @ login_required
@@ -77,7 +77,7 @@ def create_user_routes(app, g):
         User.update_user_by_id(g, user_id, data["name"], data["surname"],
                                data["email"], encrypted_password)
 
-        return Response.make_response_for_content_type_and_data(request.headers.get("Accept", "text/html"), {"message": f"User updated with id {user_id}"}, "user.html")
+        return Response.make_response_for_content_type_and_data(request.headers.get("Content-Type", "text/html"), {"message": f"User updated with id {user_id}"}, "user.html")
         return make_response(jsonify({"message": f"User updated with id {user_id}"}), 200)
 
     @ app.route("/users/<int:user_id>", methods=["DELETE"])
@@ -98,10 +98,6 @@ def create_user_routes(app, g):
             return "you are still the owner of an enterprise"
 
         return make_response(jsonify({"message": f"User deleted with id {user_id}"}), 200)
-
-    @ app.route("/users/<int:user_id>/profile", methods=["GET"])
-    def get_user_profile(user_id):
-        return make_response(User.get_profile_by_id(g, user_id), 200)
 
     @ app.route("/users/<int:user_id>/email", methods=["PUT"])
     @ login_required
@@ -179,7 +175,10 @@ def create_user_routes(app, g):
 
     @ app.route("/users/<int:user_id>/diplomas", methods=["GET"])
     def get_user_diplomas(user_id):
-        return make_response(Diploma.get_all_by_user_id(g, user_id), 200)
+        diplomaJSON = json.loads(User.get_all(g))
+        diplomaJSON = Response.format_diplomas_json(diplomaJSON)
+        
+        return Response.make_response_for_content_type_and_data(request.headers.get("Content-Type", "text/html"), data=diplomaJSON, template="users.html")
 
     @ app.route("/users/<int:user_id>/diplomas/<int:diploma_id>", methods=["GET"])
     def get_user_diploma(user_id, diploma_id):

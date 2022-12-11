@@ -33,7 +33,7 @@ class Language():
             SELECT ?language
             WHERE {{
                 ?p rdf:type foaf:Person .
-                ?p local:language ?language
+                ?p local:language ?language .
             }}
         '''
         result = graph.query(q, initBindings={'p': user_URI})
@@ -64,7 +64,7 @@ class Language():
             SELECT ?language
             WHERE {{
                 ?v rdf:type loval:vacancy .
-                ?v local:language ?language
+                ?v local:language ?language .
             }}
         '''
         result = graph.query(q, initBindings={'v': vacancy_URI})

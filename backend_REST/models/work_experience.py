@@ -66,7 +66,7 @@ class WorkExperience():
             WHERE {{
                 ?e rdf:type local:experience .
                 ?e local:jobTitle ?jobTitle .
-                ?e local:profession ?profession
+                ?e local:profession ?profession .
                 ?e local:skill ?skill .
                 ?e local:startDate ?startDate .
                 ?e local:endDate ?endDate .
@@ -99,10 +99,10 @@ class WorkExperience():
             SELECT ?e ?jobTitle ?profession ?skill ?startDate ?endDate
             WHERE {{
                 ?p rdf:type foaf:Person .
-                ?p local:experience ?d .
+                ?p local:experience ?e .
                 ?e rdf:type local:experience .
                 ?e local:jobTitle ?jobTitle .
-                ?e local:profession ?profession
+                ?e local:profession ?profession .
                 ?e local:skill ?skill .
                 ?e local:startDate ?startDate .
                 ?e local:endDate ?endDate .
