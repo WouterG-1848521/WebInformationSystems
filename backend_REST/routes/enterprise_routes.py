@@ -18,28 +18,28 @@ graphFile = GRAPH_FILE
 def create_enterprise_routes(app, graph):
     # getters
     # get all enterprises
-    @app.route("/enterprise/get/all", methods=['GET'])
+    @app.route("/enterprises", methods=['GET'])
     def get_all_enterprises():
         return Enterprise.get_all_enterprises(graph)
 
     # get enterprise by id
-    @app.route("/enterprise/get/id/<int:id>", methods=['GET'])
+    @app.route("/enterprises/<int:id>", methods=['GET'])
     def get_enterprises_by_ID(id):
         return Enterprise.get_by_id(graph, id)
 
     # get enterprise by name
-    @app.route("/enterprise/get/name/<string:name>", methods=['GET'])
+    @app.route("/enterprises/name/<string:name>", methods=['GET'])
     def get_enterprises_by_name(name):
         return Enterprise.get_enterprises_by_name(graph, name)
 
     # get enterprise by location
-    @app.route("/enterprise/get/address/<string:address>", methods=['GET'])
+    @app.route("/enterprises/address/<string:address>", methods=['GET'])
     def get_enterprises_by_address(address):
         return Enterprise.get_enterprises_by_address(graph, address)
 
     # CRUD operations
     # create enterprise
-    @app.route("/enterprise/create", methods=['POST'])
+    @app.route("/enterprises", methods=['POST'])
     @login_required
     def create_enterprise():
         data = request.form
@@ -95,7 +95,7 @@ def create_enterprise_routes(app, graph):
         return Enterprise.create(graph, name, lat, long, address, phone, email, website, owner, description, location)    
 
     # update enterprise
-    @app.route("/enterprise/update/<int:id>", methods=['PUT'])
+    @app.route("/enterprises/<int:id>", methods=['PUT'])
     @login_required
     def update_enterprise(id):
         # request contains : maintainerid (for security check)
@@ -138,7 +138,7 @@ def create_enterprise_routes(app, graph):
         return Enterprise.update_enterprise(graph, enterpriseID, maintainerID, name, lat, long, address, phone, email, website, description, location)
 
     # delete enterprise
-    @app.route("/enterprise/delete", methods=['DELETE'])
+    @app.route("/enterprises", methods=['DELETE'])
     @login_required
     def delete_enterprise():
         # request contains : enterpriseID, ownerID (for security check)
@@ -220,12 +220,12 @@ def create_enterprise_routes(app, graph):
         return Enterprise.remove_maintainer(graph, ownerID, enterpriseID, maintainerID)
 
     # get the enterprises on a specific location
-    @app.route("/enterprise/get/location/<int:location>", methods=['GET'])
+    @app.route("/enterprises/location/<int:location>", methods=['GET'])
     def get_enterprises_location(location):
         return Enterprise.get_onLocation(graph, location)
 
     # get the enterprises close to a specif lat and long
-    @app.route("/enterprise/get/locationLL/<float:lat>/<float:long>/<float:distance>", methods=['GET'])
-    @app.route("/enterprise/get/locationLL/<float:lat>/<float:long>/<int:distance>", methods=['GET'])
+    @app.route("/enterprises/locationLL/<float:lat>/<float:long>/<float:distance>", methods=['GET'])
+    @app.route("/enterprises/locationLL/<float:lat>/<float:long>/<int:distance>", methods=['GET'])
     def get_enterprises_close(lat, long, distance):
         return Enterprise.get_onLATLONGLocation(graph, lat, long, distance)
