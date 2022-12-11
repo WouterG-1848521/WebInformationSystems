@@ -85,8 +85,10 @@ class Response():
         elif ('application/json' in accept_headers):
             return make_response(jsonify({"message": message}), code)
         else:
+            return make_response(render_template("415.html"), 415), 415
+
             # Default to HTML
-            return make_response(render_template(template, message=message, status=status), code)
+            # return make_response(render_template(template, message=message, status=status), code)
     
     @staticmethod
     def make_response_for_content_type_and_data(accept_headers, data, template="index.html", status="success", code=200):
@@ -95,8 +97,10 @@ class Response():
         elif ('application/json' in accept_headers):
             return make_response(jsonify(data), code)
         else:
+            return make_response(render_template("415.html"), 415), 415
+
             # Default to HTML
-            return make_response(render_template(template, status=status, data=data), code)
+            # return make_response(render_template(template, status=status, data=data), code)
     
     @staticmethod
     def format_users_json(usersJson):
@@ -110,6 +114,5 @@ class Response():
                 "surname": usersJson['surname'][id],
             }
             newDict['users'][int(id)] = info
-            print(newDict)
         
         return newDict

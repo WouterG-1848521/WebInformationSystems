@@ -71,7 +71,13 @@
                                     <h5 class="card-title">{{ user['name'] }} {{ user['surname'] }}</h5>
                                     <p class="card-text">{{ user['p'] }}</p>
                                 </div>
+
+                                {% if current_user.is_authenticated and current_user.id == user_id %}
+                                <div class="card-footer">
+                                    <button type="button" class="btn btn-primary">Edit</button>
+                                  </div>
                                 </div>
+                                {% endif %}
                             {% endfor %}
                         {% endif %}
                     </div>

@@ -16,14 +16,14 @@ def create_frontend_routes(app, graph):
     @app.route("/index", methods=['GET'])
     @app.route("/", methods=['GET'])
     def home():
-        # Check the Content-Type header
-        content_type = request.headers.get("Content-Type", "text/html")
+        # Check the Accept header
+        content_type = request.headers.get("Accept", "text/html")
         if (content_type == "application/json"):
             return make_response(jsonify({"message": f"Welcome!"}), 200)
         elif (content_type == "text/html"):
             return make_response(render_template("index.html"), 200)
         else:
-            return make_response(jsonify({"error": "Unsupported Content-Type."}), 400)
+            return make_response(render_template("index.html"), 200)
 
     # ########################################
     # # Authentication / Sign up
@@ -32,26 +32,26 @@ def create_frontend_routes(app, graph):
 
     @app.route("/sign-up", methods=['GET'])
     def sign_up_form():
-        # Check the Content-Type header
-        content_type = request.headers.get("Content-Type", "text/html")
+        # Check the Accept header
+        content_type = request.headers.get("Accept", "text/html")
         if (content_type == "application/json"):
-            return make_response(jsonify({"message": f"Please use the HTML form to sign up or send a POST request to {url_for('sign_up_form')}."}), 200)
+            return make_response(jsonify({"message": f"Please use the HTML form to sign up or send a POST request to {url_for('sign-up')}."}), 200)
         elif (content_type == "text/html"):
             return make_response(render_template("sign_up_form.html"), 200)
         else:
-            return make_response(jsonify({"message": f"Please use the HTML form to sign up or send a POST request to {url_for('sign_up_form')}."}), 200)
+            return make_response(render_template("sign_up_form.html"), 200)
     
     @app.route("/login", methods=['GET'])
     def login_form():
-        # Check the Content-Type header
-        content_type = request.headers.get("Content-Type", "text/html")
+        # Check the Accept header
+        content_type = request.headers.get("Accept", "text/html")
 
         if (content_type == "application/json"):
-            return make_response(jsonify({"message": f"Please use the HTML form to login or send a POST request to {url_for('login_form')}."}), 200)
+            return make_response(jsonify({"message": f"Please use the HTML form to login or send a POST request to {url_for('login')}."}), 200)
         elif (content_type == "text/html"):
             return make_response(render_template("login_form.html"), 200)
         else:
-            return make_response(jsonify({"message": f"Please use the HTML form to login or send a POST request to {url_for('login_form')}."}), 200)
+            return make_response(render_template("login_form.html"), 200)
 
     ########################################
     # User profiles
@@ -61,7 +61,19 @@ def create_frontend_routes(app, graph):
     # @login_required
     # def show_profile_create_form(user_id):
     #     return render_template("profile_create.html", user_id=user_id)
-   
+    @app.route("/users/<int:user_id>", methods=["GET"])
+    @login_required
+    def update_user_form(user_id):
+        # Check the Accept header
+        content_type = request.headers.get("Accept", "text/html")
+
+        if (content_type == "application/json"):
+            return make_response(jsonify({"message": f"Please use the HTML form to update the user or send a POST request to {url_for('update_user')}."}), 200)
+        elif (content_type == "text/html"):
+            return make_response(render_template("update_user.html"), 200)
+        else:
+            return make_response(render_template("update_user.html"), 200)
+
    
     ########################################
     # Error Handling
@@ -84,3 +96,10 @@ def create_frontend_routes(app, graph):
         """Internal server error."""
         return render_template("500.html"), 500
         return make_response(jsonify({"error": "Internal server error."}), 500)
+
+
+    @app.errorhandler(415)
+    def unsupported_media_type(request):
+        """Unsupported media type."""
+        return render_template("415.html"), 415
+        return make_response(jsonify({"error": "Unsupported media type."}), 415)

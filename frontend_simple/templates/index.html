@@ -38,10 +38,16 @@
                 <div class="col-md-8 text-center text-md-start mx-auto">
                     <div class="text-center">
                         {% if current_user.is_authenticated %}
-                        <h1 class="display-4 fw-bold mb-5">Hi there!</h1>
-                        <p class="fs-5 text-muted mb-5">Looks like you haven't completed your profile yet. You can do that <a href="/profile/create">here</a>.</p>
+                            {% if current_user %}
+                            <!-- TODO: Check if user has profile -->
+                                <h1 class="display-4 fw-bold mb-5">Hi there!</h1>
+                                <p class="fs-5 text-muted mb-5">Looks like you haven't completed your profile yet. You can do that <a href="/profile/create">here</a>.</p>
+                            {% else %}
+                                {% set data = current_user.profile.to_dict() %}
+                                <h1 class="display-4 fw-bold mb-5">Hi!</h1>
+                            {% endif %}
                         {% else %}
-                        <h1 class="display-4 fw-bold mb-5">Let's&nbsp;<span class="underline">connect</span>.</h1>
+                        <h1 class="display-4 fw-bold mb-5">Hi &nbsp;<span class="underline">connect</span>.</h1>
                         <p class="fs-5 text-muted mb-5">A place for people and companies to come together.</p>
                         {% endif %}
 
