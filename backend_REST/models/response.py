@@ -11,7 +11,7 @@ import json
 
 #     def get_response(self):
 #         response = make_response(self.data, self.status)
-#         response.headers["Content-Type"] = "application/rdf+xml"
+#         response.headers["Accept"] = "application/rdf+xml"
 
 #         if (self.location != None):
 #             response.headers["Location"] = url_for(self.location)
@@ -116,7 +116,6 @@ class Response():
                 "getVacancies": usersJSON['getVacancies'][id]                
             }
             newDict['users'][int(id)] = info
-            print(newDict)
         
         return newDict
     

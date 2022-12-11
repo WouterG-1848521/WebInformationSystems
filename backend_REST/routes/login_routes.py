@@ -33,13 +33,15 @@ def create_login_routes(app):
 
         login_user(user)
 
-        userJson = jsonify({
+        userJson = {
             "id": user.id,
             "email": user.email,
             "password": user.password
-        })
-
-        return Response.make_response_for_content_type_and_data(accept_headers, userJson)
+        }
+        
+        data = Response.format_users_json(data)
+        
+        return Response.make_response_for_content_type_and_data(accept_headers, data)
 
     @app.route("/logout", methods=['GET'])
     @login_required
@@ -52,34 +54,34 @@ def create_login_routes(app):
 
         # return render_template("index.html", message="Logged out.", status="success")
 
-    @app.route("/sign-up", methods=['POST'])
-    def db_sign_up():
-        data = request.form
-        accept_headers = request.headers.get("Accept", "text/html")
+    # @app.route("/sign-up", methods=['POST'])
+    # def db_sign_up():
+    #     data = request.form
+    #     accept_headers = request.headers.get("Accept", "text/html")
 
-        # Check if email is already in use
-        if (DBUser.query.filter_by(email=data['email']).first() != None):
-            return Response.make_response_for_content_type(accept_headers, "Email is already in use.")
+    #     # Check if email is already in use
+    #     if (DBUser.query.filter_by(email=data['email']).first() != None):
+    #         return Response.make_response_for_content_type(accept_headers, "Email is already in use.")
 
-        if (current_user.is_authenticated):
-            return Response.make_response_for_content_type(accept_headers, "Already logged in.")
+    #     if (current_user.is_authenticated):
+    #         return Response.make_response_for_content_type(accept_headers, "Already logged in.")
 
-        # Encryption must be done before send with HTTP POST, but currently no front-end
-        encrypted_password = hashlib.sha256(
-            data["password"].encode('utf-8')).hexdigest()
+    #     # Encryption must be done before send with HTTP POST, but currently no front-end
+    #     encrypted_password = hashlib.sha256(
+    #         data["password"].encode('utf-8')).hexdigest()
 
-        app.logger.info("Signing up...")
-        user = DBUser(email=data['email'], password=encrypted_password)
+    #     app.logger.info("Signing up...")
+    #     user = DBUser(email=data['email'], password=encrypted_password)
 
-        db.session.add(user)
-        db.session.commit()
+    #     db.session.add(user)
+    #     db.session.commit()
 
-        # login_user(user)
+    #     # login_user(user)
 
-        userJson = jsonify({
-            "id": user.id,
-            "email": user.email,
-            "password": user.password
-        })
+    #     userJson = jsonify({
+    #         "id": user.id,
+    #         "email": user.email,
+    #         "password": user.password
+    #     })
         
-        return Response.make_response_for_content_type_and_data(accept_headers, userJson)
+    #     return Response.make_response_for_content_type_and_data(accept_headers, userJson)

@@ -2,13 +2,15 @@
 from flask import request, render_template, redirect, url_for, make_response, jsonify
 from flask_login import login_user, logout_user, login_required, current_user
 import hashlib
+import json
 
 from backend_REST import db, session
 from backend_REST.models.database import DBUser
 from backend_REST.routes import connection_routes, matching_routes, user_routes, enterprise_routes, vacancy_routes, login_routes, test_routes
 from backend_REST.models.response import Response
+from backend_REST.models.user import User
 
-def create_frontend_routes(app, graph):
+def create_frontend_routes(app, g):
 
     ########################################
     # Index
@@ -16,14 +18,24 @@ def create_frontend_routes(app, graph):
     @app.route("/index", methods=['GET'])
     @app.route("/", methods=['GET'])
     def home():
-        # Check the Accept header
-        content_type = request.headers.get("Accept", "text/html")
-        if (content_type == "application/json"):
-            return make_response(jsonify({"message": f"Welcome!"}), 200)
-        elif (content_type == "text/html"):
-            return make_response(render_template("index.html"), 200)
+        if current_user.is_authenticated:
+            # Get the user's profile
+            user = json.loads(User.get_by_id(g, current_user.id))
+            data = Response.format_users_json(user)
+            # # Get the user's matches
+            # matches = matching_routes.get_matches(current_user.id)
+            # # Get the user's enterprises
+            # enterprises = enterprise_routes.get_enterprises(current_user.id)
+            # # Get the user's vacancies
+            # vacancies = vacancy_routes.get_vacancies(current_user.id)
+            # # Get the user's recommendations
+            # recommendations = matching_routes.get_recommendations(current_user.id)
+
         else:
-            return make_response(render_template("index.html"), 200)
+            data = None
+
+        accept_headers = request.headers.get("Accept", "text/html")
+        return Response.make_response_for_content_type_and_data(accept_headers, data)
 
     # ########################################
     # # Authentication / Sign up
@@ -73,7 +85,6 @@ def create_frontend_routes(app, graph):
             return make_response(render_template("update_user.html"), 200)
         else:
             return make_response(render_template("update_user.html"), 200)
-
    
     ########################################
     # Error Handling

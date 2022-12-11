@@ -73,7 +73,7 @@ def create_vacancy_routes(app, graph):
     def get_all_vacancies_of_enterprise(enterprise_id):
         vacanciesJson = json.loads(Vacancy.get_by_enterprise_id(graph, enterprise_id))
         vacanciesJson = Response.format_vacancies_json(vacanciesJson)
-        return Response.make_response_for_content_type_and_data(request.headers.get("Content-Type", "text/html"), data=vacanciesJson, template="vacancies.html")
+        return Response.make_response_for_content_type_and_data(request.headers.get("Accept", "text/html"), data=vacanciesJson, template="vacancies.html")
 
     ########################################
     # VACANCY ROUTES - DIPLOMA
@@ -106,14 +106,14 @@ def create_vacancy_routes(app, graph):
         diplomasJSON = json.loads(Diploma.get_all_by_vacancy_id(graph, vacancy_id))
         diplomasJSON = Response.format_diplomas_json(diplomasJSON)
         
-        return Response.make_response_for_content_type_and_data(request.headers.get("Content-Type", "text/html"), data=diplomasJSON, template="diplomas.html")
+        return Response.make_response_for_content_type_and_data(request.headers.get("Accept", "text/html"), data=diplomasJSON, template="diplomas.html")
 
     @app.route("/enterprises/<int:enterprise_id>/vacancies/<int:vacancy_id>/diplomas/<int:diploma_id>", methods=["GET"])
     def get_vacancy_diploma(enterprise_id, vacancy_id, diploma_id):
         diplomasJSON = json.loads(Diploma.get_by_id(graph, diploma_id))
         diplomasJSON = Response.format_diplomas_json(diplomasJSON)
         
-        return Response.make_response_for_content_type_and_data(request.headers.get("Content-Type", "text/html"), data=diplomasJSON, template="diploma.html")
+        return Response.make_response_for_content_type_and_data(request.headers.get("Accept", "text/html"), data=diplomasJSON, template="diploma.html")
 
     @app.route("/enterprises/<int:enterprise_id>/vacancies/<int:vacancy_id>/diplomas/<int:diploma_id>", methods=["PUT"])
     def update_vacancy_diploma(enterprise_id, vacancy_id, diploma_id):
@@ -176,7 +176,7 @@ def create_vacancy_routes(app, graph):
         skillsJSON = json.loads(Skill.get_all_by_vacancy_id(graph, vacancy_id))
         skillsJSON = Response.format_skills_json(skillsJSON)
         
-        return Response.make_response_for_content_type_and_data(request.headers.get("Content-Type", "text/html"), data=skillsJSON, template="skills.html")
+        return Response.make_response_for_content_type_and_data(request.headers.get("Accept", "text/html"), data=skillsJSON, template="skills.html")
 
     @app.route("/enterprises/<int:enterprise_id>/vacancies/<int:vacancy_id>/skills/<string:skill>", methods=['DELETE'])
     def remove_skill_from_vacancy(enterprise_id, vacancy_id, skill):
@@ -211,7 +211,7 @@ def create_vacancy_routes(app, graph):
         languagesJSON = json.loads(Language.get_all_by_vacancy_id(graph, vacancy_id))
         languagesJSON = Response.format_languages_json(languagesJSON)
         
-        return Response.make_response_for_content_type_and_data(request.headers.get("Content-Type", "text/html"), data=languagesJSON, template="languages.html")
+        return Response.make_response_for_content_type_and_data(request.headers.get("Accept", "text/html"), data=languagesJSON, template="languages.html")
 
     @app.route("/enterprises/<int:enterprise_id>/vacancies/<int:vacancy_id>/languages/<string:language>", methods=['DELETE'])
     def remove_language_from_vacancy(enterprise_id, vacancy_id, language):

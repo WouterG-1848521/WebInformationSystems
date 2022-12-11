@@ -16,6 +16,24 @@ local:enterprise owl:equivalentClass foaf:Organization .
 
 local:person owl:equivalentClass foaf:Person .
 
+person:23 a foaf:Person ;
+    local:email "gwendolinenssn@gmail.com" ;
+    local:getVacancies true ;
+    foaf:name "Cooper" ;
+    foaf:surname "Nijssen" .
+
+person:24 a foaf:Person ;
+    local:email "janjanssen@gmail.com" ;
+    local:getVacancies true ;
+    foaf:name "Jan" ;
+    foaf:surname "Janssen" .
+
+person:25 a foaf:Person ;
+    local:email "janniejanssen@gmail.com" ;
+    local:getVacancies true ;
+    foaf:name "Jannie" ;
+    foaf:surname "Janssen" .
+
 person:4 a foaf:Person ;
     local:diploma diploma:4 ;
     local:email "gwennie@gmail.com" ;

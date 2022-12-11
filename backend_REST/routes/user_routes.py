@@ -23,7 +23,7 @@ def create_user_routes(app, g):
     def get_all_users():
         usersJson = json.loads(User.get_all(g))
         usersJson = Response.format_users_json(usersJson)
-        return Response.make_response_for_content_type_and_data(request.headers.get("Content-Type", "text/html"), data=usersJson, template="users.html")
+        return Response.make_response_for_content_type_and_data(request.headers.get("Accept", "text/html"), data=usersJson, template="users.html")
 
     @app.route("/users", methods=["POST"])
     def create_user():
@@ -44,13 +44,13 @@ def create_user_routes(app, g):
         userJson = json.loads(User.get_by_id(g, user_id))
         userJson = Response.format_users_json(userJson)
 
-        return Response.make_response_for_content_type_and_data(request.headers.get("Content-Type", "text/html"), userJson, "users.html")
+        return Response.make_response_for_content_type_and_data(request.headers.get("Accept", "text/html"), userJson, "users.html")
 
     @app.route("/users/<int:user_id>", methods=["GET"])
     def get_user(user_id):
         userJson = json.loads(User.get_by_id(g, user_id))
         userJson = Response.format_users_json(userJson)
-        return Response.make_response_for_content_type_and_data(request.headers.get("Content-Type", "text/html"), userJson, "user.html")
+        return Response.make_response_for_content_type_and_data(request.headers.get("Accept", "text/html"), userJson, "user.html")
 
     @app.route("/users/<int:user_id>", methods=["PUT"])
     @ login_required
@@ -77,7 +77,7 @@ def create_user_routes(app, g):
         User.update_user_by_id(g, user_id, data["name"], data["surname"],
                                data["email"], encrypted_password)
 
-        return Response.make_response_for_content_type_and_data(request.headers.get("Content-Type", "text/html"), {"message": f"User updated with id {user_id}"}, "user.html")
+        return Response.make_response_for_content_type_and_data(request.headers.get("Accept", "text/html"), {"message": f"User updated with id {user_id}"}, "user.html")
         return make_response(jsonify({"message": f"User updated with id {user_id}"}), 200)
 
     @ app.route("/users/<int:user_id>", methods=["DELETE"])
@@ -92,10 +92,7 @@ def create_user_routes(app, g):
         # Auto logout
         logout_user()
 
-        result = User.delete(g, user_id)
-        print(f"Result: {result}")
-        if not (result == None) and result == "Owner":
-            return "you are still the owner of an enterprise"
+        User.delete(g, user_id)
 
         return make_response(jsonify({"message": f"User deleted with id {user_id}"}), 200)
 
@@ -159,14 +156,12 @@ def create_user_routes(app, g):
 
         if not Validator.valid_date(data["startDate"]):
             return Response.start_date_not_valid()
+
         if not Validator.valid_date(data["endDate"]):
             return Response.end_date_not_valid()
 
         if not Validator.valid_degree(data["degree"]):
             return Response.degree_not_valid()
-
-        if not Validator.valid_discipline(data["discipline"]):
-            return Response.discipline_not_valid()
 
         diploma_id = Diploma.create_for_user(g, user_id, data["degree"], data["discipline"],
                                              data["institution"], data["startDate"], data["endDate"])
@@ -178,14 +173,14 @@ def create_user_routes(app, g):
         diplomasJSON = json.loads(Diploma.get_all_by_user_id(g, user_id))
         diplomasJSON = Response.format_diplomas_json(diplomasJSON)
         
-        return Response.make_response_for_content_type_and_data(request.headers.get("Content-Type", "text/html"), data=diplomasJSON, template="diplomas.html")
+        return Response.make_response_for_content_type_and_data(request.headers.get("Accept", "text/html"), data=diplomasJSON, template="diplomas.html")
 
     @ app.route("/users/<int:user_id>/diplomas/<int:diploma_id>", methods=["GET"])
     def get_user_diploma(user_id, diploma_id):
         diplomasJSON = json.loads(Diploma.get_by_id(g, diploma_id))
         diplomasJSON = Response.format_diplomas_json(diplomasJSON)
         
-        return Response.make_response_for_content_type_and_data(request.headers.get("Content-Type", "text/html"), data=diplomasJSON, template="diploma.html")
+        return Response.make_response_for_content_type_and_data(request.headers.get("Accept", "text/html"), data=diplomasJSON, template="diploma.html")
 
     @ app.route("/users/<int:user_id>/diplomas/<int:diploma_id>", methods=["PUT"])
     @ login_required
@@ -198,14 +193,12 @@ def create_user_routes(app, g):
 
         if not Validator.valid_date(data["startDate"]):
             return Response.start_date_not_valid()
+
         if not Validator.valid_date(data["endDate"]):
             return Response.end_date_not_valid()
 
         if not Validator.valid_degree(data["degree"]):
             return Response.degree_not_valid()
-
-        if not Validator.valid_discipline(data["discipline"]):
-            return Response.discipline_not_valid()
 
         Diploma.update(g, diploma_id, data["degree"], data["discipline"],
                        data["institution"], data["startDate"], data["endDate"])
@@ -236,8 +229,7 @@ def create_user_routes(app, g):
         if session['_user_id'] != user_id:
             return Response.unauthorized_access_wrong_user()
 
-        if not Validator.valid_language(data["language"]):
-            return Response.language_not_valid()
+        # TODO: check data (check language list)
 
         Language.add_to_user(g, user_id, data["language"])
 
@@ -248,7 +240,7 @@ def create_user_routes(app, g):
         languagesJSON = json.loads(Language.get_all_by_user_id(g, user_id))
         languagesJSON = Response.format_languages_json(languagesJSON)
         
-        return Response.make_response_for_content_type_and_data(request.headers.get("Content-Type", "text/html"), data=languagesJSON, template="languages.html")
+        return Response.make_response_for_content_type_and_data(request.headers.get("Accept", "text/html"), data=languagesJSON, template="languages.html")
 
     @app.route("/users/<int:user_id>/languages/<string:language>", methods=["DELETE"])
     @login_required
@@ -274,8 +266,7 @@ def create_user_routes(app, g):
         if session['_user_id'] != user_id:
             return Response.unauthorized_access_wrong_user()
 
-        if not Validator.valid_skill(data["skill"]):
-            return Response.skill_not_valid()
+        # TODO: check data (check skill list)
 
         Skill.add_to_user(g, user_id, data["skill"])
 
@@ -286,7 +277,7 @@ def create_user_routes(app, g):
         skillsJSON = json.loads(Skill.get_all_by_user_id(g, user_id))
         skillsJSON = Response.format_skills_json(skillsJSON)
         
-        return Response.make_response_for_content_type_and_data(request.headers.get("Content-Type", "text/html"), data=skillsJSON, template="skills.html")
+        return Response.make_response_for_content_type_and_data(request.headers.get("Accept", "text/html"), data=skillsJSON, template="skills.html")
 
     @app.route("/users/<int:user_id>/skills/<string:skill>", methods=["DELETE"])
     @login_required
@@ -307,7 +298,6 @@ def create_user_routes(app, g):
     @login_required
     def create_user_experience(user_id):
         data = request.form
-        skill_list = data["skills"].split(',')
 
         # Check if logged-in user is correct
         if session['_user_id'] != user_id:
@@ -315,39 +305,34 @@ def create_user_routes(app, g):
 
         if not Validator.valid_date(data["startDate"]):
             return Response.start_date_not_valid()
+
         if not Validator.valid_date(data["endDate"]):
             return Response.end_date_not_valid()
 
-        for skill in skill_list:
-            if not Validator.valid_skill(skill):
-                return Response.skill_not_valid()
-
-        if not Validator.valid_profession(skill):
-            return Response.profession_not_valid()
+        # TODO: check data (check skill list)
 
         experience_id = WorkExperience.create_for_user(g, user_id, data["jobTitle"], data["profession"],
-                                                       skill_list, data["startDate"], data["endDate"])
-        return make_response(jsonify({"message": f"Created experience {experience_id } for user {user_id}."}), 200)
+                                                       data["skills"].split(','), data["startDate"], data["endDate"])
+        return make_response(jsonify({"message": f"Created experience {experience_id} for user {user_id}."}), 200)
 
     @app.route("/users/<int:user_id>/experiences", methods=["GET"])
     def get_user_experiences(user_id):
         experiencesJSON = json.loads(WorkExperience.get_all_by_user_id(g, user_id))
         experiencesJSON = Response.format_experiences_json(experiencesJSON)
         
-        return Response.make_response_for_content_type_and_data(request.headers.get("Content-Type", "text/html"), data=experiencesJSON, template="experiences.html")
+        return Response.make_response_for_content_type_and_data(request.headers.get("Accept", "text/html"), data=experiencesJSON, template="experiences.html")
 
     @app.route("/users/<int:user_id>/experiences/<int:experience_id>", methods=["GET"])
     def get_user_experience(user_id, experience_id):
         experiencesJSON = json.loads(WorkExperience.get_all_by_user_id(g, user_id))
         experiencesJSON = Response.format_experiences_json(experiencesJSON)
         
-        return Response.make_response_for_content_type_and_data(request.headers.get("Content-Type", "text/html"), data=experiencesJSON, template="experience.html")
+        return Response.make_response_for_content_type_and_data(request.headers.get("Accept", "text/html"), data=experiencesJSON, template="experience.html")
 
     @app.route("/users/<int:user_id>/experiences/<int:experience_id>", methods=["PUT"])
     @login_required
     def update_user_experience(user_id, experience_id):
         data = request.form
-        skill_list = data["skills"].split(',')
 
         # Check if logged-in user is correct
         if session['_user_id'] != user_id:
@@ -355,18 +340,13 @@ def create_user_routes(app, g):
 
         if not Validator.valid_date(data["startDate"]):
             return Response.start_date_not_valid()
+
         if not Validator.valid_date(data["endDate"]):
             return Response.end_date_not_valid()
 
-        for skill in skill_list:
-            if not Validator.valid_skill(skill):
-                return Response.skill_not_valid()
-
-        if not Validator.valid_profession(skill):
-            return Response.profession_not_valid()
-
         WorkExperience.update(g, user_id, data["jobTitle"], data["profession"],
-                              skill_list, data["startDate"], data["endDate"])
+                              data["skills"].split(','), data["startDate"], data["endDate"])
+
         return make_response(jsonify({"message": f"Updated experience {experience_id}."}), 200)
 
     @app.route("/users/<int:user_id>/experiences/<int:experience_id>", methods=["DELETE"])
