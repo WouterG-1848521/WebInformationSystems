@@ -145,18 +145,13 @@ def create_enterprise_routes(app, graph):
         return Enterprise.update_enterprise(graph, enterpriseID, maintainerID, name, lat, long, address, phone, email, website, description, location)
 
     # delete enterprise
-    @app.route("/enterprises", methods=['DELETE'])
+    @app.route("/enterprises/<int:enterprise_id>", methods=['DELETE'])
     @login_required
-    def delete_enterprise():
-        # request contains : enterpriseID, ownerID (for security check)
-        data = request.form
-
+    def delete_enterprise(enterprise_id):
+        
         user_id = session['_user_id']
         ownerID = user_id
-        if "enterpriseID" not in data:
-            return "enterpriseID is missing"
-        enterpriseID = data["enterpriseID"]
-        enterpriseID = int(enterpriseID)
+        enterpriseID = int(enterprise_id)
 
         return Enterprise.delete_enterprise(graph, enterpriseID, ownerID)
 
