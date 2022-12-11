@@ -1,7 +1,7 @@
 from pandas import DataFrame
 from rdflib import Literal, RDF, URIRef
 from rdflib.namespace import RDF, RDFS, FOAF, XSD
-from backend_REST.graph import ENTERPRISE, VACANCY
+from backend_REST.graph import ENTERPRISE, VACANCY, GEONAMES
 from math import sqrt
 
 from backend_REST import db
@@ -244,8 +244,9 @@ class Enterprise:
         return returndf.to_json(orient='index', indent=2)
 
     def get_onLocation(graph, location):
+        location_URI = URIRef(GEONAMES + str(location))
         query = query_enterpriseGetByLocation(location)
-        result = graph.query(query)
+        result = graph.query(query, initBindings={'location': location_URI})
 
         df = DataFrame(result, columns=result.vars)
 

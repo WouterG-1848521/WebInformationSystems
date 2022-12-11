@@ -231,7 +231,6 @@ def create_enterprise_routes(app, graph):
     def get_enterprises_location(location):
         enterprisesJSON = json.loads(Enterprise.get_onLocation(graph, location))
         return Response.make_response_for_content_type_and_data(request.headers.get("Accept", "text/html"), data=enterprisesJSON, template="enterprise.html")
-        return 
 
     # get the enterprises close to a specif lat and long
     @app.route("/enterprises/locationLL/<float:lat>/<float:long>/<float:distance>", methods=['GET'])

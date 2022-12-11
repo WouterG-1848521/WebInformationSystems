@@ -439,7 +439,6 @@ def query_enterpriseGetByAddress(address):
     return query
 
 def query_enterpriseGetByLocation(location):
-    print(location)
     query = f'''
             SELECT ?uri ?name ?owner ?maintainer ?lat ?long ?address ?description ?phone ?email ?website ?location
             WHERE {{
@@ -455,7 +454,6 @@ def query_enterpriseGetByLocation(location):
                 ?uri local:website ?website .
                 ?uri local:maintainer ?maintainer .
                 ?uri local:location ?location .
-                FILTER (?location = "gn:{location}") 
             }}
     '''
     return query
