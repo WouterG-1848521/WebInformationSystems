@@ -73,19 +73,28 @@ def create_frontend_routes(app, g):
     # @login_required
     # def show_profile_create_form(user_id):
     #     return render_template("profile_create.html", user_id=user_id)
-    @app.route("/users/<int:user_id>", methods=["GET"])
+    
+    @app.route("/users/<int:user_id>/edit", methods=["GET"])
     @login_required
-    def update_user_form(user_id):
+    def edit_user_form(user_id):
         # Check the Accept header
         content_type = request.headers.get("Accept", "text/html")
+        
+        # Check if user can edit this profile
+        if (current_user.id != user_id):
+            return render_template("401.html"), 401
+
+        data = json.loads(User.get_by_id(g, user_id))
+        data = Response.format_users_json(data)
 
         if (content_type == "application/json"):
             return make_response(jsonify({"message": f"Please use the HTML form to update the user or send a POST request to {url_for('update_user')}."}), 200)
         elif (content_type == "text/html"):
-            return make_response(render_template("update_user.html"), 200)
+            return make_response(render_template("edit_user.html", data=data), 200)
         else:
-            return make_response(render_template("update_user.html"), 200)
-   
+            return make_response(render_template("edit_user.html", data=data), 200)
+
+
     ########################################
     # Error Handling
     ########################################
@@ -101,6 +110,12 @@ def create_frontend_routes(app, g):
         """Bad request."""
         return render_template("400.html"), 400
         return make_response(jsonify({"error": "Bad request."}), 400)
+
+    @app.errorhandler(401)
+    def unauthorized(request):
+        """Unauthorized."""
+        return render_template("401.html"), 401
+        return make_response(jsonify({"error": "Unauthorized."}), 401)
 
     @app.errorhandler(500)
     def server_error(request):

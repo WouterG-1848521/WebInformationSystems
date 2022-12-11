@@ -9,7 +9,7 @@ from backend_REST.routes.frontend_routes import create_frontend_routes
 
 
 def create_routes(app, g):
-    create_login_routes(app)
+    create_login_routes(app, g)
     create_test_routes(app, g)
     create_user_routes(app, g)
     create_enterprise_routes(app, g)

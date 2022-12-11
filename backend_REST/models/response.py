@@ -28,7 +28,7 @@ import json
 
 #     def get_response(self):
 #         response = make_response(self.data, self.status)
-#         response.headers["Content-Type"] = "application/json"
+#         response.headers["Accept"] = "application/json"
 
 #         if (self.location != None):
 #             response.headers["Location"] = url_for(self.location)
@@ -108,9 +108,11 @@ class Response():
         # Format dictionary correctly for response so that each key is a user_id 
         # and the value is the user data
         newDict = {'users': {}}
+        
         for id in usersJSON['p']:
             info = {
                 "p": usersJSON['p'][id],
+                "id": int(usersJSON['p'][id].split('/')[-1]),
                 "name": usersJSON['name'][id],
                 "surname": usersJSON['surname'][id],
                 "getVacancies": usersJSON['getVacancies'][id]                
