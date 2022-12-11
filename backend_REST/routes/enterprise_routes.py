@@ -53,24 +53,33 @@ def create_enterprise_routes(app, graph):
 
         # check if data is in the request
         if "name" not in data:
+            return Response.make_response_for_content_type('application/json', status=400, message="name is missing")
             return "name is missing"
         if "lat" not in data:
+            return Response.make_response_for_content_type('application/json', status=400, message="lat is missing")
             return "lat is missing"
         if "long" not in data:
+            return Response.make_response_for_content_type('application/json', status=400, message="long is missing")
             return "long is missing"
         if "address" not in data:
+            return Response.make_response_for_content_type('application/json', status=400, message="address is missing")
             return "address is missing"
         # if "owner" not in data:
         #     return "owner is missing"
         if "phone" not in data:
+            return Response.make_response_for_content_type('application/json', status=400, message="phone is missing")
             return "phone is missing"
         if "email" not in data:
+            return Response.make_response_for_content_type('application/json', status=400, message="email is missing")
             return "email is missing"
         if "website" not in data:
+            return Response.make_response_for_content_type('application/json', status=400, message="website is missing")
             return "website is missing"
         if "description" not in data:
+            return Response.make_response_for_content_type('application/json', status=400, message="description is missing")
             return "description is missing"
         if "location" not in data:
+            return Response.make_response_for_content_type('application/json', status=400, message="location is missing")
             return "location is missing"
 
         # get the logged in user as the owner
@@ -93,13 +102,16 @@ def create_enterprise_routes(app, graph):
 
         # check if data is correct
         if name == "" or lat == "" or long == "" or location == "" or owner == "" or phone == "" or email == "" or website == "" or description == "":
+            return Response.make_response_for_content_type('application/json', status=400, message="Not all data is provided")
             return "Not all data is provided"
         if type(name) != str or type(lat) != float or type(long) != float or type(location) != str or type(owner) != int:
             print(type(name), type(lat), type(
                 long), type(location), type(owner))
+            return Response.make_response_for_content_type('application/json', status=400, message="Data is not of the correct type")
             return "Data is not of the correct type"
         # create(graph, name, lat, long, address, phone, email, website, owner, description, location)
-        return Enterprise.create(graph, name, lat, long, address, phone, email, website, owner, description, location)    
+        enterprise_message = Enterprise.create(graph, name, lat, long, address, phone, email, website, owner, description, location)    
+        return Response.make_response_for_content_type('application/json', status=201, message=enterprise_message)
 
     # update enterprise
     @app.route("/enterprises/<int:id>", methods=['PUT'])
@@ -142,7 +154,9 @@ def create_enterprise_routes(app, graph):
         if ("address" in data):
             address = data["address"] 
         # update_enterprise(graph, enterpriseID, maintainerID, name, lat, long, address, phone, email, website, description, location)
-        return Enterprise.update_enterprise(graph, enterpriseID, maintainerID, name, lat, long, address, phone, email, website, description, location)
+        enterprise_message = Enterprise.update_enterprise(graph, enterpriseID, maintainerID, name, lat, long, address, phone, email, website, description, location)
+        return Response.make_response_for_content_type('application/json', status=200, message=enterprise_message)
+
 
     # delete enterprise
     @app.route("/enterprises/<int:enterprise_id>", methods=['DELETE'])
@@ -153,7 +167,8 @@ def create_enterprise_routes(app, graph):
         ownerID = user_id
         enterpriseID = int(enterprise_id)
 
-        return Enterprise.delete_enterprise(graph, enterpriseID, ownerID)
+        message = Enterprise.delete_enterprise(graph, enterpriseID, ownerID)
+        return Response.make_response_for_content_type('application/json', status=200, message=message)
 
     # transfer ownership
     @app.route("/enterprises/transfer", methods=['PUT'])
@@ -164,12 +179,14 @@ def create_enterprise_routes(app, graph):
         user_id = session['_user_id']
         ownerID = user_id
         if "enterpriseID" not in data:
+            return Response.make_response_for_content_type('application/json', status=400, message="enterpriseID is missing")
             return "enterpriseID is missing"
         enterpriseID = data["enterpriseID"]
         enterpriseID = int(enterpriseID)
 
         # check if the newOwner is a person and a maintainer of the enterprise
         if "newOwnerID" not in data:
+            return Response.make_response_for_content_type('application/json', status=400, message="newOwnerID is missing")
             return "newOwnerID is missing"
         newOwnerID = data["newOwnerID"]
         newOwnerID = int(newOwnerID)
@@ -187,12 +204,14 @@ def create_enterprise_routes(app, graph):
         user_id = session['_user_id']
         ownerID = user_id
         if "enterpriseID" not in data:
+            return Response.make_response_for_content_type('application/json', status=400, message="enterpriseID is missing")
             return "enterpriseID is missing"
         enterpriseID = data["enterpriseID"]
         enterpriseID = int(enterpriseID)
 
         # check if the maintainer is a person and not already a maintainer of the enterprise
         if "maintainerID" not in data:
+            return Response.make_response_for_content_type('application/json', status=400, message="maintainerID is missing")
             return "maintainerID is missing"
         maintainerID = data["maintainerID"]
         maintainerID = int(maintainerID)
@@ -208,12 +227,14 @@ def create_enterprise_routes(app, graph):
         user_id = session['_user_id']
         ownerID = user_id
         if "enterpriseID" not in data:
+            return Response.make_response_for_content_type('application/json', status=400, message="enterpriseID is missing")
             return "enterpriseID is missing"
         enterpriseID = data["enterpriseID"]
         enterpriseID = int(enterpriseID)
 
         # check if the maintainer is a person and not already a maintainer of the enterprise
         if "maintainerID" not in data:
+            return Response.make_response_for_content_type('application/json', status=400, message="maintainerID is missing")
             return "maintainerID is missing"
         maintainerID = data["maintainerID"]
         maintainerID = int(maintainerID)

@@ -38,20 +38,6 @@
     owl:onClass local:diploma ;
     owl:onProperty local:startDate .
 
-diploma:10 a local:diploma ;
-    local:degree degree:master ;
-    local:discipline wd:Q21198 ;
-    local:endDate "0001-01-01"^^xsd:date ;
-    local:institution "ANYWHERE" ;
-    local:startDate "0001-01-01"^^xsd:date .
-
-diploma:11 a local:diploma ;
-    local:degree degree:master ;
-    local:discipline wd:Q2329 ;
-    local:endDate "2012-01-01"^^xsd:date ;
-    local:institution "uHasselt" ;
-    local:startDate "2012-01-01"^^xsd:date .
-
 local:enterprise owl:equivalentClass foaf:Organization .
 
 local:person owl:equivalentClass foaf:Person .
@@ -121,18 +107,7 @@ vacancy:4 a local:vacancy ;
     local:skill wd:Q167612 ;
     local:startDate "2022-12-12"^^xsd:date .
 
-vacancy:5 a local:vacancy ;
-    local:available true ;
-    local:diploma diploma:12 ;
-    local:endDate "2013-01-01"^^xsd:date ;
-    local:enterprise enterprise:1 ;
-    local:jobDescription "fjdsfsmj" ;
-    local:jobResponsibilities "qdsqdq" ;
-    local:jobSalary "ssss" ;
-    local:jobTitle "test" ;
-    local:location gn:545 ;
-    local:postedBy person:1 ;
-    local:startDate "2012-01-01"^^xsd:date .
+vacancy:5 local:diploma diploma:10 .
 
 foaf:knows a owl:SymmetricProperty .
 
@@ -163,12 +138,12 @@ diploma:1 a local:diploma ;
     local:institution "uHasselt" ;
     local:startDate "2018-09-01"^^xsd:date .
 
-diploma:12 a local:diploma ;
+diploma:10 a local:diploma ;
     local:degree degree:master ;
-    local:discipline wd:Q2329 ;
-    local:endDate "2012-01-01"^^xsd:date ;
-    local:institution "uHasselt" ;
-    local:startDate "2012-01-01"^^xsd:date .
+    local:discipline wd:Q21198 ;
+    local:endDate "0001-01-01"^^xsd:date ;
+    local:institution "ANYWHERE" ;
+    local:startDate "0001-01-01"^^xsd:date .
 
 diploma:2 a local:diploma ;
     local:degree degree:master ;
@@ -226,6 +201,19 @@ diploma:9 a local:diploma ;
     local:institution "uHasselt" ;
     local:startDate "2018-09-01"^^xsd:date .
 
+enterprise:1 a foaf:Organization ;
+    local:description "Enterpise" ;
+    local:email "web.enterprise@gmail.com" ;
+    local:location gn:2796491 ;
+    local:maintainer person:1 ;
+    local:owner person:1 ;
+    local:phone "123" ;
+    local:website "https://web.com" ;
+    geo:address "Hasselt straat 2" ;
+    geo:lat 23 ;
+    geo:long 30 ;
+    foaf:name "WEB Enterprise" .
+
 enterprise:2 a foaf:Organization ;
     local:description "Universiteit" ;
     local:email "kul@gmail.com" ;
@@ -272,29 +260,6 @@ experience:1 a local:experience ;
     local:skill wd:Q24288 ;
     local:startDate "2018-09-01"^^xsd:date .
 
-enterprise:1 a foaf:Organization ;
-    local:description "Enterpise" ;
-    local:email "web.enterprise@gmail.com" ;
-    local:location gn:2796491 ;
-    local:maintainer person:1 ;
-    local:owner person:1 ;
-    local:phone "123" ;
-    local:website "https://web.com" ;
-    geo:address "Hasselt straat 2" ;
-    geo:lat 23 ;
-    geo:long 30 ;
-    foaf:name "WEB Enterprise" .
-
-person:2 a foaf:Person ;
-    local:diploma diploma:2,
-        diploma:3 ;
-    local:email "brent@gmail.com" ;
-    local:getVacancies true ;
-    foaf:name "Brent" ;
-    foaf:surname "Zoomers" .
-
-wd:Q431 owl2:equivalentClass wd:Q420 .
-
 person:1 a foaf:Person ;
     local:diploma diploma:1 ;
     local:email "joris@gmail.com" ;
@@ -305,6 +270,16 @@ person:1 a foaf:Person ;
         wd:Q80006 ;
     foaf:name "Joris" ;
     foaf:surname "Bertram" .
+
+person:2 a foaf:Person ;
+    local:diploma diploma:2,
+        diploma:3 ;
+    local:email "brent@gmail.com" ;
+    local:getVacancies true ;
+    foaf:name "Brent" ;
+    foaf:surname "Zoomers" .
+
+wd:Q431 owl2:equivalentClass wd:Q420 .
 
 person:3 a foaf:Person ;
     local:diploma diploma:4 ;
