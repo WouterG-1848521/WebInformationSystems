@@ -19,7 +19,7 @@
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item"><a class="nav-link active" href="/"><span class="underline">Home</span></a></li>
                     {% if current_user.is_authenticated %}
-                    <li class="nav-item"><a class="nav-link" href="/users/{{current_user.id}}">My profile</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/profile">My profile</a></li>
                     <li class="nav-item"><a class="nav-link" href="/enterprises">My enterprises</a></li>
                     <li class="nav-item"><a class="nav-link" href="/connections">My connections</a></li>
                     <li class="nav-item"><a class="nav-link" href="/matches">My matches</a></li>
@@ -40,13 +40,7 @@
             <div class="row pt-5">
                 <div class="col-md-8 text-center text-md-start mx-auto">
                     <div class="text-center">
-                        {% set users = data['users'] %}
-                        {% if 0 in users.keys() %}
-                        <h1 class="display-4 fw-bold mb-5"><span class="underline">{{ users[0]['name']+' '+users[0]['surname'] }}</span></h1>
-                        <p class="lead fw-normal text-muted mb-4">{{ users[0]['p'] }}</p>
-                        {% else %}
-                        <h1 class="display-4 fw-bold mb-5"><span class="underline">No user found</span></h1>
-                        {% endif %}
+                        <h1 class="display-4 fw-bold mb-5"><span class="underline">Vacancies</span></h1>
                     </div>
                 </div>
                 <!-- <div class="col-12 col-lg-10 mx-auto">
@@ -60,25 +54,22 @@
             <div class="row pt-5">
                 <div class="col-md-8 text-center text-md-start mx-auto">
                     <div class="card-columns">
-                        {% set users = data['users'] %}
-                        {% if not users %}
-                            <p>There are no users</p>
+                        {% set vacancies = data['vacancies'] %}
+                        {% if not vacancies %}
+                            <p>There are no vacancies</p>
                         {% else %}
-                            {% for id in users %}
-                                {% set user = users[id] %}
-                                <div class="card mb-3">
+                            {% for id in vacancies %}
+                                {% set vacancy = vacancies[id] %}
+                                <div class="card">
                                 <div class="card-body">
-                                    <h5 class="card-title">{{ user['name'] }} {{ user['surname'] }}</h5>
-                                    <p class="card-text">{{ user['p'] }}</p>
+                                    <h5 class="card-title">{{ vacancy['v'] }}</h5>
+                                    <p class="card-text">
+                                        <b>Job Title</b>: {{ vacancy['jobTitle'] }} </br>
+                                        <b>Location</b>: {{ vacancy['location'] }} </br>
+                                        <b>Maintainer</b>: {{ vacancy['maintainerId'] }} </br>
+                                        <b>Open from</b> {{ vacancy['startDate'] }} <b>until</b> {{ vacancy['endDate'] }}</p>
                                 </div>
-
-                                {% if current_user.is_authenticated and current_user.id == user_id %}
-                                <div class="card-footer">
-                                    <button type="button" class="btn btn-primary">Edit</button>
-                                  </div>
-                                </div>
-                                {% endif %}
-                            {% endfor %}
+                            {% endfor %}    
                         {% endif %}
                     </div>
                 </div>

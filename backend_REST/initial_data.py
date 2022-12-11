@@ -56,11 +56,11 @@ def set_enterprises(graph):
 
 def set_vacancies(graph):
     # create(graph, enterprise_id, maintainer_id, job_title, start_date, end_date, location_id, job_desciption, job_responsibilities, job_salary)
-    Vacancy.create(graph, 1, 1, "Q593644", "2022-12-12", "2023-01-12", "2796491", "JobDescription", "JOBResponsibilities", 3100)
-    Vacancy.create(graph, 2, 2, "Q901", "2022-12-12", "2023-01-12", "2796492", "Teaching assistant", "examens maken", 2800)
-    Vacancy.create(graph, 3, 3, "Q9402", "2022-12-12", "2023-01-12", "2796493", "kassamedewerker", "Werken met klanten", 2300)
+    Vacancy.create(graph, 1, 1, "Web Developer", "2022-12-12", "2023-01-12", "2796491", "JobDescription", "JOBResponsibilities", 3100)
+    Vacancy.create(graph, 2, 2, "Teaching assistant", "2022-12-12", "2023-01-12", "2796492", "Teaching assistant", "examens maken", 2800)
+    Vacancy.create(graph, 3, 3, "Kassa medewerker", "2022-12-12", "2023-01-12", "2796493", "Kassa medewerker", "Werken met klanten", 2300)
     # Vacancy.create(graph, 3, 3, "Q11063", "2022-12-12", "2023-01-12", "2796494", "kassamedewerker", "Werken met klanten", 2200)
-    Vacancy.create(graph, 4, 3, "Q11063", "2022-12-12", "2023-01-12", "2796494", "Manager", "Niets", 2900)
+    Vacancy.create(graph, 4, 3, "Manager", "2022-12-12", "2023-01-12", "2796494", "Manager", "Niets", 2900)
 
 
 def set_diplomas(graph):

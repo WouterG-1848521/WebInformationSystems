@@ -16,24 +16,6 @@ local:enterprise owl:equivalentClass foaf:Organization .
 
 local:person owl:equivalentClass foaf:Person .
 
-person:23 a foaf:Person ;
-    local:email "gwendolinenssn@gmail.com" ;
-    local:getVacancies true ;
-    foaf:name "Cooper" ;
-    foaf:surname "Nijssen" .
-
-person:24 a foaf:Person ;
-    local:email "janjanssen@gmail.com" ;
-    local:getVacancies true ;
-    foaf:name "Jan" ;
-    foaf:surname "Janssen" .
-
-person:25 a foaf:Person ;
-    local:email "janniejanssen@gmail.com" ;
-    local:getVacancies true ;
-    foaf:name "Jannie" ;
-    foaf:surname "Janssen" .
-
 person:4 a foaf:Person ;
     local:diploma diploma:4 ;
     local:email "gwennie@gmail.com" ;
@@ -49,7 +31,7 @@ vacancy:1 a local:vacancy ;
     local:jobDescription "JobDescription" ;
     local:jobResponsibilities "JOBResponsibilities" ;
     local:jobSalary 3100 ;
-    local:jobTitle "Q593644" ;
+    local:jobTitle "Web Developer" ;
     local:language wd:Q1860 ;
     local:location gn:2796491 ;
     local:postedBy person:1 ;
@@ -64,7 +46,7 @@ vacancy:2 a local:vacancy ;
     local:jobDescription "Teaching assistant" ;
     local:jobResponsibilities "examens maken" ;
     local:jobSalary 2800 ;
-    local:jobTitle "Q901" ;
+    local:jobTitle "Teaching assistant" ;
     local:language wd:Q7411 ;
     local:location gn:2796492 ;
     local:postedBy person:2 ;
@@ -76,10 +58,10 @@ vacancy:3 a local:vacancy ;
     local:diploma diploma:7 ;
     local:endDate "2023-01-12"^^xsd:date ;
     local:enterprise enterprise:3 ;
-    local:jobDescription "kassamedewerker" ;
+    local:jobDescription "Kassa medewerker" ;
     local:jobResponsibilities "Werken met klanten" ;
     local:jobSalary 2300 ;
-    local:jobTitle "Q9402" ;
+    local:jobTitle "Kassa medewerker" ;
     local:location gn:2796493 ;
     local:postedBy person:3 ;
     local:skill wd:Q102066 ;
@@ -93,7 +75,7 @@ vacancy:4 a local:vacancy ;
     local:jobDescription "Manager" ;
     local:jobResponsibilities "Niets" ;
     local:jobSalary 2900 ;
-    local:jobTitle "Q11063" ;
+    local:jobTitle "Manager" ;
     local:location gn:2796494 ;
     local:postedBy person:3 ;
     local:skill wd:Q167612 ;

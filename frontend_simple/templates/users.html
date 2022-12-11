@@ -55,24 +55,27 @@
                 <div class="col-md-8 text-center text-md-start mx-auto">
                     <div class="card-columns">
                         {% set users = data['users'] %}
-                        {% if users is none %}
+                        {% if not users %}
                             <p>There are no users</p>
                         {% else %}
                             {% for id in users %}
                                 {% set user = users[id] %}
-                                <div class="card mb-3">
+                                <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ user['name'] }} {{ user['surname'] }}</h5>
                                     <p class="card-text">{{ user['p'] }}</p>
                                 </div>
 
+                                {% if current_user.is_authenticated%}
                                 <div class="card-footer">
+                                    <button type="button" class="btn btn-primary">Edit</button>
                                     <a href="/users/{{ user['p'].split('person')[1] }}">View profile</a>
                                   </div>
                                 </div>
+                                {% endif %}
 
                                 
-                            {% endfor %}
+                            {% endfor %}    
                         {% endif %}
                     </div>
                 </div>

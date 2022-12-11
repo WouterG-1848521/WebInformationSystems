@@ -319,7 +319,7 @@ def create_user_routes(app, g):
     def get_user_experiences(user_id):
         experiencesJSON = json.loads(WorkExperience.get_all_by_user_id(g, user_id))
         experiencesJSON = Response.format_experiences_json(experiencesJSON)
-        
+        print(experiencesJSON)
         return Response.make_response_for_content_type_and_data(request.headers.get("Accept", "text/html"), data=experiencesJSON, template="experiences.html")
 
     @app.route("/users/<int:user_id>/experiences/<int:experience_id>", methods=["GET"])
