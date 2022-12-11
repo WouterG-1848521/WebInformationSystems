@@ -10,19 +10,10 @@ from config import GRAPH_FILE
 from backend_REST.models.database import DBEnterprise
 
 from backend_REST.queries import query_enterpriseGetAll, query_enterpriseGetById, query_enterpriseGetByName, query_enterpriseGetByLocation, check_maintainer, check_owner, check_person
-from backend_REST.queries import create_enterpriseRDF, query_update_enterpriseRDF, query_enterpriseGetByAddress, query_transfer_ownershipRDF
+from backend_REST.queries import create_enterpriseRDF, query_update_enterpriseRDF, query_enterpriseGetByAddress, query_transfer_ownershipRDF, query_enterpriseGetByOwner
 from backend_REST.queries import query_remove_maintainerRDF, query_add_maintainerRDF, check_enterprise, query_enterpriseGetByLocation, query_getVacanciesOfEnterprise
 
-gFile = "graph.ttl"
-
-# DONE @wouter: delete omzetten naar rdflib vorm en extra controleren
-# DONE @wouter: bij delete de bijhorende vacancies ook verwijderen
-# DONE : update omzetten
-# DONE : create omzetten
-# DONE : log in testen
-# DONE : ID by create uit db halen
-# DONE @wouter: matchen on lacation
-# DONE @wouter: groeperen per maintainer
+gFile = GRAPH_FILE
 
 def groupByMaintainer(df):
     r = DataFrame()
@@ -100,8 +91,7 @@ class Enterprise:
         
         # Get user_id
         enterpriseID = enterprise.id
-        print(enterpriseID)
-
+        print(owner)
         create_enterpriseRDF(graph, name, owner, lat, long, address, phone, email, website, description, enterpriseID, location)
 
         graph.serialize(destination=gFile)
@@ -114,7 +104,7 @@ class Enterprise:
             return "Enterprise does not exist"
 
         # check if the maintainer is allowed to update the enterprise
-        if not (check_maintainer(graph, maintainerID, enterpriseID)):
+        if not (check_maintainer(graph, enterpriseID, maintainerID)):
             return "only maintainer of enterprise can update the enterprise"
 
         query = query_update_enterpriseRDF(name, lat, long, address, phone, email, website, description, enterpriseID, location)
@@ -168,12 +158,14 @@ class Enterprise:
             return "Enterprise does not exist"
 
         # check if the owner is allowed to transfer the enterprise
-        if not (check_owner(graph, ownerID, enterpriseID)):
+        # check_owner(graph, enterpriseID, ownerID)
+        if not (check_owner(graph, enterpriseID, ownerID)):
             return "only owner of enterprise can transfer the enterprise"
 
         if not (check_person(graph, newOwnerID)):
             return "newOwner is not a person"
-
+        print(enterpriseID, newOwnerID)
+                # check_maintainer(graph, enterpriseID, maintainerID)
         if not (check_maintainer(graph, enterpriseID, newOwnerID)):
             return "new owner is not a maintainer of the enterprise"
         
@@ -189,7 +181,7 @@ class Enterprise:
             return "Enterprise does not exist"
 
         # check if the owner is allowed to transfer the enterprise
-        if not (check_owner(graph, ownerID, enterpriseID)):
+        if not (check_owner(graph, enterpriseID, ownerID)):
             return "only owner of enterprise can transfer the enterprise"
 
         if not (check_person(graph, maintainerID)):
@@ -260,3 +252,12 @@ class Enterprise:
         df = groupByMaintainer(df)
 
         return df.to_json(orient='index', indent=2)
+
+    def get_personIsOwner(graph, ownerURI):
+        query = query_enterpriseGetByOwner(ownerURI)
+        result = graph.query(query)
+
+        if (len(result) == 0):
+            return False
+        return True
+

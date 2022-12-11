@@ -92,7 +92,8 @@ def create_vacancy_routes(app, graph):
         if not Validator.valid_date(data["endDate"]):
             return Response.end_date_not_valid()
 
-        # TODO: check if discipline in list
+        if not Validator.valid_discipline(data["discipline"]):
+            return Response.discipline_not_valid()
 
         diploma_id = Diploma.create_for_vacancy(graph, vacancy_id, data["degree"], data["discipline"],
                                                 data["institution"], data["startDate"], data["endDate"], data["location_id"])
@@ -121,7 +122,8 @@ def create_vacancy_routes(app, graph):
         if not Validator.valid_date(data["endDate"]):
             return Response.end_date_not_valid()
 
-        # TODO: check if discipline in list
+        if not Validator.valid_discipline(data["discipline"]):
+            return Response.discipline_not_valid()
 
         Diploma.update(graph, diploma_id, data["degree"], data["discipline"],
                        data["institution"], data["startDate"], data["endDate"])
@@ -154,7 +156,8 @@ def create_vacancy_routes(app, graph):
         if not (check_maintainer(graph, session['_user_id'], enterprise_id)):
             return "only maintainer of enterprise can add skill to vacancy"
 
-        # TODO: check if skill in list
+        if not Validator.valid_skill(data["skill"]):
+            return Response.skill_not_valid()
 
         Skill.add_to_vacancy(graph, vacancy_id, data["skill"])
 
@@ -186,7 +189,8 @@ def create_vacancy_routes(app, graph):
         if not (check_maintainer(graph, session['_user_id'], enterprise_id)):
             return "only maintainer of enterprise can delete vacancy diploma"
 
-        # TODO: check if language in list
+        if not Validator.valid_language(data["skill"]):
+            return Response.language_not_valid()
 
         Language.add_to_vacancy(graph, vacancy_id, data["language"])
 
@@ -196,7 +200,7 @@ def create_vacancy_routes(app, graph):
     def get_all_languages_by_vacancy_id(enterprise_id, vacancy_id):
 
         return Language.get_all_by_vacancy_id(graph, vacancy_id)
-    
+
     @app.route("/enterprises/<int:enterprise_id>/vacancies/<int:vacancy_id>/languages/<string:language>", methods=['DELETE'])
     def remove_language_from_vacancy(enterprise_id, vacancy_id, language):
 

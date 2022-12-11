@@ -5,7 +5,7 @@ from .queries import query_getVacancy, query_personByDiscipline, check_valid_vac
 from .queries import query_getDiplomasFromVacancy, query_getSkillsFromVacancy, query_personBySkill, query_getLanguagesFromVacancy, query_personByLanguage
 from .queries import query_getExperiencesFromPerson, query_getDiplomasFromPerson, query_getSkillsFromPerson, query_getLanguagesFromPerson, query_getExperienceFromVacancy
 from .queries import query_personByExperience, query_vacancyByDiploma, query_vacancyBySkill, query_vacancyByLanguage, query_vacancyByExperience
-from .queries import query_getDisciplinesFromVacancy, query_vacancyByDiscipline, query_getDisciplinessFromPerson
+from .queries import query_getDisciplinesFromVacancy, query_vacancyByDiscipline, query_getDisciplinessFromPerson, query_getSkillsFromexperiencesOfVacancy, query_getSkillsFromexperiencesOfPerson
 
 
 def getPersonsWithDiploma(graph, diploma):
@@ -116,6 +116,7 @@ def getVacanciesForExperience(graph, experience):
 def getVacanciesByIDs(graph, vacancyIDs):
     # for every vacancy get all the information
     vacancies = list(set(vacancyIDs))
+    print(vacancies)
     matches = {}
     for vacancy in vacancies:
         query = query_getVacancy(vacancy)
@@ -133,6 +134,8 @@ def getVacanciesByIDs(graph, vacancyIDs):
             else:
                 for j in range(len(row)):
                     key = df.keys()[j].n3()
+                    if (row.iloc[j] == None):
+                        continue
                     val = row.iloc[j].n3()
                     if not (key in matches[vacancy]):
                         matches[vacancy][key] = val
@@ -157,18 +160,10 @@ def getVacanciesByIDs(graph, vacancyIDs):
 ##################################################################
 
 # TODO @wouter: testen
-# DONE : individuele matching aanpassen aan ander stramien, eerst data van user/vacancy opvragen en deze gebruiken om andere te queryen
-
-# DONE : pass queries aan met equivalent skills
-# TODO @wouter: experience heeft ook skills, deze ook matchen met de skills? of gewoon op experience matchen
-# DONE : groepeer returned values per person/vacancy
-# DONE : add column names
+# DONE @wouter: matching van vacancies enkel als ze open zijn en bij personen enkel als ze ze willen
+# DONE @wouter: experience heeft ook skills, deze ook matchen met de skills? of gewoon op experience matchen
 # TODO @wouter: checken dat het toch niet beter kan via dataframe tojson
-# DONE @wouter: matchen bij diploma's -> niet op diploma in het algemeen maar op de profession/discipline erin
 
-# DONE : ik check by vacancies that ze available zijn via "availability = 'true'"
-#      Dit lijkt enkel te werken als we specifieren dat het een boolean is? via local:availability "true"^^xsd:boolean 
-#  -> ofwel schrijven we "true"^^xsd:boolean ofwel gewoon true (zonder quotes) en dan wordt het automatisch een boolean
 
 def matchOnVacancy_anyParameters(graph, vacancyID):
         # check if the vacancy exists
@@ -255,13 +250,13 @@ def matchOnVacancy_allParameters(graph, vacancyID):
     filled = False
 
     # find matches on diploma
-    query = query_getDiplomasFromVacancy(vacancyID)
+    query = query_getDisciplinesFromVacancy(vacancyID)
     result = graph.query(query)
-    diplomas = [row.diploma.n3() for row in result]
-    # print("diplomas: ", diplomas)
+    disciplines = [row.discipline.n3() for row in result]
+    # print("disciplines: ", disciplines)
     temp = matches.copy()
-    for diploma in diplomas:
-        result = getPersonsWithDiploma(graph, diploma)
+    for disciplines in disciplines:
+        result = getPersonsWithDiscipline(graph, disciplines)
         if (len(matches) == 0 and not filled): # first time we just add everything
             temp = result
             filled = True
@@ -271,7 +266,7 @@ def matchOnVacancy_allParameters(graph, vacancyID):
                     del temp[key]
         matches = temp.copy()
                 
-    # print("after diploma: ", matches)
+    # print("after disciplines: ", matches)
 
     # find matches on skills
     query = query_getSkillsFromVacancy(vacancyID)
@@ -537,6 +532,7 @@ def matchVacancy_language(graph, vacancyID):
     return df.to_json(orient='index', indent=2)
 
 # get all the persons that match the experience of the vacancy
+# deprecated
 def matchVacancy_experience(graph, vacancyID):
     # check the vacancy exists
     if not (check_valid_vacancy(graph, vacancyID)):
@@ -544,17 +540,20 @@ def matchVacancy_experience(graph, vacancyID):
 
 
     # get all the experience of the vacnacy
-    query = query_getExperienceFromVacancy(vacancyID)
+    # query = query_getExperienceFromVacancy(vacancyID)
+    query = query_getSkillsFromexperiencesOfVacancy(vacancyID)
     result = graph.query(query)
-    exp = [row.exp.n3() for row in result]
+    skills = [row.skill.n3() for row in result]
 
-    if (len(exp) == 0):
-        return "vacancy has no experiences", 404
+    if (len(skills) == 0):
+        return "vacancy has no experiences skills", 404
+
+    skills = list(set(skills))
 
     # get all the vacancies that require this diploma
     persons = []
-    for i in range(len(exp)):
-        result = getPersonWithExperience(graph, exp[i])
+    for i in range(len(skills)):
+        result = getPersonWithSkill(graph, skills[i])
         for el in result:
             persons.append(el)
 
@@ -608,8 +607,8 @@ def matchPerson_skill(graph, personID):
         result = getVacanciesForSkill(graph, skills[i])
         for el in result:
             vacancies.append(el)
-    
-    return getVacanciesByIDs(graph, result)
+
+    return getVacanciesByIDs(graph, vacancies)
 
 # get all the vacanies that match the langauages of the person
 def matchPerson_language(graph, personID):
@@ -634,24 +633,26 @@ def matchPerson_language(graph, personID):
     
     return getVacanciesByIDs(graph, result)
 
-# get all the vacanies that match the experience of the person
+# get all the vacanies that match the skills in the  experience of the person
 def matchPerson_experience(graph, personID):
     # check the experience exists
     if not (check_person(graph, personID)):
         return "person not found", 404
 
     # get all the diploma of the person
-    query = query_getExperiencesFromPerson(personID)
+    # query = query_getExperiencesFromPerson(personID)
+    query = query_getSkillsFromexperiencesOfPerson(personID)
     result = graph.query(query)
-    experiences = [row.exp.n3() for row in result]
+    skills = [row.skill.n3() for row in result]
+    print(skills)
 
-    if (len(experiences) == 0):
-        return "person has no experiences", 404
+    if (len(skills) == 0):
+        return "person has no skills in their experiences", 404
 
     # get all the vacancies that require this diploma
     vacancies = []
-    for i in range(len(experiences)):
-        result = getVacanciesForExperience(graph, experiences[i])
+    for i in range(len(skills)):
+        result = getVacanciesForSkill(graph, skills[i])
         for el in result:
             vacancies.append(el)
 

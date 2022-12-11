@@ -1,5 +1,6 @@
 import hashlib
 from rdflib.namespace import FOAF, RDF, OWL
+from backend_REST.graph import LOCAL
 
 from config import GRAPH_FILE
 
@@ -22,6 +23,8 @@ def clear_graph(app, graph):
 def set_initial_graph_properties(graph):
     # TODO : Add more?
     graph.add((FOAF.knows, RDF.type, OWL.SymmetricProperty))
+    graph.add((LOCAL.enterprise, OWL.equivalentClass, FOAF.Organization))
+    graph.add((LOCAL.person, OWL.equivalentClass, FOAF.Person))
 
 
 def set_initial_graph_data(graph):
@@ -44,43 +47,56 @@ def set_users(graph):
 
 
 def set_enterprises(graph):
-    pass
+    # create(graph, name, lat, long, address, phone, email, website, owner, description, location)
+    Enterprise.create(graph, "CS Enterprise", 23, 30, "Hasselt straat 2", "123", "cs.enterprise@gmail.com", "cs.com", 1, "Computer Science Agency", "2796491")
+    Enterprise.create(graph, "KU Leuven", 50, 30, "Leuven straat 7", "0478521632", "KUL@gmail.com", "KUL.com", 2, "Universiteit", "2796492")
+    Enterprise.create(graph, "Aldi", 25, 31, "Aarschot straat 1", "013558899", "Aldi.Aarschot@gmail.com", "ALDIE.com", 3, "Winkel", "2796493")
+    Enterprise.create(graph, "Colruyt", 30, 20, "Scherpenheuvel straat 8", "0475654789", "Colruyt.Scherp@gmail.com", "COLRUYT.com", 3, "Winkel", "2796494")
 
 
 def set_vacancies(graph):
-    # TODO: after enterprise are done set enterprise URI to one in 'set_enterprise'
-    Vacancy.create(graph, 1, 1, "software_developer", "2022-12-12", "2023-01-12", 2796491)
-    Vacancy.create(graph, 1, 1, "data_engineer", "2022-12-12", "2023-01-12", 2796491)
-    Vacancy.create(graph, 1, 1, "data_analyst", "2022-12-12", "2023-01-12", 2796491)
-    Vacancy.create(graph, 1, 1, "data_scientist", "2022-12-12", "2023-01-12", 2796491)
+    # create(graph, enterprise_id, maintainer_id, job_title, start_date, end_date, location_id, job_desciption, job_responsibilities, job_salary)
+    Vacancy.create(graph, 1, 1, "Q593644", "2022-12-12", "2023-01-12", "2796491", "JobDescription", "JOBResponsibilities", 3100)
+    Vacancy.create(graph, 2, 2, "Q901", "2022-12-12", "2023-01-12", "2796492", "Teaching assistant", "examens maken", 2800)
+    Vacancy.create(graph, 3, 3, "Q9402", "2022-12-12", "2023-01-12", "2796493", "kassamedewerker", "Werken met klanten", 2300)
+    Vacancy.create(graph, 3, 3, "Q11063", "2022-12-12", "2023-01-12", "2796494", "kassamedewerker", "Werken met klanten", 2200)
+    Vacancy.create(graph, 4, 3, "Q11063", "2022-12-12", "2023-01-12", "2796494", "Manager", "Niets", 2900)
 
 
 def set_diplomas(graph):
-    Diploma.create_for_user(graph, 1, "bachelor", "computer_science", "uHasselt", "2018-09-01", "2022-06-30")
-    Diploma.create_for_user(graph, 2, "bachelor", "architect", "uHasselt", "2018-09-01", "2022-06-30")
-    Diploma.create_for_user(graph, 3, "bachelor", "biology", "uHasselt", "2018-09-01", "2022-06-30")
-    Diploma.create_for_user(graph, 4, "bachelor", "chemistry", "uHasselt", "2018-09-01", "2022-06-30")
+    # create_for_user(graph, user_id, degree, discipline_id, institiution, startDate, endDate)
+    Diploma.create_for_user(graph, 1, "bachelor", "Q21198", "uHasselt", "2018-09-01", "2022-06-30")
+    Diploma.create_for_user(graph, 2, "master", "Q21198", "KUL", "2018-09-01", "2022-06-30")
+    Diploma.create_for_user(graph, 2, "bachelor", "Q431", "uHasselt", "2018-09-01", "2022-06-30")
+    Diploma.create_for_user(graph, 3, "bachelor", "Q420", "uHasselt", "2018-09-01", "2022-06-30")
+    Diploma.create_for_user(graph, 4, "bachelor", "Q2329", "uHasselt", "2018-09-01", "2022-06-30")
     
-    Diploma.create_for_vacancy(graph, 1, "bachelor", "computer_science", "uHasselt", "2018-09-01", "2022-06-30")
-    Diploma.create_for_vacancy(graph, 2, "bachelor", "computer_science", "uHasselt", "2018-09-01", "2022-06-30")
-    Diploma.create_for_vacancy(graph, 3, "bachelor", "computer_science", "uHasselt", "2018-09-01", "2022-06-30")
-    Diploma.create_for_vacancy(graph, 4, "bachelor", "computer_science", "uHasselt", "2018-09-01", "2022-06-30")
+    # create_for_vacancy(graph, vacancy_id, degree, discipline_id, institiution, startDate, endDate)
+    Diploma.create_for_vacancy(graph, 1, "bachelor", "Q21198", "uHasselt", "2018-09-01", "2022-06-30")
+    Diploma.create_for_vacancy(graph, 2, "bachelor", "Q431", "uHasselt", "2018-09-01", "2022-06-30")
+    Diploma.create_for_vacancy(graph, 3, "bachelor", "Q420", "uHasselt", "2018-09-01", "2022-06-30")
+    Diploma.create_for_vacancy(graph, 4, "bachelor", "Q2329", "uHasselt", "2018-09-01", "2022-06-30")
+    Diploma.create_for_vacancy(graph, 5, "master", "Q21198", "ANYWHERE", "000-00-00", "000-00-00")
 
 
 def set_experiences(graph):
-    WorkExperience.create_for_user(graph, 1, "Web Developer", ["leadership", "teamwork"], "2018-09-01", "2022-06-30")
+    # create_for_user(graph, user_id, job_title, profession_id, skills, start_date, end_date)
+    WorkExperience.create_for_user(graph, 3, "Computer Science Student", "Q9402", ["Q24288", "Q80006"], "2018-09-01", "2022-06-30")
 
 
 def set_skills(graph):
-    Skill.add_to_user(graph, 1, "leadership")
-    Skill.add_to_user(graph, 1, "teamwork")
+    Skill.add_to_user(graph, 1, "Q24288")
+    Skill.add_to_user(graph, 1, "Q80006")
     
-    Skill.add_to_vacancy(graph, 1, "teamwork")
-    Skill.add_to_vacancy(graph, 2, "teamwork")
-    Skill.add_to_vacancy(graph, 3, "teamwork")
-    Skill.add_to_vacancy(graph, 4, "teamwork")
+    Skill.add_to_vacancy(graph, 1, "Q24288")
+    Skill.add_to_vacancy(graph, 2, "Q80006")
+    Skill.add_to_vacancy(graph, 3, "Q102066")
+    Skill.add_to_vacancy(graph, 4, "Q167612")
 
 
 def set_languages(graph):
-    Language.add_to_user(graph, 1, "english")
-    Language.add_to_user(graph, 1, "dutch")
+    Language.add_to_user(graph, 1, "Q1860")
+    Language.add_to_user(graph, 3, "Q7411")
+
+    Language.add_to_vacancy(graph, 1, "Q1860")
+    Language.add_to_vacancy(graph, 2, "Q7411")

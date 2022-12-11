@@ -41,12 +41,13 @@ query += f'''
                     ?uri foaf:name ?name .
                     ?uri foaf:surname ?surname .
                     ?uri local:email ?email .
-                    ?uri local:skill ?skill .
-                    ?skill rdf:type local:skill .
+                    ?uri local:language ?language .
+                    ?uri local:getVacancies ?v
                     OPTIONAL {{
-                        ?skill owl:equivalentClass ?input .
+                        ?language owl:equivalentClass ?input .
+                        ?input owl:equivalentClass ?language .
                     }}
-                    FILTER (?skill = <http://localhost/skill/teamwork> || ?input = <http://localhost/skill/teamwork>)
+                    FILTER ((?input = <http://www.wikidata.org/entity/Q1860> || ?language = <http://www.wikidata.org/entity/Q1860>) && ?v = true)
                 }}
         '''                
 print(query)
