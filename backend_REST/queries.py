@@ -6,25 +6,6 @@ from pandas import DataFrame
 from backend_REST.graph import LOCAL, PERSON, EXPERIENCE, VACANCY, DIPLOMA, GEO, ENTERPRISE
 from config import GRAPH_FILE
 
-prefixes = '''
-                prefix foaf: <http://xmlns.com/foaf/0.1/> 
-                prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> 
-                prefix owl: <http://www.w3.org/2002/07/owl#> 
-                prefix owl2: <http://www.w3.org/2006/12/owl2#> 
-                prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
-                prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
-                prefix xsd: <http://www.w3.org/2001/XMLSchema#> 
-                prefix local: <http://localhost/> 
-                prefix profession: <http://localhost/profession/> 
-                prefix degree: <http://localhost/degree/> 
-                prefix enterprise: <http://localhost/enterprise/>
-                prefix person: <http://localhost/person/> 
-                prefix vacancy: <http://localhost/vacancy/> 
-                prefix skill: <http://localhost/skill/> 
-                prefix diploma: <http://localhost/diploma/> 
-                prefix language: <http://localhost/language/> 
-                prefix experience: <http://localhost/experience/>
-            '''
 graphFile = GRAPH_FILE
 
 #########################################################
@@ -32,8 +13,7 @@ graphFile = GRAPH_FILE
 #########################################################
 
 def check_maintainer(graph, enterpriseID, maintainerID):
-    query = prefixes + "\n"
-    query += f'''
+    query = f'''
                 SELECT ?maintainer
                 WHERE {{
                     ?enterprise rdf:type foaf:Organization .
@@ -50,8 +30,7 @@ def check_maintainer(graph, enterpriseID, maintainerID):
         return True
 
 def check_owner(graph, enterpriseID, ownerID):
-    query = prefixes + "\n"
-    query += f'''
+    query = f'''
                 SELECT ?owner
                 WHERE {{
                     ?enterprise rdf:type foaf:Organization .
@@ -68,8 +47,7 @@ def check_owner(graph, enterpriseID, ownerID):
         return True
 
 def check_person(graph, personID):
-    query = prefixes + "\n"
-    query += f'''
+    query = f'''
                 SELECT ?person
                 WHERE {{
                     ?person rdf:type foaf:Person .
@@ -84,8 +62,7 @@ def check_person(graph, personID):
         return True
 
 def check_enterprise(graph, enterpriseID):
-    query = prefixes + "\n"
-    query += f'''
+    query = f'''
                 SELECT ?enterprise
                 WHERE {{
                     ?enterprise rdf:type foaf:Organization .
@@ -100,8 +77,7 @@ def check_enterprise(graph, enterpriseID):
         return True
 
 def check_valid_vacancy(graph, vacancyID):
-    query = prefixes + "\n"
-    query += f'''
+    query = f'''
                 SELECT ?vacancy
                 WHERE {{
                     ?vacancy rdf:type local:vacancy .
@@ -116,8 +92,7 @@ def check_valid_vacancy(graph, vacancyID):
         return True
 
 def check_diploma(graph, diplomaID):
-    query = prefixes + "\n"
-    query += f'''
+    query = f'''
                 SELECT ?diploma
                 WHERE {{
                     ?diploma rdf:type local:diploma .
@@ -132,8 +107,7 @@ def check_diploma(graph, diplomaID):
         return True
 
 def check_skill(graph, skillID):
-    query = prefixes + "\n"
-    query += f'''
+    query = f'''
                 SELECT ?skill
                 WHERE {{
                     ?skill rdf:type local:skill .
@@ -148,8 +122,7 @@ def check_skill(graph, skillID):
         return True
 
 def check_language(graph, languageID):
-    query = prefixes + "\n"
-    query += f'''
+    query = f'''
                 SELECT ?language
                 WHERE {{
                     ?language rdf:type local:language .
@@ -164,8 +137,7 @@ def check_language(graph, languageID):
         return True
 
 def check_experience(graph, experienceID):
-    query = prefixes + "\n"
-    query += f'''
+    query = f'''
                 SELECT ?experience
                 WHERE {{
                     ?experience rdf:type local:experience .
@@ -208,7 +180,7 @@ def create_enterpriseRDF(graph, name, owner, lat, long, address, phone, email, w
 # enterprise queries
 #########################################################
 def query_enterpriseGetAll():
-    query = prefixes + '''
+    query = '''
                             SELECT ?uri ?name ?owner ?maintainer ?lat ?long ?address ?description ?phone ?email ?website ?location
                             WHERE {
                                     ?uri rdf:type foaf:Organization .
@@ -228,7 +200,7 @@ def query_enterpriseGetAll():
     return query
 
 def query_enterpriseGetById(id):
-    query = prefixes + f'''
+    query =  f'''
                             SELECT ?uri ?name ?owner ?maintainer ?lat ?long ?address ?description ?phone ?email ?website ?location
                             WHERE {{
                                 ?uri rdf:type foaf:Organization .
@@ -249,7 +221,7 @@ def query_enterpriseGetById(id):
     return query
 
 def query_enterpriseGetByName(name):
-    query = prefixes + f'''
+    query =  f'''
                         SELECT ?uri ?name ?owner ?maintainer ?lat ?long ?address ?description ?phone ?email ?website ?location
                         WHERE {{
                                 ?uri rdf:type foaf:Organization .
@@ -271,7 +243,7 @@ def query_enterpriseGetByName(name):
     return query
 
 def query_enterpriseGetByLocation(location):
-    query = prefixes + f'''
+    query =  f'''
                         SELECT ?uri ?name ?lat ?long ?address ?owner ?maintainerName ?maintainerSurName ?description ?phone ?email ?website
                         WHERE {{
                                 ?uri rdf:type foaf:Organization .
@@ -293,7 +265,6 @@ def query_enterpriseGetByLocation(location):
     return query
 
 def query_update_enterpriseRDF(name, lat, long, address, phone, email, website, description, enterpriseID, location):
-    query = prefixes + "\n"
     deletes = ""
     inserts = ""
     if (name != ""):
@@ -326,7 +297,7 @@ def query_update_enterpriseRDF(name, lat, long, address, phone, email, website, 
         deletes += "?enterprise local:location ?location .\n"
         inserts += f"?enterprise local:location \"gn:{location}\" .\n"
 
-    query += ' DELETE { ' + "\n" + deletes + ' } ' + "\n"
+    query = ' DELETE { ' + "\n" + deletes + ' } ' + "\n"
     query += ' INSERT { ' + "\n" + inserts + ' } ' + "\n"
     query += f'''
                 WHERE {{
@@ -348,8 +319,7 @@ def query_update_enterpriseRDF(name, lat, long, address, phone, email, website, 
 # deletes the enterprise, the enterpriseInfo and the connected vacancies, vacancyInfo
 # DEPRECATED
 def query_delete_enterpriseRDF(enterpriseID):
-    query = prefixes + "\n"
-    query += f'''
+    query = f'''
                 DELETE {{
                     ?enterprise rdf:type foaf:Organization .
                     ?enterprise foaf:name ?name .
@@ -408,8 +378,7 @@ def query_delete_enterpriseRDF(enterpriseID):
     return query
 
 def query_transfer_ownershipRDF(enterpriseID, newOwnerID):
-    query = prefixes + "\n"
-    query += f'''
+    query = f'''
                 DELETE {{
                     ?enterprise local:owner ?owner .
                 }}
@@ -425,8 +394,7 @@ def query_transfer_ownershipRDF(enterpriseID, newOwnerID):
     return query
 
 def query_add_maintainerRDF(enterpriseID, newMaintainerID):
-    query = prefixes + "\n"
-    query += f'''
+    query = f'''
                 INSERT {{
                     ?enterprise local:maintainer person:{newMaintainerID} .
                 }}
@@ -438,8 +406,7 @@ def query_add_maintainerRDF(enterpriseID, newMaintainerID):
     return query
 
 def query_remove_maintainerRDF(enterpriseID, maintainerID):
-    query = prefixes + "\n"
-    query += f'''
+    query = f'''
                 DELETE {{
                     ?enterprise local:maintainer person:{maintainerID} .
                 }}
@@ -451,7 +418,7 @@ def query_remove_maintainerRDF(enterpriseID, maintainerID):
     return query
 
 def query_enterpriseGetByAddress(address):
-    query = prefixes + f'''
+    query = f'''
         SELECT ?uri ?name ?owner ?maintainer ?lat ?long ?address ?description ?phone ?email ?website ?location
         WHERE {{
             ?uri rdf:type foaf:Organization .
@@ -472,7 +439,7 @@ def query_enterpriseGetByAddress(address):
     return query
 
 def query_enterpriseGetByLocation(location):
-    query = prefixes + f'''
+    query = f'''
             SELECT ?uri ?name ?owner ?maintainer ?lat ?long ?address ?description ?phone ?email ?website ?location
             WHERE {{
                 ?uri rdf:type foaf:Organization .
@@ -493,7 +460,7 @@ def query_enterpriseGetByLocation(location):
     return query
 
 def query_getVacanciesOfEnterprise(enterpriseID):
-    query = prefixes + f'''
+    query = f'''
             SELECT ?vacancy
             WHERE {{
                 ?vacancy rdf:type local:vacancy .
@@ -504,7 +471,7 @@ def query_getVacanciesOfEnterprise(enterpriseID):
     return query
 
 def query_enterpriseGetByOwner(personURI):
-    query = prefixes + f'''
+    query = f'''
             SELECT ?uri
             WHERE {{
                 ?uri rdf:type foaf:Organization .
@@ -518,8 +485,7 @@ def query_enterpriseGetByOwner(personURI):
 # vacancy queries
 #########################################################
 def query_getVacancy(vacancyURI):
-    query = prefixes + "\n"
-    query += f'''
+    query = f'''
                 SELECT ?vacancy ?jobTitle ?startDate ?endDate ?owner ?diploma ?skills ?language ?experience ?jobDescription ?jobResponsibilities ?jobSalary ?jobLocation
                 WHERE {{
                     ?vacancy rdf:type local:vacancy .
@@ -577,8 +543,7 @@ def query_getVacancy(vacancyURI):
 #     return query
 
 def query_getDiplomasFromVacancy(vacancyID):
-    query = prefixes + "\n"
-    query += f'''
+    query = f'''
                 SELECT ?diploma
                 WHERE {{
                     ?vacancy rdf:type local:vacancy .
@@ -589,8 +554,7 @@ def query_getDiplomasFromVacancy(vacancyID):
     return query
 
 def query_getDisciplinesFromVacancy(vacancyID):
-    query = prefixes + "\n"
-    query += f'''
+    query = f'''
                 SELECT ?discipline
                 WHERE {{
                     ?vacancy rdf:type local:vacancy .
@@ -602,8 +566,7 @@ def query_getDisciplinesFromVacancy(vacancyID):
     return query
 
 def query_getSkillsFromVacancy(vacancyID):
-    query = prefixes + "\n"
-    query += f'''
+    query = f'''
                 SELECT ?skill
                 WHERE {{
                     ?vacancy rdf:type local:vacancy .
@@ -614,8 +577,7 @@ def query_getSkillsFromVacancy(vacancyID):
     return query
 
 def query_getLanguagesFromVacancy(vacancyID):
-    query = prefixes + "\n"
-    query += f'''
+    query = f'''
                 SELECT ?lang
                 WHERE {{
                     ?vacancy rdf:type local:vacancy .
@@ -627,8 +589,7 @@ def query_getLanguagesFromVacancy(vacancyID):
 
 # deprecated
 def query_getExperienceFromVacancy(vacancyID):
-    query = prefixes + "\n"
-    query += f'''
+    query = f'''
                 SELECT ?exp
                 WHERE {{
                     ?vacancy rdf:type local:vacancy .
@@ -640,8 +601,7 @@ def query_getExperienceFromVacancy(vacancyID):
 
 # deprecated
 def query_getSkillsFromexperiencesOfVacancy(vacancyID):
-    query = prefixes + "\n"
-    query += f'''
+    query = f'''
                 SELECT ?skill
                 WHERE {{
                     ?vacancy rdf:type local:vacancy .
@@ -653,8 +613,7 @@ def query_getSkillsFromexperiencesOfVacancy(vacancyID):
     return query
 
 def query_vacancyByDiploma(diplomaURI):
-    query = prefixes + "\n"
-    query += f'''
+    query = f'''
                 SELECT ?vacancy
                 WHERE {{
                     ?vacancy rdf:type local:vacancy .
@@ -669,8 +628,7 @@ def query_vacancyByDiploma(diplomaURI):
     return query
 
 def query_vacancyByDiscipline(disciplineURI):
-    query = prefixes + "\n"
-    query += f'''
+    query = f'''
                 SELECT ?vacancy
                 WHERE {{
                     ?vacancy rdf:type local:vacancy .
@@ -686,8 +644,7 @@ def query_vacancyByDiscipline(disciplineURI):
     return query
 
 def query_vacancyBySkill(skillURI):
-    query = prefixes + "\n"
-    query += f'''
+    query = f'''
                 SELECT ?vacancy
                 WHERE {{
                     ?vacancy rdf:type local:vacancy .
@@ -702,8 +659,7 @@ def query_vacancyBySkill(skillURI):
     return query
 
 def query_vacancyByLanguage(languageURI):
-    query = prefixes + "\n"
-    query += f'''
+    query = f'''
                 SELECT ?vacancy
                 WHERE {{
                     ?vacancy rdf:type local:vacancy .
@@ -718,8 +674,7 @@ def query_vacancyByLanguage(languageURI):
     return query
 
 def query_vacancyByExperience(experienceURI):
-    query = prefixes + "\n"
-    query += f'''
+    query = f'''
                 SELECT ?vacancy
                 WHERE {{
                     ?vacancy rdf:type local:vacancy .
@@ -739,8 +694,7 @@ def query_vacancyByExperience(experienceURI):
 # returnen enkel de personen die aanstaan hebben dat ze vacancies willen
 
 def query_personByDiploma(diplomas):
-    query = prefixes + "\n"
-    query += f'''
+    query = f'''
                 SELECT ?uri ?name ?surname ?email
                 WHERE {{
                     ?uri rdf:type foaf:Person .
@@ -759,8 +713,7 @@ def query_personByDiploma(diplomas):
     return query
 
 def query_personByDiscipline(disciplines):
-    query = prefixes + "\n"
-    query += f'''
+    query = f'''
                 SELECT ?uri ?name ?surname ?email
                 WHERE {{
                     ?uri rdf:type foaf:Person .
@@ -780,8 +733,7 @@ def query_personByDiscipline(disciplines):
     return query
 
 def query_personBySkill(skill):
-    query = prefixes + "\n"
-    query += f'''
+    query = f'''
                 SELECT ?uri ?name ?surname ?email
                 WHERE {{
                     ?uri rdf:type foaf:Person .
@@ -800,8 +752,7 @@ def query_personBySkill(skill):
     return query
 
 def query_personByLanguage(language):
-    query = prefixes + "\n"
-    query += f'''
+    query = f'''
                 SELECT ?uri ?name ?surname ?email
                 WHERE {{
                     ?uri rdf:type foaf:Person .
@@ -820,8 +771,7 @@ def query_personByLanguage(language):
     return query
 
 def query_personByExperience(experience):
-    query = prefixes + "\n"
-    query += f'''
+    query = f'''
                 SELECT ?uri ?name ?surname ?email
                 WHERE {{
                     ?uri rdf:type foaf:Person .
@@ -840,8 +790,7 @@ def query_personByExperience(experience):
     return query
 
 def query_getDiplomasFromPerson(personID):
-    query = prefixes + "\n"
-    query += f'''
+    query = f'''
                 SELECT ?diploma
                 WHERE {{
                     ?person rdf:type foaf:Person .
@@ -852,8 +801,7 @@ def query_getDiplomasFromPerson(personID):
     return query
 
 def query_getDisciplinessFromPerson(personID):
-    query = prefixes + "\n"
-    query += f'''
+    query = f'''
                 SELECT ?discipline
                 WHERE {{
                     ?person rdf:type foaf:Person .
@@ -865,8 +813,7 @@ def query_getDisciplinessFromPerson(personID):
     return query
 
 def query_getSkillsFromPerson(personID):
-    query = prefixes + "\n"
-    query += f'''
+    query = f'''
                 SELECT ?skill
                 WHERE {{
                     ?person rdf:type foaf:Person .
@@ -877,8 +824,7 @@ def query_getSkillsFromPerson(personID):
     return query
 
 def query_getLanguagesFromPerson(personID):
-    query = prefixes + "\n"
-    query += f'''
+    query = f'''
                 SELECT ?lang
                 WHERE {{
                     ?person rdf:type foaf:Person .
@@ -889,8 +835,7 @@ def query_getLanguagesFromPerson(personID):
     return query
 
 def query_getExperiencesFromPerson(personID):
-    query = prefixes + "\n"
-    query += f'''
+    query = f'''
                 SELECT ?exp
                 WHERE {{
                     ?person rdf:type foaf:Person .
@@ -901,8 +846,7 @@ def query_getExperiencesFromPerson(personID):
     return query
 
 def query_getSkillsFromexperiencesOfPerson(personID):
-    query = prefixes + "\n"
-    query += f'''
+    query = f'''
                 SELECT ?skill
                 WHERE {{
                     ?person rdf:type foaf:Person .

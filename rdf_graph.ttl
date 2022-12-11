@@ -1,41 +1,16 @@
-@prefix degree: <http://localhost/degree/> .
-@prefix diploma: <http://localhost/diploma/> .
-@prefix enterprise: <http://localhost/enterprise/> .
-@prefix experience: <http://localhost/experience/> .
+@prefix degree: <http://localhost:5000/degree/> .
+@prefix diploma: <http://localhost:5000/diploma/> .
+@prefix enterprise: <http://localhost:5000/enterprises/> .
+@prefix experience: <http://localhost:5000/experience/> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
 @prefix gn: <https://sws.geonames.org/> .
-@prefix local: <http://localhost/> .
+@prefix local: <http://localhost:5000/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
-@prefix person: <http://localhost/person/> .
-@prefix vacancy: <http://localhost/vacancy/> .
+@prefix person: <http://localhost:5000/users/> .
+@prefix vacancy: <http://localhost:5000/vacancy/> .
 @prefix wd: <http://www.wikidata.org/entity/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-
-<diplomaDegreeCardinality> a owl:Restriction ;
-    owl:cardinality "1" ;
-    owl:onClass local:diploma ;
-    owl:onProperty local:degree .
-
-<diplomaDisciplineCardinality> a owl:Restriction ;
-    owl:cardinality "1" ;
-    owl:onClass local:diploma ;
-    owl:onProperty local:discipline .
-
-<diplomaEndDateCardinality> a owl:Restriction ;
-    owl:cardinality "1" ;
-    owl:onClass local:diploma ;
-    owl:onProperty local:endDate .
-
-<diplomaInstitutionCardinality> a owl:Restriction ;
-    owl:cardinality "1" ;
-    owl:onClass local:diploma ;
-    owl:onProperty local:institution .
-
-<diplomaStartDateCardinality> a owl:Restriction ;
-    owl:cardinality "1" ;
-    owl:onClass local:diploma ;
-    owl:onProperty local:startDate .
 
 local:enterprise owl:equivalentClass foaf:Organization .
 
@@ -47,12 +22,6 @@ person:4 a foaf:Person ;
     local:getVacancies true ;
     foaf:name "Gwendoline" ;
     foaf:surname "Nijssen" .
-
-person:5 a foaf:Person ;
-    local:email "tes@email.com" ;
-    local:getVacancies true ;
-    foaf:name "tes" ;
-    foaf:surname "a" .
 
 vacancy:1 a local:vacancy ;
     local:available true ;
@@ -126,26 +95,6 @@ vacancy:5 a local:vacancy ;
     local:startDate "2022-12-12"^^xsd:date .
 
 foaf:knows a owl:SymmetricProperty .
-
-<personMailCardinality> a owl:Restriction ;
-    owl:cardinality "1" ;
-    owl:onClass foaf:Person ;
-    owl:onProperty local:email .
-
-<personNameCardinality> a owl:Restriction ;
-    owl:cardinality "1" ;
-    owl:onClass foaf:Person ;
-    owl:onProperty foaf:name .
-
-<personPhoneCardinality> a owl:Restriction ;
-    owl:cardinality "1" ;
-    owl:onClass foaf:Person ;
-    owl:onProperty local:phone .
-
-<personSurNameCardinality> a owl:Restriction ;
-    owl:cardinality "1" ;
-    owl:onClass foaf:Person ;
-    owl:onProperty foaf:surname .
 
 diploma:1 a local:diploma ;
     local:degree degree:bachelor ;

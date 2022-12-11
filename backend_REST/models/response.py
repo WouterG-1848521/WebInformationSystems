@@ -11,7 +11,7 @@ import json
 
 #     def get_response(self):
 #         response = make_response(self.data, self.status)
-#         response.headers["Accept"] = "application/rdf+xml"
+#         response.headers["Content-Type"] = "application/rdf+xml"
 
 #         if (self.location != None):
 #             response.headers["Location"] = url_for(self.location)
@@ -116,6 +116,7 @@ class Response():
                 "getVacancies": usersJSON['getVacancies'][id]                
             }
             newDict['users'][int(id)] = info
+            print(newDict)
         
         return newDict
     
@@ -131,7 +132,7 @@ class Response():
                 "degree": diplomasJSON['degree'][id],
                 "discipline": diplomasJSON['discipline'][id],
                 "institution": diplomasJSON['institution'][id],
-                "startDate": diplomasJSON['discipline'][id],
+                "startDate": diplomasJSON['startDate'][id],
                 "endDate": diplomasJSON['endDate'][id],
             }
             newDict['diplomas'][int(id)] = info
@@ -193,9 +194,9 @@ class Response():
                 "v": vacanciesJSON['v'][id],
                 "maintainerId": vacanciesJSON['maintainerId'][id],
                 "jobTitle": vacanciesJSON['jobTitle'][id],
+                "location": vacanciesJSON['location'][id],
                 "startDate": vacanciesJSON['startDate'][id],
                 "endDate": vacanciesJSON['endDate'][id],
-                "location": vacanciesJSON['location'][id],
             }
             newDict['vacancies'][int(id)] = info
             print(newDict)

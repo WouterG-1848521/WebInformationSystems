@@ -19,7 +19,7 @@
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item"><a class="nav-link active" href="/"><span class="underline">Home</span></a></li>
                     {% if current_user.is_authenticated %}
-                    <li class="nav-item"><a class="nav-link" href="/users/{{ current_user.id }}">My profile</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/profile">My profile</a></li>
                     <li class="nav-item"><a class="nav-link" href="/enterprises">My enterprises</a></li>
                     <li class="nav-item"><a class="nav-link" href="/connections">My connections</a></li>
                     <li class="nav-item"><a class="nav-link" href="/matches">My matches</a></li>
@@ -40,7 +40,7 @@
             <div class="row pt-5">
                 <div class="col-md-8 text-center text-md-start mx-auto">
                     <div class="text-center">
-                        <h1 class="display-4 fw-bold mb-5"><span class="underline">Users</span></h1>
+                        <h1 class="display-4 fw-bold mb-5"><span class="underline">Diplomas</span></h1>
                     </div>
                 </div>
                 <!-- <div class="col-12 col-lg-10 mx-auto">
@@ -54,27 +54,21 @@
             <div class="row pt-5">
                 <div class="col-md-8 text-center text-md-start mx-auto">
                     <div class="card-columns">
-                        {% set users = data['users'] %}
-                        {% if not users %}
-                            <p>There are no users</p>
+                        {% set diplomas = data['diplomas'] %}
+                        {% if not diplomas %}
+                            <p>There are no diplomas</p>
                         {% else %}
-                            {% for id in users %}
-                                {% set user = users[id] %}
+                            {% for id in diplomas %}
+                                {% set diploma = diplomas[id] %}
                                 <div class="card">
                                 <div class="card-body">
-                                    <h5 class="card-title">{{ user['name'] }} {{ user['surname'] }}</h5>
-                                    <p class="card-text">{{ user['p'] }}</p>
+                                    <h5 class="card-title">{{ diploma['d'] }}</h5>
+                                    <p class="card-text">
+                                        <b>Degree</b>: {{ diploma['degree'] }} </br>
+                                        <b>Discipline</b>: <url href={{ diploma['discipline'] }}>{{ diploma['discipline'] }}</url> </br>
+                                        <b>Institution</b>: {{ diploma['institution'] }} </br>
+                                        <b>Enrolled from</b> {{ diploma['startDate'] }} <b>until</b> {{ diploma['endDate'] }}</p>
                                 </div>
-
-                                {% if current_user.is_authenticated%}
-                                <div class="card-footer">
-                                    <button type="button" class="btn btn-primary">Edit</button>
-                                    <a href="/users/{{ user['p'].split('person')[1] }}">View profile</a>
-                                  </div>
-                                </div>
-                                {% endif %}
-
-                                
                             {% endfor %}    
                         {% endif %}
                     </div>

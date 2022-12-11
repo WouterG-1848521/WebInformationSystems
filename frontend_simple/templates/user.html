@@ -61,7 +61,7 @@
                 <div class="col-md-8 text-center text-md-start mx-auto">
                     <div class="card-columns">
                         {% set users = data['users'] %}
-                        {% if users is none %}
+                        {% if not users %}
                             <p>There are no users</p>
                         {% else %}
                             {% for id in users %}
