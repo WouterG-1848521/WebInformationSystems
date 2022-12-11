@@ -790,12 +790,12 @@ def query_personBySkill(skill):
                     ?uri foaf:surname ?surname .
                     ?uri local:email ?email .
                     ?uri local:skill ?skill .
-                    ?skill rdf:type local:skill .
                     ?uri local:getVacancies ?v
                     OPTIONAL {{
                         ?skill owl:equivalentClass ?input .
                     }}
-                    FILTER ((?skill = {skill} || ?input = {skill}) && ?v = true))
+                    FILTER (?skill = {skill} || ?input = {skill})
+                    FILTER (?v = true)
                 }}
             '''
     return query
@@ -810,7 +810,6 @@ def query_personByLanguage(language):
                     ?uri foaf:surname ?surname .
                     ?uri local:email ?email .
                     ?uri local:language ?language .
-                    ?language rdf:type local:language .
                     ?uri local:getVacancies ?v
                     OPTIONAL {{
                         ?language owl:equivalentClass ?input .

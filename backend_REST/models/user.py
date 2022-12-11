@@ -41,6 +41,7 @@ class User():
         graph.add((user_URI, RDF.type, FOAF.Person))
         graph.add((user_URI, FOAF.name, Literal(name)))
         graph.add((user_URI, FOAF.surname, Literal(surname)))
+        graph.add((user_URI, LOCAL.email, Literal(email)))
         graph.add((user_URI, LOCAL.getVacancies, Literal(
             user.getVacancies, datatype=XSD.boolean)))
 

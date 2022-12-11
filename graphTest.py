@@ -35,12 +35,19 @@ owlrl.DeductiveClosure(owlrl.RDFS_OWLRL_Semantics, rdfs_closure = True, axiomati
 
 query = prefixes + "\n"
 query += f'''
-                SELECT ?maintainer
+                SELECT ?uri
                 WHERE {{
-                     ?enterprise rdf:type local:enterprise .
-                    ?enterprise local:maintainer ?maintainer .
-                    FILTER (?enterprise = enterprise:5)
-                    FILTER (?maintainer = person:9)
+                    ?uri rdf:type foaf:Person .
+                    ?uri foaf:name ?name .
+                    ?uri foaf:surname ?surname .
+                    ?uri local:email ?email .
+                    ?uri local:language ?language .
+                    ?uri local:getVacancies ?v
+                    OPTIONAL {{
+                        ?language owl:equivalentClass ?input .
+                        ?input owl:equivalentClass ?language .
+                    }}
+                    FILTER ((?input = <http://www.wikidata.org/entity/Q1860> || ?language = <http://www.wikidata.org/entity/Q1860>) && ?v = true)
                 }}
         '''                
 print(query)

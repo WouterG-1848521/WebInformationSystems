@@ -18,11 +18,13 @@ local:person owl:equivalentClass foaf:Person .
 
 person:4 a foaf:Person ;
     local:diploma diploma:5 ;
+    local:email "gwennie@gmail.com" ;
     local:getVacancies true ;
     foaf:name "Gwendoline" ;
     foaf:surname "Nijssen" .
 
 vacancy:1 a local:vacancy ;
+    local:available true ;
     local:diploma diploma:6 ;
     local:endDate "2023-01-12"^^xsd:date ;
     local:enterprise enterprise:1 ;
@@ -37,6 +39,7 @@ vacancy:1 a local:vacancy ;
     local:startDate "2022-12-12"^^xsd:date .
 
 vacancy:2 a local:vacancy ;
+    local:available true ;
     local:diploma diploma:7 ;
     local:endDate "2023-01-12"^^xsd:date ;
     local:enterprise enterprise:2 ;
@@ -51,6 +54,7 @@ vacancy:2 a local:vacancy ;
     local:startDate "2022-12-12"^^xsd:date .
 
 vacancy:3 a local:vacancy ;
+    local:available true ;
     local:diploma diploma:8 ;
     local:endDate "2023-01-12"^^xsd:date ;
     local:enterprise enterprise:3 ;
@@ -64,6 +68,7 @@ vacancy:3 a local:vacancy ;
     local:startDate "2022-12-12"^^xsd:date .
 
 vacancy:4 a local:vacancy ;
+    local:available true ;
     local:diploma diploma:9 ;
     local:endDate "2023-01-12"^^xsd:date ;
     local:enterprise enterprise:3 ;
@@ -77,6 +82,7 @@ vacancy:4 a local:vacancy ;
     local:startDate "2022-12-12"^^xsd:date .
 
 vacancy:5 a local:vacancy ;
+    local:available true ;
     local:diploma diploma:10 ;
     local:endDate "2023-01-12"^^xsd:date ;
     local:enterprise enterprise:4 ;
@@ -222,6 +228,7 @@ enterprise:3 a foaf:Organization ;
 
 person:1 a foaf:Person ;
     local:diploma diploma:1 ;
+    local:email "joris@gmail.com" ;
     local:getVacancies true ;
     local:language wd:Q1860 ;
     local:skill wd:Q24288,
@@ -232,12 +239,14 @@ person:1 a foaf:Person ;
 person:2 a foaf:Person ;
     local:diploma diploma:2,
         diploma:3 ;
+    local:email "brent@gmail.com" ;
     local:getVacancies true ;
     foaf:name "Brent" ;
     foaf:surname "Zoomers" .
 
 person:3 a foaf:Person ;
     local:diploma diploma:4 ;
+    local:email "wouter@gmail.com" ;
     local:experience experience:1 ;
     local:getVacancies true ;
     local:language wd:Q7411 ;

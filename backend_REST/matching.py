@@ -116,6 +116,7 @@ def getVacanciesForExperience(graph, experience):
 def getVacanciesByIDs(graph, vacancyIDs):
     # for every vacancy get all the information
     vacancies = list(set(vacancyIDs))
+    print(vacancies)
     matches = {}
     for vacancy in vacancies:
         query = query_getVacancy(vacancy)
@@ -249,13 +250,13 @@ def matchOnVacancy_allParameters(graph, vacancyID):
     filled = False
 
     # find matches on diploma
-    query = query_getDiplomasFromVacancy(vacancyID)
+    query = query_getDisciplinesFromVacancy(vacancyID)
     result = graph.query(query)
-    diplomas = [row.diploma.n3() for row in result]
-    # print("diplomas: ", diplomas)
+    disciplines = [row.discipline.n3() for row in result]
+    # print("disciplines: ", disciplines)
     temp = matches.copy()
-    for diploma in diplomas:
-        result = getPersonsWithDiploma(graph, diploma)
+    for disciplines in disciplines:
+        result = getPersonsWithDiscipline(graph, disciplines)
         if (len(matches) == 0 and not filled): # first time we just add everything
             temp = result
             filled = True
@@ -265,7 +266,7 @@ def matchOnVacancy_allParameters(graph, vacancyID):
                     del temp[key]
         matches = temp.copy()
                 
-    # print("after diploma: ", matches)
+    # print("after disciplines: ", matches)
 
     # find matches on skills
     query = query_getSkillsFromVacancy(vacancyID)
@@ -606,8 +607,8 @@ def matchPerson_skill(graph, personID):
         result = getVacanciesForSkill(graph, skills[i])
         for el in result:
             vacancies.append(el)
-    
-    return getVacanciesByIDs(graph, result)
+
+    return getVacanciesByIDs(graph, vacancies)
 
 # get all the vacanies that match the langauages of the person
 def matchPerson_language(graph, personID):

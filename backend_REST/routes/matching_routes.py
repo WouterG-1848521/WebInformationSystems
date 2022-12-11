@@ -8,6 +8,16 @@ from backend_REST.matching import matchVacancy_discipline, matchVacancy_language
 from backend_REST.matching import matchPerson_discipline, matchPerson_language, matchPerson_skill, matchPerson_experience
 
 # TODO @wouter: nog wel eens testen of alles correct terug gegeven wordt
+# tested : 
+#   - /users/<int:user_id>/matches/skills
+#   - /users/<int:user_id>/matches/discipline
+#   - /users/<int:user_id>/matches/languages
+#   - /users/<int:user_id>/matches/experience
+#   - /vacancies/<int:vacancy_id>/matches/all
+#   - /vacancies/<int:vacancy_id>/matches/
+#   - /vacancies/<int:vacancy_id>/matches/skill
+#   - /vacancies/<int:vacancy_id>/matches/discipline
+#   - /vacancies/<int:vacancy_id>/matches/language
 # TODO @wouter: equivalent classes testen
 
 def create_matching_routes(app, graph):
@@ -89,9 +99,9 @@ def create_matching_routes(app, graph):
 
         return matchVacancy_language(graph, vacancyID)
 
-    @app.route("/vacancies/<int:vacancy_id>/matches/experience", methods=['GET'])
-    def get_all_user_matches_for_vacancy_by_exps(vacancy_id):
-        vacancyID = vacancy_id
-        vacancyID = int(vacancyID)
+    # @app.route("/vacancies/<int:vacancy_id>/matches/experience", methods=['GET'])
+    # def get_all_user_matches_for_vacancy_by_exps(vacancy_id):
+    #     vacancyID = vacancy_id
+    #     vacancyID = int(vacancyID)
 
-        return matchVacancy_experience(graph, vacancyID)
+    #     return matchVacancy_experience(graph, vacancyID)

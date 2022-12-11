@@ -52,6 +52,7 @@ class Vacancy():
         graph.add((vacancy_URI, LOCAL.jobDescription, Literal(job_desciption)))
         graph.add((vacancy_URI, LOCAL.jobResponsibilities, Literal(job_responsibilities)))
         graph.add((vacancy_URI, LOCAL.jobSalary, Literal(job_salary)))
+        graph.add((vacancy_URI, LOCAL.available, Literal(True)))
         
 
         graph.serialize(destination=GRAPH_FILE)
