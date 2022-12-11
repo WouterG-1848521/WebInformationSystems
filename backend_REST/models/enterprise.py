@@ -70,6 +70,7 @@ class Enterprise:
         query = query_enterpriseGetByName(name)
         result = graph.query(query)
         df = DataFrame(result, columns=result.vars)
+        print(df)
         df = groupByMaintainer(df)
 
         return df.to_json(orient='index', indent=2)

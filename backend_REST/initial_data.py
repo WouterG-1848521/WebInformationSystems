@@ -1,7 +1,7 @@
 import hashlib
 from rdflib import URIRef, Literal
 from rdflib.namespace import FOAF, RDF, OWL
-from backend_REST.graph import LOCAL
+from backend_REST.graph import LOCAL, WIKIDATA, OWL2
 
 from config import GRAPH_FILE
 
@@ -74,6 +74,10 @@ def set_cardinaltiies(graph):
     graph.add((URIRef("diplomaEndDateCardinality"), OWL.cardinality, Literal("1")))
 
 
+def set_equivalent_classes(graph):
+    # discipline_URI = URIRef(WIKIDATA + discipline_id)
+    graph.add((URIRef(WIKIDATA + "Q431"), OWL2.equivalentClass, URIRef(WIKIDATA + "Q420")))
+
 
 def set_initial_graph_data(graph):
     set_users(graph)
@@ -84,6 +88,9 @@ def set_initial_graph_data(graph):
     set_skills(graph)
     set_languages(graph)
     set_cardinaltiies(graph)
+    set_equivalent_classes(graph)
+
+    graph.serialize(destination=GRAPH_FILE)
 
 
 def set_users(graph):
@@ -117,7 +124,7 @@ def set_diplomas(graph):
     Diploma.create_for_user(graph, 1, "bachelor", "Q21198", "uHasselt", "2018-09-01", "2022-06-30")
     Diploma.create_for_user(graph, 2, "master", "Q21198", "KUL", "2018-09-01", "2022-06-30")
     Diploma.create_for_user(graph, 2, "bachelor", "Q431", "uHasselt", "2018-09-01", "2022-06-30")
-    Diploma.create_for_user(graph, 3, "bachelor", "Q420", "uHasselt", "2018-09-01", "2022-06-30")
+    Diploma.create_for_user(graph, 3, "bachelor", "Q431", "uHasselt", "2018-09-01", "2022-06-30")
     Diploma.create_for_user(graph, 4, "bachelor", "Q2329", "uHasselt", "2018-09-01", "2022-06-30")
     
     # create_for_vacancy(graph, vacancy_id, degree, discipline_id, institiution, startDate, endDate)

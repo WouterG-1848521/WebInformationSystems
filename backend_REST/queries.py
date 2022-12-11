@@ -226,6 +226,7 @@ def query_enterpriseGetByName(name):
                         WHERE {{
                                 ?uri rdf:type foaf:Organization .
                                 ?uri foaf:name "{name}" .
+                                ?uri foaf:name ?name .
                                 ?uri geo:lat ?lat .
                                 ?uri geo:long ?long  .
                                 ?uri geo:address ?address .
@@ -622,6 +623,9 @@ def query_vacancyByDiploma(diplomaURI):
                     OPTIONAL {{
                         ?diploma owl2:equivalentClass ?input .
                     }}
+                    OPTIONAL {{
+                        ?input owl2:equivalentClass ?diploma .
+                    }}
                     FILTER ((?input = {diplomaURI} || ?diploma = {diplomaURI}) && ?v = true)
                 }}
             '''
@@ -638,6 +642,9 @@ def query_vacancyByDiscipline(disciplineURI):
                     OPTIONAL {{
                         ?discipline owl2:equivalentClass ?input .
                     }}
+                    OPTIONAL {{
+                        ?input owl2:equivalentClass ?discipline .
+                    }}
                     FILTER ((?input = {disciplineURI} || ?discipline = {disciplineURI}) && ?v = true)
                 }}
             '''
@@ -652,6 +659,9 @@ def query_vacancyBySkill(skillURI):
                     ?vacancy local:available ?v .
                     OPTIONAL {{
                         ?skill owl2:equivalentClass ?input .
+                    }}
+                    OPTIONAL {{
+                        ?input owl2:equivalentClass ?skill .
                     }}
                     FILTER ((?input = {skillURI} || ?skill = {skillURI}) && ?v = true)
                 }}
@@ -668,6 +678,9 @@ def query_vacancyByLanguage(languageURI):
                     OPTIONAL {{
                         ?language owl2:equivalentClass ?input .
                     }}
+                    OPTIONAL {{
+                        ?input owl2:equivalentClass ?language .
+                    }}
                     FILTER ((?input = {languageURI} || ?language = {languageURI}) && ?v = true)
                 }}
             '''
@@ -682,6 +695,9 @@ def query_vacancyByExperience(experienceURI):
                     ?vacancy local:available ?v .
                     OPTIONAL {{
                         ?experience owl2:equivalentClass ?input .
+                    }}
+                    OPTIONAL {{
+                        ?input owl2:equivalentClass ?experience .
                     }}
                     FILTER ((?input = {experienceURI} || ?experience = {experienceURI}) && ?v = true)
                 }}
@@ -707,6 +723,9 @@ def query_personByDiploma(diplomas):
                     OPTIONAL {{
                         ?diploma owl2:equivalentClass ?input .
                     }}
+                    OPTIONAL {{
+                        ?input owl2:equivalentClass ?diploma .
+                    }}
                     FILTER ((?diploma = {diplomas} || ?input = {diplomas}) && ?v = true)
                 }}
             '''
@@ -727,6 +746,9 @@ def query_personByDiscipline(disciplines):
                     OPTIONAL {{
                         ?discipline owl2:equivalentClass ?input .
                     }}
+                    OPTIONAL {{
+                        ?input owl2:equivalentClass ?discipline .
+                    }}
                     FILTER ((?discipline = {disciplines} || ?input = {disciplines}) && ?v = true)
                 }}
             '''
@@ -744,6 +766,9 @@ def query_personBySkill(skill):
                     ?uri local:getVacancies ?v
                     OPTIONAL {{
                         ?skill owl:equivalentClass ?input .
+                    }}
+                    OPTIONAL {{
+                        ?input owl:equivalentClass ?skill .
                     }}
                     FILTER (?skill = {skill} || ?input = {skill})
                     FILTER (?v = true)
@@ -763,6 +788,8 @@ def query_personByLanguage(language):
                     ?uri local:getVacancies ?v
                     OPTIONAL {{
                         ?language owl:equivalentClass ?input .
+                    }}
+                    OPTIONAL {{
                         ?input owl:equivalentClass ?language .
                     }}
                     FILTER ((?input = {language} || ?language = {language}) && ?v = true)
@@ -783,6 +810,9 @@ def query_personByExperience(experience):
                     ?uri local:getVacancies ?v
                     OPTIONAL {{
                         ?experience owl2:equivalentClass ?input .
+                    }}
+                    OPTIONAL {{
+                        ?input owl2:equivalentClass ?experience .
                     }}
                     FILTER ((?input = {experience} || ?experience = {experience}) && ?v = true)
                 }}

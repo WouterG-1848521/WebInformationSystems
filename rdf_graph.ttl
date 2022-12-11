@@ -7,10 +7,36 @@
 @prefix gn: <https://sws.geonames.org/> .
 @prefix local: <http://localhost:5000/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix owl2: <http://www.w3.org/2006/12/owl2#> .
 @prefix person: <http://localhost:5000/users/> .
 @prefix vacancy: <http://localhost:5000/vacancy/> .
 @prefix wd: <http://www.wikidata.org/entity/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<diplomaDegreeCardinality> a owl:Restriction ;
+    owl:cardinality "1" ;
+    owl:onClass local:diploma ;
+    owl:onProperty local:degree .
+
+<diplomaDisciplineCardinality> a owl:Restriction ;
+    owl:cardinality "1" ;
+    owl:onClass local:diploma ;
+    owl:onProperty local:discipline .
+
+<diplomaEndDateCardinality> a owl:Restriction ;
+    owl:cardinality "1" ;
+    owl:onClass local:diploma ;
+    owl:onProperty local:endDate .
+
+<diplomaInstitutionCardinality> a owl:Restriction ;
+    owl:cardinality "1" ;
+    owl:onClass local:diploma ;
+    owl:onProperty local:institution .
+
+<diplomaStartDateCardinality> a owl:Restriction ;
+    owl:cardinality "1" ;
+    owl:onClass local:diploma ;
+    owl:onProperty local:startDate .
 
 local:enterprise owl:equivalentClass foaf:Organization .
 
@@ -96,6 +122,26 @@ vacancy:5 a local:vacancy ;
 
 foaf:knows a owl:SymmetricProperty .
 
+<personMailCardinality> a owl:Restriction ;
+    owl:cardinality "1" ;
+    owl:onClass foaf:Person ;
+    owl:onProperty local:email .
+
+<personNameCardinality> a owl:Restriction ;
+    owl:cardinality "1" ;
+    owl:onClass foaf:Person ;
+    owl:onProperty foaf:name .
+
+<personPhoneCardinality> a owl:Restriction ;
+    owl:cardinality "1" ;
+    owl:onClass foaf:Person ;
+    owl:onProperty local:phone .
+
+<personSurNameCardinality> a owl:Restriction ;
+    owl:cardinality "1" ;
+    owl:onClass foaf:Person ;
+    owl:onProperty foaf:surname .
+
 diploma:1 a local:diploma ;
     local:degree degree:bachelor ;
     local:discipline wd:Q21198 ;
@@ -126,7 +172,7 @@ diploma:3 a local:diploma ;
 
 diploma:4 a local:diploma ;
     local:degree degree:bachelor ;
-    local:discipline wd:Q420 ;
+    local:discipline wd:Q431 ;
     local:endDate "2022-06-30"^^xsd:date ;
     local:institution "uHasselt" ;
     local:startDate "2018-09-01"^^xsd:date .
@@ -243,6 +289,8 @@ person:2 a foaf:Person ;
     local:getVacancies true ;
     foaf:name "Brent" ;
     foaf:surname "Zoomers" .
+
+wd:Q431 owl2:equivalentClass wd:Q420 .
 
 person:3 a foaf:Person ;
     local:diploma diploma:4 ;
