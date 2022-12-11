@@ -31,7 +31,7 @@ def create_connections_routes(app, graph):
 
         if (request_id != -1):
             responseMessage = f"Connection request send. ({data['fromUserId']} -> {data['toUserId']})"
-            return make_response(jsonify({"request_id": request_id, "message": jsonify(responseMessage)}), 200)
+            return make_response(jsonify({"request_id": request_id, "message": responseMessage}), 200)
         else:
             return make_response(jsonify({"message": jsonify("Connection request already sent.")}), 200)
 

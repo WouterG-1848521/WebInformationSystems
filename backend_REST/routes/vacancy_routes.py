@@ -27,6 +27,7 @@ def create_vacancy_routes(app, graph):
         data = request.form
 
         if not (check_maintainer(graph, session['_user_id'], enterprise_id)):
+            return Response.unauthorized_access_wrong_user()
             return "only maintainer of enterprise can add vacancies"
 
         if not Validator.valid_date(data["startDate"]):
@@ -46,6 +47,7 @@ def create_vacancy_routes(app, graph):
         data = request.form
 
         if not (check_maintainer(graph, session['_user_id'], enterprise_id)):
+            return Response.make_response_for_content_type("application/json", "Only maintainer of enterprise can update vacancies", 401)
             return "only maintainer of enterprise can update vacancies"
 
         if not Validator.valid_date(data["startDate"]):
@@ -71,6 +73,7 @@ def create_vacancy_routes(app, graph):
         data = request.form
 
         if not (check_maintainer(graph, session['_user_id'], enterprise_id)):
+            return Response.make_response_for_content_type('application/json', message="Only maintainer of enterprise can delete vacancies")
             return "only maintainer of enterprise can delete vacancies"
 
         Vacancy.delete(graph, vacancy_id)
