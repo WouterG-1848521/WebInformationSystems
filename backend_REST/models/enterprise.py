@@ -29,7 +29,7 @@ def groupByMaintainer(df):
                 break
         if not inside:
             # ?uri ?name ?owner ?maintainer ?lat ?long ?address ?description ?phone ?email ?website ?location
-            r = r.append({'id': row[0], 'name': row[1], 'lat': row[2], 'owner': row[3], 'maintainer': row[4], 'lat': row[5], 'long': row[6], 'address': row[7], 'description': row[8], 'phone': row[9], 'email': row[10], 'website': row[11], 'location': row[12]}, ignore_index=True)
+            r = r.append({'id': row[1], 'name': row[2], 'owner': row[3], 'maintainer': row[4], 'lat': row[5], 'long': row[6], 'address': row[7], 'description': row[8], 'phone': row[9], 'email': row[10], 'website': row[11], 'location': row[12]}, ignore_index=True)
 
     return r
 

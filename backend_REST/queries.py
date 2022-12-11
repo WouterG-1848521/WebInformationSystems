@@ -6,8 +6,6 @@ from pandas import DataFrame
 from backend_REST.graph import LOCAL, PERSON, EXPERIENCE, VACANCY, DIPLOMA, GEO, ENTERPRISE
 from config import GRAPH_FILE
 
-# TODO @wouter: owl2:equivalentClass vs owl:equivalentClass
-
 prefixes = '''
                 prefix foaf: <http://xmlns.com/foaf/0.1/> 
                 prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> 

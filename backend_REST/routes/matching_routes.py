@@ -7,7 +7,7 @@ from backend_REST.matching import matchOnVacancy_allParameters, matchOnVacancy_a
 from backend_REST.matching import matchVacancy_discipline, matchVacancy_language, matchVacancy_skill, matchVacancy_experience
 from backend_REST.matching import matchPerson_discipline, matchPerson_language, matchPerson_skill, matchPerson_experience
 
-# TODO @wouter: nog wel eens testen of alles correct terug gegeven wordt
+# DONE @wouter: nog wel eens testen of alles correct terug gegeven wordt
 # tested : 
 #   - /users/<int:user_id>/matches/skills
 #   - /users/<int:user_id>/matches/discipline
@@ -19,6 +19,7 @@ from backend_REST.matching import matchPerson_discipline, matchPerson_language, 
 #   - /vacancies/<int:vacancy_id>/matches/discipline
 #   - /vacancies/<int:vacancy_id>/matches/language
 # TODO @wouter: equivalent classes testen
+# TODO @wouter: owl2:equivalentClass vs owl:equivalentClass
 
 def create_matching_routes(app, graph):
     ########################################
