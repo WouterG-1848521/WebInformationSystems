@@ -340,21 +340,21 @@ def matchOnPerson(graph, personID):
         vacancies = []
 
         # find on diploma
-        query = query_getDiplomasFromPerson(personID)
+        query = query_getDisciplinessFromPerson(personID)
         result = graph.query(query)
-        diplomas = [row.diploma.n3() for row in result]
-        for diploma in diplomas:
-            result = getVacanciesForDiploma(graph, diploma)
+        disciplines = [row.discipline.n3() for row in result]
+        for discipline in disciplines:
+            result = getVacanciesForDiscipline(graph, discipline)
             for el in result:
                 vacancies.append(el)
-        # print("after diploma: ", vacancies)
+        # print("after disciplines: ", vacancies)
 
         # find on experience
-        query = query_getExperiencesFromPerson(personID)
+        query = query_getSkillsFromexperiencesOfPerson(personID)
         result = graph.query(query)
-        experiences = [row.exp.n3() for row in result]
-        for experience in experiences:
-            result = getVacanciesForExperience(graph, experience)
+        skills = [row.skill.n3() for row in result]
+        for skill in skills:
+            result = getVacanciesForSkill(graph, skill)
             for el in result:
                 vacancies.append(el)
         # print("after experience: ", vacancies)
@@ -391,7 +391,10 @@ def matchOnPerson(graph, personID):
                     matches[vacancy] = {}
                     for j in range(len(row)):
                         key = row.keys()[j].n3()
-                        matches[vacancy][key] = row.iloc[j].n3()
+                        if (row.iloc[j] == None):
+                            matches[vacancy][key] = ""
+                        else:
+                            matches[vacancy][key] = row.iloc[j].n3()
                 else:
                     for j in range(len(row)):
                         key = df.keys()[j].n3()
