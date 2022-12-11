@@ -154,7 +154,7 @@ def check_experience(graph, experienceID):
 #########################################################
 # create functions
 #########################################################
-
+# DEPRECATED
 def create_enterpriseRDF(graph, name, owner, lat, long, address, phone, email, website, description, enterpriseID, location):
     # Add enterprise to Graph
     ref = URIRef(ENTERPRISE + str(enterpriseID))
@@ -317,6 +317,7 @@ def query_update_enterpriseRDF(name, lat, long, address, phone, email, website, 
     return query
 
 # deletes the enterprise, the enterpriseInfo and the connected vacancies, vacancyInfo
+# DEPRECATED
 def query_delete_enterpriseRDF(enterpriseID):
     query = f'''
                 DELETE {{
@@ -517,29 +518,30 @@ def query_getVacancy(vacancyURI):
             '''
     return query
 
-def query_match_byVacancy(vacancyID):
-    query = f'''
-                SELECT ?name ?surname ?email ?phone ?skill ?diploma ?language ?experience
-                WHERE {{
-                    ?person rdf:type foaf:Person .
-                    ?person foaf:name ?name .
-                    ?person foaf:surname ?surname .
-                    ?person local:email ?email .
-                    ?vacancy rdf:type local:vacancy .
-                    ?person local:getVacancies ?g .
-                    OPTIONAL {{
-                        ?person local:skill ?skill .
-                        ?person local:diploma ?diploma .
-                        ?person local:languague ?languague .
-                        ?person local:experience ?experience .
-                        ?vacancy local:skill ?skill .
-                        ?vacancy local:diploma ?diploma .
-                        ?vacancy local:langauage ?languague .
-                    }}
-                    FILTER (?vacancy = vacancy:{vacancyID} && ?g = true)
-                }}
-            '''
-    return query
+# def query_match_byVacancy(vacancyID):
+#     query = prefixes + "\n"
+#     query += f'''
+#                 SELECT ?name ?surname ?email ?phone ?skill ?diploma ?language ?experience
+#                 WHERE {{
+#                     ?person rdf:type foaf:Person .
+#                     ?person foaf:name ?name .
+#                     ?person foaf:surname ?surname .
+#                     ?person local:email ?email .
+#                     ?vacancy rdf:type local:vacancy .
+#                     ?person local:getVacancies ?g .
+#                     OPTIONAL {{
+#                         ?person local:skill ?skill .
+#                         ?person local:diploma ?diploma .
+#                         ?person local:languague ?languague .
+#                         ?person local:experience ?experience .
+#                         ?vacancy local:skill ?skill .
+#                         ?vacancy local:diploma ?diploma .
+#                         ?vacancy local:langauage ?languague .
+#                     }}
+#                     FILTER (?vacancy = vacancy:{vacancyID} && ?g = true)
+#                 }}
+#             '''
+#     return query
 
 def query_getDiplomasFromVacancy(vacancyID):
     query = f'''
