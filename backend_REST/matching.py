@@ -160,7 +160,7 @@ def getVacanciesByIDs(graph, vacancyIDs):
 
 # TODO @wouter: testen
 # DONE @wouter: matching van vacancies enkel als ze open zijn en bij personen enkel als ze ze willen
-# TODO @wouter: experience heeft ook skills, deze ook matchen met de skills? of gewoon op experience matchen
+# DONE @wouter: experience heeft ook skills, deze ook matchen met de skills? of gewoon op experience matchen
 # TODO @wouter: checken dat het toch niet beter kan via dataframe tojson
 
 

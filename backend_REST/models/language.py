@@ -19,6 +19,13 @@ class Language():
         graph.add((user_URI, LOCAL.language, language_URI))
         graph.serialize(destination=GRAPH_FILE)
 
+    def add_to_vacancy(graph, vacancy_id, language_id):
+        vacancy_URI = URIRef(VACANCY + str(vacancy_id))
+        language_URI = URIRef(WIKIDATA + str(language_id))
+
+        graph.add((vacancy_URI, LOCAL.language, language_URI))
+        graph.serialize(destination=GRAPH_FILE)
+
     def get_all_by_user_id(graph, user_id):
         user_URI = URIRef(PERSON + str(user_id))
 
