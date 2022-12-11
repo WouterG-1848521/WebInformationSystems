@@ -55,6 +55,12 @@ person:5 a foaf:Person ;
     foaf:name "Test" ;
     foaf:surname "De Tester" .
 
+person:7 a foaf:Person ;
+    local:email "john@gmail.com" ;
+    local:getVacancies true ;
+    foaf:name "John" ;
+    foaf:surname "Legend" .
+
 vacancy:1 a local:vacancy ;
     local:available true ;
     local:diploma diploma:6 ;

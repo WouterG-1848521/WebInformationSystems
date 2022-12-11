@@ -97,7 +97,6 @@ def create_connections_routes(app, graph):
         # TODO: test if the json dump has useful information
         return make_response(json.dump(pending_requests), 200)
 
-
     @app.route("/connections/add", methods=['POST'])
     @login_required
     def add_connection():
@@ -108,7 +107,7 @@ def create_connections_routes(app, graph):
 
         Connection.add_to_user(graph, data["user1_id"], data["user2_id"])
 
-        return f"Created connection between {data['user1_id']} and {data['user2_id']}."
+        return Response.make_response_for_content_type('application/json', f"Created connection between {data['user1_id']} and {data['user2_id']}.", 200)
 
     @app.route("/connections/<int:user_id>", methods=['GET'])
     def get_connections_by_id(user_id):
@@ -125,4 +124,4 @@ def create_connections_routes(app, graph):
 
         Connection.remove_from_user(graph, data["user1_id"], data["user2_id"])
 
-        return f"Removed connection between {data['user1_id']} and {data['user2_id']}."
+        return Response.make_response_for_content_type('application/json', f"Removed connection between {data['user1_id']} and {data['user2_id']}.", 200)
