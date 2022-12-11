@@ -163,12 +163,14 @@ def create_user_routes(app, g):
 
         if not Validator.valid_date(data["startDate"]):
             return Response.start_date_not_valid()
-
         if not Validator.valid_date(data["endDate"]):
             return Response.end_date_not_valid()
 
         if not Validator.valid_degree(data["degree"]):
             return Response.degree_not_valid()
+
+        if not Validator.valid_discipline(data["discipline"]):
+            return Response.discipline_not_valid()
 
         diploma_id = Diploma.create_for_user(g, user_id, data["degree"], data["discipline"],
                                              data["institution"], data["startDate"], data["endDate"])
@@ -194,12 +196,14 @@ def create_user_routes(app, g):
 
         if not Validator.valid_date(data["startDate"]):
             return Response.start_date_not_valid()
-
         if not Validator.valid_date(data["endDate"]):
             return Response.end_date_not_valid()
 
         if not Validator.valid_degree(data["degree"]):
             return Response.degree_not_valid()
+
+        if not Validator.valid_discipline(data["discipline"]):
+            return Response.discipline_not_valid()
 
         Diploma.update(g, diploma_id, data["degree"], data["discipline"],
                        data["institution"], data["startDate"], data["endDate"])
@@ -230,7 +234,8 @@ def create_user_routes(app, g):
         if session['_user_id'] != user_id:
             return Response.unauthorized_access_wrong_user()
 
-        # TODO: check data (check language list)
+        if not Validator.valid_language(data["language"]):
+            return Response.language_not_valid()
 
         Language.add_to_user(g, user_id, data["language"])
 
@@ -264,7 +269,8 @@ def create_user_routes(app, g):
         if session['_user_id'] != user_id:
             return Response.unauthorized_access_wrong_user()
 
-        # TODO: check data (check skill list)
+        if not Validator.valid_skill(data["skill"]):
+            return Response.skill_not_valid()
 
         Skill.add_to_user(g, user_id, data["skill"])
 
@@ -293,6 +299,7 @@ def create_user_routes(app, g):
     @login_required
     def create_user_experience(user_id):
         data = request.form
+        skill_list = data["skills"].split(',')
 
         # Check if logged-in user is correct
         if session['_user_id'] != user_id:
@@ -300,15 +307,19 @@ def create_user_routes(app, g):
 
         if not Validator.valid_date(data["startDate"]):
             return Response.start_date_not_valid()
-
         if not Validator.valid_date(data["endDate"]):
             return Response.end_date_not_valid()
 
-        # TODO: check data (check skill list)
+        for skill in skill_list:
+            if not Validator.valid_skill(skill):
+                return Response.skill_not_valid()
+
+        if not Validator.valid_profession(skill):
+            return Response.profession_not_valid()
 
         experience_id = WorkExperience.create_for_user(g, user_id, data["jobTitle"], data["profession"],
-                                                       data["skills"].split(','), data["startDate"], data["endDate"])
-        return make_response(jsonify({"message": f"Created experience {experience_id} for user {user_id}."}), 200)
+                                                       skill_list, data["startDate"], data["endDate"])
+        return make_response(jsonify({"message": f"Created experience {experience_id } for user {user_id}."}), 200)
 
     @app.route("/users/<int:user_id>/experiences", methods=["GET"])
     def get_user_experiences(user_id):
@@ -322,6 +333,7 @@ def create_user_routes(app, g):
     @login_required
     def update_user_experience(user_id, experience_id):
         data = request.form
+        skill_list = data["skills"].split(',')
 
         # Check if logged-in user is correct
         if session['_user_id'] != user_id:
@@ -329,13 +341,18 @@ def create_user_routes(app, g):
 
         if not Validator.valid_date(data["startDate"]):
             return Response.start_date_not_valid()
-
         if not Validator.valid_date(data["endDate"]):
             return Response.end_date_not_valid()
 
-        WorkExperience.update(g, user_id, data["jobTitle"], data["profession"],
-                              data["skills"].split(','), data["startDate"], data["endDate"])
+        for skill in skill_list:
+            if not Validator.valid_skill(skill):
+                return Response.skill_not_valid()
 
+        if not Validator.valid_profession(skill):
+            return Response.profession_not_valid()
+
+        WorkExperience.update(g, user_id, data["jobTitle"], data["profession"],
+                              skill_list, data["startDate"], data["endDate"])
         return make_response(jsonify({"message": f"Updated experience {experience_id}."}), 200)
 
     @app.route("/users/<int:user_id>/experiences/<int:experience_id>", methods=["DELETE"])
