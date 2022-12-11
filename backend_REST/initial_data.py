@@ -1,5 +1,6 @@
 import hashlib
 from rdflib.namespace import FOAF, RDF, OWL
+from backend_REST.graph import LOCAL
 
 from config import GRAPH_FILE
 
@@ -22,6 +23,8 @@ def clear_graph(app, graph):
 def set_initial_graph_properties(graph):
     # TODO : Add more?
     graph.add((FOAF.knows, RDF.type, OWL.SymmetricProperty))
+    graph.add((LOCAL.enterprise, OWL.equivalentClass, FOAF.Organization))
+    graph.add((LOCAL.person, OWL.equivalentClass, FOAF.Person))
 
 
 def set_initial_graph_data(graph):

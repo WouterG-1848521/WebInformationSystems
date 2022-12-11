@@ -12,58 +12,15 @@
 @prefix wd: <http://www.wikidata.org/entity/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-enterprise:5 a local:enterprise ;
-    local:description "aldi is een leuke winkel" ;
-    local:email "hey@mail.com" ;
-    local:location "gn:1234" ;
-    local:maintainer person:1 ;
-    local:owner person:1 ;
-    local:phone "0" ;
-    local:website "example.com" ;
-    geo:address "Diepenbeek" ;
-    geo:lat 1e+01 ;
-    geo:long 1e+01 ;
-    foaf:name "Aldi" .
+local:enterprise owl:equivalentClass foaf:Organization .
 
-enterprise:6 a local:enterprise ;
-    local:description "aldi is een leuke winkel" ;
-    local:email "hey@mail.com" ;
-    local:location "gn:1234" ;
-    local:maintainer person:1 ;
-    local:owner person:1 ;
-    local:phone "0" ;
-    local:website "example.com" ;
-    geo:address "Diepenbeek" ;
-    geo:lat 1e+01 ;
-    geo:long 1e+01 ;
-    foaf:name "Aldi" .
+local:person owl:equivalentClass foaf:Person .
 
-enterprise:7 a local:enterprise ;
-    local:description "aldi is een leuke winkel" ;
-    local:email "hey@mail.com" ;
-    local:location "gn:1234" ;
-    local:maintainer person:1 ;
-    local:owner person:1 ;
-    local:phone "0" ;
-    local:website "example.com" ;
-    geo:address "Diepenbeek" ;
-    geo:lat 1e+01 ;
-    geo:long 1e+01 ;
-    foaf:name "Aldi" .
-
-enterprise:9 a local:enterprise ;
-    local:description "new des" ;
-    local:email "hey@mail.com" ;
-    local:location "gn:4567" ;
-    local:maintainer person:4,
-        person:5 ;
-    local:owner person:4 ;
-    local:phone "1234" ;
-    local:website "example.com" ;
-    geo:address "Diepenbeek" ;
-    geo:lat 1e+01 ;
-    geo:long 1e+01 ;
-    foaf:name "Aldi" .
+person:4 a foaf:Person ;
+    local:diploma diploma:5 ;
+    local:getVacancies true ;
+    foaf:name "Gwendoline" ;
+    foaf:surname "Nijssen" .
 
 vacancy:1 a local:vacancy ;
     local:diploma diploma:6 ;
@@ -203,20 +160,20 @@ diploma:9 a local:diploma ;
     local:institution "uHasselt" ;
     local:startDate "2018-09-01"^^xsd:date .
 
-enterprise:1 a local:enterprise ;
-    local:description "new des" ;
+enterprise:1 a foaf:Organization ;
+    local:description "Computer Science Agency" ;
     local:email "cs.enterprise@gmail.com" ;
-    local:location "gn:4567" ;
+    local:location "gn:2796491" ;
     local:maintainer person:1 ;
     local:owner person:1 ;
-    local:phone "1234" ;
+    local:phone "123" ;
     local:website "cs.com" ;
     geo:address "Hasselt straat 2" ;
     geo:lat 23 ;
     geo:long 30 ;
     foaf:name "CS Enterprise" .
 
-enterprise:2 a local:enterprise ;
+enterprise:2 a foaf:Organization ;
     local:description "Universiteit" ;
     local:email "KUL@gmail.com" ;
     local:location "gn:2796492" ;
@@ -229,7 +186,7 @@ enterprise:2 a local:enterprise ;
     geo:long 30 ;
     foaf:name "KU Leuven" .
 
-enterprise:4 a local:enterprise ;
+enterprise:4 a foaf:Organization ;
     local:description "Winkel" ;
     local:email "Colruyt.Scherp@gmail.com" ;
     local:location "gn:2796494" ;
@@ -250,12 +207,7 @@ experience:1 a local:experience ;
         wd:Q80006 ;
     local:startDate "2018-09-01"^^xsd:date .
 
-person:5 a foaf:Person ;
-    local:getVacancies true ;
-    foaf:name "tes" ;
-    foaf:surname "a" .
-
-enterprise:3 a local:enterprise ;
+enterprise:3 a foaf:Organization ;
     local:description "Winkel" ;
     local:email "Aldi.Aarschot@gmail.com" ;
     local:location "gn:2796493" ;
@@ -268,11 +220,14 @@ enterprise:3 a local:enterprise ;
     geo:long 31 ;
     foaf:name "Aldi" .
 
-person:4 a foaf:Person ;
-    local:diploma diploma:5 ;
+person:1 a foaf:Person ;
+    local:diploma diploma:1 ;
     local:getVacancies true ;
-    foaf:name "Gwendoline" ;
-    foaf:surname "Nijssen" .
+    local:language wd:Q1860 ;
+    local:skill wd:Q24288,
+        wd:Q80006 ;
+    foaf:name "Joris" ;
+    foaf:surname "Bertram" .
 
 person:2 a foaf:Person ;
     local:diploma diploma:2,
@@ -288,13 +243,4 @@ person:3 a foaf:Person ;
     local:language wd:Q7411 ;
     foaf:name "Wouter" ;
     foaf:surname "Grootjans" .
-
-person:1 a foaf:Person ;
-    local:diploma diploma:1 ;
-    local:getVacancies true ;
-    local:language wd:Q1860 ;
-    local:skill wd:Q24288,
-        wd:Q80006 ;
-    foaf:name "Joris" ;
-    foaf:surname "Bertram" .
 
