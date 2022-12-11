@@ -19,7 +19,7 @@
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item"><a class="nav-link active" href="/"><span class="underline">Home</span></a></li>
                     {% if current_user.is_authenticated %}
-                    <li class="nav-item"><a class="nav-link" href="/profile">My profile</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/users/{{current_user.id}}">My profile</a></li>
                     <li class="nav-item"><a class="nav-link" href="/enterprises">My enterprises</a></li>
                     <li class="nav-item"><a class="nav-link" href="/connections">My connections</a></li>
                     <li class="nav-item"><a class="nav-link" href="/matches">My matches</a></li>
@@ -60,7 +60,7 @@
                         {% else %}
                             {% for id in enterprises %}
                                 {% set enterprise = enterprises[id] %}
-                                <div class="card">
+                                <div class="card mb-3">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ enterprise['id'] }}</h5>
                                     <p class="card-text">
@@ -74,6 +74,7 @@
                                         <b>Email</b>: {{ enterprise['email'] }} </br>
                                         <b>Website</b>: <a href={{ enterprise['website'] }}>{{ enterprise['website'] }}</a> </br>
                                         <b>Location</b>: <a href={{ enterprise['location'] }}>{{ enterprise['location'] }}</a> </br>
+                                </div>
                                 </div>
                             {% endfor %}    
                         {% endif %}
