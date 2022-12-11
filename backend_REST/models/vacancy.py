@@ -24,9 +24,6 @@ from backend_REST.models.database import DBVacancy
 #     id has a jobSalary
 #     id has a jobLocation
 
-
-# TODO : jobDescription, responsibilities, salary, zijn hier nog niet in opgenomen
-
 class Vacancy():
 
     def create(graph, enterprise_id, maintainer_id, job_title, start_date, end_date, location_id, job_desciption, job_responsibilities, job_salary):
@@ -52,9 +49,9 @@ class Vacancy():
                   Literal(end_date,  datatype=XSD.date)))
         graph.add((vacancy_URI, LOCAL.location, location_URI))
 
-        graph.add((vacancy_URI, LOCAL.hasJobDescription, Literal(job_desciption)))
-        graph.add((vacancy_URI, LOCAL.hasJobResponsibilities, Literal(job_responsibilities)))
-        graph.add((vacancy_URI, LOCAL.hasJobSalary, Literal(job_salary)))
+        graph.add((vacancy_URI, LOCAL.jobDescription, Literal(job_desciption)))
+        graph.add((vacancy_URI, LOCAL.jobResponsibilities, Literal(job_responsibilities)))
+        graph.add((vacancy_URI, LOCAL.jobSalary, Literal(job_salary)))
         
 
         graph.serialize(destination=GRAPH_FILE)

@@ -38,12 +38,30 @@ query += f'''
                 SELECT ?vacancy
                 WHERE {{
                     ?vacancy rdf:type local:vacancy .
-                    ?vacancy local:diploma ?diploma .
-                    ?vacancy local:available ?v .
+                    ?vacancy local:jobTitle ?jobTitle .
+                    ?vacancy local:startDate ?startDate .
+                    ?vacancy local:endDate ?endDate .
+                    ?vacancy local:enterprise ?owner .
+
+                    ?vacancy local:jobDescription ?jobDescription .
+                    ?vacancy local:jobResponsibilities ?jobResponsibilities .
+                    ?vacancy local:jobSalary ?jobSalary .
+                    ?vacancy local:location ?jobLocation .
+
                     OPTIONAL {{
-                        ?diploma owl2:equivalentClass ?input .
+                        ?vacancy local:diploma ?diploma .
                     }}
-                    FILTER ((?input = diploma:1 || ?diploma = diploma:1) && ?v = true)
+                    OPTIONAL {{
+                        ?vacancy local:skill ?skills .
+                    }}
+                    OPTIONAL {{
+                        ?vacancy local:language ?language .
+                    }}
+                    OPTIONAL {{
+                        ?vacancy local:experience ?experience .
+                    }}
+
+                    FILTER (?vacancy = <http://localhost/vacancy/2>)
                 }}
         '''                
 print(query)

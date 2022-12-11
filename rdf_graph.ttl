@@ -12,45 +12,36 @@
 @prefix wd: <http://www.wikidata.org/entity/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-enterprise:2 a foaf:Organization ;
-    local:description "uHasselt is a university in Hasselt, Belgium" ;
-    local:email "uhasselt@gmail.com" ;
-    local:location "gn:2796491" ;
-    local:maintainer person:2 ;
-    local:owner person:2 ;
-    local:phone "016/123456" ;
-    local:website "www.uhasselt.be" ;
-    geo:address "Hasselt straat 1" ;
-    geo:lat 4.0879e+01 ;
-    geo:long 4.56997e+01 ;
-    foaf:name "uHasselt" .
+local:enterprise owl:equivalentClass foaf:Organization .
 
-enterprise:3 a foaf:Organization ;
-    local:description "KU Leuven is a university in Leuven, Belgium" ;
-    local:email "KUL@gmail.com" ;
-    local:location "gn:2796491" ;
+enterprise:5 a foaf:Organization ;
+    local:description "Winkel" ;
+    local:email "Colruyt.Scherp@gmail.com" ;
+    local:location "gn:2796494" ;
     local:maintainer person:3 ;
     local:owner person:3 ;
-    local:phone "016/123456" ;
-    local:website "www.KUL.be" ;
-    geo:address "Leuven straat 7" ;
-    geo:lat 4.0879e+01 ;
-    geo:long 4.56997e+01 ;
-    foaf:name "KU Leuven" .
+    local:phone "0475654789" ;
+    local:website "COLRUYT.com" ;
+    geo:address "Scherpenheuvel" ;
+    geo:lat 30 ;
+    geo:long 20 ;
+    foaf:name "Colruyt" .
+
+local:person owl:equivalentClass foaf:Person .
 
 person:4 a foaf:Person ;
-    local:diploma diploma:4 ;
+    local:diploma diploma:5 ;
     local:getVacancies true ;
     foaf:name "Gwendoline" ;
     foaf:surname "Nijssen" .
 
 vacancy:1 a local:vacancy ;
-    local:diploma diploma:5 ;
+    local:diploma diploma:6 ;
     local:endDate "2023-01-12"^^xsd:date ;
     local:enterprise enterprise:1 ;
-    local:hasJobDescription "Description" ;
-    local:hasJobResponsibilities "Responsibilities" ;
-    local:hasJobSalary 3100 ;
+    local:jobDescription "JobDescription" ;
+    local:jobResponsibilities "JOBResponsibilities" ;
+    local:jobSalary 3100 ;
     local:jobTitle "Q593644" ;
     local:location gn:2796491 ;
     local:postedBy person:1 ;
@@ -58,42 +49,54 @@ vacancy:1 a local:vacancy ;
     local:startDate "2022-12-12"^^xsd:date .
 
 vacancy:2 a local:vacancy ;
-    local:diploma diploma:6 ;
+    local:diploma diploma:7 ;
     local:endDate "2023-01-12"^^xsd:date ;
-    local:enterprise enterprise:1 ;
-    local:hasJobDescription "Description" ;
-    local:hasJobResponsibilities "Responsibilities" ;
-    local:hasJobSalary 3100 ;
+    local:enterprise enterprise:2 ;
+    local:jobDescription "Teaching assistant" ;
+    local:jobResponsibilities "examens maken" ;
+    local:jobSalary 2800 ;
     local:jobTitle "Q901" ;
-    local:location gn:2796491 ;
-    local:postedBy person:1 ;
+    local:location gn:2796492 ;
+    local:postedBy person:2 ;
     local:skill wd:Q80006 ;
     local:startDate "2022-12-12"^^xsd:date .
 
 vacancy:3 a local:vacancy ;
-    local:diploma diploma:7 ;
+    local:diploma diploma:8 ;
     local:endDate "2023-01-12"^^xsd:date ;
-    local:enterprise enterprise:1 ;
-    local:hasJobDescription "Description" ;
-    local:hasJobResponsibilities "Responsibilities" ;
-    local:hasJobSalary 3100 ;
+    local:enterprise enterprise:3 ;
+    local:jobDescription "kassamedewerker" ;
+    local:jobResponsibilities "Werken met klanten" ;
+    local:jobSalary 2300 ;
     local:jobTitle "Q9402" ;
-    local:location gn:2796491 ;
-    local:postedBy person:1 ;
+    local:location gn:2796493 ;
+    local:postedBy person:3 ;
     local:skill wd:Q102066 ;
     local:startDate "2022-12-12"^^xsd:date .
 
 vacancy:4 a local:vacancy ;
-    local:diploma diploma:8 ;
+    local:diploma diploma:9 ;
     local:endDate "2023-01-12"^^xsd:date ;
-    local:enterprise enterprise:1 ;
-    local:hasJobDescription "Description" ;
-    local:hasJobResponsibilities "Responsibilities" ;
-    local:hasJobSalary 3100 ;
+    local:enterprise enterprise:3 ;
+    local:jobDescription "kassamedewerker" ;
+    local:jobResponsibilities "Werken met klanten" ;
+    local:jobSalary 2200 ;
     local:jobTitle "Q11063" ;
-    local:location gn:2796491 ;
-    local:postedBy person:1 ;
+    local:location gn:2796494 ;
+    local:postedBy person:3 ;
     local:skill wd:Q167612 ;
+    local:startDate "2022-12-12"^^xsd:date .
+
+vacancy:5 a local:vacancy ;
+    local:diploma diploma:10 ;
+    local:endDate "2023-01-12"^^xsd:date ;
+    local:enterprise enterprise:4 ;
+    local:jobDescription "Manager" ;
+    local:jobResponsibilities "Niets" ;
+    local:jobSalary 2900 ;
+    local:jobTitle "Q11063" ;
+    local:location gn:2796494 ;
+    local:postedBy person:3 ;
     local:startDate "2022-12-12"^^xsd:date .
 
 foaf:knows a owl:SymmetricProperty .
@@ -105,74 +108,68 @@ diploma:1 a local:diploma ;
     local:institution "uHasselt" ;
     local:startDate "2018-09-01"^^xsd:date .
 
+diploma:10 a local:diploma ;
+    local:degree degree:master ;
+    local:discipline wd:Q21198 ;
+    local:endDate "0001-01-01"^^xsd:date ;
+    local:institution "ANYWHERE" ;
+    local:startDate "0001-01-01"^^xsd:date .
+
 diploma:2 a local:diploma ;
-    local:degree degree:bachelor ;
-    local:discipline wd:Q431 ;
+    local:degree degree:master ;
+    local:discipline wd:Q21198 ;
     local:endDate "2022-06-30"^^xsd:date ;
-    local:institution "uHasselt" ;
+    local:institution "KUL" ;
     local:startDate "2018-09-01"^^xsd:date .
 
 diploma:3 a local:diploma ;
     local:degree degree:bachelor ;
-    local:discipline wd:Q420 ;
+    local:discipline wd:Q431 ;
     local:endDate "2022-06-30"^^xsd:date ;
     local:institution "uHasselt" ;
     local:startDate "2018-09-01"^^xsd:date .
 
 diploma:4 a local:diploma ;
     local:degree degree:bachelor ;
-    local:discipline wd:Q2329 ;
+    local:discipline wd:Q420 ;
     local:endDate "2022-06-30"^^xsd:date ;
     local:institution "uHasselt" ;
     local:startDate "2018-09-01"^^xsd:date .
 
 diploma:5 a local:diploma ;
     local:degree degree:bachelor ;
-    local:discipline wd:Q21198 ;
+    local:discipline wd:Q2329 ;
     local:endDate "2022-06-30"^^xsd:date ;
     local:institution "uHasselt" ;
     local:startDate "2018-09-01"^^xsd:date .
 
 diploma:6 a local:diploma ;
     local:degree degree:bachelor ;
-    local:discipline wd:Q431 ;
+    local:discipline wd:Q21198 ;
     local:endDate "2022-06-30"^^xsd:date ;
     local:institution "uHasselt" ;
     local:startDate "2018-09-01"^^xsd:date .
 
 diploma:7 a local:diploma ;
     local:degree degree:bachelor ;
-    local:discipline wd:Q420 ;
+    local:discipline wd:Q431 ;
     local:endDate "2022-06-30"^^xsd:date ;
     local:institution "uHasselt" ;
     local:startDate "2018-09-01"^^xsd:date .
 
 diploma:8 a local:diploma ;
     local:degree degree:bachelor ;
-    local:discipline wd:Q2329 ;
+    local:discipline wd:Q420 ;
     local:endDate "2022-06-30"^^xsd:date ;
     local:institution "uHasselt" ;
     local:startDate "2018-09-01"^^xsd:date .
 
-experience:1 a local:experience ;
+diploma:9 a local:diploma ;
+    local:degree degree:bachelor ;
+    local:discipline wd:Q2329 ;
     local:endDate "2022-06-30"^^xsd:date ;
-    local:jobTitle "Computer Science Student" ;
-    local:profession wd:Q9402 ;
-    local:skill wd:Q24288,
-        wd:Q80006 ;
+    local:institution "uHasselt" ;
     local:startDate "2018-09-01"^^xsd:date .
-
-person:2 a foaf:Person ;
-    local:diploma diploma:2 ;
-    local:getVacancies true ;
-    foaf:name "Brent" ;
-    foaf:surname "Zoomers" .
-
-person:3 a foaf:Person ;
-    local:diploma diploma:3 ;
-    local:getVacancies true ;
-    foaf:name "Wouter" ;
-    foaf:surname "Grootjans" .
 
 enterprise:1 a foaf:Organization ;
     local:description "Computer Science Agency" ;
@@ -187,8 +184,56 @@ enterprise:1 a foaf:Organization ;
     geo:long 4.56997e+01 ;
     foaf:name "CS Enterprise" .
 
+enterprise:2 a foaf:Organization ;
+    local:description "uHasselt is a university in Hasselt, Belgium" ;
+    local:email "uhasselt@gmail.com" ;
+    local:location "gn:2796491" ;
+    local:maintainer person:2 ;
+    local:owner person:2 ;
+    local:phone "016/123456" ;
+    local:website "www.uhasselt.be" ;
+    geo:address "Hasselt straat 1" ;
+    geo:lat 4.0879e+01 ;
+    geo:long 4.56997e+01 ;
+    foaf:name "uHasselt" .
+
+enterprise:4 a foaf:Organization ;
+    local:description "Winkel" ;
+    local:email "Aldi.Aarschot@gmail.com" ;
+    local:location "gn:2796493" ;
+    local:maintainer person:3 ;
+    local:owner person:3 ;
+    local:phone "013558899" ;
+    local:website "ALDIE.com" ;
+    geo:address "Aarschot" ;
+    geo:lat 25 ;
+    geo:long 31 ;
+    foaf:name "Aldi" .
+
+experience:1 a local:experience ;
+    local:endDate "2022-06-30"^^xsd:date ;
+    local:jobTitle "Computer Science Student" ;
+    local:profession wd:Q9402 ;
+    local:skill wd:Q24288,
+        wd:Q80006 ;
+    local:startDate "2018-09-01"^^xsd:date .
+
+enterprise:3 a foaf:Organization ;
+    local:description "Universiteit" ;
+    local:email "KUL@gmail.com" ;
+    local:location "gn:2796492" ;
+    local:maintainer person:2 ;
+    local:owner person:2 ;
+    local:phone "0478521632" ;
+    local:website "KUL.com" ;
+    geo:address "Leuven" ;
+    geo:lat 50 ;
+    geo:long 30 ;
+    foaf:name "KU Leuven" .
+
 person:1 a foaf:Person ;
-    local:diploma diploma:1 ;
+    local:diploma diploma:1,
+        diploma:2 ;
     local:experience experience:1 ;
     local:getVacancies true ;
     local:language wd:Q1860,
@@ -197,4 +242,16 @@ person:1 a foaf:Person ;
         wd:Q80006 ;
     foaf:name "Joris" ;
     foaf:surname "Bertram" .
+
+person:2 a foaf:Person ;
+    local:diploma diploma:3 ;
+    local:getVacancies true ;
+    foaf:name "Brent" ;
+    foaf:surname "Zoomers" .
+
+person:3 a foaf:Person ;
+    local:diploma diploma:4 ;
+    local:getVacancies true ;
+    foaf:name "Wouter" ;
+    foaf:surname "Grootjans" .
 

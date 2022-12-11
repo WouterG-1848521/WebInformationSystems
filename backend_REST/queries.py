@@ -629,6 +629,7 @@ def query_getLanguagesFromVacancy(vacancyID):
             '''
     return query
 
+# deprecated
 def query_getExperienceFromVacancy(vacancyID):
     query = prefixes + "\n"
     query += f'''
@@ -636,6 +637,20 @@ def query_getExperienceFromVacancy(vacancyID):
                 WHERE {{
                     ?vacancy rdf:type local:vacancy .
                     ?vacancy local:experience ?exp .
+                    FILTER (?vacancy = vacancy:{vacancyID})
+                }}
+            '''
+    return query
+
+# deprecated
+def query_getSkillsFromexperiencesOfVacancy(vacancyID):
+    query = prefixes + "\n"
+    query += f'''
+                SELECT ?skill
+                WHERE {{
+                    ?vacancy rdf:type local:vacancy .
+                    ?vacancy local:experience ?exp .
+                    ?exp local:skill ?skill .
                     FILTER (?vacancy = vacancy:{vacancyID})
                 }}
             '''
@@ -890,4 +905,16 @@ def query_getExperiencesFromPerson(personID):
             '''
     return query
 
+def query_getSkillsFromexperiencesOfPerson(personID):
+    query = prefixes + "\n"
+    query += f'''
+                SELECT ?skill
+                WHERE {{
+                    ?person rdf:type foaf:Person .
+                    ?person local:experience ?exp .
+                    ?exp local:skill ?skill .
+                    FILTER (?person = person:{personID})
+                }}
+            '''
+    return query
 
