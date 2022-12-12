@@ -63,8 +63,9 @@
                                 <div class="card mb-3">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ user['name'] }} {{ user['surname'] }}</h5>
-                                    <p class="card-text">{{ user['p'] }}</p>
+                                    <p class="card-text"><a href={{ user['p'] }}>{{ user['p'] }}</a></p>
                                 </div>
+                            </div>
 
                                 {% if current_user.is_authenticated%}
                                 <div class="card-footer">
