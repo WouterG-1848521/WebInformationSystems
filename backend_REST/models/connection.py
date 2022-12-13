@@ -53,7 +53,7 @@ class Connection():
         
         pending_requests = []
         for request in requests:
-            pending_requests.append(request.id)
+            pending_requests.append("requestID : " + str(request.id))
         return pending_requests
         
         

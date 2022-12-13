@@ -53,7 +53,7 @@ def create_connections_routes(app, graph):
 
         Connection.cancel_request(request_id)
 
-        return make_response(jsonify({"message": jsonify(f"Connection request {request_id} canceled.")}), 200)
+        return make_response(jsonify({"message": f"Connection request {request_id} canceled."}), 200)
 
     @app.route("/connections/accept", methods=['POST'])
     @login_required
@@ -61,10 +61,9 @@ def create_connections_routes(app, graph):
         data = request.form
 
         request2 = Connection.get_by_id(data['request_id'])
-        print(request2)
 
         if not request2:
-            return Response.unauthorized_access_wrong_user()
+            return make_response(jsonify({"message": f"Connection request {data['request_id']} not found."}), 200)
 
         if (request2.toUser != session['_user_id']):
             return Response.unauthorized_access_wrong_user()
@@ -79,17 +78,17 @@ def create_connections_routes(app, graph):
     def deny_connection_request():
         data = request.form
 
-        request = Connection.get_by_id(data['request_id'])
+        request2 = Connection.get_by_id(data['request_id'])
 
-        if not request:
+        if not request2:
             return Response.unauthorized_access_wrong_user()
 
-        if (request.toUser != session['_user_id']):
+        if (request2.toUser != session['_user_id']):
             return Response.unauthorized_access_wrong_user()
 
         Connection.deny_request(data['request_id'])
 
-        return make_response(jsonify({"message": jsonify(f"Connection request {data['request_id']} denied.")}), 200)
+        return make_response(jsonify({"message": f"Connection request {data['request_id']} denied."}), 200)
 
     @app.route("/connections/pending/<int:user_id>", methods=['GET'])
     @login_required
@@ -99,7 +98,7 @@ def create_connections_routes(app, graph):
             return Response.unauthorized_access_wrong_user()
 
         pending_requests = Connection.get_pending_requests_by_user(user_id)
-        
+
         return make_response(jsonify(pending_requests), 200)
         # return make_response(json.dump(pending_requests), 200)
 
@@ -125,7 +124,7 @@ def create_connections_routes(app, graph):
     def delete_connection():
         data = request.form
 
-        if (data["user1_id"] != session['_user_id']):
+        if (int(data["user1_id"]) != session['_user_id']):
             return Response.unauthorized_access_wrong_user()
 
         Connection.remove_from_user(graph, data["user1_id"], data["user2_id"])

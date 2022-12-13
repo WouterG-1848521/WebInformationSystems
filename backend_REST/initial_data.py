@@ -114,7 +114,7 @@ def set_vacancies(graph):
     Vacancy.create(graph, 1, 1, "Web Developer", "2022-12-12", "2023-01-12", "Q9402", "2796491", "Develop for the web", "Developing web applicaties", 3100)
     Vacancy.create(graph, 2, 2, "Teaching assistant", "2022-12-12", "2023-01-12", "Q9402", "2796492", "Teaching assistant", "Examens maken", 2800)
     Vacancy.create(graph, 3, 3, "Kassa medewerker", "2022-12-12", "2023-01-12", "Q9402", "2796493", "Kassa medewerker", "Werken met klanten", 2300)
-    # Vacancy.create(graph, 3, 3, "Q11063", "2022-12-12", "2023-01-12", "2796494", "kassamedewerker", "Werken met klanten", 2200)
+    Vacancy.create(graph, 3, 3, "Manager", "2022-12-12", "2023-01-12", "Q11063", "2796494", "kassamedewerker", "Werken met klanten", 2200)
     Vacancy.create(graph, 4, 3, "Manager", "2022-12-12", "2023-01-12", "Q9402", "2796494", "Manager", "Managen", 2900)
 
 

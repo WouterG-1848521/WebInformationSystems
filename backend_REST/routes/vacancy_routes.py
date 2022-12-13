@@ -35,6 +35,7 @@ def create_vacancy_routes(app, graph):
         if not Validator.valid_date(data["endDate"]):
             return Response.end_date_not_valid()
 
+
         vacancy_id = Vacancy.create(graph, enterprise_id, session["_user_id"],
                                     data["jobTitle"], data["startDate"], data["endDate"], data["profession"], data["location_id"], 
                                     data["jobDescription"], data["jobResponsibilities"], data["jobSalary"])
