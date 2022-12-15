@@ -26,8 +26,8 @@ def create_vacancy_routes(app, graph):
     def add_vacancy(enterprise_id):
         data = request.form
 
-        if not (check_maintainer(graph, session['_user_id'], enterprise_id)):
-            return Response.unauthorized_access_wrong_user()
+        if not (check_maintainer(graph, enterprise_id, session['_user_id'])):
+            return Response.make_response_for_content_type('application/json', message="Only maintainer of enterprise can add vacancies")
             return "only maintainer of enterprise can add vacancies"
 
         if not Validator.valid_date(data["startDate"]):
@@ -47,7 +47,7 @@ def create_vacancy_routes(app, graph):
     def update_vacancy(enterprise_id, vacancy_id):
         data = request.form
 
-        if not (check_maintainer(graph, session['_user_id'], enterprise_id)):
+        if not (check_maintainer(graph, enterprise_id, session['_user_id'])):
             return Response.make_response_for_content_type("application/json", "Only maintainer of enterprise can update vacancies", 401)
             return "only maintainer of enterprise can update vacancies"
 
@@ -73,7 +73,7 @@ def create_vacancy_routes(app, graph):
     def remove_vacancy(enterprise_id, vacancy_id):
         data = request.form
 
-        if not (check_maintainer(graph, session['_user_id'], enterprise_id)):
+        if not (check_maintainer(graph, enterprise_id, session['_user_id'])):
             return Response.make_response_for_content_type('application/json', message="Only maintainer of enterprise can delete vacancies")
             return "only maintainer of enterprise can delete vacancies"
 
@@ -95,7 +95,7 @@ def create_vacancy_routes(app, graph):
     def create_vacancy_diploma(enterprise_id, vacancy_id):
         data = request.form
 
-        if not (check_maintainer(graph, session['_user_id'], enterprise_id)):
+        if not (check_maintainer(graph, enterprise_id, session['_user_id'])):
             return Response.make_response_for_content_type('application/json', message="Only maintainer of enterprise can create vacancy diploma")
             return "only maintainer of enterprise can create vacancy diploma"
 
@@ -133,7 +133,7 @@ def create_vacancy_routes(app, graph):
     def update_vacancy_diploma(enterprise_id, vacancy_id, diploma_id):
         data = request.form
 
-        if not (check_maintainer(graph, session['_user_id'], enterprise_id)):
+        if not (check_maintainer(graph, enterprise_id, session['_user_id'])):
             return Response.make_response_for_content_type('application/json', message="Only maintainer of enterprise can update vacancy diploma")
 
         if not Validator.valid_degree(data["degree"]):
@@ -164,7 +164,7 @@ def create_vacancy_routes(app, graph):
         # maintainerID = data["maintainerID"]
         # maintainerID = int(maintainerID)
 
-        if not (check_maintainer(graph, session['_user_id'], enterprise_id)):
+        if not (check_maintainer(graph, enterprise_id, session['_user_id'])):
             return Response.make_response_for_content_type('application/json', message="Only maintainer of enterprise can delete vacancy diploma")
 
         Diploma.delete_from_vacany(graph, vacancy_id, diploma_id)
@@ -179,7 +179,7 @@ def create_vacancy_routes(app, graph):
     def add_skill_to_vacancy(enterprise_id, vacancy_id):
         data = request.form
 
-        if not (check_maintainer(graph, session['_user_id'], enterprise_id)):
+        if not (check_maintainer(graph, enterprise_id, session['_user_id'])):
             return Response.make_response_for_content_type('application/json', message="Only maintainer of enterprise can add skill to vacancy")
             return "only maintainer of enterprise can add skill to vacancy"
 
@@ -201,7 +201,7 @@ def create_vacancy_routes(app, graph):
     @app.route("/enterprises/<int:enterprise_id>/vacancies/<int:vacancy_id>/skills/<string:skill>", methods=['DELETE'])
     def remove_skill_from_vacancy(enterprise_id, vacancy_id, skill):
 
-        if not (check_maintainer(graph, session['_user_id'], enterprise_id)):
+        if not (check_maintainer(graph, enterprise_id, session['_user_id'])):
             return Response.make_response_for_content_type('application/json', message="Only maintainer of enterprise can delete skill from vacancy")
             return "only maintainer of enterprise can delete skill from vacancy"
 
@@ -218,7 +218,7 @@ def create_vacancy_routes(app, graph):
     def add_language_to_vacancy(enterprise_id, vacancy_id):
         data = request.form
 
-        if not (check_maintainer(graph, session['_user_id'], enterprise_id)):
+        if not (check_maintainer(graph, enterprise_id, session['_user_id'])):
             return Response.make_response_for_content_type('application/json', message="Only maintainer of enterprise can add language to vacancy")
             return "only maintainer of enterprise can delete vacancy diploma"
 
@@ -240,7 +240,7 @@ def create_vacancy_routes(app, graph):
     @app.route("/enterprises/<int:enterprise_id>/vacancies/<int:vacancy_id>/languages/<string:language>", methods=['DELETE'])
     def remove_language_from_vacancy(enterprise_id, vacancy_id, language):
 
-        if not (check_maintainer(graph, session['_user_id'], enterprise_id)):
+        if not (check_maintainer(graph, enterprise_id, session['_user_id'])):
             return Response.make_response_for_content_type('application/json', message="Only maintainer of enterprise can delete language from vacancy")
             return f'only maintainer of enterprise can delete language from vacancy'
 

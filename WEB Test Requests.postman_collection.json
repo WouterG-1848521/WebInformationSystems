@@ -1,0 +1,3226 @@
+{
+	"info": {
+		"_postman_id": "625187d7-7e73-49cd-b3b1-d31f02b97309",
+		"name": "WEB Test Requests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24603494"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "[POST] User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Paul",
+									"type": "text"
+								},
+								{
+									"key": "surname",
+									"value": "Jambers",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "paul@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "12345",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/users",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[PUT] User",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Bob",
+									"type": "text"
+								},
+								{
+									"key": "surname",
+									"value": "De Bouwer",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "bob@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "test",
+									"type": "text"
+								},
+								{
+									"key": "passwordConfirmation",
+									"value": "test",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/users/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[GET] User",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:5000/users",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[DELETE] User",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:5000/users/5",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"users",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[PUT] Phone",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "phone",
+									"value": "123",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/users/1/phone",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"users",
+								"1",
+								"phone"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[PUT] Email",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "paul2@gmail.com",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/users/1/email",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"users",
+								"1",
+								"email"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[POST] Experience",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "jobTitle",
+									"value": "Football Player",
+									"type": "text"
+								},
+								{
+									"key": "profession",
+									"value": "Q9402",
+									"type": "text"
+								},
+								{
+									"key": "skills",
+									"value": "Q4990963",
+									"type": "text"
+								},
+								{
+									"key": "startDate",
+									"value": "1980-01-20",
+									"type": "text"
+								},
+								{
+									"key": "endDate",
+									"value": "2000-01-20",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/users/1/experiences",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"users",
+								"1",
+								"experiences"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[GET] Experience",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:5000/users/1/experiences",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"users",
+								"1",
+								"experiences"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[DELETE] Experience",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:5000/users/1/experiences/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"users",
+								"1",
+								"experiences",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[POST] Languages",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "language",
+									"value": "Q1860",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/users/1/languages",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"users",
+								"1",
+								"languages"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[GET] Languages",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:5000/users/1/languages",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"users",
+								"1",
+								"languages"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[DELETE] Languages",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:5000/users/1/languages/Q1860",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"users",
+								"1",
+								"languages",
+								"Q1860"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[POST] Diploma",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "degree",
+									"value": "master",
+									"type": "text"
+								},
+								{
+									"key": "discipline",
+									"value": "Q21198",
+									"type": "text"
+								},
+								{
+									"key": "institution",
+									"value": "uHasselt",
+									"type": "text"
+								},
+								{
+									"key": "startDate",
+									"value": "1973-09-11",
+									"type": "text"
+								},
+								{
+									"key": "endDate",
+									"value": "1975-06-30",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/users/1/diplomas",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"users",
+								"1",
+								"diplomas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[GET] Diplomas",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:5000/users/1/diplomas/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"users",
+								"1",
+								"diplomas",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[PUT] Diploma",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "degree",
+									"value": "master",
+									"type": "text"
+								},
+								{
+									"key": "discipline",
+									"value": "Q21198",
+									"type": "text"
+								},
+								{
+									"key": "institution",
+									"value": "KU Leuven",
+									"type": "text"
+								},
+								{
+									"key": "startDate",
+									"value": "1973-09-01",
+									"type": "text"
+								},
+								{
+									"key": "endDate",
+									"value": "1975-06-30",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/users/1/diplomas/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"users",
+								"1",
+								"diplomas",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[DELETE] Diploma",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:5000/users/1/diplomas/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"users",
+								"1",
+								"diplomas",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[POST] Skill",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "skill",
+									"value": "Q1273263",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/users/1/skills",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"users",
+								"1",
+								"skills"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[GET] Skill",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:5000/users/1/skills",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"users",
+								"1",
+								"skills"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[DELETE] Skill",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:5000/users/1/skills/Q1273263",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"users",
+								"1",
+								"skills",
+								"Q1273263"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[POST] Location",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "location_id",
+									"value": "2796491",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/users/1/location",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"users",
+								"1",
+								"location"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[PUT] Toggle Vacancies",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:5000/users/1/vacancies/toggle",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"users",
+								"1",
+								"vacancies",
+								"toggle"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[GET] Matches",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:5000/users/1/matches",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"users",
+								"1",
+								"matches"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Connection",
+			"item": [
+				{
+					"name": "[POST] Send ConnectionRequest",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "fromUserId",
+									"value": "3",
+									"type": "text"
+								},
+								{
+									"key": "toUserId",
+									"value": "2",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/connections/send",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"connections",
+								"send"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[DELETE] Connection Request",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:5000/connections/cancel/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"connections",
+								"cancel",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[GET] Pending Connection requests",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:5000/connections/pending/2",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"connections",
+								"pending",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Vacancy",
+			"item": [
+				{
+					"name": "[POST] Vacancy",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "jobTitle",
+									"value": "Software Developer",
+									"type": "text"
+								},
+								{
+									"key": "profession",
+									"value": "Q12097",
+									"type": "text"
+								},
+								{
+									"key": "startDate",
+									"value": "2022-12-09",
+									"type": "text"
+								},
+								{
+									"key": "endDate",
+									"value": "2022-12-20",
+									"type": "text"
+								},
+								{
+									"key": "location_id",
+									"value": "2796491",
+									"type": "text"
+								},
+								{
+									"key": "jobDescription",
+									"value": "efefe",
+									"type": "text"
+								},
+								{
+									"key": "jobResponsibilities",
+									"value": "edezdzed",
+									"type": "text"
+								},
+								{
+									"key": "jobSalary",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/enterprises/1/vacancies/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"enterprises",
+								"1",
+								"vacancies",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[GET] Vacancy",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:5000/enterprises/1/vacancies",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"enterprises",
+								"1",
+								"vacancies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[PUT] Vacancy",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "jobTitle",
+									"value": "Software Developer",
+									"type": "text"
+								},
+								{
+									"key": "profession",
+									"value": "Q21198",
+									"type": "text"
+								},
+								{
+									"key": "startDate",
+									"value": "2022-12-09",
+									"type": "text"
+								},
+								{
+									"key": "endDate",
+									"value": "2022-12-20",
+									"type": "text"
+								},
+								{
+									"key": "location_id",
+									"value": "2796491",
+									"type": "text"
+								},
+								{
+									"key": "jobDescription",
+									"value": "efefe",
+									"type": "text"
+								},
+								{
+									"key": "jobResponsibilities",
+									"value": "efefe",
+									"type": "text"
+								},
+								{
+									"key": "jobSalary",
+									"value": "2",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/enterprises/1/vacancies/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"enterprises",
+								"1",
+								"vacancies",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[DELETE] Vacancy",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:5000/enterprises/1/vacancies/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"enterprises",
+								"1",
+								"vacancies",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[POST] Languages Copy",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "language",
+									"value": "Q1860",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/enterprises/1/vacancies/1/languages",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"enterprises",
+								"1",
+								"vacancies",
+								"1",
+								"languages"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[GET] Languages",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:5000/enterprises/1/vacancies/1/languages",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"enterprises",
+								"1",
+								"vacancies",
+								"1",
+								"languages"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[DELETE] Languages Copy",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:5000/enterprises/1/vacancies/1/languages/Q1860",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"enterprises",
+								"1",
+								"vacancies",
+								"1",
+								"languages",
+								"Q1860"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[POST] Diploma Copy",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "degree",
+									"value": "master",
+									"type": "text"
+								},
+								{
+									"key": "discipline",
+									"value": "Q21198",
+									"type": "text"
+								},
+								{
+									"key": "institution",
+									"value": "uHasselt",
+									"type": "text"
+								},
+								{
+									"key": "startDate",
+									"value": "1973-09-01",
+									"type": "text"
+								},
+								{
+									"key": "endDate",
+									"value": "1975-06-30",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/enterprises/1/vacancies/1/diplomas",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"enterprises",
+								"1",
+								"vacancies",
+								"1",
+								"diplomas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[GET] Diploma",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:5000/enterprises/1/vacancies/1/diplomas/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"enterprises",
+								"1",
+								"vacancies",
+								"1",
+								"diplomas",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[DELETE] Diploma Copy",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:5000/enterprises/1/vacancies/1/diplomas/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"enterprises",
+								"1",
+								"vacancies",
+								"1",
+								"diplomas",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[PUT] Diploma Copy",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "degree",
+									"value": "bachelor",
+									"type": "text"
+								},
+								{
+									"key": "discipline",
+									"value": "Q21198",
+									"type": "text"
+								},
+								{
+									"key": "institution",
+									"value": "KU Leuven",
+									"type": "text"
+								},
+								{
+									"key": "startDate",
+									"value": "1973-09-01",
+									"type": "text"
+								},
+								{
+									"key": "endDate",
+									"value": "1975-06-30",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/enterprises/1/vacancies/1/diplomas/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"enterprises",
+								"1",
+								"vacancies",
+								"1",
+								"diplomas",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[POST] Skill Copy",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "skill",
+									"value": "Q1273263",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/enterprises/1/vacancies/1/skills",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"enterprises",
+								"1",
+								"vacancies",
+								"1",
+								"skills"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[GET] Skill",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:5000/enterprises/1/vacancies/1/skills",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"enterprises",
+								"1",
+								"vacancies",
+								"1",
+								"skills"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[DELETE] Skill Copy",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:5000/enterprises/1/vacancies/1/skills/Q1273263",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"enterprises",
+								"1",
+								"vacancies",
+								"1",
+								"skills",
+								"Q1273263"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[GET] Matches",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/vacancies/1/matches",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"vacancies",
+								"1",
+								"matches"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Enterprise",
+			"item": [
+				{
+					"name": "[POST] Enterprise",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Enterprise",
+									"type": "text"
+								},
+								{
+									"key": "lat",
+									"value": "12",
+									"type": "text"
+								},
+								{
+									"key": "long",
+									"value": "12",
+									"type": "text"
+								},
+								{
+									"key": "address",
+									"value": "rfrfr",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "112321",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "rfr@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "website",
+									"value": "fefef.com",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "eeded",
+									"type": "text"
+								},
+								{
+									"key": "location",
+									"value": "12324",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/enterprises",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"enterprises"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[GET] Enterprise",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:5000/enterprises/6",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"enterprises",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[PUT] Enterprise",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "efefef",
+									"type": "text"
+								},
+								{
+									"key": "lat",
+									"value": "23",
+									"type": "text"
+								},
+								{
+									"key": "long",
+									"value": "23",
+									"type": "text"
+								},
+								{
+									"key": "address",
+									"value": "edzezf",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "113231",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "fefe@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "website",
+									"value": "efref.com",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "dfezfez",
+									"type": "text"
+								},
+								{
+									"key": "location",
+									"value": "123133",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/enterprises/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"enterprises",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[DELETE] Enterprise",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:5000/enterprises/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"enterprises",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Demo",
+			"item": [
+				{
+					"name": "[POST] User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Mariah",
+									"type": "text"
+								},
+								{
+									"key": "surname",
+									"value": "Carey",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "mariah.carey@outlook.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "xmas2022",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/users",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[GET] User",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:5000/users",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[POST] Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "mariah.carey@outlook.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "xmas2022",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/login",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[PUT] Toggle Vacancies",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/users/5/vacancies/toggle",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"users",
+								"5",
+								"vacancies",
+								"toggle"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[GET] Vacancy Matches",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:5000/users/5/matches",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"users",
+								"5",
+								"matches"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[POST] User Diploma",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "degree",
+									"value": "bachelor",
+									"type": "text"
+								},
+								{
+									"key": "discipline",
+									"value": "Q21198",
+									"type": "text"
+								},
+								{
+									"key": "institution",
+									"value": "uHasselt",
+									"type": "text"
+								},
+								{
+									"key": "startDate",
+									"value": "1973-09-01",
+									"type": "text"
+								},
+								{
+									"key": "endDate",
+									"value": "1975-06-30",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/users/5/diplomas",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"users",
+								"5",
+								"diplomas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[GET] User Diploma",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:5000/users/5/diplomas/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"users",
+								"5",
+								"diplomas",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[POST] User Languages",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "language",
+									"value": "Q1860",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/users/5/languages",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"users",
+								"5",
+								"languages"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[POST] User Skill",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "skill",
+									"value": "Q213250",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/users/5/skills",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"users",
+								"5",
+								"skills"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[GET] Vacancy Matches (2)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:5000/users/5/matches",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"users",
+								"5",
+								"matches"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[PUT] User Email",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "mariah@gmail.com",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/users/5/email",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"users",
+								"5",
+								"email"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[POST] Vacancy",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "jobTitle",
+									"value": "Architect",
+									"type": "text"
+								},
+								{
+									"key": "profession",
+									"value": "Q42973",
+									"type": "text"
+								},
+								{
+									"key": "startDate",
+									"value": "2022-12-09",
+									"type": "text"
+								},
+								{
+									"key": "endDate",
+									"value": "2022-12-20",
+									"type": "text"
+								},
+								{
+									"key": "location_id",
+									"value": "2796491",
+									"type": "text"
+								},
+								{
+									"key": "jobDescription",
+									"value": "Design Buildings",
+									"type": "text"
+								},
+								{
+									"key": "jobResponsibilities",
+									"value": "Make construction plans, etc.",
+									"type": "text"
+								},
+								{
+									"key": "jobSalary",
+									"value": "3000",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/enterprises/1/vacancies/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"enterprises",
+								"1",
+								"vacancies",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[POST] Send ConnectionRequest",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "fromUserId",
+									"value": "5",
+									"type": "text"
+								},
+								{
+									"key": "toUserId",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/connections/send",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"connections",
+								"send"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[POST] Logout",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:5000/logout",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[POST] Login (2)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "joris@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/login",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[GET] Connection",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "request_id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/connections/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"connections",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[GET]  Pending ConnectionRequest",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "joris@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/connections/pending/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"connections",
+								"pending",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[POST] Accept ConnectionRequest",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "request_id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/connections/accept",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"connections",
+								"accept"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[GET] Connection",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "request_id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/connections/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"connections",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[POST] Maintainer",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "enterpriseID",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "maintainerID",
+									"value": "5",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/enterprises/maintainer/add",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"enterprises",
+								"maintainer",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[POST] Logout (2)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:5000/logout",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[POST] Login (3)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "mariah.carey@outlook.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "xmas2022",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/login",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[POST] Vacancy",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "jobTitle",
+									"value": "Architect",
+									"type": "text"
+								},
+								{
+									"key": "profession",
+									"value": "Q42973",
+									"type": "text"
+								},
+								{
+									"key": "startDate",
+									"value": "2022-12-09",
+									"type": "text"
+								},
+								{
+									"key": "endDate",
+									"value": "2022-12-20",
+									"type": "text"
+								},
+								{
+									"key": "location_id",
+									"value": "2796491",
+									"type": "text"
+								},
+								{
+									"key": "jobDescription",
+									"value": "Design Buildings",
+									"type": "text"
+								},
+								{
+									"key": "jobResponsibilities",
+									"value": "Make construction plans, etc.",
+									"type": "text"
+								},
+								{
+									"key": "jobSalary",
+									"value": "3000",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/enterprises/1/vacancies/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"enterprises",
+								"1",
+								"vacancies",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[PUT] Vacancy",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "jobTitle",
+									"value": "Architect",
+									"type": "text"
+								},
+								{
+									"key": "profession",
+									"value": "Q42973",
+									"type": "text"
+								},
+								{
+									"key": "startDate",
+									"value": "2022-12-09",
+									"type": "text"
+								},
+								{
+									"key": "endDate",
+									"value": "2022-12-20",
+									"type": "text"
+								},
+								{
+									"key": "location_id",
+									"value": "2796491",
+									"type": "text"
+								},
+								{
+									"key": "jobDescription",
+									"value": "Design Buildings",
+									"type": "text"
+								},
+								{
+									"key": "jobResponsibilities",
+									"value": "Make construction plans, etc.",
+									"type": "text"
+								},
+								{
+									"key": "jobSalary",
+									"value": "3500",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/enterprises/1/vacancies/5",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"enterprises",
+								"1",
+								"vacancies",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[GET] User Matches",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/vacancies/5/matches",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"vacancies",
+								"5",
+								"matches"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[POST] Vacancy Diploma",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "degree",
+									"value": "bachelor",
+									"type": "text"
+								},
+								{
+									"key": "discipline",
+									"value": "Q12271",
+									"type": "text"
+								},
+								{
+									"key": "institution",
+									"value": "uHasselt",
+									"type": "text"
+								},
+								{
+									"key": "startDate",
+									"value": "2018-09-01",
+									"type": "text"
+								},
+								{
+									"key": "endDate",
+									"value": "2022-06-30",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/enterprises/1/vacancies/5/diplomas",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"enterprises",
+								"1",
+								"vacancies",
+								"5",
+								"diplomas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[POST] Vacancy Skill",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "skill",
+									"value": "Q309100",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/enterprises/1/vacancies/5/skills",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"enterprises",
+								"1",
+								"vacancies",
+								"5",
+								"skills"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[GET] User Matches (2)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/vacancies/5/matches",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"vacancies",
+								"5",
+								"matches"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[DELETE] Vacancy",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:5000/enterprises/1/vacancies/4",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"enterprises",
+								"1",
+								"vacancies",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[GET] Vacancy",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:5000/enterprises/1/vacancies",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"enterprises",
+								"1",
+								"vacancies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[DELETE] User",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:5000/users/5",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"users",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[GET] User (2)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:5000/users",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "[POST] Login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "email",
+							"value": "paul@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "12345",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/login",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[GET] Logout",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/logout",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"logout"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -216,7 +216,8 @@ def create_enterprise_routes(app, graph):
         maintainerID = data["maintainerID"]
         maintainerID = int(maintainerID)
 
-        return Enterprise.add_maintainer(graph, enterpriseID, ownerID, maintainerID)
+        Enterprise.add_maintainer(graph, enterpriseID, ownerID, maintainerID)
+        return Response.make_response_for_content_type('application/json', message="Added maintainer")
 
     # remove a maintainer from an enterprise
     @app.route("/enterprises/maintainer/remove", methods=['PUT'])

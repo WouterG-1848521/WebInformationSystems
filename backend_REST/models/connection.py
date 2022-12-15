@@ -40,7 +40,10 @@ class Connection():
             db.session.commit()
             
     
-    def accept_request(request_id):
+    def accept_request(graph, request_id):
+        request = DBConnectionRequest.query.get(request_id)
+        Connection.add_to_user(graph, request.fromUser, request.toUser)
+        Connection.add_to_user(graph, request.toUser, request.fromUser)
         Connection.cancel_request(request_id)
         
         

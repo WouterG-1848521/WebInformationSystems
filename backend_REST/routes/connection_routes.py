@@ -68,7 +68,7 @@ def create_connections_routes(app, graph):
         if (request2.toUser != session['_user_id']):
             return Response.unauthorized_access_wrong_user()
 
-        Connection.accept_request(data["request_id"])
+        Connection.accept_request(graph, data["request_id"])
 
         return make_response(jsonify({"message": f"Connection request {data['request_id']} accepted."}), 200)
         return make_response(jsonify({"message": jsonify(f"Connection request {data['request_id']} accepted.")}), 200)
